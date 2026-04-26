@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP2 期末模拟 — 15 套训练</title>
+<link rel="stylesheet" href="style.css">
+<!-- Markdown rendering (CDN, optionnel : si offline, fallback texte brut) -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+<header>
+  <h1>AP2 — Devoirs blancs <span class="sub">Algorithmique et Programmation 2</span></h1>
+  <nav id="set-picker"><!-- boutons 1..15 injectés en JS --></nav>
+  <p style="margin-top:10px"><a href="fascicule.html" target="_blank" style="color:#ffd54f; font-weight:600;">📖 Ouvrir le fascicule de révision (复习册, imprimable PDF)</a></p>
+</header>
+
+<main id="app">
+  <section id="welcome">
+    <h2>Bienvenue 👋</h2>
+    <p>Choisis un <strong>devoir blanc</strong> (1 à 15) ci-dessus. Chaque devoir contient <strong>20 questions</strong> mélangeant les 4 chapitres :</p>
+    <ul>
+      <li>~6 questions — <em>Compléments types Python</em></li>
+      <li>~6 questions — <em>Fonctions, récursivité, générateurs</em></li>
+      <li>~5 questions — <em>Types abstraits (files, piles, arbres, graphes, Euler)</em></li>
+      <li>~3 questions — <em>Classes &amp; objets</em></li>
+    </ul>
+    <p><strong>Modes</strong> : QCM (auto-corrigé), réponse courte (auto-corrigé, espaces ignorés), questions de code (auto-évaluation).</p>
+    <p>Bouton <button class="ghost" disabled>Imprimer / PDF</button> en bas de chaque devoir → ouvre la boîte d'impression du navigateur (choisir <em>« Enregistrer en PDF »</em>).</p>
+  </section>
+</main>
+
+<footer>
+  <small>Local · aucune donnée envoyée · ouvre <code>web/index.html</code> dans ton navigateur.</small>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,3601 @@
+{
+  "meta": {
+    "course": "AP2 — Algorithmique et Programmation 2",
+    "sets_count": 15,
+    "questions_per_set": 20
+  },
+  "sets": [
+    {
+      "id": 1,
+      "title": "Devoir blanc n°1",
+      "questions": [
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(14)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "377",
+          "explanation_md": "Suite de Fibonacci, `fib(14) = 377`.",
+          "id": "1-1"
+        },
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 3, 5], 2: [1, 3, 5], 3: [1, 2, 4], 4: [3, 5], 5: [1, 2, 4] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 4. Donc non.",
+          "id": "1-2"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(5,-3,-3)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 10 -3",
+          "explanation_md": "Dérivée de `5X²+-3X+-3` est `10X+-3`. Sous forme `Trinome` : `(0, 10, -3)`.",
+          "id": "1-3"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(4+5j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(-9+40j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = -9 + 40j` → `(-9+40j)`.",
+          "id": "1-4"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "1-5"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x+1 for x in range(9) if x % 2 == 0]\n```",
+          "answer": "[1, 3, 5, 7, 9]",
+          "explanation_md": "On itère sur `range(9)` et garde les `x` vérifiant `x % 2 == 0`, en appliquant `x+1`. Résultat : `[1, 3, 5, 7, 9]`.",
+          "id": "1-6"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(38, 0)`, `Q = Decimal(95, 1)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "3610 1",
+          "explanation_md": "`__mul__` : nouveau `x = 38*95 = 3610`, nouveau `p = 0+1 = 1`.",
+          "id": "1-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(88, 28)` (algorithme d'Euclide) ?",
+          "answer": "4",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(88,28) = 4`.",
+          "id": "1-8"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**300` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "1-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(3, 14)` (exponentiation rapide) ?",
+          "answer": "4782969",
+          "explanation_md": "`3^14 = 4782969`. La méthode rapide effectue ~log₂(14) ≈ 4 multiplications.",
+          "id": "1-10"
+        },
+        {
+          "chapter": 4,
+          "topic": "Vecteur2d",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "La classe `Vecteur2d` a `__init__(self, x, y)`, `__repr__` qui affiche `(x,y)`, et `__add__` composante par composante.\n\nQue vaut `repr(Vecteur2d(-1,0) + Vecteur2d(3,2))` ? (Format exact : `(x,y)` sans espace.)",
+          "answer": "(2,2)",
+          "explanation_md": "L'addition est composante par composante : `(-1+3, 0+2) = (2,2)`.",
+          "id": "1-11"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['a']]]]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "4 4",
+          "explanation_md": "`taille = 4` (nombre de nœuds), `hauteur = 4` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "1-12"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "1-13"
+        },
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[4, 9], [5, 10]]\nB = A[:]\nA[0][0] = 53\nprint(B[0][0])\n```",
+          "answer": "53",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 53` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "1-14"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'f': 21, 'a': 14, 'c': 10, 'd': 8}\nD['z'] = 1\ndel D['c']\nprint(len(D), 'f' in D)\n```",
+          "answer": "4 True",
+          "explanation_md": "Après `D['z'] = 1` puis `del D['c']`, le dictionnaire est `{'f': 21, 'a': 14, 'd': 8, 'z': 1}`. `len = 4`, et `'f' in D = True`.",
+          "id": "1-15"
+        },
+        {
+          "chapter": 3,
+          "topic": "pile",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Pile vide initialement. On exécute la séquence :\n```\nempile(P, 10)\nv ← depile(P)\nempile(P, 27)\nempile(P, 28)\n```\nDonner l'état final de la pile sous la forme `[bas, ..., haut]` (liste Python).\nSi vide : `[]`.",
+          "answer": "[27, 28]",
+          "explanation_md": "On simule LIFO : `empile` ajoute en haut, `depile` retire le sommet. État final : `[27, 28]`.",
+          "id": "1-16"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 3, 4], 2: [1, 4], 3: [1, 4], 4: [1, 2, 3] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "1-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `D` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "DBCAE",
+          "explanation_md": "BFS depuis D avec ordre alphabétique → `DBCAE`.",
+          "id": "1-18"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [29, 11, 28, 23, 16, 13, 21, 27]`, donner :\n\n```python\nL[1:6:2]\n```",
+          "answer": "[11, 23, 13]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[11, 23, 13]`.",
+          "id": "1-19"
+        },
+        {
+          "chapter": 2,
+          "topic": "générateur",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut :\n\n```python\nlist(x*x for x in range(11) if x % 2 == 0)\n```",
+          "answer": "[0, 4, 16, 36, 64, 100]",
+          "explanation_md": "On parcourt les pairs de `range(n)` et on prend leur carré.",
+          "id": "1-20"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Devoir blanc n°2",
+      "questions": [
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(3, 12)` (exponentiation rapide) ?",
+          "answer": "531441",
+          "explanation_md": "`3^12 = 531441`. La méthode rapide effectue ~log₂(12) ≈ 4 multiplications.",
+          "id": "2-1"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([19, 6, 5, 26, 28, 18])`.",
+          "answer": "[5, 6, 18, 19, 26, 28]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[5, 6, 18, 19, 26, 28]`. Le pivot était `19`, partition gauche `[5, 6, 18]`, partition droite `[26, 28]`.",
+          "id": "2-2"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(15)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "610",
+          "explanation_md": "Suite de Fibonacci, `fib(15) = 610`.",
+          "id": "2-3"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `print(x)` ?",
+          "choices": [
+            "__hash__",
+            "__str__",
+            "__len__",
+            "__eq__"
+          ],
+          "answer": "B",
+          "explanation_md": "`print(x)` invoque `__str__` sur l'objet.",
+          "id": "2-4"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{8, 9, 3, 7} - {8, 1, 5, 7}\n```",
+          "answer": "{3, 9}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{3, 9}`.",
+          "id": "2-5"
+        },
+        {
+          "chapter": 1,
+          "topic": "arrondi",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `ceil(9.68)` ? (donner un entier)",
+          "answer": "10",
+          "explanation_md": "Rappel : `int` tronque vers 0, `floor` vers −∞, `ceil` vers +∞, `round` arrondi banquier (mid → pair). Ici `ceil(9.68) = 10`.",
+          "id": "2-6"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**500` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "2-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "complexité",
+          "difficulty": 3,
+          "type": "short",
+          "statement_md": "Soit la fonction Python :\n\n```python\ndef fib2(n):\n    return n if n <= 1 else fib2(n-1) + fib2(n-2)\n```\n\nOn note c(n) le nombre **total** d'appels à `fib2` lors de `fib2(5)` (l'appel initial compte pour 1, c(0)=c(1)=1).\nCombien d'appels au total ?",
+          "answer": "15",
+          "explanation_md": "Récurrence c(n) = c(n−1) + c(n−2) + 1 avec c(0)=c(1)=1. On calcule c(5) = 15 (croissance ~ φⁿ).",
+          "id": "2-8"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "2-9"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['b'], ['a'], ['b']]], ['b'], ['b']]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "8 4",
+          "explanation_md": "`taille = 8` (nombre de nœuds), `hauteur = 4` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "2-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(1+1j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(0+2j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = 0 + 2j` → `(0+2j)`.",
+          "id": "2-11"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(2, F)\najouter_element(26, F)\najouter_element(29, F)\nv ← extraire_element(F)\nv ← extraire_element(F)\najouter_element(15, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[29, 15]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[29, 15]`.",
+          "id": "2-12"
+        },
+        {
+          "chapter": 1,
+          "topic": "set/dict",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression crée un **ensemble vide** en Python ?",
+          "choices": [
+            "{}",
+            "set()",
+            "{None}",
+            "()"
+          ],
+          "answer": "B",
+          "explanation_md": "`{}` est un **dict** vide. `set()` est l'ensemble vide. `()` est le tuple vide.",
+          "id": "2-13"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `D` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "DBCAE",
+          "explanation_md": "BFS depuis D avec ordre alphabétique → `DBCAE`.",
+          "id": "2-14"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(1,1,5)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 2 1",
+          "explanation_md": "Dérivée de `1X²+1X+5` est `2X+1`. Sous forme `Trinome` : `(0, 2, 1)`.",
+          "id": "2-15"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "2-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "lambda",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `(lambda x, y: x*y+1)(7, 2)` ?",
+          "answer": "15",
+          "explanation_md": "Le `lambda` retourne la valeur de l'expression. On substitue `x=7, y=2` → `15`.",
+          "id": "2-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('D', 'E')`.",
+          "answer": "2",
+          "explanation_md": "Plus court chemin de `D` à `E` calculé par BFS = 2 arêtes.",
+          "id": "2-18"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(5)` (= n!) ?",
+          "answer": "120",
+          "explanation_md": "5! = 120.",
+          "id": "2-19"
+        },
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 3, 4, 5, 6], 2: [1, 4, 6], 3: [1, 4, 5, 6], 4: [1, 2, 3, 5], 5: [1, 3, 4, 6], 6: [1, 2, 3, 5] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 2. Donc oui.",
+          "id": "2-20"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Devoir blanc n°3",
+      "questions": [
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(5)` (= n!) ?",
+          "answer": "120",
+          "explanation_md": "5! = 120.",
+          "id": "3-1"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(27, F)\najouter_element(2, F)\nv ← extraire_element(F)\najouter_element(7, F)\najouter_element(23, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[2, 7, 23]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[2, 7, 23]`.",
+          "id": "3-2"
+        },
+        {
+          "chapter": 3,
+          "topic": "pile",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Pile vide initialement. On exécute la séquence :\n```\nempile(P, 20)\nempile(P, 4)\nempile(P, 9)\nempile(P, 8)\nempile(P, 11)\nv ← depile(P)\n```\nDonner l'état final de la pile sous la forme `[bas, ..., haut]` (liste Python).\nSi vide : `[]`.",
+          "answer": "[20, 4, 9, 8]",
+          "explanation_md": "On simule LIFO : `empile` ajoute en haut, `depile` retire le sommet. État final : `[20, 4, 9, 8]`.",
+          "id": "3-3"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**300` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "3-4"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{2, 4, 5, 6} - {2, 3, 6, 7}\n```",
+          "answer": "{4, 5}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{4, 5}`.",
+          "id": "3-5"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `hash(x)` ?",
+          "choices": [
+            "__iter__",
+            "__str__",
+            "__getitem__",
+            "__hash__"
+          ],
+          "answer": "D",
+          "explanation_md": "`hash(x)` invoque `__hash__` sur l'objet.",
+          "id": "3-6"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "3-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "complexité",
+          "difficulty": 3,
+          "type": "short",
+          "statement_md": "Soit la fonction Python :\n\n```python\ndef fib2(n):\n    return n if n <= 1 else fib2(n-1) + fib2(n-2)\n```\n\nOn note c(n) le nombre **total** d'appels à `fib2` lors de `fib2(6)` (l'appel initial compte pour 1, c(0)=c(1)=1).\nCombien d'appels au total ?",
+          "answer": "25",
+          "explanation_md": "Récurrence c(n) = c(n−1) + c(n−2) + 1 avec c(0)=c(1)=1. On calcule c(6) = 25 (croissance ~ φⁿ).",
+          "id": "3-8"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "3-9"
+        },
+        {
+          "chapter": 1,
+          "topic": "arrondi",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `floor(-0.43)` ? (donner un entier)",
+          "answer": "-1",
+          "explanation_md": "Rappel : `int` tronque vers 0, `floor` vers −∞, `ceil` vers +∞, `round` arrondi banquier (mid → pair). Ici `floor(-0.43) = -1`.",
+          "id": "3-10"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(-3,-4,2)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 -6 -4",
+          "explanation_md": "Dérivée de `-3X²+-4X+2` est `-6X+-4`. Sous forme `Trinome` : `(0, -6, -4)`.",
+          "id": "3-11"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'a': 15, 'e': 3, 'b': 13, 'c': 4}\nD['z'] = 13\ndel D['a']\nprint(len(D), 'a' in D)\n```",
+          "answer": "4 False",
+          "explanation_md": "Après `D['z'] = 13` puis `del D['a']`, le dictionnaire est `{'e': 3, 'b': 13, 'c': 4, 'z': 13}`. `len = 4`, et `'a' in D = False`.",
+          "id": "3-12"
+        },
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 3, 4], 2: [1, 4, 5], 3: [1, 4, 5], 4: [1, 2, 3, 5], 5: [2, 3, 4] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 4. Donc non.",
+          "id": "3-13"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(4, 10)` (exponentiation rapide) ?",
+          "answer": "1048576",
+          "explanation_md": "`4^10 = 1048576`. La méthode rapide effectue ~log₂(10) ≈ 4 multiplications.",
+          "id": "3-14"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(1+3j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(-8+6j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = -8 + 6j` → `(-8+6j)`.",
+          "id": "3-15"
+        },
+        {
+          "chapter": 2,
+          "topic": "lambda",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `(lambda x, y: x*y+1)(4, 7)` ?",
+          "answer": "29",
+          "explanation_md": "Le `lambda` retourne la valeur de l'expression. On substitue `x=4, y=7` → `29`.",
+          "id": "3-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(11)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "89",
+          "explanation_md": "Suite de Fibonacci, `fib(11) = 89`.",
+          "id": "3-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 4], 2: [1, 3, 4], 3: [2, 4], 4: [1, 2, 3] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "3-18"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `D` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "DBCAE",
+          "explanation_md": "BFS depuis D avec ordre alphabétique → `DBCAE`.",
+          "id": "3-19"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "3-20"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Devoir blanc n°4",
+      "questions": [
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[1, 1], [2, 2]]\nB = A[:]\nA[0][0] = 89\nprint(B[0][0])\n```",
+          "answer": "89",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 89` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "4-1"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(5, F)\najouter_element(23, F)\najouter_element(28, F)\nv ← extraire_element(F)\nv ← extraire_element(F)\najouter_element(1, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[28, 1]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[28, 1]`.",
+          "id": "4-2"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(-4,-4,0)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 -8 -4",
+          "explanation_md": "Dérivée de `-4X²+-4X+0` est `-8X+-4`. Sous forme `Trinome` : `(0, -8, -4)`.",
+          "id": "4-3"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "4-4"
+        },
+        {
+          "chapter": 3,
+          "topic": "pile",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Pile vide initialement. On exécute la séquence :\n```\nempile(P, 13)\nempile(P, 6)\nv ← depile(P)\nempile(P, 16)\n```\nDonner l'état final de la pile sous la forme `[bas, ..., haut]` (liste Python).\nSi vide : `[]`.",
+          "answer": "[13, 16]",
+          "explanation_md": "On simule LIFO : `empile` ajoute en haut, `depile` retire le sommet. État final : `[13, 16]`.",
+          "id": "4-5"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 3, 4], 2: [1, 3], 3: [1, 2, 4], 4: [1, 3] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "4-6"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([21, 13, 18, 28, 2, 9])`.",
+          "answer": "[2, 9, 13, 18, 21, 28]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[2, 9, 13, 18, 21, 28]`. Le pivot était `21`, partition gauche `[2, 9, 13, 18]`, partition droite `[28]`.",
+          "id": "4-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "générateur",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut :\n\n```python\nlist(x*x for x in range(10) if x % 2 == 0)\n```",
+          "answer": "[0, 4, 16, 36, 64]",
+          "explanation_md": "On parcourt les pairs de `range(n)` et on prend leur carré.",
+          "id": "4-8"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{8, 1, 6, 7} | {1, 3, 4, 5}\n```",
+          "answer": "{1, 3, 4, 5, 6, 7, 8}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{1, 3, 4, 5, 6, 7, 8}`.",
+          "id": "4-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(6)` (= n!) ?",
+          "answer": "720",
+          "explanation_md": "6! = 720.",
+          "id": "4-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [29, 26, 11, 25, 27, 13, 23, 20]`, donner :\n\n```python\nL[2::1]\n```",
+          "answer": "[11, 25, 27, 13, 23, 20]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[11, 25, 27, 13, 23, 20]`.",
+          "id": "4-11"
+        },
+        {
+          "chapter": 1,
+          "topic": "set/dict",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression crée un **ensemble vide** en Python ?",
+          "choices": [
+            "{}",
+            "set()",
+            "{None}",
+            "()"
+          ],
+          "answer": "B",
+          "explanation_md": "`{}` est un **dict** vide. `set()` est l'ensemble vide. `()` est le tuple vide.",
+          "id": "4-12"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(90, 0)`, `Q = Decimal(82, 3)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "7380 3",
+          "explanation_md": "`__mul__` : nouveau `x = 90*82 = 7380`, nouveau `p = 0+3 = 3`.",
+          "id": "4-13"
+        },
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 3, 5, 6], 2: [1, 3, 4, 5, 6], 3: [1, 2, 4, 5], 4: [2, 3, 6], 5: [1, 2, 3, 6], 6: [1, 2, 4, 5] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 2. Donc oui.",
+          "id": "4-14"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**500` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "4-15"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x+1 for x in range(6) if x % 2 == 1]\n```",
+          "answer": "[2, 4, 6]",
+          "explanation_md": "On itère sur `range(6)` et garde les `x` vérifiant `x % 2 == 1`, en appliquant `x+1`. Résultat : `[2, 4, 6]`.",
+          "id": "4-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "4-17"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(17)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "1597",
+          "explanation_md": "Suite de Fibonacci, `fib(17) = 1597`.",
+          "id": "4-18"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "4-19"
+        },
+        {
+          "chapter": 3,
+          "topic": "pseudo-code",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Une fonction prend en entrée un arbre et renvoie le nombre de nœuds. Quelle **signature** est correcte en pseudo-code ?",
+          "choices": [
+            "fonction f(A) // arbre",
+            "fonction f(A) // arbre → entier",
+            "fonction f(A: arbre): entier",
+            "fonction f(A) → entier"
+          ],
+          "answer": "B",
+          "explanation_md": "Convention du cours : `fonction nom(args) // type1 × type2 → type_retour`. Le type de retour est précisé après `→`.",
+          "id": "4-20"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Devoir blanc n°5",
+      "questions": [
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "5-1"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(-5,0,-4)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 -10 0",
+          "explanation_md": "Dérivée de `-5X²+0X+-4` est `-10X+0`. Sous forme `Trinome` : `(0, -10, 0)`.",
+          "id": "5-2"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(5)` (= n!) ?",
+          "answer": "120",
+          "explanation_md": "5! = 120.",
+          "id": "5-3"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(13)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "233",
+          "explanation_md": "Suite de Fibonacci, `fib(13) = 233`.",
+          "id": "5-4"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(8, 0)`, `Q = Decimal(54, 3)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "432 3",
+          "explanation_md": "`__mul__` : nouveau `x = 8*54 = 432`, nouveau `p = 0+3 = 3`.",
+          "id": "5-5"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [17, 21, 13, 15, 18, 27, 29, 22]`, donner :\n\n```python\nL[::-1]\n```",
+          "answer": "[22, 29, 27, 18, 15, 13, 21, 17]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[22, 29, 27, 18, 15, 13, 21, 17]`.",
+          "id": "5-6"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `B` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "BADCE",
+          "explanation_md": "BFS depuis B avec ordre alphabétique → `BADCE`.",
+          "id": "5-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(22, 29)` (algorithme d'Euclide) ?",
+          "answer": "1",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(22,29) = 1`.",
+          "id": "5-8"
+        },
+        {
+          "chapter": 3,
+          "topic": "pseudo-code",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Une fonction prend en entrée un arbre et renvoie le nombre de nœuds. Quelle **signature** est correcte en pseudo-code ?",
+          "choices": [
+            "fonction f(A) // arbre",
+            "fonction f(A) // arbre → entier",
+            "fonction f(A: arbre): entier",
+            "fonction f(A) → entier"
+          ],
+          "answer": "B",
+          "explanation_md": "Convention du cours : `fonction nom(args) // type1 × type2 → type_retour`. Le type de retour est précisé après `→`.",
+          "id": "5-9"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'c': 15, 'a': 26, 'b': 12, 'f': 1}\nD['y'] = 7\ndel D['f']\nprint(len(D), 'c' in D)\n```",
+          "answer": "4 True",
+          "explanation_md": "Après `D['y'] = 7` puis `del D['f']`, le dictionnaire est `{'c': 15, 'a': 26, 'b': 12, 'y': 7}`. `len = 4`, et `'c' in D = True`.",
+          "id": "5-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{2, 3, 4, 7} ^ {8, 2, 3, 6}\n```",
+          "answer": "{4, 6, 7, 8}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{4, 6, 7, 8}`.",
+          "id": "5-11"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "5-12"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "5-13"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "5-14"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['c']], ['a'], ['a']]]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "6 4",
+          "explanation_md": "`taille = 6` (nombre de nœuds), `hauteur = 4` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "5-15"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x+1 for x in range(7) if x % 2 == 1]\n```",
+          "answer": "[2, 4, 6]",
+          "explanation_md": "On itère sur `range(7)` et garde les `x` vérifiant `x % 2 == 1`, en appliquant `x+1`. Résultat : `[2, 4, 6]`.",
+          "id": "5-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(2, 10)` (exponentiation rapide) ?",
+          "answer": "1024",
+          "explanation_md": "`2^10 = 1024`. La méthode rapide effectue ~log₂(10) ≈ 4 multiplications.",
+          "id": "5-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('A', 'E')`.",
+          "answer": "2",
+          "explanation_md": "Plus court chemin de `A` à `E` calculé par BFS = 2 arêtes.",
+          "id": "5-18"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 4, 5], 2: [1, 3, 4, 5], 3: [2, 4, 5], 4: [1, 2, 3, 5], 5: [1, 2, 3, 4] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "5-19"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(5+2j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(21+20j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = 21 + 20j` → `(21+20j)`.",
+          "id": "5-20"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Devoir blanc n°6",
+      "questions": [
+        {
+          "chapter": 3,
+          "topic": "pile",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Pile vide initialement. On exécute la séquence :\n```\nempile(P, 22)\nv ← depile(P)\nempile(P, 15)\nempile(P, 16)\nempile(P, 11)\nv ← depile(P)\n```\nDonner l'état final de la pile sous la forme `[bas, ..., haut]` (liste Python).\nSi vide : `[]`.",
+          "answer": "[15, 16]",
+          "explanation_md": "On simule LIFO : `empile` ajoute en haut, `depile` retire le sommet. État final : `[15, 16]`.",
+          "id": "6-1"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'a': 22, 'b': 3, 'e': 11, 'c': 20}\nD['y'] = 14\ndel D['e']\nprint(len(D), 'a' in D)\n```",
+          "answer": "4 True",
+          "explanation_md": "Après `D['y'] = 14` puis `del D['e']`, le dictionnaire est `{'a': 22, 'b': 3, 'c': 20, 'y': 14}`. `len = 4`, et `'a' in D = True`.",
+          "id": "6-2"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2], 2: [1, 3], 3: [2] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "6-3"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('B', 'C')`.",
+          "answer": "2",
+          "explanation_md": "Plus court chemin de `B` à `C` calculé par BFS = 2 arêtes.",
+          "id": "6-4"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{3, 4, 5, 6} & {9, 2, 3, 4}\n```",
+          "answer": "{3, 4}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{3, 4}`.",
+          "id": "6-5"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([18, 11, 5, 24, 22, 2])`.",
+          "answer": "[2, 5, 11, 18, 22, 24]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[2, 5, 11, 18, 22, 24]`. Le pivot était `18`, partition gauche `[2, 5, 11]`, partition droite `[22, 24]`.",
+          "id": "6-6"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "6-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(54, 71)` (algorithme d'Euclide) ?",
+          "answer": "1",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(54,71) = 1`.",
+          "id": "6-8"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [20, 26, 22, 10, 18, 25, 11, 24]`, donner :\n\n```python\nL[-3::1]\n```",
+          "answer": "[25, 11, 24]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[25, 11, 24]`.",
+          "id": "6-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "générateur",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut :\n\n```python\nlist(x*x for x in range(11) if x % 2 == 0)\n```",
+          "answer": "[0, 4, 16, 36, 64, 100]",
+          "explanation_md": "On parcourt les pairs de `range(n)` et on prend leur carré.",
+          "id": "6-10"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(3, 13)` (exponentiation rapide) ?",
+          "answer": "1594323",
+          "explanation_md": "`3^13 = 1594323`. La méthode rapide effectue ~log₂(13) ≈ 4 multiplications.",
+          "id": "6-11"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x*x for x in range(6) if x % 2 == 1]\n```",
+          "answer": "[1, 9, 25]",
+          "explanation_md": "On itère sur `range(6)` et garde les `x` vérifiant `x % 2 == 1`, en appliquant `x*x`. Résultat : `[1, 9, 25]`.",
+          "id": "6-12"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**500` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "6-13"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "6-14"
+        },
+        {
+          "chapter": 4,
+          "topic": "Vecteur2d",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "La classe `Vecteur2d` a `__init__(self, x, y)`, `__repr__` qui affiche `(x,y)`, et `__add__` composante par composante.\n\nQue vaut `repr(Vecteur2d(5,-2) + Vecteur2d(0,-5))` ? (Format exact : `(x,y)` sans espace.)",
+          "answer": "(5,-7)",
+          "explanation_md": "L'addition est composante par composante : `(5+0, -2+-5) = (5,-7)`.",
+          "id": "6-15"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `for v in x` ?",
+          "choices": [
+            "__iter__",
+            "__eq__",
+            "__add__",
+            "__mul__"
+          ],
+          "answer": "A",
+          "explanation_md": "`for v in x` invoque `__iter__` sur l'objet.",
+          "id": "6-16"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['x', ['a']]], ['d']]]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "6 5",
+          "explanation_md": "`taille = 6` (nombre de nœuds), `hauteur = 5` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "6-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(11, F)\najouter_element(10, F)\najouter_element(24, F)\najouter_element(11, F)\nv ← extraire_element(F)\najouter_element(10, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[10, 24, 11, 10]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[10, 24, 11, 10]`.",
+          "id": "6-18"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "6-19"
+        },
+        {
+          "chapter": 1,
+          "topic": "arrondi",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `ceil(4.85)` ? (donner un entier)",
+          "answer": "5",
+          "explanation_md": "Rappel : `int` tronque vers 0, `floor` vers −∞, `ceil` vers +∞, `round` arrondi banquier (mid → pair). Ici `ceil(4.85) = 5`.",
+          "id": "6-20"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Devoir blanc n°7",
+      "questions": [
+        {
+          "chapter": 2,
+          "topic": "complexité",
+          "difficulty": 3,
+          "type": "short",
+          "statement_md": "Soit la fonction Python :\n\n```python\ndef fib2(n):\n    return n if n <= 1 else fib2(n-1) + fib2(n-2)\n```\n\nOn note c(n) le nombre **total** d'appels à `fib2` lors de `fib2(10)` (l'appel initial compte pour 1, c(0)=c(1)=1).\nCombien d'appels au total ?",
+          "answer": "177",
+          "explanation_md": "Récurrence c(n) = c(n−1) + c(n−2) + 1 avec c(0)=c(1)=1. On calcule c(10) = 177 (croissance ~ φⁿ).",
+          "id": "7-1"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 3], 2: [1], 3: [1] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "7-2"
+        },
+        {
+          "chapter": 3,
+          "topic": "pseudo-code",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Une fonction prend en entrée un arbre et renvoie le nombre de nœuds. Quelle **signature** est correcte en pseudo-code ?",
+          "choices": [
+            "fonction f(A) // arbre",
+            "fonction f(A) // arbre → entier",
+            "fonction f(A: arbre): entier",
+            "fonction f(A) → entier"
+          ],
+          "answer": "B",
+          "explanation_md": "Convention du cours : `fonction nom(args) // type1 × type2 → type_retour`. Le type de retour est précisé après `→`.",
+          "id": "7-3"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{8, 3, 4, 6} ^ {9, 2, 3, 7}\n```",
+          "answer": "{2, 4, 6, 7, 8, 9}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{2, 4, 6, 7, 8, 9}`.",
+          "id": "7-4"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[2*x for x in range(6) if x % 2 == 1]\n```",
+          "answer": "[2, 6, 10]",
+          "explanation_md": "On itère sur `range(6)` et garde les `x` vérifiant `x % 2 == 1`, en appliquant `2*x`. Résultat : `[2, 6, 10]`.",
+          "id": "7-5"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(7)` (= n!) ?",
+          "answer": "5040",
+          "explanation_md": "7! = 5040.",
+          "id": "7-6"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [10, 28, 24, 12, 19, 21, 18, 14]`, donner :\n\n```python\nL[::-1]\n```",
+          "answer": "[14, 18, 21, 19, 12, 24, 28, 10]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[14, 18, 21, 19, 12, 24, 28, 10]`.",
+          "id": "7-7"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `B` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "BADCE",
+          "explanation_md": "BFS depuis B avec ordre alphabétique → `BADCE`.",
+          "id": "7-8"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([12, 29, 7, 19, 2, 16])`.",
+          "answer": "[2, 7, 12, 16, 19, 29]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[2, 7, 12, 16, 19, 29]`. Le pivot était `12`, partition gauche `[2, 7]`, partition droite `[16, 19, 29]`.",
+          "id": "7-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(59, 25)` (algorithme d'Euclide) ?",
+          "answer": "1",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(59,25) = 1`.",
+          "id": "7-10"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(1,-3,-4)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 2 -3",
+          "explanation_md": "Dérivée de `1X²+-3X+-4` est `2X+-3`. Sous forme `Trinome` : `(0, 2, -3)`.",
+          "id": "7-11"
+        },
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[6, 8], [7, 9]]\nB = A[:]\nA[0][0] = 68\nprint(B[0][0])\n```",
+          "answer": "68",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 68` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "7-12"
+        },
+        {
+          "chapter": 2,
+          "topic": "générateur",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut :\n\n```python\nlist(x*x for x in range(8) if x % 2 == 0)\n```",
+          "answer": "[0, 4, 16, 36]",
+          "explanation_md": "On parcourt les pairs de `range(n)` et on prend leur carré.",
+          "id": "7-13"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(23, 0)`, `Q = Decimal(76, 2)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "1748 2",
+          "explanation_md": "`__mul__` : nouveau `x = 23*76 = 1748`, nouveau `p = 0+2 = 2`.",
+          "id": "7-14"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "7-15"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `x[k]` ?",
+          "choices": [
+            "__add__",
+            "__iter__",
+            "__str__",
+            "__getitem__"
+          ],
+          "answer": "D",
+          "explanation_md": "`x[k]` invoque `__getitem__` sur l'objet.",
+          "id": "7-16"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['x', ['a']], ['e']], ['b']], ['b']]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "8 5",
+          "explanation_md": "`taille = 8` (nombre de nœuds), `hauteur = 5` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "7-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(2, F)\nv ← extraire_element(F)\najouter_element(3, F)\najouter_element(11, F)\nv ← extraire_element(F)\najouter_element(10, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[11, 10]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[11, 10]`.",
+          "id": "7-18"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'d': 9, 'f': 29, 'e': 15, 'a': 21}\nD['y'] = 15\ndel D['e']\nprint(len(D), 'd' in D)\n```",
+          "answer": "4 True",
+          "explanation_md": "Après `D['y'] = 15` puis `del D['e']`, le dictionnaire est `{'d': 9, 'f': 29, 'a': 21, 'y': 15}`. `len = 4`, et `'d' in D = True`.",
+          "id": "7-19"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "7-20"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Devoir blanc n°8",
+      "questions": [
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['c']], ['d'], ['f']]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "5 3",
+          "explanation_md": "`taille = 5` (nombre de nœuds), `hauteur = 3` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "8-1"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**500` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "8-2"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(1+1j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(0+2j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = 0 + 2j` → `(0+2j)`.",
+          "id": "8-3"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(9)` (= n!) ?",
+          "answer": "362880",
+          "explanation_md": "9! = 362880.",
+          "id": "8-4"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([15, 22, 1, 20, 18, 17])`.",
+          "answer": "[1, 15, 17, 18, 20, 22]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[1, 15, 17, 18, 20, 22]`. Le pivot était `15`, partition gauche `[1]`, partition droite `[17, 18, 20, 22]`.",
+          "id": "8-5"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(70, 1)`, `Q = Decimal(33, 1)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "2310 2",
+          "explanation_md": "`__mul__` : nouveau `x = 70*33 = 2310`, nouveau `p = 1+1 = 2`.",
+          "id": "8-6"
+        },
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[8, 8], [9, 9]]\nB = A[:]\nA[0][0] = 71\nprint(B[0][0])\n```",
+          "answer": "71",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 71` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "8-7"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 3, 4, 5], 2: [1, 3, 4, 5], 3: [1, 2, 4, 5], 4: [1, 2, 3], 5: [1, 2, 3] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "8-8"
+        },
+        {
+          "chapter": 3,
+          "topic": "pseudo-code",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Une fonction prend en entrée un arbre et renvoie le nombre de nœuds. Quelle **signature** est correcte en pseudo-code ?",
+          "choices": [
+            "fonction f(A) // arbre",
+            "fonction f(A) // arbre → entier",
+            "fonction f(A: arbre): entier",
+            "fonction f(A) → entier"
+          ],
+          "answer": "B",
+          "explanation_md": "Convention du cours : `fonction nom(args) // type1 × type2 → type_retour`. Le type de retour est précisé après `→`.",
+          "id": "8-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(122, 22)` (algorithme d'Euclide) ?",
+          "answer": "2",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(122,22) = 2`.",
+          "id": "8-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "8-11"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(10)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "55",
+          "explanation_md": "Suite de Fibonacci, `fib(10) = 55`.",
+          "id": "8-12"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "8-13"
+        },
+        {
+          "chapter": 4,
+          "topic": "Vecteur2d",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "La classe `Vecteur2d` a `__init__(self, x, y)`, `__repr__` qui affiche `(x,y)`, et `__add__` composante par composante.\n\nQue vaut `repr(Vecteur2d(2,5) + Vecteur2d(2,5))` ? (Format exact : `(x,y)` sans espace.)",
+          "answer": "(4,10)",
+          "explanation_md": "L'addition est composante par composante : `(2+2, 5+5) = (4,10)`.",
+          "id": "8-14"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `x * y` ?",
+          "choices": [
+            "__str__",
+            "__iter__",
+            "__getitem__",
+            "__mul__"
+          ],
+          "answer": "D",
+          "explanation_md": "`x * y` invoque `__mul__` sur l'objet.",
+          "id": "8-15"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('B', 'C')`.",
+          "answer": "2",
+          "explanation_md": "Plus court chemin de `B` à `C` calculé par BFS = 2 arêtes.",
+          "id": "8-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "lambda",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `(lambda x, y: x**2 - y)(4, 7)` ?",
+          "answer": "9",
+          "explanation_md": "Le `lambda` retourne la valeur de l'expression. On substitue `x=4, y=7` → `9`.",
+          "id": "8-17"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x+1 for x in range(9) if x > 2]\n```",
+          "answer": "[4, 5, 6, 7, 8, 9]",
+          "explanation_md": "On itère sur `range(9)` et garde les `x` vérifiant `x > 2`, en appliquant `x+1`. Résultat : `[4, 5, 6, 7, 8, 9]`.",
+          "id": "8-18"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{1, 5, 9, 6} | {1, 4, 6, 7}\n```",
+          "answer": "{1, 4, 5, 6, 7, 9}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{1, 4, 5, 6, 7, 9}`.",
+          "id": "8-19"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(16, F)\najouter_element(29, F)\najouter_element(2, F)\najouter_element(19, F)\nv ← extraire_element(F)\najouter_element(4, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[29, 2, 19, 4]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[29, 2, 19, 4]`.",
+          "id": "8-20"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Devoir blanc n°9",
+      "questions": [
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['x', ['a'], ['d'], ['c']], ['f'], ['c']]], ['d'], ['a']]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "11 5",
+          "explanation_md": "`taille = 11` (nombre de nœuds), `hauteur = 5` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "9-1"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(3, 13)` (exponentiation rapide) ?",
+          "answer": "1594323",
+          "explanation_md": "`3^13 = 1594323`. La méthode rapide effectue ~log₂(13) ≈ 4 multiplications.",
+          "id": "9-2"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 3], 2: [1, 3], 3: [1, 2] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : oui.",
+          "id": "9-3"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `B` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "BADCE",
+          "explanation_md": "BFS depuis B avec ordre alphabétique → `BADCE`.",
+          "id": "9-4"
+        },
+        {
+          "chapter": 2,
+          "topic": "générateur",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut :\n\n```python\nlist(x*x for x in range(8) if x % 2 == 0)\n```",
+          "answer": "[0, 4, 16, 36]",
+          "explanation_md": "On parcourt les pairs de `range(n)` et on prend leur carré.",
+          "id": "9-5"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(12)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "144",
+          "explanation_md": "Suite de Fibonacci, `fib(12) = 144`.",
+          "id": "9-6"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "9-7"
+        },
+        {
+          "chapter": 4,
+          "topic": "Vecteur2d",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "La classe `Vecteur2d` a `__init__(self, x, y)`, `__repr__` qui affiche `(x,y)`, et `__add__` composante par composante.\n\nQue vaut `repr(Vecteur2d(2,-5) + Vecteur2d(5,-2))` ? (Format exact : `(x,y)` sans espace.)",
+          "answer": "(7,-7)",
+          "explanation_md": "L'addition est composante par composante : `(2+5, -5+-2) = (7,-7)`.",
+          "id": "9-8"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [14, 16, 26, 28, 20, 29, 13, 10]`, donner :\n\n```python\nL[::-1]\n```",
+          "answer": "[10, 13, 29, 20, 28, 26, 16, 14]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[10, 13, 29, 20, 28, 26, 16, 14]`.",
+          "id": "9-9"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{8, 1, 2, 7} & {2, 4, 5, 6}\n```",
+          "answer": "{2}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{2}`.",
+          "id": "9-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "9-11"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**500` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "9-12"
+        },
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 4], 2: [1, 3, 4], 3: [2, 4], 4: [1, 2, 3, 5], 5: [4] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 2. Donc oui.",
+          "id": "9-13"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "9-14"
+        },
+        {
+          "chapter": 1,
+          "topic": "arrondi",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `floor(-5.3)` ? (donner un entier)",
+          "answer": "-6",
+          "explanation_md": "Rappel : `int` tronque vers 0, `floor` vers −∞, `ceil` vers +∞, `round` arrondi banquier (mid → pair). Ici `floor(-5.3) = -6`.",
+          "id": "9-15"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(85, 0)`, `Q = Decimal(42, 0)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "3570 0",
+          "explanation_md": "`__mul__` : nouveau `x = 85*42 = 3570`, nouveau `p = 0+0 = 0`.",
+          "id": "9-16"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(5, F)\nv ← extraire_element(F)\najouter_element(13, F)\najouter_element(22, F)\najouter_element(26, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[13, 22, 26]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[13, 22, 26]`.",
+          "id": "9-17"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x*x for x in range(7) if x > 2]\n```",
+          "answer": "[9, 16, 25, 36]",
+          "explanation_md": "On itère sur `range(7)` et garde les `x` vérifiant `x > 2`, en appliquant `x*x`. Résultat : `[9, 16, 25, 36]`.",
+          "id": "9-18"
+        },
+        {
+          "chapter": 2,
+          "topic": "complexité",
+          "difficulty": 3,
+          "type": "short",
+          "statement_md": "Soit la fonction Python :\n\n```python\ndef fib2(n):\n    return n if n <= 1 else fib2(n-1) + fib2(n-2)\n```\n\nOn note c(n) le nombre **total** d'appels à `fib2` lors de `fib2(10)` (l'appel initial compte pour 1, c(0)=c(1)=1).\nCombien d'appels au total ?",
+          "answer": "177",
+          "explanation_md": "Récurrence c(n) = c(n−1) + c(n−2) + 1 avec c(0)=c(1)=1. On calcule c(10) = 177 (croissance ~ φⁿ).",
+          "id": "9-19"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "9-20"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Devoir blanc n°10",
+      "questions": [
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(82, 0)`, `Q = Decimal(54, 3)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "4428 3",
+          "explanation_md": "`__mul__` : nouveau `x = 82*54 = 4428`, nouveau `p = 0+3 = 3`.",
+          "id": "10-1"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(2, 12)` (exponentiation rapide) ?",
+          "answer": "4096",
+          "explanation_md": "`2^12 = 4096`. La méthode rapide effectue ~log₂(12) ≈ 4 multiplications.",
+          "id": "10-2"
+        },
+        {
+          "chapter": 2,
+          "topic": "générateur",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut :\n\n```python\nlist(x*x for x in range(11) if x % 2 == 0)\n```",
+          "answer": "[0, 4, 16, 36, 64, 100]",
+          "explanation_md": "On parcourt les pairs de `range(n)` et on prend leur carré.",
+          "id": "10-3"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [28, 13, 20, 21, 24, 23, 16, 12]`, donner :\n\n```python\nL[::-1]\n```",
+          "answer": "[12, 16, 23, 24, 21, 20, 13, 28]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[12, 16, 23, 24, 21, 20, 13, 28]`.",
+          "id": "10-4"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(11, F)\najouter_element(21, F)\najouter_element(8, F)\najouter_element(22, F)\najouter_element(1, F)\nv ← extraire_element(F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[21, 8, 22, 1]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[21, 8, 22, 1]`.",
+          "id": "10-5"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `x == y` ?",
+          "choices": [
+            "__hash__",
+            "__eq__",
+            "__mul__",
+            "__str__"
+          ],
+          "answer": "B",
+          "explanation_md": "`x == y` invoque `__eq__` sur l'objet.",
+          "id": "10-6"
+        },
+        {
+          "chapter": 2,
+          "topic": "complexité",
+          "difficulty": 3,
+          "type": "short",
+          "statement_md": "Soit la fonction Python :\n\n```python\ndef fib2(n):\n    return n if n <= 1 else fib2(n-1) + fib2(n-2)\n```\n\nOn note c(n) le nombre **total** d'appels à `fib2` lors de `fib2(7)` (l'appel initial compte pour 1, c(0)=c(1)=1).\nCombien d'appels au total ?",
+          "answer": "41",
+          "explanation_md": "Récurrence c(n) = c(n−1) + c(n−2) + 1 avec c(0)=c(1)=1. On calcule c(7) = 41 (croissance ~ φⁿ).",
+          "id": "10-7"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{2, 3, 4, 5} & {9, 2, 6, 1}\n```",
+          "answer": "{2}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{2}`.",
+          "id": "10-8"
+        },
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 3], 2: [1, 4], 3: [1, 4], 4: [2, 3] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 0. Donc oui.",
+          "id": "10-9"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x+1 for x in range(5) if x % 2 == 1]\n```",
+          "answer": "[2, 4]",
+          "explanation_md": "On itère sur `range(5)` et garde les `x` vérifiant `x % 2 == 1`, en appliquant `x+1`. Résultat : `[2, 4]`.",
+          "id": "10-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[6, 9], [7, 10]]\nB = A[:]\nA[0][0] = 69\nprint(B[0][0])\n```",
+          "answer": "69",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 69` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "10-11"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "10-12"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(-5,0,-3)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 -10 0",
+          "explanation_md": "Dérivée de `-5X²+0X+-3` est `-10X+0`. Sous forme `Trinome` : `(0, -10, 0)`.",
+          "id": "10-13"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'e': 21, 'c': 23, 'b': 3, 'd': 20}\nD['z'] = 5\ndel D['c']\nprint(len(D), 'e' in D)\n```",
+          "answer": "4 True",
+          "explanation_md": "Après `D['z'] = 5` puis `del D['c']`, le dictionnaire est `{'e': 21, 'b': 3, 'd': 20, 'z': 5}`. `len = 4`, et `'e' in D = True`.",
+          "id": "10-14"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `A` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "ABCDE",
+          "explanation_md": "BFS depuis A avec ordre alphabétique → `ABCDE`.",
+          "id": "10-15"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([24, 11, 16, 4, 28, 3])`.",
+          "answer": "[3, 4, 11, 16, 24, 28]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[3, 4, 11, 16, 24, 28]`. Le pivot était `24`, partition gauche `[3, 4, 11, 16]`, partition droite `[28]`.",
+          "id": "10-16"
+        },
+        {
+          "chapter": 3,
+          "topic": "pseudo-code",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Une fonction prend en entrée un arbre et renvoie le nombre de nœuds. Quelle **signature** est correcte en pseudo-code ?",
+          "choices": [
+            "fonction f(A) // arbre",
+            "fonction f(A) // arbre → entier",
+            "fonction f(A: arbre): entier",
+            "fonction f(A) → entier"
+          ],
+          "answer": "B",
+          "explanation_md": "Convention du cours : `fonction nom(args) // type1 × type2 → type_retour`. Le type de retour est précisé après `→`.",
+          "id": "10-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['a'], ['d'], ['e']], ['b'], ['e']], ['a']]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "9 4",
+          "explanation_md": "`taille = 9` (nombre de nœuds), `hauteur = 4` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "10-18"
+        },
+        {
+          "chapter": 1,
+          "topic": "set/dict",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression crée un **ensemble vide** en Python ?",
+          "choices": [
+            "{}",
+            "set()",
+            "{None}",
+            "()"
+          ],
+          "answer": "B",
+          "explanation_md": "`{}` est un **dict** vide. `set()` est l'ensemble vide. `()` est le tuple vide.",
+          "id": "10-19"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "10-20"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Devoir blanc n°11",
+      "questions": [
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 3, 4], 2: [1, 3, 4], 3: [1, 2, 4], 4: [1, 2, 3] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 4. Donc non.",
+          "id": "11-1"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([20, 12, 26, 27, 7, 15])`.",
+          "answer": "[7, 12, 15, 20, 26, 27]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[7, 12, 15, 20, 26, 27]`. Le pivot était `20`, partition gauche `[7, 12, 15]`, partition droite `[26, 27]`.",
+          "id": "11-2"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(4, 8)` (exponentiation rapide) ?",
+          "answer": "65536",
+          "explanation_md": "`4^8 = 65536`. La méthode rapide effectue ~log₂(8) ≈ 4 multiplications.",
+          "id": "11-3"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'e': 24, 'c': 15, 'a': 19, 'b': 11}\nD['y'] = 23\ndel D['b']\nprint(len(D), 'e' in D)\n```",
+          "answer": "4 True",
+          "explanation_md": "Après `D['y'] = 23` puis `del D['b']`, le dictionnaire est `{'e': 24, 'c': 15, 'a': 19, 'y': 23}`. `len = 4`, et `'e' in D = True`.",
+          "id": "11-4"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `hash(x)` ?",
+          "choices": [
+            "__len__",
+            "__getitem__",
+            "__hash__",
+            "__mul__"
+          ],
+          "answer": "C",
+          "explanation_md": "`hash(x)` invoque `__hash__` sur l'objet.",
+          "id": "11-5"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**500` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "11-6"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [29, 16, 11, 10, 25, 24, 19, 27]`, donner :\n\n```python\nL[-3::1]\n```",
+          "answer": "[24, 19, 27]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[24, 19, 27]`.",
+          "id": "11-7"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "11-8"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 3, 4, 5], 2: [1, 4, 5], 3: [1, 4, 5], 4: [1, 2, 3, 5], 5: [1, 2, 3, 4] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "B",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : non.",
+          "id": "11-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "complexité",
+          "difficulty": 3,
+          "type": "short",
+          "statement_md": "Soit la fonction Python :\n\n```python\ndef fib2(n):\n    return n if n <= 1 else fib2(n-1) + fib2(n-2)\n```\n\nOn note c(n) le nombre **total** d'appels à `fib2` lors de `fib2(6)` (l'appel initial compte pour 1, c(0)=c(1)=1).\nCombien d'appels au total ?",
+          "answer": "25",
+          "explanation_md": "Récurrence c(n) = c(n−1) + c(n−2) + 1 avec c(0)=c(1)=1. On calcule c(6) = 25 (croissance ~ φⁿ).",
+          "id": "11-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(5+3j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(16+30j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = 16 + 30j` → `(16+30j)`.",
+          "id": "11-11"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('A', 'C')`.",
+          "answer": "1",
+          "explanation_md": "Plus court chemin de `A` à `C` calculé par BFS = 1 arêtes.",
+          "id": "11-12"
+        },
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[9, 2], [10, 3]]\nB = A[:]\nA[0][0] = 75\nprint(B[0][0])\n```",
+          "answer": "75",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 75` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "11-13"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(18)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "2584",
+          "explanation_md": "Suite de Fibonacci, `fib(18) = 2584`.",
+          "id": "11-14"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(5)` (= n!) ?",
+          "answer": "120",
+          "explanation_md": "5! = 120.",
+          "id": "11-15"
+        },
+        {
+          "chapter": 2,
+          "topic": "lambda",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `(lambda x, y: 2*x + 3*y)(8, 5)` ?",
+          "answer": "31",
+          "explanation_md": "Le `lambda` retourne la valeur de l'expression. On substitue `x=8, y=5` → `31`.",
+          "id": "11-16"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(24, F)\najouter_element(22, F)\najouter_element(9, F)\najouter_element(12, F)\najouter_element(17, F)\nv ← extraire_element(F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[22, 9, 12, 17]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[22, 9, 12, 17]`.",
+          "id": "11-17"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['b'], ['a']], ['e']]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "5 3",
+          "explanation_md": "`taille = 5` (nombre de nœuds), `hauteur = 3` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "11-18"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "11-19"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(-1,4,5)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 -2 4",
+          "explanation_md": "Dérivée de `-1X²+4X+5` est `-2X+4`. Sous forme `Trinome` : `(0, -2, 4)`.",
+          "id": "11-20"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Devoir blanc n°12",
+      "questions": [
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "12-1"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{2, 3, 5, 7} - {1, 2, 3, 7}\n```",
+          "answer": "{5}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{5}`.",
+          "id": "12-2"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `C` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "CADEB",
+          "explanation_md": "BFS depuis C avec ordre alphabétique → `CADEB`.",
+          "id": "12-3"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('D', 'E')`.",
+          "answer": "2",
+          "explanation_md": "Plus court chemin de `D` à `E` calculé par BFS = 2 arêtes.",
+          "id": "12-4"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(184, 93)` (algorithme d'Euclide) ?",
+          "answer": "1",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(184,93) = 1`.",
+          "id": "12-5"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[2*x for x in range(7) if x % 2 == 0]\n```",
+          "answer": "[0, 4, 8, 12]",
+          "explanation_md": "On itère sur `range(7)` et garde les `x` vérifiant `x % 2 == 0`, en appliquant `2*x`. Résultat : `[0, 4, 8, 12]`.",
+          "id": "12-6"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `x[k]` ?",
+          "choices": [
+            "__getitem__",
+            "__iter__",
+            "__hash__",
+            "__mul__"
+          ],
+          "answer": "A",
+          "explanation_md": "`x[k]` invoque `__getitem__` sur l'objet.",
+          "id": "12-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([25, 12, 28, 15, 8, 27])`.",
+          "answer": "[8, 12, 15, 25, 27, 28]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[8, 12, 15, 25, 27, 28]`. Le pivot était `25`, partition gauche `[8, 12, 15]`, partition droite `[27, 28]`.",
+          "id": "12-8"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(5+5j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(0+50j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = 0 + 50j` → `(0+50j)`.",
+          "id": "12-9"
+        },
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[8, 5], [9, 6]]\nB = A[:]\nA[0][0] = 66\nprint(B[0][0])\n```",
+          "answer": "66",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 66` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "12-10"
+        },
+        {
+          "chapter": 3,
+          "topic": "pile",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Pile vide initialement. On exécute la séquence :\n```\nempile(P, 30)\nempile(P, 4)\nv ← depile(P)\nempile(P, 4)\nempile(P, 9)\nv ← depile(P)\n```\nDonner l'état final de la pile sous la forme `[bas, ..., haut]` (liste Python).\nSi vide : `[]`.",
+          "answer": "[30, 4]",
+          "explanation_md": "On simule LIFO : `empile` ajoute en haut, `depile` retire le sommet. État final : `[30, 4]`.",
+          "id": "12-11"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(4, 10)` (exponentiation rapide) ?",
+          "answer": "1048576",
+          "explanation_md": "`4^10 = 1048576`. La méthode rapide effectue ~log₂(10) ≈ 4 multiplications.",
+          "id": "12-12"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "12-13"
+        },
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2], 2: [1, 3, 4, 5], 3: [2, 4, 5, 6], 4: [2, 3, 5, 6], 5: [2, 3, 4, 6], 6: [3, 4, 5] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 2. Donc oui.",
+          "id": "12-14"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['c'], ['f']], ['a'], ['b']], ['a'], ['e']]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "9 4",
+          "explanation_md": "`taille = 9` (nombre de nœuds), `hauteur = 4` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "12-15"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(5)` (= n!) ?",
+          "answer": "120",
+          "explanation_md": "5! = 120.",
+          "id": "12-16"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'c': 7, 'e': 6, 'f': 22, 'b': 23}\nD['z'] = 8\ndel D['c']\nprint(len(D), 'c' in D)\n```",
+          "answer": "4 False",
+          "explanation_md": "Après `D['z'] = 8` puis `del D['c']`, le dictionnaire est `{'e': 6, 'f': 22, 'b': 23, 'z': 8}`. `len = 4`, et `'c' in D = False`.",
+          "id": "12-17"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(10)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "55",
+          "explanation_md": "Suite de Fibonacci, `fib(10) = 55`.",
+          "id": "12-18"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(1,2,5)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 2 2",
+          "explanation_md": "Dérivée de `1X²+2X+5` est `2X+2`. Sous forme `Trinome` : `(0, 2, 2)`.",
+          "id": "12-19"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**200` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "12-20"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Devoir blanc n°13",
+      "questions": [
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['c']]]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "3 3",
+          "explanation_md": "`taille = 3` (nombre de nœuds), `hauteur = 3` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "13-1"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(10)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "55",
+          "explanation_md": "Suite de Fibonacci, `fib(10) = 55`.",
+          "id": "13-2"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(20, F)\najouter_element(14, F)\najouter_element(28, F)\nv ← extraire_element(F)\najouter_element(9, F)\najouter_element(13, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[14, 28, 9, 13]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[14, 28, 9, 13]`.",
+          "id": "13-3"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(6)` (= n!) ?",
+          "answer": "720",
+          "explanation_md": "6! = 720.",
+          "id": "13-4"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [29, 26, 25, 19, 11, 18, 17, 24]`, donner :\n\n```python\nL[2::1]\n```",
+          "answer": "[25, 19, 11, 18, 17, 24]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[25, 19, 11, 18, 17, 24]`.",
+          "id": "13-5"
+        },
+        {
+          "chapter": 3,
+          "topic": "pseudo-code",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Une fonction prend en entrée un arbre et renvoie le nombre de nœuds. Quelle **signature** est correcte en pseudo-code ?",
+          "choices": [
+            "fonction f(A) // arbre",
+            "fonction f(A) // arbre → entier",
+            "fonction f(A: arbre): entier",
+            "fonction f(A) → entier"
+          ],
+          "answer": "B",
+          "explanation_md": "Convention du cours : `fonction nom(args) // type1 × type2 → type_retour`. Le type de retour est précisé après `→`.",
+          "id": "13-6"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(5+4j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(9+40j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = 9 + 40j` → `(9+40j)`.",
+          "id": "13-7"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "13-8"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**200` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "13-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "générateur",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut :\n\n```python\nlist(x*x for x in range(10) if x % 2 == 0)\n```",
+          "answer": "[0, 4, 16, 36, 64]",
+          "explanation_md": "On parcourt les pairs de `range(n)` et on prend leur carré.",
+          "id": "13-10"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'c': 5, 'a': 7, 'f': 21, 'd': 29}\nD['x'] = 11\ndel D['f']\nprint(len(D), 'c' in D)\n```",
+          "answer": "4 True",
+          "explanation_md": "Après `D['x'] = 11` puis `del D['f']`, le dictionnaire est `{'c': 5, 'a': 7, 'd': 29, 'x': 11}`. `len = 4`, et `'c' in D = True`.",
+          "id": "13-11"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(2, 13)` (exponentiation rapide) ?",
+          "answer": "8192",
+          "explanation_md": "`2^13 = 8192`. La méthode rapide effectue ~log₂(13) ≈ 4 multiplications.",
+          "id": "13-12"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `x[k]` ?",
+          "choices": [
+            "__mul__",
+            "__getitem__",
+            "__len__",
+            "__iter__"
+          ],
+          "answer": "B",
+          "explanation_md": "`x[k]` invoque `__getitem__` sur l'objet.",
+          "id": "13-13"
+        },
+        {
+          "chapter": 3,
+          "topic": "pile",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Pile vide initialement. On exécute la séquence :\n```\nempile(P, 17)\nempile(P, 11)\nempile(P, 2)\nempile(P, 2)\nv ← depile(P)\nempile(P, 10)\n```\nDonner l'état final de la pile sous la forme `[bas, ..., haut]` (liste Python).\nSi vide : `[]`.",
+          "answer": "[17, 11, 2, 10]",
+          "explanation_md": "On simule LIFO : `empile` ajoute en haut, `depile` retire le sommet. État final : `[17, 11, 2, 10]`.",
+          "id": "13-14"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "13-15"
+        },
+        {
+          "chapter": 1,
+          "topic": "set/dict",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression crée un **ensemble vide** en Python ?",
+          "choices": [
+            "{}",
+            "set()",
+            "{None}",
+            "()"
+          ],
+          "answer": "B",
+          "explanation_md": "`{}` est un **dict** vide. `set()` est l'ensemble vide. `()` est le tuple vide.",
+          "id": "13-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([12, 21, 28, 2, 23, 8])`.",
+          "answer": "[2, 8, 12, 21, 23, 28]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[2, 8, 12, 21, 23, 28]`. Le pivot était `12`, partition gauche `[2, 8]`, partition droite `[21, 23, 28]`.",
+          "id": "13-17"
+        },
+        {
+          "chapter": 4,
+          "topic": "Vecteur2d",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "La classe `Vecteur2d` a `__init__(self, x, y)`, `__repr__` qui affiche `(x,y)`, et `__add__` composante par composante.\n\nQue vaut `repr(Vecteur2d(-5,4) + Vecteur2d(-2,0))` ? (Format exact : `(x,y)` sans espace.)",
+          "answer": "(-7,4)",
+          "explanation_md": "L'addition est composante par composante : `(-5+-2, 4+0) = (-7,4)`.",
+          "id": "13-18"
+        },
+        {
+          "chapter": 2,
+          "topic": "None",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Que vaut `y` après `y = [3, 1, 2].sort()` ?",
+          "choices": [
+            "[1, 2, 3]",
+            "[3, 1, 2]",
+            "None",
+            "Erreur"
+          ],
+          "answer": "C",
+          "explanation_md": "`list.sort()` trie **en place** et retourne `None`. Pour récupérer une liste triée, utiliser `sorted([3,1,2])`.",
+          "id": "13-19"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `B` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "BADCE",
+          "explanation_md": "BFS depuis B avec ordre alphabétique → `BADCE`.",
+          "id": "13-20"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Devoir blanc n°14",
+      "questions": [
+        {
+          "chapter": 1,
+          "topic": "arrondi",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `ceil(0.12)` ? (donner un entier)",
+          "answer": "1",
+          "explanation_md": "Rappel : `int` tronque vers 0, `floor` vers −∞, `ceil` vers +∞, `round` arrondi banquier (mid → pair). Ici `ceil(0.12) = 1`.",
+          "id": "14-1"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(8)` (= n!) ?",
+          "answer": "40320",
+          "explanation_md": "8! = 40320.",
+          "id": "14-2"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(5+4j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(9+40j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = 9 + 40j` → `(9+40j)`.",
+          "id": "14-3"
+        },
+        {
+          "chapter": 4,
+          "topic": "piège",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Quelle déclaration de classe **évite** le piège du paramètre par défaut mutable partagé ?",
+          "choices": [
+            "def __init__(self, enfants=[]): self.enfants = enfants",
+            "def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []",
+            "enfants = []  # déclaré dans le corps de la classe",
+            "def __init__(self, enfants={}): self.enfants = enfants"
+          ],
+          "answer": "B",
+          "explanation_md": "Une valeur par défaut mutable (`[]`, `{}`) est créée **une seule fois** à la définition. Toutes les instances la partagent. Solution : `=None` puis test dans le corps.",
+          "id": "14-4"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**500` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "14-5"
+        },
+        {
+          "chapter": 3,
+          "topic": "arbre",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit l'arbre représenté `[étiquette, enfant1, enfant2, ...]` :\n```\n['x', ['x', ['x', ['x', ['b'], ['b']], ['c']], ['b'], ['d']]]\n```\nDonner `taille hauteur` (deux entiers séparés par un espace, hauteur en comptant le nombre de nœuds sur la plus longue branche racine-feuille).",
+          "answer": "9 5",
+          "explanation_md": "`taille = 9` (nombre de nœuds), `hauteur = 5` (longueur de la plus longue branche en nombre de nœuds).",
+          "id": "14-6"
+        },
+        {
+          "chapter": 1,
+          "topic": "tuple",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle expression renvoie un *tuple* contenant le seul élément 7 ?",
+          "choices": [
+            "(7)",
+            "[7]",
+            "(7,)",
+            "{7}"
+          ],
+          "answer": "C",
+          "explanation_md": "`(7)` est l'entier 7 (parenthèses de groupement). Pour un tuple à un seul élément, la **virgule** est obligatoire : `(7,)`.",
+          "id": "14-7"
+        },
+        {
+          "chapter": 2,
+          "topic": "paramètres",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit :\n```python\ndef f(x, L=[]):\n    L.append(x)\n    return L\nf(1); f(2); print(f(3))\n```\nQu'affiche la dernière ligne ?",
+          "choices": [
+            "[3]",
+            "[1, 2, 3]",
+            "[1, 3]",
+            "Erreur"
+          ],
+          "answer": "B",
+          "explanation_md": "**Piège classique** : la liste par défaut est créée **une seule fois** à la définition, et partagée entre tous les appels. À chaque `f(...)` sans `L`, on ajoute à la même liste. Solution : `def f(x, L=None): if L is None: L = []`.",
+          "id": "14-8"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([19, 20, 6, 23, 18, 21])`.",
+          "answer": "[6, 18, 19, 20, 21, 23]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[6, 18, 19, 20, 21, 23]`. Le pivot était `19`, partition gauche `[6, 18]`, partition droite `[20, 21, 23]`.",
+          "id": "14-9"
+        },
+        {
+          "chapter": 2,
+          "topic": "exponentiation",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `power(3, 14)` (exponentiation rapide) ?",
+          "answer": "4782969",
+          "explanation_md": "`3^14 = 4782969`. La méthode rapide effectue ~log₂(14) ≈ 4 multiplications.",
+          "id": "14-10"
+        },
+        {
+          "chapter": 3,
+          "topic": "BFS",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Soit le graphe : `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`.\n\nOn exécute un **parcours en largeur (BFS)** depuis `E` ; à chaque étape, on visite les voisins **par ordre alphabétique**.\nDonner l'ordre de visite (lettres collées, ex. `ABCDE`).",
+          "answer": "ECADB",
+          "explanation_md": "BFS depuis E avec ordre alphabétique → `ECADB`.",
+          "id": "14-11"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `x + y` ?",
+          "choices": [
+            "__add__",
+            "__hash__",
+            "__iter__",
+            "__len__"
+          ],
+          "answer": "A",
+          "explanation_md": "`x + y` invoque `__add__` sur l'objet.",
+          "id": "14-12"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(17, F)\nv ← extraire_element(F)\najouter_element(28, F)\najouter_element(6, F)\najouter_element(26, F)\najouter_element(28, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[28, 6, 26, 28]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[28, 6, 26, 28]`.",
+          "id": "14-13"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('B', 'E')`.",
+          "answer": "3",
+          "explanation_md": "Plus court chemin de `B` à `E` calculé par BFS = 3 arêtes.",
+          "id": "14-14"
+        },
+        {
+          "chapter": 1,
+          "topic": "alias",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ?\n\n```python\nA = [[3, 5], [4, 6]]\nB = A[:]\nA[0][0] = 78\nprint(B[0][0])\n```",
+          "answer": "78",
+          "explanation_md": "`A[:]` est une **copie superficielle** : la liste externe est nouvelle mais les sous-listes restent partagées. Donc `A[0][0] = 78` modifie aussi `B[0][0]`. Pour vraiment dupliquer : `copy.deepcopy(A)`.",
+          "id": "14-15"
+        },
+        {
+          "chapter": 2,
+          "topic": "lambda",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `(lambda x, y: x**2 - y)(6, 5)` ?",
+          "answer": "31",
+          "explanation_md": "Le `lambda` retourne la valeur de l'expression. On substitue `x=6, y=5` → `31`.",
+          "id": "14-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(78, 28)` (algorithme d'Euclide) ?",
+          "answer": "2",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(78,28) = 2`.",
+          "id": "14-17"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(37, 2)`, `Q = Decimal(55, 1)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "2035 3",
+          "explanation_md": "`__mul__` : nouveau `x = 37*55 = 2035`, nouveau `p = 2+1 = 3`.",
+          "id": "14-18"
+        },
+        {
+          "chapter": 3,
+          "topic": "pseudo-code",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Une fonction prend en entrée un arbre et renvoie le nombre de nœuds. Quelle **signature** est correcte en pseudo-code ?",
+          "choices": [
+            "fonction f(A) // arbre",
+            "fonction f(A) // arbre → entier",
+            "fonction f(A: arbre): entier",
+            "fonction f(A) → entier"
+          ],
+          "answer": "B",
+          "explanation_md": "Convention du cours : `fonction nom(args) // type1 × type2 → type_retour`. Le type de retour est précisé après `→`.",
+          "id": "14-19"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'f': 16, 'a': 7, 'b': 25, 'c': 5}\nD['y'] = 26\ndel D['f']\nprint(len(D), 'f' in D)\n```",
+          "answer": "4 False",
+          "explanation_md": "Après `D['y'] = 26` puis `del D['f']`, le dictionnaire est `{'a': 7, 'b': 25, 'c': 5, 'y': 26}`. `len = 4`, et `'f' in D = False`.",
+          "id": "14-20"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Devoir blanc n°15",
+      "questions": [
+        {
+          "chapter": 3,
+          "topic": "euler",
+          "difficulty": 3,
+          "type": "mcq",
+          "statement_md": "Soit le graphe non orienté :\n```\nG = { 1: [2, 3, 4, 5], 2: [1, 3, 4], 3: [1, 2, 4, 5], 4: [1, 2, 3, 5], 5: [1, 3, 4] }\n```\nExiste-t-il un **chemin eulérien** (passant par chaque arête exactement une fois) ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Théorème d'Euler : un graphe connexe admet un chemin eulérien ssi le nombre de sommets de degré impair est 0 ou 2. Ici connexe = True, nombre de sommets de degré impair = 2. Donc oui.",
+          "id": "15-1"
+        },
+        {
+          "chapter": 1,
+          "topic": "compréhension",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Donner la liste résultat (notation Python `[..., ...]`) :\n\n```python\n[x*x for x in range(8) if x > 2]\n```",
+          "answer": "[9, 16, 25, 36, 49]",
+          "explanation_md": "On itère sur `range(8)` et garde les `x` vérifiant `x > 2`, en appliquant `x*x`. Résultat : `[9, 16, 25, 36, 49]`.",
+          "id": "15-2"
+        },
+        {
+          "chapter": 1,
+          "topic": "set",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Calculer (donner le résultat sous forme `{...}` ou `set()`) :\n\n```python\n{1, 4, 5, 7} - {2, 5, 6, 7}\n```",
+          "answer": "{1, 4}",
+          "explanation_md": "`&` = intersection, `|` = union, `-` = différence, `^` = différence symétrique. Ici on obtient `{1, 4}`.",
+          "id": "15-3"
+        },
+        {
+          "chapter": 4,
+          "topic": "Decimal",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "On modélise `Decimal(x, p)` représentant `x · 10^(-p)` avec `__mul__` qui multiplie les `x` et **additionne** les `p`.\n\nSoit `P = Decimal(26, 0)`, `Q = Decimal(53, 1)`. Donner les attributs `(x, p)` de `P*Q` sous la forme `x p` (deux entiers séparés par un espace).",
+          "answer": "1378 1",
+          "explanation_md": "`__mul__` : nouveau `x = 26*53 = 1378`, nouveau `p = 0+1 = 1`.",
+          "id": "15-4"
+        },
+        {
+          "chapter": 1,
+          "topic": "dict",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que va afficher ce code ? (format: `<entier> <True/False>`)\n\n```python\nD = {'a': 2, 'c': 19, 'b': 12, 'e': 16}\nD['y'] = 24\ndel D['a']\nprint(len(D), 'a' in D)\n```",
+          "answer": "4 False",
+          "explanation_md": "Après `D['y'] = 24` puis `del D['a']`, le dictionnaire est `{'c': 19, 'b': 12, 'e': 16, 'y': 24}`. `len = 4`, et `'a' in D = False`.",
+          "id": "15-5"
+        },
+        {
+          "chapter": 3,
+          "topic": "distance",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec le graphe `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`, donner `distance('A', 'E')`.",
+          "answer": "2",
+          "explanation_md": "Plus court chemin de `A` à `E` calculé par BFS = 2 arêtes.",
+          "id": "15-6"
+        },
+        {
+          "chapter": 1,
+          "topic": "complexe",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Calculer en Python : `(2+5j)**2`.\nDonner le résultat sous la forme `(a+bj)` ou `(a-bj)`, sans espace.",
+          "answer": "(-21+20j)",
+          "explanation_md": "`(a+bj)² = (a²−b²) + 2abj = -21 + 20j` → `(-21+20j)`.",
+          "id": "15-7"
+        },
+        {
+          "chapter": 3,
+          "topic": "pile",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Pile vide initialement. On exécute la séquence :\n```\nempile(P, 26)\nempile(P, 23)\nempile(P, 27)\nempile(P, 13)\nv ← depile(P)\nempile(P, 1)\n```\nDonner l'état final de la pile sous la forme `[bas, ..., haut]` (liste Python).\nSi vide : `[]`.",
+          "answer": "[26, 23, 27, 1]",
+          "explanation_md": "On simule LIFO : `empile` ajoute en haut, `depile` retire le sommet. État final : `[26, 23, 27, 1]`.",
+          "id": "15-8"
+        },
+        {
+          "chapter": 2,
+          "topic": "quicksort",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec la version récursive du tri rapide qui prend `L[0]` comme pivot :\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a <  x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\nDonner le **résultat final** de `tri([10, 28, 17, 18, 4, 27])`.",
+          "answer": "[4, 10, 17, 18, 27, 28]",
+          "explanation_md": "Le tri rapide est un tri ; le résultat est `[4, 10, 17, 18, 27, 28]`. Le pivot était `10`, partition gauche `[4]`, partition droite `[17, 18, 27, 28]`.",
+          "id": "15-9"
+        },
+        {
+          "chapter": 4,
+          "topic": "Trinome",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "`Trinome(a, b, c)` représente `aX² + bX + c`. La méthode `derive` retourne le `Trinome` correspondant à la dérivée (un `Trinome` avec coeff `a=0`).\n\nSoit `P = Trinome(-1,-3,3)`. Donner les attributs `(a, b, c)` de `P.derive()` sous la forme `a b c`.",
+          "answer": "0 -2 -3",
+          "explanation_md": "Dérivée de `-1X²+-3X+3` est `-2X+-3`. Sous forme `Trinome` : `(0, -2, -3)`.",
+          "id": "15-10"
+        },
+        {
+          "chapter": 3,
+          "topic": "file",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "File vide initialement (FIFO). On exécute :\n```\najouter_element(19, F)\nv ← extraire_element(F)\najouter_element(16, F)\najouter_element(21, F)\n```\nDonner l'état final sous la forme `[premier, ..., dernier]`. Vide : `[]`.",
+          "answer": "[16, 21]",
+          "explanation_md": "FIFO : `ajouter_element` ajoute à la queue, `extraire_element` retire en tête. Final : `[16, 21]`.",
+          "id": "15-11"
+        },
+        {
+          "chapter": 2,
+          "topic": "lambda",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `(lambda x, y: x**2 - y)(5, 3)` ?",
+          "answer": "22",
+          "explanation_md": "Le `lambda` retourne la valeur de l'expression. On substitue `x=5, y=3` → `22`.",
+          "id": "15-12"
+        },
+        {
+          "chapter": 4,
+          "topic": "dunder",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Quelle méthode spéciale est appelée par l'expression `x + y` ?",
+          "choices": [
+            "__getitem__",
+            "__str__",
+            "__len__",
+            "__add__"
+          ],
+          "answer": "D",
+          "explanation_md": "`x + y` invoque `__add__` sur l'objet.",
+          "id": "15-13"
+        },
+        {
+          "chapter": 3,
+          "topic": "graphe",
+          "difficulty": 2,
+          "type": "mcq",
+          "statement_md": "Soit le graphe (dict d'ensembles) :\n```\nG = { 1: [2, 3], 2: [1, 3], 3: [1, 2] }\n```\nLe graphe est-il **complet** ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "A",
+          "explanation_md": "Un graphe est complet ssi tout sommet est voisin de tous les autres. Ici : oui.",
+          "id": "15-14"
+        },
+        {
+          "chapter": 2,
+          "topic": "factorielle",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Que vaut `factorielle(8)` (= n!) ?",
+          "answer": "40320",
+          "explanation_md": "8! = 40320.",
+          "id": "15-15"
+        },
+        {
+          "chapter": 2,
+          "topic": "complexité",
+          "difficulty": 3,
+          "type": "short",
+          "statement_md": "Soit la fonction Python :\n\n```python\ndef fib2(n):\n    return n if n <= 1 else fib2(n-1) + fib2(n-2)\n```\n\nOn note c(n) le nombre **total** d'appels à `fib2` lors de `fib2(5)` (l'appel initial compte pour 1, c(0)=c(1)=1).\nCombien d'appels au total ?",
+          "answer": "15",
+          "explanation_md": "Récurrence c(n) = c(n−1) + c(n−2) + 1 avec c(0)=c(1)=1. On calcule c(5) = 15 (croissance ~ φⁿ).",
+          "id": "15-16"
+        },
+        {
+          "chapter": 2,
+          "topic": "pgcd",
+          "difficulty": 1,
+          "type": "short",
+          "statement_md": "Quelle valeur retourne `pgcd(166, 147)` (algorithme d'Euclide) ?",
+          "answer": "1",
+          "explanation_md": "Euclide : `pgcd(a,b) = pgcd(b, a%b)` avec arrêt en `b=0`. Ici `pgcd(166,147) = 1`.",
+          "id": "15-17"
+        },
+        {
+          "chapter": 1,
+          "topic": "slicing",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Avec `L = [27, 25, 26, 14, 29, 11, 15, 19]`, donner :\n\n```python\nL[2::1]\n```",
+          "answer": "[26, 14, 29, 11, 15, 19]",
+          "explanation_md": "Slice `L[i:j:k]` produit `[26, 14, 29, 11, 15, 19]`.",
+          "id": "15-18"
+        },
+        {
+          "chapter": 1,
+          "topic": "int",
+          "difficulty": 1,
+          "type": "mcq",
+          "statement_md": "Vrai ou faux : en Python pur, `2**300` peut être calculé sans erreur de débordement.",
+          "choices": [
+            "Vrai (les `int` sont à précision arbitraire)",
+            "Faux : déborde à 64 bits",
+            "Faux : retourne `inf`",
+            "Vrai mais le résultat est un `float`"
+          ],
+          "answer": "A",
+          "explanation_md": "Les `int` Python sont à précision arbitraire, limités seulement par la mémoire. C'est `float` qui peut déborder vers `inf`.",
+          "id": "15-19"
+        },
+        {
+          "chapter": 2,
+          "topic": "fibonacci",
+          "difficulty": 2,
+          "type": "short",
+          "statement_md": "Que vaut `fib(14)` avec convention `fib(0)=0, fib(1)=1` ?",
+          "answer": "377",
+          "explanation_md": "Suite de Fibonacci, `fib(14) = 377`.",
+          "id": "15-20"
+        }
+      ]
+    }
+  ]
+}
