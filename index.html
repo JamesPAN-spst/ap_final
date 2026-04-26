@@ -10,28 +10,29 @@
 </head>
 <body>
 <header>
-  <h1>AP2 — Devoirs blancs <span class="sub">Algorithmique et Programmation 2</span></h1>
+  <h1>AP2 — 模拟卷训练 <span class="sub">Algorithmique et Programmation 2</span></h1>
   <nav id="set-picker"><!-- boutons 1..15 injectés en JS --></nav>
-  <p style="margin-top:10px"><a href="fascicule.html" target="_blank" style="color:#ffd54f; font-weight:600;">📖 Ouvrir le fascicule de révision (复习册, imprimable PDF)</a></p>
+  <p style="margin-top:10px"><a href="fascicule.html" target="_blank" style="color:#ffd54f; font-weight:600;">📖 打开复习册(可打印 PDF)</a></p>
 </header>
 
 <main id="app">
   <section id="welcome">
-    <h2>Bienvenue 👋</h2>
-    <p>Choisis un <strong>devoir blanc</strong> (1 à 15) ci-dessus. Chaque devoir contient <strong>20 questions</strong> mélangeant les 4 chapitres :</p>
+    <h2>欢迎</h2>
+    <p>上方可选择 <strong>15 套模拟卷</strong>。每套含 <strong>24 道题</strong>:前 20 题是基础与中档题,最后 4 题是更接近真题结构的<strong>伪代码 / 算法应用长题</strong>。</p>
     <ul>
-      <li>~6 questions — <em>Compléments types Python</em></li>
-      <li>~6 questions — <em>Fonctions, récursivité, générateurs</em></li>
-      <li>~5 questions — <em>Types abstraits (files, piles, arbres, graphes, Euler)</em></li>
-      <li>~3 questions — <em>Classes &amp; objets</em></li>
+      <li>约 6 题 — <em>Python 类型补充</em></li>
+      <li>约 6 题 — <em>函数 / 递归 / 生成器</em></li>
+      <li>约 5 题 — <em>抽象类型:队列、栈、树、图、欧拉</em></li>
+      <li>约 3 题 — <em>类与对象</em></li>
+      <li>追加 4 题 — <em>伪代码 / 算法实现 / 递归与生成器应用</em></li>
     </ul>
-    <p><strong>Modes</strong> : QCM (auto-corrigé), réponse courte (auto-corrigé, espaces ignorés), questions de code (auto-évaluation).</p>
-    <p>Bouton <button class="ghost" disabled>Imprimer / PDF</button> en bas de chaque devoir → ouvre la boîte d'impression du navigateur (choisir <em>« Enregistrer en PDF »</em>).</p>
+    <p><strong>题型</strong>:选择题(自动批改)、简答题(自动批改,会忽略大部分空格差异)、代码题(提交后手动自评)。</p>
+    <p>每套卷底部都可以点 <button class="ghost" disabled>打印 / PDF</button>,使用浏览器打印功能导出 PDF。</p>
   </section>
 </main>
 
 <footer>
-  <small>Local · aucune donnée envoyée · ouvre <code>web/index.html</code> dans ton navigateur.</small>
+  <small>本地运行 · 不上传数据 · 在浏览器中打开 web/index.html 即可使用。</small>
 </footer>
 
 <script src="app.js"></script>

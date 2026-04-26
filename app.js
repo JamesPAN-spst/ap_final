@@ -51,7 +51,11 @@ function answersEqual(user, expected) {
   const us = normalizeSet(user), es = normalizeSet(expected);
   if (us && es && us === es) return true;
   // 'true' ⇔ 'vrai', 'false' ⇔ 'faux'
-  const map = { 'vrai': 'true', 'faux': 'false', 'oui': 'true', 'non': 'false' };
+  const map = {
+    'vrai': 'true', 'faux': 'false', 'oui': 'true', 'non': 'false',
+    '是': 'true', '否': 'false', '对': 'true', '错': 'false',
+    '正确': 'true', '错误': 'false', '真': 'true', '假': 'false'
+  };
   if ((map[u] || u) === (map[e] || e)) return true;
   return false;
 }
@@ -62,7 +66,7 @@ function renderSetPicker() {
   nav.innerHTML = '';
   for (let i = 1; i <= state.data.meta.sets_count; i++) {
     const btn = document.createElement('button');
-    btn.textContent = `Devoir ${i}`;
+    btn.textContent = `第 ${i} 套`;
     btn.dataset.id = i;
     btn.onclick = () => loadSet(i);
     nav.appendChild(btn);
@@ -85,18 +89,18 @@ function renderExam() {
     <div class="exam-header">
       <h2>${set.title}</h2>
       <div class="actions">
-        <button class="primary" id="btn-submit">Soumettre</button>
-        <button class="ghost" id="btn-reset">Réinitialiser</button>
-        <button class="ghost" id="btn-print">Imprimer (PDF)</button>
+        <button class="primary" id="btn-submit">提交并批改</button>
+        <button class="ghost" id="btn-reset">重新作答</button>
+        <button class="ghost" id="btn-print">打印 / PDF</button>
       </div>
     </div>
     <div id="score-zone"></div>
     <div id="questions"></div>
     <div class="exam-header" style="margin-top: 18px;">
-      <span style="color:#666">Fin du devoir.</span>
+      <span style="color:#666">本套试卷结束。</span>
       <div class="actions">
-        <button class="primary" id="btn-submit2">Soumettre</button>
-        <button class="ghost" id="btn-print2">Imprimer (PDF)</button>
+        <button class="primary" id="btn-submit2">提交并批改</button>
+        <button class="ghost" id="btn-print2">打印 / PDF</button>
       </div>
     </div>
   `;
@@ -111,7 +115,7 @@ function renderQuestion(q, num) {
   const div = document.createElement('div');
   div.className = 'q-card';
   div.id = `q-${q.id}`;
-  const chapNames = { 1: 'CH1 Types', 2: 'CH2 Fonctions', 3: 'CH3 Types abstraits', 4: 'CH4 Classes' };
+  const chapNames = { 1: 'CH1 类型', 2: 'CH2 函数', 3: 'CH3 抽象类型', 4: 'CH4 类与对象' };
 
   let inputHTML = '';
   if (q.type === 'mcq') {
@@ -123,9 +127,9 @@ function renderQuestion(q, num) {
       </label></li>`;
     }).join('') + '</ul>';
   } else if (q.type === 'short') {
-    inputHTML = `<input type="text" class="short-input" name="q-${q.id}" placeholder="Réponse…" autocomplete="off">`;
+    inputHTML = `<input type="text" class="short-input" name="q-${q.id}" placeholder="输入答案..." autocomplete="off">`;
   } else if (q.type === 'code') {
-    inputHTML = `<textarea class="short-input" rows="6" name="q-${q.id}" placeholder="Tape ton code ici (auto-évaluation après soumission)…"></textarea>`;
+    inputHTML = `<textarea class="short-input" rows="6" name="q-${q.id}" placeholder="在这里写代码(提交后再手动自评)..."></textarea>`;
   }
 
   div.innerHTML = `
@@ -133,7 +137,7 @@ function renderQuestion(q, num) {
       <span><strong>Q${num}.</strong>
         <span class="q-tag ch${q.chapter}">${chapNames[q.chapter]}</span>
         <span class="q-tag">${q.topic}</span>
-        <span class="q-tag">diff. ${q.difficulty}</span>
+        <span class="q-tag">难度 ${q.difficulty}</span>
       </span>
       <span style="color:#aaa">id ${q.id}</span>
     </div>
@@ -192,27 +196,27 @@ function submit() {
     if (isCorrect === false) card.classList.add('incorrect');
 
     let label;
-    if (isCorrect === true)  label = '<strong class="label" style="color:#2ec27e">✓ Correct</strong>';
-    else if (isCorrect === false) label = '<strong class="label" style="color:#e54848">✗ Faux</strong>';
-    else label = '<strong class="label" style="color:#666">📝 À auto-évaluer</strong>';
+    if (isCorrect === true)  label = '<strong class="label" style="color:#2ec27e">✓ 正确</strong>';
+    else if (isCorrect === false) label = '<strong class="label" style="color:#e54848">✗ 错误</strong>';
+    else label = '<strong class="label" style="color:#666">📝 需自评</strong>';
 
-    let userDisplay = userAns ? `<code>${escapeHtml(userAns)}</code>` : '<em>(pas de réponse)</em>';
+    let userDisplay = userAns ? `<code>${escapeHtml(userAns)}</code>` : '<em>(未作答)</em>';
     let answerDisplay = q.type === 'mcq'
       ? `<code>${q.answer}.</code> ${escapeHtml(q.choices[q.answer.charCodeAt(0)-65])}`
       : `<code>${escapeHtml(q.answer || '(voir explication)')}</code>`;
 
     fb.innerHTML = `
       <div class="feedback ${isCorrect===true?'correct':isCorrect===false?'incorrect':''}">
-        <div>${label} &nbsp; <strong>Ta réponse :</strong> ${userDisplay}</div>
-        <div style="margin-top:4px"><strong>Réponse attendue :</strong> ${answerDisplay}</div>
+        <div>${label} &nbsp; <strong>你的答案:</strong> ${userDisplay}</div>
+        <div style="margin-top:4px"><strong>参考答案:</strong> ${answerDisplay}</div>
         <details ${isCorrect===false?'open':''} style="margin-top:6px">
-          <summary>Explication / corrigé</summary>
+          <summary>解析 / 讲解</summary>
           <div style="margin-top:6px">${md(q.explanation_md || '')}</div>
         </details>
         ${q.type === 'code' ? `
           <div class="self-eval">
-            <button class="sel-yes" data-q="${q.id}" data-v="yes">J'ai juste ✓</button>
-            <button class="sel-no"  data-q="${q.id}" data-v="no">J'ai faux ✗</button>
+            <button class="sel-yes" data-q="${q.id}" data-v="yes">我做对了 ✓</button>
+            <button class="sel-no"  data-q="${q.id}" data-v="no">我做错了 ✗</button>
           </div>
         ` : ''}
       </div>
@@ -261,12 +265,12 @@ function updateScore() {
 function renderScore(correct, total, manualPending, byChapter) {
   const zone = $('#score-zone');
   const pct = total ? Math.round(100 * correct / total) : 0;
-  const chapNames = { 1: 'CH1', 2: 'CH2', 3: 'CH3', 4: 'CH4' };
+  const chapNames = { 1: 'CH1 类型', 2: 'CH2 函数', 3: 'CH3 抽象类型', 4: 'CH4 类与对象' };
   zone.innerHTML = `
     <div class="score-card">
-      <div>Score</div>
+      <div>得分</div>
       <div class="big">${correct} / ${total} <span style="font-size:24px;opacity:0.8">(${pct}%)</span></div>
-      ${manualPending ? `<div style="opacity:0.85">+ ${manualPending} questions de code à auto-évaluer ci-dessous</div>` : ''}
+      ${manualPending ? `<div style="opacity:0.85">另有 ${manualPending} 道代码题需在下方手动自评</div>` : ''}
       <div class="by-chapter">
         ${[1,2,3,4].map(c => {
           const [cc, tt] = byChapter[c];
@@ -285,12 +289,12 @@ async function boot() {
     renderSetPicker();
   } catch (e) {
     $('#app').innerHTML = `<div class="exam-header" style="color:#c00">
-      ⚠️ Impossible de charger <code>data/exams.json</code>.<br>
-      Si tu ouvres le fichier directement (URL <code>file://</code>), Chrome bloque <code>fetch</code>.
-      Lance un petit serveur local :<br>
+      ⚠️ 无法加载 <code>data/exams.json</code>。<br>
+      如果你是直接用 <code>file://</code> 打开页面,浏览器通常会拦截 <code>fetch</code>。<br>
+      请先启动一个本地服务器:<br>
       <pre>cd web; python -m http.server 8000</pre>
-      puis ouvre <code>http://localhost:8000</code>.
-      <br><br>Détail : ${e.message}
+      然后打开 <code>http://localhost:8000</code>。<br><br>
+      细节: ${e.message}
     </div>`;
   }
 }
