@@ -1,0 +1,115 @@
+
+===== PAGE 1/2 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 7 `a 12
+Exercice 7 (correction de code).
+Chacune des expressions suivantes comporte une erreur. Expliquer
+pourquoi, et proposer une version corrig´ee de l’expression.
+1
+A = frozenset ({1 ,2 ,3}); A.add (4)
+2
+E = {1 ,{2 ,3}}
+3
+S = set ([1 ,1]); a = S.pop (); b = S.pop()
+4
+S = {1 ,2 ,3}; S.discard (4); S.remove (5)
+5
+D = dict( ’a’=1, ’b’=2, ’c’=1 )
+6
+D = dict( ’a’:1, ’b’:2, ’c’:1 )
+7
+D = { ’premier ’:23, ’deuxi`eme’:41 }; D[0]
+8
+D = dict (); D[{1 ,4}] =
+-.27
+Exercice 8 (comptage des points au Scrabble).
+Au Scrabble, on associe `a un mot un score ´egal `a la
+somme des valeurs de chacune de ses lettres. Dans la version fran¸caise du jeu, les valeurs sont les suivantes:
+• 1 point pour les lettres A,E,I,L,N,O,R,S,T,U
+• 2 points pour les lettres D,G,M
+• 3 points pour les lettres B,C,P
+• 4 points pour les lettres F,H,V
+• 8 points pour les lettres J,Q
+• 10 points pour les lettres K,W,X,Y,Z
+(1) D´efinir un dictionnaire D dont les cl´es sont les lettres de l’alphabet et les valeurs le nombre de point
+associ´e selon la r`egle ci-dessus.
+(2) ´Ecrire une fonction Python score, qui prend en entr´ee un chaˆıne de caract`eres et renvoie son score
+associ´e, calcul´e `a l’aide du dictionnaire D d´efini `a la question 1.
+(3) (TP) Calculer, `a l’aide de la fonction score, le score du mot JOYEUX.
+Exercice 9 (traduction HTML). Dans le langage HTML, les lettres accentu´ees (ainsi que d’autres caract`eres
+sp´eciaux) sont cod´ees par des chaˆınes de caract`eres, selon la correspondance suivante (attention, le point-virgule
+fait partie du codage):
+´e &eacute;
+¸c &ccedil;
+¨e &euml;
+¨ı &iuml;
+¨u &uuml;
+`a &agrave;
+`e &egrave;
+`u &ugrave;
+^a &acirc;
+^e &ecirc;
+^ı &icirc;
+^o &ocirc;
+^u &ucirc;
+(1) D´efinir un dictionnaire D dont les cl´es sont les lettres accentu´ees ci-dessus et les valeurs leurs traductions
+en langage HTML.
+(2) ´Ecrire une fonction Python traduction html, qui prend en entr´ee un chaˆıne de caract`eres et renvoie
+une nouvelle chaˆıne de caract`eres dans laquelle les lettres accentu´ees ont ´et´e traduites en HTML `a l’aide
+du dictionnaire D d´efini `a la question 1 (les autres caract`eres ´etant laiss´es inchang´es).
+(3) (TP) `A l’aide de la fonction pr´ec´edente, traduire la phrase ci-dessous:
+Loin du capharna¨um de No¨el, il s’exer¸cait `a l’or´ee de cette for^et ha¨ıe o`u nous d^ınions
+d’une pi`ece de r^oti d’^age m^ur.
+V´erifier ensuite le r´esultat en le recopiant dans un fichier texte, pr´ec´ed´e de la ligne
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+puis en l’ouvrant dans un navigateur.
+
+
+
+===== PAGE 2/2 =====
+Exercice 10 (fonctions et dictionnaires).
+(1) La fonction inverse prend en entr´ee un dictionnaire D dont les valeurs sont suppos´ees immutables
+et distinctes (on ne demande pas de v´erifier cette condition dans le code) et retourne un dictionnaire
+“inverse” E qui v´erifie E[y]=x pour tous (x,y) tels que y=D[x].
+Par exemple, inverse({1:5, 2:4, 3:0}) doit retourner {5:1, 4:2, 0:3}.
+(2) ´Ecrire une fonction occurrences(s) qui prend en entr´ee une chaˆıne de caract`eres s, et retourne
+un dictionnaire D qui donne, pour chaque caract`ere c pr´esent dans s, la liste des indices des occur-
+rences de c dans s. Par exemple, si s = ’abcaaca’, occurrences(s) doit retourner le dictionnaire
+{’a’:[0,3,4,6], ’b’:[1], ’c’:[2,5]}.
+Exercice 11 (anagrammes).
+L’objectif de cet exercice est de d´eterminer les mots de la langue fran¸caise qui
+poss`edent le plus d’anagrammes (sans tenir compte des accents). On rappelle que deux mots sont anagrammes
+l’un de l’autre s’ils se d´eduisent l’un de l’autre par simple permutation des lettres. Par exemple, les mots
+’maree’ et ’amere’ sont anagrammes l’un de l’autre.
+(1) Charger la liste de mots contenue dans le fichier mots.txt (disponible sur la page Moodle du cours) `a
+l’aide de l’instruction
+M = [mot [:-1] for mot in open(’mots.txt’)]
+Remarque: sous Windows, si le fichier mots.txt n’est pas dans le r´epertoire courant de Python mais
+sur le bureau d’un utilisateur Dupont, il faut ´ecrire open(r’C:\Users\Dupont\Desktop\mots.txt’)
+(le caract`ere r devant la chaˆıne de caract`ere ´evite que les symboles \ soient interpr´et´es par Python)
+Combien de mots cette liste contient-elle ?
+(2) ´Etant donn´ee une chaˆıne de caract`eres s, on appellera signature de s le r´esultat de l’expression
+tuple(sorted(s)). Pr´edire la signature du mot ’amere’ puis celle du mot ’maree’, et v´erifier votre
+pr´ediction avec Python.
+(3) ´Ecrire un programme Python qui construit un dictionnaire D dont les cl´es sont des signatures des mots
+de la liste M, et la valeur associ´ee `a une signature est le nombre de mots de la liste M poss´edant cette
+signature.
+(4) (TP) D´eterminer la valeur maximale m de D.
+(5) (TP) Afficher, pour toutes les cl´es T de valeur m, les m mots de M qui sont obtenus `a partir de T.
+Exercice 12 (r´ealisation d’un ensemble de lettres).
+Soit E un sous-ensemble des 26 lettres de l’alphabet.
+Dans cet exercice, on dira qu’un mot m de la langue fran¸caise est une r´ealisation de E si les deux conditions
+ci-dessous sont r´ealis´ees:
+• le mot m n’est constitu´e que de lettres ´el´ements de E;
+• chaque lettre de E est pr´esente au moins une fois dans m.
+Par exemple, le mot ’miroir’ est une r´ealisation de l’ensemble E={’m’,’i’,’r’,’o’}, mais pas de l’ensemble
+F={’m’,’i’,’r’,’o’,’s’}.
+(1) ´Ecrire un programme Python, qui `a partir d’une liste M de mots, construit un dictionnaire D dont les
+cl´es sont des ensembles de lettres, et tel que D[E] est le nombre de mots de la liste M qui sont des
+r´ealisations de E (on se limitera bien sˆur aux cl´es E qui admettent au moins une r´ealisation).
+(2) (TP) D´eterminer la valeur maximale m pr´esente dans D quand M est la liste obtenue par avec le fichier
+mots.txt disponible sur la page Moodle du cours (voir la question 1 de l’exercice 9 pour plus de d´etails).
+(3) (TP) Afficher, pour toutes les cl´es E de valeur m, les m mots de M qui sont une r´ealisation de E.

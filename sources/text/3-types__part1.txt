@@ -1,0 +1,495 @@
+# 3-types -- part 1  pages 1-25 / 119
+
+
+===== PAGE 1/119 =====
+Algorithmique et Programmation 2
+3. Types abstraits classiques
+Lionel.Moisan@u-paris.fr
+Universit´e Paris Cit´e
+UFR de Math´ematiques et Informatique
+Campus Saint-Germain-des-Pr`es
+1
+
+
+
+===== PAGE 2/119 =====
+Types abstraits classiques
+1. Pseudo-code et types abstraits
+2. Types abstraits natifs en Python
+3. Files et piles
+4. Arbres
+5. Graphes
+6. Compl´ement sur les graphes : chemins eul´eriens
+2
+
+
+
+===== PAGE 3/119 =====
+Pseudo-code et types abstraits
+
+
+
+===== PAGE 4/119 =====
+Avantages du pseudo-code
+Un pseudo-code permet de formuler un algorithme en langage naturel :
+• il est ind´ependant de tout langage de programmation
+• il n’est pas soumis `a des r`egles syntaxiques strictes
+(conventions usuelles : ←pour l’affectation, // pour un
+commentaire, indentation des structures de contrˆole, etc.)
+• il permet de d´ecrire la structure d’ensemble d’un algorithme sans
+aller imm´ediatement dans le d´etail des diff´erentes ´etapes
+• il permet de s´eparer l’´ecriture d’un programme en deux ´etapes :
+1. l’´ecriture de l’algorithme en pseudo-code, sans contrainte de syntaxe
+2. la traduction de ce pseudo-code dans le langage choisi
+pseudo-code
+impl´ementation Python
+fonction factorielle(n)
+P ←1 // initialisation
+pour k = 2, 3, . . . n
+P ←P × k
+retourner P
+def
+factorielle (n):
+P = 1 # initialisation
+for k in range (2,n+1):
+P = P * k
+return P
+3
+
+
+
+===== PAGE 5/119 =====
+Exemple de pseudo-code : pivot de Gauss
+Algorithme du pivot de Gauss pour r´esoudre un syst`eme lin´eaire (MC1) :
+fonction pivot gauss(A,b)
+// r´esout le syst`eme lin´eaire A x = b
+// A = (aij)1≤i,j≤n est une matrice (carr´ee n × n) inversible
+// b = (bj)1≤j≤n est un vecteur de taille n
+x ←b
+pour i = 1, 2, . . . n // boucle sur les lignes de A
+// normalisation de la ligne i pour mettre le pivot `a 1
+diviser xi et la ligne i de A par aii // on suppose aii ̸= 0
+pour j = i + 1, i + 2, . . . n // boucle sur les lignes sous le pivot
+// fait apparaˆıtre un z´ero dans A en position (j, i)
+xj ←xj −ajixi
+soustraire `a la ligne j de A la ligne i multipli´ee par aji
+// on fait apparaˆıtre de mˆeme des z´eros au-dessus de la diagonale de A
+...
+retourner x
+Dans ce pseudo-code (incomplet), on ne se pr´eoccupe pas de la syntaxe
+de manipulation des matrices, qui d´ependra du langage utilis´e
+4
+
+
+
+===== PAGE 6/119 =====
+Exemple de pseudo-code : somme de nombres premiers
+fonction somme(n)
+// retourne la somme des n premiers nombres premiers
+S ←0 // somme cumul´ee
+p ←2 // nombre courant
+k ←0 // nombre de termes somm´es dans S
+tant que k < n
+si p est un nombre premier
+S ←S + p
+k ←k + 1
+p ←p + 1
+retourner S
+Dans cet algorithme, on ne d´etaille pas l’´etape permettant de d´eterminer
+si p est premier ou non.
+On ne peut donc pas l’impl´ementer directement dans un langage qui ne
+dispose pas nativement d’un test de primalit´e (il faudra impl´ementer
+d’abord cette fonction auxilliaire), mais il reste parfaitement
+compr´ehensible.
+5
+
+
+
+===== PAGE 7/119 =====
+Exemple de pseudo-code : borne sup´erieure d’un polynˆome
+D´etermination du maximum d’un polynˆome sur R :
+fonction max polynˆome(P)
+// d´etermine la valeur maximale sur R du polynˆome P
+si P est un polynˆome constant
+retourner P(0)
+si le degr´e de P est impair
+retourner +∞
+si le coefficient dominant de P est positif
+retourner +∞
+// P est de degr´e pair, de coefficient dominant n´egatif, donc major´e
+Q ←P′ // calcul de la d´eriv´ee de P
+m ←−∞
+pour toute racine x de Q
+si P(x) > m
+m ←P(x)
+retourner m
+L`a encore, plusieurs op´erations non d´etaill´ees !
+6
+
+
+
+===== PAGE 8/119 =====
+Exemple du tri rapide (voir chapitre 2)
+fonction tri(L) // retourne les ´el´ements de la liste L dans l’ordre croissant
+si L est vide
+renvoyer L
+retirer un ´el´ement x de la liste L
+construire la liste L1 de tous les ´el´ements de L qui sont < x
+construire la liste L2 de tous les ´el´ements de L qui sont ≥x
+retourner la liste obtenue en concat´enant tri(L1), x, et tri(L2)
+Dans cet algorithme, on remarque :
+• qu’on ne pr´ecise pas le choix de x →diff´erentes variantes possibles
+• que plusieurs ´etapes font r´ef´erence `a des op´erations non ´el´ementaires
+Par ailleurs, on manipule ici une notion abstraite de liste (non li´ee `a un
+langage), pour laquelle on peut effectuer les op´erations suivantes :
+• retirer un ´element d’une liste
+• parcourir l’ensemble des valeurs d’une liste
+• concat´ener plusieurs listes
+→notion sous-jacente de type abstrait (ici, le type abstrait liste)
+7
+
+
+
+===== PAGE 9/119 =====
+Notion de type abstrait
+D´efinition
+Un type abstrait est une d´efinition math´ematique d’un ensemble de
+donn´ees et des fonctions (et proc´edures) qui permettent de les
+manipuler.
+En un sens, un type abstrait est `a un type Python ce qu’un pseudo-code
+est `a un code Python.
+Un type abstrait est un type de donn´ees sp´ecifi´e ind´ependamment d’un
+langage de programmation. Il sert `a ´etablir un cahier des charges des
+op´erations que l’on veut pouvoir r´ealiser sur les donn´ees.
+Ceci est utile car certains types de donn´ees ont une port´ee universelle
+(comme les nombres, les polynˆomes, les matrices en math´ematiques).
+L’impl´ementation d’un type abstrait consiste en l’´ecriture de fonctions
+permettant de remplir le cahier des charges. Un ´el´ement-cl´e est alors la
+complexit´e de ces op´erations.
+8
+
+
+
+===== PAGE 10/119 =====
+Types abstraits natifs en Python
+
+
+
+===== PAGE 11/119 =====
+Le type abstrait ensemble
+D´efinition
+Le type abstrait ensemble permet de repr´esenter une collection finie
+d’objets (appel´es ´el´ements), non ordonn´ee et sans r´ep´etition.
+Les fonctions de base associ´ees sont :
+• cr´eer un ensemble vide :
+ensemble vide() : →ensemble
+• tester si un ensemble est vide :
+est vide() : ensemble →bool´een
+• ajouter un ´el´ement `a un ensemble :
+ajouter ´el´ement() : ´el´ement × ensemble (modifi´e) →
+• extraire un ´el´ement d’un ensemble (si l’ensemble est non vide)
+extraire ´el´ement() : ensemble (modifi´e) →´el´ement
+• tester si un ´el´ement appartient `a un ensemble :
+appartient `a() : ´el´ement × ensemble →bool´een
+Pour la fonction extraire ´el´ement(), on note la pr´esence d’une
+pr´e-condition, c’est-`a-dire d’une condition sur les arguments de la
+fonction devant ˆetre v´erifi´ee pour que l’appel de la fonction soit valide.
+9
+
+
+
+===== PAGE 12/119 =====
+Types abstraits et complexit´e algorithmique
+Le type abstrait ensemble est particuli`erement utile :
+• lorsqu’on veut ´eviter les doublons : si x ∈A, ajouter ´el´ement(x,A)
+n’a aucun effet sur A
+• lorsqu’on veut tester efficacement la pr´esence d’un ´el´ement dans un
+ensemble de grande taille : l’utilisation d’une fonction de hachage
+permet d’impl´ementer le calcul du bool´een“x ∈A”avec une
+complexit´e moyenne de O(1) (temps constant ind´ependant de A),
+contre O(n) pour la recherche d’un ´el´ement dans une liste de taille n.
+De mani`ere g´en´erale, mˆeme si les types abstraits ont un int´erˆet propre
+pour d´ecrire des agencements de donn´ees et des algorithmes, la
+sp´ecification de la complexit´e attendue des fonctions de base est
+indissociable de leur compr´ehension fine, puisqu’elle conditionne la
+complexit´e des algorithmes qui les utilisent.
+10
+
+
+
+===== PAGE 13/119 =====
+Le type abstrait ensemble
+Une impl´ementation riche du type ensemble ajoute en g´en´eral les
+fonctions suivantes :
+• cardinal() : ensemble →entier naturel
+• union() : ensemble × ensemble →ensemble
+• intersection() : ensemble × ensemble →ensemble
+• diff´erence() : ensemble × ensemble →ensemble
+• inclusion() : ensemble × ensemble →bool´een
+• un it´erateur permettant de d´ecrire tous les ´el´ements d’un ensemble,
+qui permet d’´ecrire, si E est un ensemble :
+pour tout x dans E
+...
+<bloc d’instructions>
+...
+11
+
+
+
+===== PAGE 14/119 =====
+Exemple d’algorithme utilisant le type abstrait ensemble
+Quiz : que calcule la fonction suivante ?
+fonction f(A,B)
+// prend en entr´ee deux ensembles A et B
+C ←ensemble vide()
+pour tout x dans B
+si appartient `a(x,A)
+ajouter ´el´ement(x,C)
+retourner C
+R´eponse : f(A,B) retourne l’intersection de A et B
+12
+
+
+
+===== PAGE 15/119 =====
+Exemple d’algorithme utilisant le type abstrait ensemble
+Quiz : que calcule la fonction (r´ecursive) suivante ?
+fonction g(A)
+// prend en entr´ee un ensemble A et renvoie un ensemble
+B ←ensemble vide()
+si est vide(A)
+ajouter ´el´ement(ensemble vide(),B)
+retourner B
+x ←extraire ´el´ement(A)
+E ←g(A)
+pour C dans E
+ajouter ´el´ement(C,B)
+D ←C
+ajouter ´el´ement(x,D)
+ajouter ´el´ement(D,B)
+retourner B
+R´eponse : g(A) retourne l’ensemble des sous-ensembles de A
+13
+
+
+
+===== PAGE 16/119 =====
+Exemple d’algorithme utilisant le type abstrait ensemble
+Pseudo-code comment´e :
+fonction g(A)
+// prend en entr´ee un ensemble A
+// et renvoie l’ensemble de ses sous-ensembles
+B ←ensemble vide() // initialisation du r´esultat : B = ∅
+si est vide(A) // si A = ∅
+ajouter ´el´ement(ensemble vide(),B)
+retourner B // on retourne {∅}
+x ←extraire ´el´ement(A) // on extrait x de A
+E ←g(A) // on calcule les sous-ensembles de A’ = A\{x}
+pour C dans E // pour tout sous-ensemble C de A’
+ajouter ´el´ement(C,B) // ajouter C au r´esultat B
+D ←C
+ajouter ´el´ement(x,D)
+ajouter ´el´ement(D,B) // ajouter C ∪{x} au r´esultat B
+retourner B
+14
+
+
+
+===== PAGE 17/119 =====
+Exemple d’algorithme utilisant le type abstrait ensemble
+En pratique, on utilise souvent une ´ecriture moins formelle :
+fonction g(A)
+// prend en entr´ee un ensemble A
+// et renvoie l’ensemble de ses sous-ensembles
+B ←ensemble vide // initialisation du r´esultat : B = ∅
+si A est vide
+ajouter l’ensemble vide `a B
+retourner B // on retourne {∅}
+extraire x de A
+E ←g(A) // on calcule les sous-ensembles de A’ = A\{x}
+pour C dans E // pour tout sous-ensemble C de A’
+ajouter C `a B
+D ←C
+ajouter x `a D
+ajouter D `a B // ajouter C ∪{x} au r´esultat B
+retourner B
+Voir la fonction g´en´eratrice sous_ensembles() d´efinie au chapitre 2
+15
+
+
+
+===== PAGE 18/119 =====
+Le type ensemble en Python
+En Python, le type abstrait ensemble est natif, car d´ej`a impl´ement´e dans
+deux types de donn´ees : le type set (mutable) et le type frozenset
+(immutable). Le tableau ci-dessous donne l’´equivalence entre les
+fonctions du type abstrait ensemble et l’impl´ementation Python.
+fonction du type abstrait
+type set Python
+type frozenset Python
+ensemble vide()
+set()
+frozenset()
+est vide(E)
+len(E)==0
+len(E)==0
+ajouter ´el´ement(x,E)
+E.add(x)
+E = E|{x}
+extraire ´el´ement(E)
+E.pop()
+—
+appartient `a(x,E)
+x in E
+x in E
+cardinal(E)
+len(E)
+len(E)
+union(E,F)
+E | F
+E | F
+intersection(E,F)
+E & F
+E & F
+diff´erence(E,F)
+E - F
+E - F
+inclusion(E,F)
+E <= F
+E <= F
+it´erateur sur E
+for x in E:
+for x in E:
+16
+
+
+
+===== PAGE 19/119 =====
+Le type abstrait dictionnaire
+D´efinition
+Le type abstrait dictionnaire (aussi appel´e tableau associatif) permet de
+repr´esenter une collection finie d’objets (appel´es cl´es), non ordonn´ee et
+sans r´ep´etition, avec une valeur associ´ee `a chaque cl´e.
+Les fonctions de base associ´ees sont :
+• cr´eer un dictionnaire vide :
+dictionnaire vide() : →dictionnaire
+• tester si un dictionnaire est vide :
+est vide() : dictionnaire →bool´een
+• ajouter un couple (cl´e,valeur), ou changer la valeur d’une cl´e existante :
+sp´ecifier valeur() : cl´e × valeur × dictionnaire (modifi´e) →
+• tester si une cl´e est valide :
+cl´e valide() : cl´e × dictionnaire →bool´een
+• retourner la valeur associ´ee `a une cl´e (seulement si la cl´e est valide)
+valeur() : cl´e × dictionnaire →valeur
+• supprimer une cl´e (seulement si la cl´e est valide)
+supprimer cl´e() : cl´e × dictionnaire (modifi´e) →
+• un it´erateur sur toutes les cl´es d’un dictionnaire
+17
+
+
+
+===== PAGE 20/119 =====
+Le type dictionnaire en Python
+En Python, le type abstrait dictionnaire est natif, impl´ement´e dans le
+type dict. Le tableau ci-dessous donne l’´equivalence entre les fonctions
+du type abstrait dictionnaire et l’impl´ementation Python.
+fonction du type abstrait
+type dict Python
+dictionnaire vide()
+dict()
+est vide(D)
+len(D) == 0
+sp´ecifier valeur(k, v, D)
+D[k] = v
+cl´e valide(k, D)
+k in D
+valeur(k, D)
+D[k]
+supprimer cl´e(k, D)
+del D[k]
+it´erateur sur les cl´es de D
+for k in D:
+18
+
+
+
+===== PAGE 21/119 =====
+Files et piles
+
+
+
+===== PAGE 22/119 =====
+Les types abstraits file et pile
+D´efinition g´en´erale
+Les files et les piles sont des collections ordonn´ees d’´el´ements, auxquels
+on acc`ede de mani`ere limit´ee.
+Dans une file , on peut extraire l’´el´ement au d´ebut de la file (si la file est
+non vide) et on peut ajouter un ´el´ement `a la fin de la file. C’est le
+principe d’une file d’attente `a un guichet par exemple. On d´esigne ce
+principe d’acc`es aux ´el´ements par l’acronyme FIFO (First In, First Out).
+entrée
+sortie
+27
+3
+11
+9
+31
+début de la file
+fin de la file
+Il existe des variantes de ce type abstrait (par exemple, les files de
+priorit´e), mais le principe de base reste le mˆeme.
+19
+
+
+
+===== PAGE 23/119 =====
+Les types abstraits file et pile
+Dans une pile , on peut extraire (= d´epiler) l’´el´ement au sommet de la
+pile (si la pile est non vide), et on peut ajouter (empiler) un nouvel
+´el´ement au sommet de la pile. C’est le principe d’une pile d’assiettes que
+l’on manipulerait une par une. On d´esigne ce principe d’acc`es aux
+´el´ements par l’acronyme LIFO (Last In, First Out).
+Binet
+Fourier
+Weiss
+Giroud
+bas de la pile
+entrée (empiler)
+sortie (dépiler)
+haut de la pile
+20
+
+
+
+===== PAGE 24/119 =====
+Les types abstraits file et pile
+Le type abstrait file est utile pour mod´eliser, par exemple :
+• l’acc`es s´equentiel `a des ressources (acc`es r´eseau, file d’impression)
+• la gestion de clients, de requ`etes, etc. (files d’attente)
+• la mod´elisation d’un syst`eme r´egulier de transport (m´etro, bus, etc.)
+• tout ce qui rel`eve du principe“premier arriv´e, premier servi”
+Le type abstrait pile est utile pour mod´eliser, par exemple :
+• l’historique des modifications dans un traitement de texte ou autre
+(commande Annuler modification)
+• l’historique de navigation dans un navigateur internet
+(commande Reculer d’une page)
+• la r´ecursivit´e
+21
+
+
+
+===== PAGE 25/119 =====
+Le type abstrait file
+D´efinition (fonctions de base pour les files)
+Les fonctions de base associ´ees au type file sont :
+• cr´eer une file vide :
+file vide() : →file
+• tester si une file est vide :
+est vide() : file →bool´een
+• ajouter un ´el´ement `a la fin d’une file :
+ajouter ´el´ement() : ´el´ement × file (modifi´ee)→
+• extraire le premier ´el´ement d’une file (si la file est non vide) :
+extraire ´el´ement() : file (modifi´ee) →´el´ement
+• lire le premier ´el´ement de la file (si la file est non vide) :
+premier ´el´ement() : file →´el´ement
+22

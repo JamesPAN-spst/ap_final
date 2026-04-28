@@ -1,0 +1,2027 @@
+
+===== PAGE 1/72 =====
+Algorithmique et Programmation 2
+2. Fonctions, r´ecursivit´e et g´en´erateurs
+Lionel.Moisan@u-paris.fr
+Universit´e Paris Cit´e
+UFR de Math´ematiques et Informatique
+Campus Saint-Germain-des-Pr`es
+1
+
+
+
+===== PAGE 2/72 =====
+Fonctions, r´ecursivit´e et g´en´erateurs
+1. Fonctions
+2. R´ecursivit´e
+3. Diviser pour r´egner
+4. G´en´erateurs
+2
+
+
+
+===== PAGE 3/72 =====
+Fonctions
+
+
+
+===== PAGE 4/72 =====
+Valeurs de retour d’une fonction
+En informatique, on distingue les fonctions (qui renvoient une ou
+plusieurs valeurs) des proc´edures (qui ne renvoient rien)
+Par abus de langage, on englobe parfois les proc´edures dans les fonctions,
+car dans beaucoup de langages la d´efinition est tr`es proche
+En python, les proc´edures sont en r´ealit´e des fonctions qui renvoient la
+valeur None (seule valeur du type NoneType)
+>>> def f(s): # proc´edure
+...
+print(’Hello ’+s)
+>>> f(’Bill ’)
+Hello
+Bill
+>>> y = f(’Bill ’)
+Hello
+Bill
+>>> print(y)
+None
+>>> type(y)
+<class ’NoneType ’>
+>>> y is None # expression d´edi´ee (plut^ot que y== None)
+True
+3
+
+
+
+===== PAGE 5/72 =====
+Valeurs de retour d’une fonction
+Les trois fonctions suivantes sont stritement ´equivalentes :
+def f(x):
+print(x)
+def g(x):
+print(x)
+return
+def h(x):
+print(x)
+return
+None
+N´eanmoins, l’usage n’est pas le mˆeme : on utilisera plutˆot return (ou
+rien) dans le cas d’une proc´edure, et return None pour une fonction qui,
+en raison d’un cas particulier, souhaite retourner la valeur None
+def
+premier_degr ´e(a,b):
+"""
+float x float
+-> float ou None
+retourne
+la
+solution
+de ax=b (None si a=0)
+"""
+if a==0:
+return
+None # aucune
+solution , ou une
+infinit´e
+return b/a
+>>> print( premier_degr ´e(5 ,3))
+0.6
+>>> print( premier_degr ´e(0 ,3))
+None
+4
+
+
+
+===== PAGE 6/72 =====
+Valeurs de retour d’une fonction
+Comme nous l’avons vu pr´ec´edemment, une fonction Python peut
+retourner plusieurs valeurs `a l’aide d’un tuple
+Exemple :
+def
+min2(L):
+"""
+list
+-> number x int
+retourne m,i: m est la valeur
+minimale
+de L
+et i le
+premier
+indice
+tel que L[i] = m
+"""
+assert
+len(L)>0 # pr´econdition: L non
+vide
+for j in range(len(L)):
+if j==0 or L[j]<m:
+m,i = L[j],j
+return m,i
+>>> a,b = min2 ([1.1 , 0.2, 3., 4.5, 0.2, 5.9, 0.2])
+>>> a
+0.2
+>>> b
+1
+5
+
+
+
+===== PAGE 7/72 =====
+Arguments optionnels
+On peut sp´ecifier des arguments optionnels pour une fonction Python, en
+leur donnant des valeurs par d´efaut
+def
+impression(fichier , taille=’A4’, couleur=True ):
+...
+Lors de l’appel de la fonction, les arguments optionnels peuvent alors ˆetre
+sp´ecifi´es de mani`ere positionnelle :
+>>> impression(’document.pdf’)
+>>> impression(’document.pdf’, ’A3’)
+>>> impression(’document.pdf’, ’A4’, False)
+ou alors par mot-cl´e (nom utilis´e dans la d´eclaration de la fonction) :
+>>> impression(’document.pdf’, couleur=False)
+>>> impression(fichier=’document.pdf ’, taille=’A3’)
+6
+
+
+
+===== PAGE 8/72 =====
+Arguments optionnels
+Attention, pas d’argument non-nomm´e apr`es un argument nomm´e :
+>>> impression(fichier=’document.pdf ’, ’A3’)
+File "<stdin >", line 1
+SyntaxError : non -keyword
+arg
+after
+keyword
+arg
+De mˆeme, dans la d´eclaration de la fonction, les arguments optionnels
+viennent toujours apr`es les arguments non optionnels
+def
+impression(taille=’A4’, couleur=True , fichier ):
+...
+File "<stdin >", line 1
+SyntaxError : non -default
+argument
+follows
+default
+argument
+7
+
+
+
+===== PAGE 9/72 =====
+D´eballage d’un dictionnaire avec la double ´etoile (**)
+Revenons sur l’exemple pr´ec´edent :
+# d´efinition
+de la
+fonction
+def
+impression(fichier , taille=’A4’, couleur=True ):
+...
+# appel de la
+fonction
+impression (fichier=’document.pdf’, couleur=False)
+La sp´ecification des arguments par mots-cl´es rappelle les dictionnaires !
+Ce n’est pas un hasard : les arguments des fonctions sont en effets g´er´es
+par Python comme des dictionnaires, et la double ´etoile (**) permet le
+d´eballage d’un dictionnaire pour sp´ecifier les arguments d’une fonction :
+impression (fichier=’document.pdf’, couleur=False)
+est ´equivalent `a
+d = dict(fichier=’document.pdf’, couleur=False)
+impression (**d)
+8
+
+
+
+===== PAGE 10/72 =====
+Les fonctions sont des objets Python
+def f(x):
+return x**2
+>>> type(f)
+<class ’function ’>
+Les fonctions sont des objets Python, et `a ce titre peuvent ˆetre pass´es en
+argument `a d’autres fonctions :
+def
+controle(f,x):
+"""
+function x argument
+de cette
+fonction
+-> None
+"""
+y = f(x)
+print(’entr´ee = ’+str(x)+’ sortie = ’+str(y))
+>>> controle(f ,7)
+entr´ee = 7 sortie = 49
+9
+
+
+
+===== PAGE 11/72 =====
+Fonctions anonymes
+Il est parfois commode de d´efinir une fonction tr`es simple `a la vol´ee, sans
+avoir recours `a l’instruction def.
+Pour cela, on dispose de l’instruction lambda (le nom ’lambda’ vient
+d’une th´eorie informatique appel´ee lambda-calcul) :
+f = lambda x: x**2
+est ´equivalent `a
+def f(x):
+return x**2
+Terminologie : la fonction d´efinie `a la vol´ee par
+lambda x: x**2
+est appel´ee fonction anonyme.
+10
+
+
+
+===== PAGE 12/72 =====
+Application : estimation num´erique d’une int´egrale
+f(x)
+x
+a
+b
+b-a
+n
+Th´eor`eme : Si f : [a, b] →R est continue, alors
+Sn = b −a
+n
+n
+X
+k=1
+f
+
+a + k b −a
+n
+
+converge vers
+Z b
+a
+f (x) dx lorsque n →+∞(m´ethode des rectangles)
+11
+
+
+
+===== PAGE 13/72 =====
+Application : estimation num´erique d’une int´egrale
+Impl´ementation du calcul de Sn `a partir de f , a, b et n :
+def
+rectangles(f,a,b,n=1000):
+"""
+function x float x float [ x int ] -> float
+estime l’int´egrale de f sur [a,b]
+(m´ethode
+des
+rectangles , subdivision
+de taille n)
+"""
+return
+sum ([f(a+k*(b-a)/n) for k in range (1,n+1)])*(b-a)/n
+V´erification : calcul de
+Z π
+0
+sin(t) dt =
+
+−cos(t)
+π
+0
+= 2
+>>> from
+math
+import sin ,pi
+>>> rectangles(sin ,0,pi) # argument n non pr´ecis´e
+1.9999983550656624
+Estimation num´erique de la constante de Wilbraham-Gibbs,
+C =
+Z π
+0
+sin x
+x
+dx ≃1, 85...
+>>> rectangles(lambda x:sin(x)/x,0,pi ,1000000)
+1.8519354811859796
+12
+
+
+
+===== PAGE 14/72 =====
+R´ecursivit´e
+
+
+
+===== PAGE 15/72 =====
+Principe d’une fonction r´ecursive
+fonction r´ecursive
+Une fonction est dite r´ecursive si elle s’appelle elle-mˆeme.
+La plupart des langages de programmation permettent de d´efinir des
+fonctions r´ecursives. C’est un cas bien sp´ecifique, dans la mesure o`u la
+fonction en train d’ˆetre d´efinie (donc pas encore d´efinie) va apparaˆıtre
+dans sa propre d´efinition.
+Exemple : calcul de n! = n × (n −1) × . . . × 2 × 1
+def
+fact(n):
+""" int
+-> int
+retourne n!
+"""
+if n==0:
+return 1 # par
+convention , 0! = 1
+else:
+return n*fact(n -1)
+>>> fact (4)
+24
+13
+
+
+
+===== PAGE 16/72 =====
+Fonctionnement d’un appel r´ecursif
+def
+fact(n):
+if n==0:
+return 1
+else:
+return n*fact(n-1)
+Que se passe-t-il lors de l’appel `a fact(4) ?
+fact(4) appelle fact(3)
+fact(3) appelle fact(2)
+fact(2) appelle fact(1)
+fact(1) appelle fact(0)
+fact(0) renvoie 1
+→fact(1) renvoie 1 × 1 = 1
+→fact(2) renvoie 2 × 1 = 2
+→fact(3) renvoie 3 × 2 = 6
+→fact(4) renvoie 4 × 6 = 24
+Remarque : `a chacun de ces appels, la variable locale n est diff´erente !
+14
+
+
+
+===== PAGE 17/72 =====
+Importance de la condition d’arrˆet
+Une fonction r´ecursive s’appelant elle-mˆeme, il y a un risque qu’un appel
+`a la fonction aboutisse `a des appels r´ecursifs sans fin
+→il est essentiel de v´erifier que la condition d’arrˆet est toujours remplie !
+def
+fact(n):
+""" int
+-> int
+retourne n!
+"""
+if n==0:
+return 1
+else:
+return n*fact(n-1)
+>>> fact (-1)
+...
+RuntimeError : maximum
+recursion
+depth
+exceeded
+in
+comparison
+15
+
+
+
+===== PAGE 18/72 =====
+Importance de la condition d’arrˆet
+def
+fact(n):
+""" int
+-> int """
+assert
+type(n) is int and n >=0
+if n==0:
+return 1
+else:
+return n*fact(n-1)
+>>> fact (4) # ok
+24
+>>> fact (-1) # interdit !
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+File "<stdin >", line 3, in fact
+AssertionError
+>>> fact (1.1) # interdit !
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+File "<stdin >", line 3, in fact
+AssertionError
+16
+
+
+
+===== PAGE 19/72 =====
+Profondeur de r´ecursion maximale autoris´ee
+def
+compte(n):
+""" int
+-> int
+"""
+if n==0:
+return 0
+else:
+return
+compte(n -1)+1
+>>> compte (900)
+900
+>>> compte (1000)
+RuntimeError : maximum
+recursion
+depth
+exceeded
+in
+comparison
+Remarque : La profondeur maximale de r´ecursion (par d´efaut 1000)
+peut ˆetre modifi´ee avec sys.setrecursionlimit() :
+import
+sys
+>>> sys. getrecursionlimit ()
+1000
+>>> sys. setrecursionlimit (2500)
+>>> compte (2000)
+2000
+17
+
+
+
+===== PAGE 20/72 =====
+Calcul du terme d’indice n d’une suite r´ecurrente
+On souhaite d´efinir une fonction suite(u0,n) qui renvoie le terme
+d’indice n de la suite d´efinie par u0 et la r´ecurrence
+∀n ∈N∗,
+un =
+q
+n + u2
+n−1.
+1
+def
+suite(u0 ,n): # terme d’indice n: version
+non r´ecursive
+2
+"""
+float x int
+-> float
+"""
+3
+u = u0
+4
+for k in range (1,n+1):
+5
+u = (k+u**2)**0.5
+6
+return u
+tour de boucle
+variable k
+variable u
+entr´ee (apr`es la ligne 3)
+—
+u0
+tour 1 (apr`es la ligne 5)
+1
+u1
+tour 2
+2
+u2
+. . .
+. . .
+. . .
+tour n
+n
+un
+18
+
+
+
+===== PAGE 21/72 =====
+Calcul du terme d’indice n d’une suite r´ecurrente
+On souhaite d´efinir une fonction suite(u0,n) qui renvoie le terme
+d’indice n de la suite d´efinie par u0 et la r´ecurrence
+∀n ∈N∗,
+un =
+q
+n + u2
+n−1.
+1
+def
+suite(u0 ,n): # terme d’indice n: version
+non r´ecursive
+2
+"""
+float x int
+-> float
+"""
+3
+u = u0
+4
+for k in range (1,n+1):
+5
+u = (k+u**2)**0.5
+6
+return u
+Bien noter la diff´erence entre l’´ecriture math´ematique de la r´ecurrence
+un =
+q
+n + u2
+n−1
+et l’´ecriture Python (pas d’indice pour u, on utilise la mˆeme variable pour
+stocker au cours du temps les valeurs successives de uk)
+u = (k+u**2)**0.5
+19
+
+
+
+===== PAGE 22/72 =====
+Calcul du terme d’indice n d’une suite r´ecurrente
+On peut impl´ementer la calcul du terme d’indice n `a l’aide d’une fonction
+r´ecursive :
+# terme d’indice n: version r´ecursive
+def
+suite(u0 ,n):
+"""
+float x int
+-> float
+"""
+if n==0:
+return u0
+u = suite(u0 ,n -1) # calcul du terme d’indice n-1
+return (n+u**2)**0.5
+Remarque : lorsque le test n==0 est v´erifi´e, l’instruction return fait
+quitter la fonction ; il est donc inutile de rajouter l’instruction else pour
+ce qui vient apr`es
+20
+
+
+
+===== PAGE 23/72 =====
+Calcul des termes d’indices 0 `a n d’une suite r´ecurrente
+On a parfois besoin d’une fonction qui renvoie non pas le terme d’indice
+n de la suite, mais la liste des termes jusqu’`a l’indice n
+1
+# termes d’indices 0 `a n: version
+non r´ecursive
+avec
+append ()
+2
+def
+suite(u0 ,n):
+3
+"""
+float x int
+-> list
+"""
+4
+u = [u0]
+5
+for k in range (1,n+1):
+6
+u.append( (k+u[k -1]**2)**0.5 )
+7
+return u
+tour de boucle
+variable k
+variable u
+entr´ee (apr`es la ligne 4)
+—
+[u0]
+tour 1 (apr`es la ligne 6)
+1
+[u0, u1]
+tour 2
+2
+[u0, u1, u2]
+. . .
+. . .
+. . .
+tour n
+n
+[u0, u1, . . . , un]
+21
+
+
+
+===== PAGE 24/72 =====
+Calcul des termes d’indices 0 `a n d’une suite r´ecurrente
+Autre solution : au lieu de compl´eter la liste avec u.append(), on part
+d’une liste bien dimensionn´ee que l’on remplit peu `a peu
+1
+# termes d’indices 0 `a n: version
+non r´ecursive
+par
+remplissage
+2
+def
+suite(u0 ,n):
+3
+"""
+float x int
+-> list
+"""
+4
+u = [0]*(n+1) # liste de taille n+1
+initialis´ee `a 0
+5
+u[0] = u0
+6
+for k in range (1,n+1):
+7
+u[k] = (k+u[k -1]**2)**0.5
+8
+return u
+tour de boucle
+variable k
+variable u
+entr´ee (apr`es la ligne 5)
+—
+[u0, 0, 0, . . . , 0]
+tour 1 (apr`es la ligne 7)
+1
+[u0, u1, 0, . . . , 0]
+tour 2
+2
+[u0, u1, u2, 0, . . . , 0]
+. . .
+. . .
+. . .
+tour n
+n
+[u0, u1, . . . , un]
+22
+
+
+
+===== PAGE 25/72 =====
+Calcul des termes d’indices 0 `a n d’une suite r´ecurrente
+Version non r´ecursive (rappel)
+# termes d’indices 0 `a n: version
+non r´ecursive
+def
+suite(u0 ,n):
+"""
+float x int
+-> list
+"""
+u = [u0]
+for k in range (1,n+1):
+u.append( (k+u[k -1]**2)**0.5 )
+return u
+et version r´ecursive :
+# termes d’indices 0 `a n: version r´ecursive
+def
+suite(u0 ,n):
+"""
+float x int
+-> list
+"""
+if n==0:
+return [u0]
+u = suite(u0 ,n -1) # termes d’indices 0 `a n-1
+u.append( (n+u[n -1]**2)**0.5 ) # on compl`ete u
+return u
+23
+
+
+
+===== PAGE 26/72 =====
+Exemple : calcul du PGCD de deux entiers
+Calcul de pgcd(a,b) par l’algorithme d’Euclide (a, b ∈N) :
+si b = 0
+alors
+pgcd(a, b) = a
+sinon
+effectuer la division euclidienne de a par b :
+a = bq+r avec q ∈N et 0 ≤r ≤b −1
+pgcd(a, b) = pgcd(b, r)
+Remarque : l’algorithme est formul´e naturellement de mani`ere r´ecursive
+L’algorithme termine car lors des appels successifs `a la fonction pgcd, le
+deuxi`eme argument d´ecroˆıt strictement (b →r ≤b −1). Il y a donc au
+plus b + 1 appels `a la fonction pgcd()
+En r´ealit´e, on montre que la complexit´e (en nombre de divisions) de cet
+algorithme est O(log b) →c’est un algorithme tr`es efficace !
+24
+
+
+
+===== PAGE 27/72 =====
+Exemple : calcul du PGCD de deux entiers
+3 impl´ementations diff´erentes de l’algorithme d’Euclide :
+# version r´ecursive
+def
+pgcd(a,b):
+""" int x int
+-> int
+retourne
+le plus
+grand
+diviseur
+commun de a et b
+"""
+if b==0:
+return a
+return
+pgcd(b,a%b)
+# rappel: a%b est le reste
+dans la
+division
+de a par b
+# version
+non r´ecursive
+def
+pgcd(a,b) :
+""" int x int
+-> int """
+while b!=0:
+a,b
+= b,a%b
+return a
+# version r´ecursive
+minimaliste
+avec
+lambda (pour le fun)
+pgcd = lambda a,b : a if b==0
+else
+pgcd(b,a%b)
+25
+
+
+
+===== PAGE 28/72 =====
+Exemple : la suite de Syracuse
+La suite de Collatz (math´ematicien Allemand), aussi appel´ee suite de
+Syracuse (du nom de l’universit´e du mˆeme nom aux USA), est d´efinie par
+un premier terme quelconque u0 ∈N∗et la relation de r´ecurrence
+∀n ∈N,
+un+1 =
+
+
+
+un
+2
+si un est pair,
+3un + 1
+sinon.
+# calcul du terme d’indice n: version
+non r´ecursive
+def
+syracuse(u0 ,n):
+""" int x int
+-> int """
+u = u0
+for k in range (1,n+1):
+if u%2==0:
+u = u//2
+else:
+u = 3*u+1
+return u
+26
+
+
+
+===== PAGE 29/72 =====
+Exemple : la suite de Syracuse
+On peut ´egalement impl´ementer le calcul du terme d’indice n `a l’aide
+d’une fonction r´ecursive :
+# calcul du terme d’indice n: version r´ecursive
+def
+syracuse(u0 ,n):
+""" int x int
+-> int """
+if n==0: # condition d’arr^et
+return u0
+u = syracuse(u0 ,n -1) # calcul du terme d’indice n-1
+if u%2==0:
+return u//2
+else:
+return 3*u+1
+27
+
+
+
+===== PAGE 30/72 =====
+Exemple : la suite de Syracuse
+On peut remarquer que si un terme de la suite vaut 1, alors les termes
+suivants d´ecrivent le cycle 1, 4, 2, 1, 4, 2, 1, . . .
+La conjecture de Syracuse (ou conjecture de Collatz) pr´etend que pour
+tout entier u0 ∈N∗, la suite finit toujours par tomber dans ce cycle
+fonction qui renvoie la liste des termes successifs jusqu’au premier 1 :
+def
+syracuse_stop1 (u0):
+""" int
+-> list
+"""
+u = [u0]
+while u[ -1]!=1: # tant
+que le
+dernier
+terme ne vaut
+pas 1
+if u[ -1]%2==0:
+u.append(u[ -1]//2)
+else:
+u.append (3*u[ -1]+1)
+return u
+>>> syracuse_stop1 (7)
+[7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+Remarque : On ne sait pas prouver que cette fonction termine !
+28
+
+
+
+===== PAGE 31/72 =====
+La suite de Fibonacci
+D´efinition
+La suite de Fibonacci est la suite (Fn)n∈N d´efinie par F0 = 0, F1 = 1,
+et la r´ecurrence d’ordre 2 suivante :
+∀n ∈N,
+Fn+2 = Fn+1 + Fn.
+Pour calculer Fn de mani`ere explicite, on cherche des suites g´eom´etriques
+solutions de l’´equation de r´ecurrence.
+Si un = qn et un+2 = un+1 + un, alors qn+2 = qn+1 + qn, donc
+q2 = q + 1, i.e. q est solution de l’´equation du second degr´e
+x2 −x −1 = 0,
+dont les solutions sont φ = 1+
+√
+5
+2
+et φ′ = 1−
+√
+5
+2
+.
+On cherche alors deux coefficients α, α′ tels que Fn = αφn + α′φ′n.
+En identifiant F0 et F1, on trouve α =
+1
+√
+5 et α′ = −1
+√
+5.
+29
+
+
+
+===== PAGE 32/72 =====
+Calcul explicite de la suite de Fibonacci
+Les calculs pr´ec´edents aboutissent donc `a l’expression explicite de Fn :
+Formule de Binet pour la suite de Fibonacci
+∀n ∈N,
+Fn =
+1
+√
+5
+(φn −φ′n) ,
+avec φ = 1 +
+√
+5
+2
+et φ′ = 1 −
+√
+5
+2
+.
+Cette suite (´etroitement li´ee au nombre d’or φ), revient souvent en
+math´ematiques, mais joue ´egalement un rˆole en informatique !
+De la forme explicite on d´eduit notamment la croissance exponentielle de
+Fn, puisque
+Fn
+∼
+n→+∞
+φn
+√
+5
+avec
+φ ≃1,618...
+Remarque : L’´equivalent est tr`es pr´ecis puisque Fn est en r´ealit´e l’entier
+le plus proche de φn
+√
+5 (cons´equence du fait que 0 <
+ φ′n
+√
+5
+ < 1
+2)
+30
+
+
+
+===== PAGE 33/72 =====
+Calcul num´erique de la suite de Fibonacci
+Le calcul du terme g´en´eral de la suite de Fibonacci peut se faire de
+plusieurs mani`eres :
+• it´erativement (le plus simple)
+• `a l’aide de la formule de Binet (seulement pour n ≤70)
+round( (((1+5**0.5)/2)**n)/5**0.5 )
+Pour n = 71 on obtient (avec la pr´ecision limit´ee du type float)
+φn
+√
+5
+= 308061521170129.7, alors que F71 = 308061521170129
+• r´ecursivement (tr`es inefficace avec une impl´ementation na¨ıve)
+• par exponentiation matricielle (tr`es efficace pour n tr`es grand)
+31
+
+
+
+===== PAGE 34/72 =====
+Calcul it´eratif de la suite de Fibonacci
+Impl´ementation it´erative :
+def
+fib1(n):
+""" int
+-> int
+renvoie
+le terme d’indice n de la suite de
+Fibonacci
+"""
+if n==0:
+return 0
+a,b = 0,1 # F(0) et F(1)
+for k in range (2,n+1):
+a,b = b,a+b # F(k-2),F(k-1)
+-> F(k-1),F(k)
+return b
+n
+100
+10000
+1000000
+fib1(n)
+≃3.1020
+≃102000
+≃10200000
+temps de calcul
+7 µs
+2 ms
+11s
+Complexit´e : O(n) additions pour le calcul de Fn
+32
+
+
+
+===== PAGE 35/72 =====
+Calcul r´ecursif de la suite de Fibonacci
+Impl´ementation r´ecursive :
+def
+fib2(n):
+""" int
+-> int
+renvoie
+le terme d’indice n de la suite de
+Fibonacci
+"""
+if n <=1:
+return n # valeurs
+explicites
+pour n=0 et n=1
+return
+fib2(n -2)+ fib2(n-1)
+n
+8
+18
+32
+40
+50
+fib2(n)
+21
+2584
+2178309
+102334155
+≃1010
+temps de calcul
+avec fib2
+1 µs
+1 ms
+1 s
+1 min
+> 1h
+temps de calcul
+avec fib1
+3 µs
+3 µs
+3 µs
+3 µs
+4 µs
+`A cause de la double r´ecursion, la version r´ecursive consid´erablement plus
+lente que la version it´erative
+33
+
+
+
+===== PAGE 36/72 =====
+Double r´ecursion : une mauvaise id´ee !
+def
+fib2(n):
+""" int
+-> int
+renvoie
+le terme d’indice n de la suite de
+Fibonacci
+"""
+if n <=1:
+return n
+return
+fib2(n -2)+ fib2(n-1)
+Calculons la complexit´e de la fonction fib2 en termes de nombre
+d’appels r´ecursifs (on pourrait aussi compter le nombre d’additions, ce
+qui aboutirait `a la mˆeme conclusion)
+Soit cn le nombre d’appels `a la fonction fib2 lors de l’appel fib2(n)
+On a c0 = 1, c1 = 1 et cn = 1 + cn−1 + cn−2 pour tout n ≥2.
+Donc en posant un = cn + 1,
+on a u0 = 2, u1 = 2 et un = un−1 + un−2 pour tout n ≥2.
+La suite (un) v´erifie la mˆeme relation de r´ecurrence que (Fn), et les
+relations u0 = 2F1, u1 = 2F2.
+34
+
+
+
+===== PAGE 37/72 =====
+Double r´ecursion : une mauvaise id´ee !
+La suite (un/2) v´erifie la mˆeme relation de r´ecurrence que (Fn), et les
+relations u0/2 = F1, u1/2 = F2.
+On en d´eduit que un/2 = Fn+1 pour tout n ∈N, c’est-`a-dire
+∀n ∈N,
+cn = −1 + 2
+√
+5
+ φn+1 −φ′n+1
+∼
+n→+∞
+2φ
+√
+5
+.φn
+La complexit´e de fib2(n) est donc O(φn) (complexit´e exponentielle)
+(rappel : on a un = O(vn) si la suite ( un
+vn ) est born´ee)
+Remarque : Ce r´esultat n’est pas sp´ecifique `a la suite de Fibonacci, mais
+seulement `a l’ordre de la r´ecurrence. La complexit´e est la mˆeme pour tout
+calcul utilisant une double r´ecursion de type
+f (n), pour n ≥2, produit un appel r´ecursif `a f (n −1) et f (n −2)
+35
+
+
+
+===== PAGE 38/72 =====
+M´emo¨ısation
+Pourquoi la double r´ecursion est-elle si inefficace ?
+Examinons l’arbre des appels r´ecursifs lors de l’appel de fib2(5) :
+fib2(5)
+fib2(3)
+fib2(1)
+fib2(2)
+fib2(0)
+fib2(1)
+fib2(4)
+fib2(2)
+fib2(0)
+fib2(1)
+fib2(3)
+fib2(1)
+fib2(2)
+fib2(0)
+fib2(1)
+On voit que plusieurs termes sont recalcul´es plusieurs fois !
+Cet ´ecueil peut ˆetre ´evit´e en utilisant un principe de m´emo¨ısation
+36
+
+
+
+===== PAGE 39/72 =====
+M´emo¨ısation
+Principe de la m´emo¨ısation
+La m´emo¨ısation consiste, pour chaque calcul d’une fonction donn´ee, `a
+stocker la valeur calcul´ee dans un dictionnaire pour ne pas avoir `a la
+recalculer lorsque la fonction sera rappel´ee avec les mˆemes arguments.
+# suite de
+Fibonacci: version r´ecursive
+avec m´emoisation
+F = {0:0 ,1:1} # dictionnaire
+de
+memoisation (variable
+globale)
+def
+fib3(n):
+""" int
+-> int
+renvoie
+le terme d’indice n de la suite de
+Fibonacci
+"""
+if n not in F: # si fib3(n) n’est pas d´ej`a stock´ee dans F
+F[n] = fib3(n -2)+ fib3(n-1)
+return F[n]
+n
+8
+18
+32
+40
+50
+temps de calcul
+avec fib2
+1 µs
+1 ms
+1 s
+1 min
+> 1h
+temps de calcul
+avec fib3
+3 µs
+7 µs
+11 µs
+14 µs
+17 µs
+37
+
+
+
+===== PAGE 40/72 =====
+Diviser pour r´egner
+
+
+
+===== PAGE 41/72 =====
+Le principe “diviser pour r´egner”
+D´efinition
+“Diviser pour r´egner”(divide and conquer en anglais) est un principe
+d’algorithmique r´ecursive, qui consiste `a r´esoudre un probl`eme en le
+d´ecoupant en sous-probl`emes plus petits de mˆeme nature.
+Ce principe repose typiquement sur le sch´ema suivant pour r´esoudre un
+probl`eme X :
+fonction r´esoudre(X)
+• d´ecouper X en deux sous-probl`emes X1 et X2
+• Y1 ←r´esoudre(X1)
+• Y2 ←r´esoudre(X2)
+• calculer la solution Y associ´ee `a X `a partir de Y1 et Y2
+• retourner Y
+38
+
+
+
+===== PAGE 42/72 =====
+Application 1 : tri rapide (quicksort)
+L’algorithme de tri rapide repose sur le principe“diviser pour r´egner”
+Il permet de trier une liste L selon le sch´ema suivant :
+fonction tri(L)
+• si L est vide, renvoyer L
+• retirer un ´el´ement x de la liste L
+• construire la liste L1 de tous les ´el´ements de L qui sont < x
+• construire la liste L2 de tous les ´el´ements de L qui sont ≥x
+• retourner la liste obtenue en concat´enant tri(L1), x, et tri(L2)
+En g´en´eral, l’´el´ement x choisi est le premier de la liste, ou le dernier, ou
+bien mˆeme un ´el´ement pris au hasard
+39
+
+
+
+===== PAGE 43/72 =====
+Application 1 : tri rapide (quicksort)
+Exemple : tri de la liste [3,5,2,5,8,1,4]
+3
+5
+2
+5
+8
+1
+4
+3
+5
+2
+5
+8
+1
+4
+2
+1
+3
+5
+5
+8
+4
+2
+1
+3
+5
+5
+8
+4
+2
+1
+3
+5
+5
+8
+4
+1
+2
+3
+4
+5
+5
+8
+1
+2
+3
+4
+5
+5
+8
+1
+2
+3
+4
+5
+5
+8
+1
+2
+3
+4
+5
+5
+8
+1
+2
+3
+4
+5
+5
+8
+40
+
+
+
+===== PAGE 44/72 =====
+Application 1 : tri rapide (quicksort)
+fonction tri(L)
+• si L est vide, renvoyer L
+• retirer un ´el´ement x de la liste L
+• construire la liste L1 de tous les ´el´ements de L qui sont < x
+• construire la liste L2 de tous les ´el´ements de L qui sont ≥x
+• retourner la liste obtenue en concat´enant tri(L1), x, et tri(L2)
+Impl´ementation Python du tri rapide :
+def tri(L):
+"""
+list
+-> list
+retourne
+une
+version
+tri´ee de la liste L
+"""
+if len(L)==0:
+return []
+x = L[0]
+L1 = [a for a in L[1:] if a<x]
+L2 = [a for a in L[1:] if a>=x]
+return
+tri(L1) + [x] + tri(L2)
+41
+
+
+
+===== PAGE 45/72 =====
+Application 1 : tri rapide (quicksort)
+V´erification de la fonction tri :
+>>> L = [5,1,10,3,-2,4,1] # une
+liste
+>>> tri(L) # r´esultat
+obtenu
+avec la
+fonction
+tri
+[-2, 1, 1, 3, 4, 5, 10]
+>>> from
+random
+import
+random # nombres
+al´eatoires
+dans [0 ,1]
+>>> L = [random () for i in range (1000)] # 1000
+nombres
+>>> T = tri(L) # tri des ´el´ements de L
+>>> T== sorted(L) # comparaison
+au r´esultat
+obtenu
+avec
+sorted ()
+True
+Complexit´e du tri rapide (pour N ´el´ements) :
+• en moyenne : O(N log N)
+• dans le cas le pire : O(N2)
+42
+
+
+
+===== PAGE 46/72 =====
+Application 2 : tri fusion (merge sort)
+L’algorithme de tri fusion repose ´egalement sur le principe“diviser pour
+r´egner”
+Il permet de trier une liste L selon le sch´ema suivant :
+fonction tri fusion(L)
+• si L est de taille 0 ou 1, renvoyer L
+• s´eparer (en coupant `a l’indice moiti´e) L en L1 et L2
+• T1 ←tri fusion(L1)
+• T2 ←tri fusion(L2)
+• fusionner T1 et T2 en une seule liste tri´ee T
+• retourner T
+43
+
+
+
+===== PAGE 47/72 =====
+Application 2 : tri fusion (merge sort)
+Exemple : tri fusion de la liste [3,5,2,5,8,1,4]
+3
+5
+2
+5
+8
+1
+4
+3
+5
+2
+5
+8
+1
+4
+3
+5
+2
+5
+8
+1
+4
+3
+5
+2
+5
+8
+1
+4
+3
+2
+5
+5
+8
+1
+4
+3
+2
+5
+5
+8
+1
+4
+2
+3
+5
+1
+4
+5
+8
+2
+3
+5
+1
+4
+5
+8
+1
+2
+3
+4
+5
+5
+8
+44
+
+
+
+===== PAGE 48/72 =====
+Application 2 : tri fusion (merge sort)
+Fusion de deux listes tri´ees (T1 de taille n1 et T2 de taille n2) :
+• i1 ←0, i2 ←0
+• T ←[ ]
+• tant que i1 < n1 et i2 < n2
+si T1[i1] < T2[i2]
+ajouter T1[i1] `a la fin de T et incr´ementer i1
+sinon
+ajouter T2[i2] `a la fin de T et incr´ementer i2
+• compl´eter T avec (T1[i])i≥i1 et (T2[i])i≥i2
+Remarque : `a la derni`ere ´etape, on a soit i1 = n1 soit i2 = n2, donc on
+ne compl`ete en fait T que par la fin de T1 ou de T2
+45
+
+
+
+===== PAGE 49/72 =====
+Application 2 : tri fusion (merge sort)
+Impl´ementation Python :
+def
+tri_fusion(L):
+"""
+list
+-> list
+"""
+n = len(L)
+if n <=1:
+return L
+n1 ,n2 = n//2,n-n//2
+T1 = tri_fusion(L[:n1])
+T2 = tri_fusion(L[n1 :])
+# fusion de T1 et T2
+i1 ,i2 ,T = 0,0,[]
+while i1 <n1 and i2 <n2:
+if T1[i1]<T2[i2]:
+T.append(T1[i1])
+i1 = i1+1
+else:
+T.append(T2[i2])
+i2 = i2+1
+return T+T1[i1 :]+T2[i2:]
+46
+
+
+
+===== PAGE 50/72 =====
+Application 2 : tri fusion (merge sort)
+Complexit´e du tri fusion (pour N ´el´ements) :
+• en moyenne : O(N log N)
+• dans le cas le pire : O(N log N)
+Remarque : Python utilise, pour la fonction standard sorted() et la
+m´ethode sort() du type list, une variante du tri fusion (un m´elange de
+tri par insertion et de tri fusion)
+47
+
+
+
+===== PAGE 51/72 =====
+Complexit´e du tri fusion
+On se place tout d’abord dans le cas o`u N = 2n
+Soit c(N) le nombre maximum de comparaisons (entre ´el´ements de la
+liste initiale) effectu´ees pour le tri fusion de N ´el´ements
+On a c(N) = 2c(N/2) + N −1 donc en posant d(N) = c(N)/N,
+d(N) ≤d
+N
+2
+
++ 1
+avec
+d(1) = c(1) = 0.
+On en d´eduit
+d(2n) ≤d(2n−1) + 1 ≤d(2n−2) + 2 ≤. . . ≤d(2n−n) + n = n.
+D’o`u, quand N →+∞, d(2n) = O(n), c(2n) = O(n2n) et finalement
+c(N) = O(N log2 N) puisque n = log2 N = ln N
+ln 2 .
+Conclusion : c(N) = O(N log N) dans le cas le pire
+Cette formule reste valable lorsque N n’est pas une puissance de 2 (on
+majore alors N par la puissance de 2 imm´ediatement sup´erieure)
+48
+
+
+
+===== PAGE 52/72 =====
+Application 3 : exponentiation rapide
+On souhaite calculer la puissance n-i`eme d’une matrice (pour n ∈N).
+On suppose que le produit matriciel est d´ej`a impl´ement´e et s’´ecrit A × B
+Version it´erative : on ´ecrit An = I × A × A × . . . × A
+fonction puissance(A,n)
+B ←I (matrice identit´e de mˆeme taille que A)
+pour k allant de 1 `a n
+B ←B × A
+retourner B
+Complexit´e (en nombre de multiplications matricielles) : O(n)
+49
+
+
+
+===== PAGE 53/72 =====
+Application 3 : exponentiation rapide
+Version selon le principe “diviser pour r´egner”, r´ecursive :
+On remarque que
+• si n est pair, alors An = B × B avec B = An/2,
+• si n est impair, alors An = An−1 × A, avec n −1 pair.
+fonction puissance(A,n)
+si n = 0
+retourner I (matrice identit´e de mˆeme taille que A)
+si n = 1
+retourner A
+si n est impair
+retourner puissance(A,n −1) ×A
+B ←puissance(A,n/2)
+retourner B × B
+Complexit´e (en nombre de multiplications matricielles) : O(log n)
+50
+
+
+
+===== PAGE 54/72 =====
+Application 3 : exponentiation rapide
+fonction puissance(A,n)
+si n = 0, retourner I
+si n = 1, retourner A
+si n est impair
+retourner puissance(A,n −1) ×A
+B ←puissance(A,n/2)
+retourner B × B
+Exemple : calcul de A102
+A102 = (A51)2
+A51 = A50 × A
+A50 = (A25)2
+A25 = A24 × A
+A24 = (A12)2
+A12 = (A6)2
+A6 = (A3)2
+A3 = A2 × A
+A2 = A × A
+coˆut total : 9 multiplications
+Application : Pour N = 10100, calculer modulo N la matrice
+ 
+0
+1
+1
+1
+!N
+,
+et en d´eduire les 100 derniers chiffres de FN (suite de Fibonacci).
+51
+
+
+
+===== PAGE 55/72 =====
+G´en´erateurs
+
+
+
+===== PAGE 56/72 =====
+Types s´equence pour une boucle for
+Pour r´ealiser une boucle for, nous avons besoin d’un objet de type
+s´equence (list, tuple, mais aussi set par exemple)
+Les codes suivants sont ainsi ´equivalents (`a l’ordre pr`es pour set) :
+# list
+for i in [0 ,1 ,2]:
+print(i)
+0
+1
+2
+# tuple
+for i in (0 ,1 ,2):
+print(i)
+0
+1
+2
+# set (non
+ordonn´e !)
+for i in {0 ,1 ,2}:
+print(i)
+0
+1
+2
+Ce type de boucle est d’ailleurs plus commun´ement effectu´e `a l’aide de la
+fonction range en g´en´eral :
+# avec
+range
+for i in range (3): # pour i allant de 0 `a 2
+print(i)
+0
+1
+2
+52
+
+
+
+===== PAGE 57/72 =====
+La fonction range
+Une question naturelle est donc : que renvoie la fonction range() ?
+>>> a = range (10**30)
+>>> a
+range (0,
+1000000000000000000000000000000)
+>>> type(a)
+<class ’range ’>
+range(10**30) n’est pas la s´equence 0, 1, . . . 1030 −1 (qui ne pourrait
+tenir dans la m´emoire d’un ordinateur), mais un objet Python capable de
+g´en´erer la s´equence 0, 1, . . . 1030 −1.
+On dit que range(10**30) est un it´erable (de mˆeme qu’une liste, un
+tuple ou un ensemble). `A partir d’un it´erable, on peut fabriquer un
+it´erateur, qui permet de g´en´erer les valeurs successives.
+53
+
+
+
+===== PAGE 58/72 =====
+Int´erˆet des it´erables
+L’utilisation d’un it´erable obtenu avec range() ou avec un g´en´erateur
+(plutˆot qu’une liste des valeurs correspondantes par exemple) a plusieurs
+avantages.
+Le principal avantage est l’´economie de m´emoire, et mˆeme la possibilit´e
+de manipuler“`a la vol´ee”des s´equences qui ne tiendraient pas en
+m´emoire.
+Exemple : calculer la somme des ´el´ements d’un it´erable
+>>> a = range (10**8) # it´erable (entiers
+de 0 `a 10^8 -1)
+>>> sum(a)
+4999999950000000
+>>> b = list(a) # liste
+associ´ee (1 Go en m´emoire !)
+>>> sum(b)
+4999999950000000
+>>> a = range (10**9) # jusqu ’`a 1 milliard
+maintenant
+>>> sum(a)
+499999999500000000
+>>> b = list(a) # ne tient
+pas en m´emoire
+Killed
+54
+
+
+
+===== PAGE 59/72 =====
+Expression g´en´eratrice
+Pour calculer la somme des carr´es des entiers de 1 `a 100, nous pouvons
+utiliser une compr´ehension de liste, et lui appliquer la fonction sum() :
+>>> [x**2 for x in range (1 ,101)] # compr´ehension de liste
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196,
+...
+8649 , 8836 , 9025 , 9216 , 9409 , 9604 , 9801 ,
+10000]
+>>> sum ([x**2 for x in range (1 ,101)])
+338350
+Mais il est beaucoup plus ´economique (en termes de m´emoire, et donc
+aussi de temps de calcul) d’utiliser une expression g´en´eratrice, qui
+s’obtient en rempla¸cant les crochets par des parenth`eses dans la
+compr´ehension de liste pr´ec´edente :
+>>> (x**2 for x in range (1 ,101)) # expression g´en´eratrice
+<generator
+object <genexpr > at 0x7f30dc633870 >
+>>> sum(x**2 for x in range (1 ,101))
+338350
+55
+
+
+
+===== PAGE 60/72 =====
+Expression g´en´eratrice contre compr´ehension de liste
+Nous pouvons reprendre l’exemple pr´ec´edent, qui illustre ici l’int´erˆet
+d’une expression g´en´eratrice sur la compr´ehension de liste ´equivalente
+(qui, cette fois encore, ne tient pas en m´emoire) :
+>>> sum(x**2 for x in range (10**9)) # expression g´en´eratrice
+333333332833333333500000000
+>>> sum ([x**2 for x in range (10**9)]) # compr´ehension
+de liste
+Killed
+Nous venons de voir comment construire un g´en´erateur `a l’aide d’une
+expression g´en´eratrice.
+Si l’on souhaite fabriquer un g´en´erateur plus g´en´eral qui d´epend
+d’arguments, on peut utiliser une fonction g´en´eratrice.
+56
+
+
+
+===== PAGE 61/72 =====
+D´efinition d’une fonction g´en´eratrice
+Une fonction g´en´eratrice est semblable `a une fonction usuelle, mais elle
+renvoie un g´en´erateur capable de d´elivrer successivement plusieurs
+valeurs. La d´efinition se fait avec la mˆeme instruction def que pour les
+fonctions, mais l’instruction return des fonctions est, pour une fonction
+g´en´eratrice, remplac´ee par yield (yield = donner en anglais)
+def f(a): # exemple de
+fonction g´en´eratrice
+"""
+number
+-> generator
+"""
+yield a
+yield a*2
+yield a+1
+>>> f(10) # g´en´erateur
+produit
+par f
+<generator
+object f at 0x7f30dc6337e0 >
+>>> list(f(10)) # r´ealisation
+de f(10) en liste
+[10, 20, 11]
+>>> for x in f(10): # boucle
+sur f(10)
+...
+print(x)
+10
+20
+11
+57
+
+
+
+===== PAGE 62/72 =====
+Expression g´en´eratrice et fonction g´en´eratrice
+Nous avons vu pr´ec´edemment comment constuire le g´en´erateur des carr´es
+des entiers de 1 `a 100 `a l’aide d’une expression g´en´eratrice :
+>>> g = (x**2 for x in range (1 ,101))
+>>> g
+<generator
+object <genexpr > at 0x7ff4035c08b8 >
+Il serait ´equivalent de d´efinir g `a l’aide de la fonction g´en´eratrice G
+suivante :
+def G(n):
+""" int
+-> generator
+"""
+for x in range (1,n+1):
+yield x**2
+>>> G
+<function G at 0x7ff4035c7510 >
+>>> g = G(100)
+>>> g
+<generator
+object G at 0x7ff405524288 >
+58
+
+
+
+===== PAGE 63/72 =====
+´Epuisement d’un g´en´erateur
+Nous avons vu qu’un g´en´erateur renvoie successivement plusieurs valeurs.
+Lorsque la s´equence est ´epuis´ee, le g´en´erateur ne renvoie plus rien !
+>>> g = (x**2 for x in range (10)) # g´en´erateur de 0 2 ,1 2 ,...,9 2
+>>> list(g) # r´ealisation
+de g dans
+une
+liste
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+>>> list(g) # g est
+maintenant ´epuis´e !
+[]
+>>> g = (x**2 for x in range (10)) # on red´efinit g
+>>> for i in g:
+...
+if i==9: # si i = 9,
+...
+break # on force la sortie de la boucle
+...
+>>> list(g) # r´ealisation
+du reste de g dans
+une
+liste
+[16, 25, 36, 49, 64, 81]
+>>> list(g) # le g´en´erateur g est ´epuis´e
+[]
+59
+
+
+
+===== PAGE 64/72 =====
+Exemples de g´en´erateurs
+G´en´erateur de tous les entiers naturels :
+def
+entiers ():
+"""
+-> generator
+"""
+n = 0 # initialisation
+while
+True:
+yield n # envoie n
+n = n+1 # incr´emente n
+Attention `a ce g´en´erateur, il ne termine pas spontan´ement !
+for n in
+entiers ():
+print(n)
+if n==1000: # si n = 1000 ,
+break # on force la sortie de la boucle
+1
+2
+3
+...
+1000
+60
+
+
+
+===== PAGE 65/72 =====
+Exemples de g´en´erateurs
+G´en´erateur (non optimis´e) des nombres premiers inf´erieur ou ´egaux `a N :
+def
+premiers(N):
+""" int
+-> generator
+retourne
+un g´en´erateur
+des
+nombres
+premiers
+entre 1 et N
+"""
+p = 2 # initialisation
+while p<=N:
+yield p # envoie p (premier)
+# cherche
+le nombre
+premier
+suivant
+p = p+1
+# tant
+que p a au moins un
+diviseur x entre 2 et p-1
+while
+any(p%x==0 for x in range (2,p)):
+# on passe au
+suivant
+p = p+1
+>>> list(premiers (50))
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+Remarque : any(L) effectue un ou logique entre tous les ´el´ements
+d’une liste (ou d’un it´erable) de bool´eens (donc renvoie True si au moins
+l’un des ´el´ements est True)
+61
+
+
+
+===== PAGE 66/72 =====
+Exemples de g´en´erateurs
+def fib(N):
+""" int
+-> generator
+retourne
+un g´en´erateur
+des
+termes d’indices 0 `a N
+de la suite de
+Fibonacci
+"""
+yield 0 # F(0)
+if N >=1:
+yield 1 # F(1)
+a,b = 0,1
+for n in range (2,N+1):
+a,b = b,a+b
+yield b # F(n)
+>>> x = fib (10)
+>>> x
+<generator
+object
+fib at 0x7f74e47f5240 >
+>>> list(x)
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+62
+
+
+
+===== PAGE 67/72 =====
+G´en´erateurs et r´ecursivit´e
+Comme une fonction classique, une fonction g´en´eratrice peut ˆetre
+r´ecursive. On veillera bien dans ce cas `a toujours pr´evoir un test d’arrˆet.
+Exemple : g´en´erateur de tous les sous-ensembles d’un ensemble donn´e
+def
+sous_ensembles (A):
+""" set (modifi´e) -> generator
+g´en´erateur de tous
+les sous -ensembles
+de A
+"""
+if len(A)==0: # si A est
+vide
+yield
+set () # ensemble
+vide
+else:
+x = A.pop () # extrait
+un ´el´ement x de A
+for B in
+sous_ensembles (A): # appel r´ecursif
+yield B
+yield B|{x}
+>>> list( sous_ensembles ({1 ,2 ,3}))
+[set(), {1}, {2}, {1, 2}, {3}, {1, 3}, {2, 3}, {1, 2, 3}]
+63
+
+
+
+===== PAGE 68/72 =====
+G´en´erateurs et r´ecursivit´e
+G´en´erateur de toutes les permutations d’un tuple ou d’une chaˆıne :
+def
+permutations (T):
+"""
+tuple ou list ou str
+-> generator
+retourne
+un g´en´erateur de toutes
+les
+permutations
+de T
+"""
+if len(T)==1: # un seul ´el´ement
+yield T
+elif
+len(T) >=2: # au moins 2 ´el´ements
+n = len(T)
+for t in
+permutations (T[1:]): # appel r´ecursif
+for i in range(n): # ins`ere T[0] en
+position i
+yield t[:i]+T[:1]+t[i:]
+>>> list( permutations(’abcd ’))
+[’abcd ’, ’bacd ’, ’bcad ’, ’bcda ’, ’acbd ’, ’cabd ’, ’cbad ’,
+’cbda ’, ’acdb ’, ’cadb ’, ’cdab ’, ’cdba ’, ’abdc ’, ’badc ’,
+’bdac ’, ’bdca ’, ’adbc ’, ’dabc ’, ’dbac ’, ’dbca ’, ’adcb ’,
+’dacb ’, ’dcab ’, ’dcba ’]
+>>> list( permutations ((1 ,2 ,3)))
+[(1, 2, 3), (2, 1, 3), (2, 3, 1), (1, 3, 2), (3, 1, 2), (3, 2, 1)]
+64
+
+
+
+===== PAGE 69/72 =====
+Le module itertools
+Le module itertools contient plusieurs fonctions g´en´eratrices tr`es utiles.
+• permutations(I) : g´en`ere toutes les permutations de l’it´erable I
+• permutations(I,k) : arrangements `a k ´el´ements de I
+• combinations(I,k) : combinaisons `a k ´el´ements de I
+• product(A1,A2,...,An) : produit cart´esien A1 × A2 × . . . × An
+• product(A, repeat=n) : produit cart´esien An
+• etc.
+65
+
+
+
+===== PAGE 70/72 =====
+Le module itertools
+>>> from
+itertools
+import
+permutations ,combinations ,product
+>>> list( permutations(’abc ’)) # permutations
+[(’a’, ’b’, ’c’), (’a’, ’c’, ’b’), (’b’, ’a’, ’c’),
+(’b’, ’c’, ’a’), (’c’, ’a’, ’b’), (’c’, ’b’, ’a’)]
+>>> list( permutations ([1,’a’,set ()])) # permutations
+[(1, ’a’, set ()), (1, set(), ’a’), (’a’, 1, set ()),
+(’a’, set(), 1), (set(), 1, ’a’), (set(), ’a’, 1)]
+>>> list( permutations(’abc ’ ,2)) # arrangements
+[(’a’, ’b’), (’a’, ’c’), (’b’, ’a’), (’b’, ’c’),
+(’c’, ’a’), (’c’, ’b’)]
+>>> list( combinations(’abc ’ ,2)) # combinaisons
+[(’a’, ’b’), (’a’, ’c’), (’b’, ’c’)]
+>>> list( combinations(range (1 ,6) ,3)) # combinaisons
+[(1, 2, 3), (1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5),
+(1, 4, 5), (2, 3, 4), (2, 3, 5), (2, 4, 5), (3, 4, 5)]
+66
+
+
+
+===== PAGE 71/72 =====
+Le module itertools
+>>> list(product ([’rouge ’,’vert ’,’bleu ’],[’clair ’,’fonc´e’]))
+[(’rouge ’, ’clair ’), (’rouge ’, ’fonc´e’), (’vert ’, ’clair ’),
+(’vert ’, ’fonc´e’), (’bleu ’, ’clair ’), (’bleu ’, ’fonc´e’)]
+>>> list(product ((0,1), repeat =4))
+[(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 1, 0), (0, 0, 1, 1),
+(0, 1, 0, 0), (0, 1, 0, 1), (0, 1, 1, 0), (0, 1, 1, 1),
+(1, 0, 0, 0), (1, 0, 0, 1), (1, 0, 1, 0), (1, 0, 1, 1),
+(1, 1, 0, 0), (1, 1, 0, 1), (1, 1, 1, 0), (1, 1, 1, 1)]
+La fonction product() permet de simuler, avec une seule boucle,
+plusieurs boucles imbriqu´ees :
+for i in (1 ,3 ,9):
+for j in range (20):
+for k in ’abcd ’:
+....
+est ´equivalent `a
+for i,j,k in
+product ((1,3,9), range (20) ,’abcd ’):
+...
+67
+
+
+
+===== PAGE 72/72 =====
+Le module itertools : exemples
+• Combien y a-t-il de fa¸cons d’´ecrire 37 comme somme de 5 entiers
+strictement positifs ?
+>>> sum(sum(x)==37
+for x in
+product(range (1,38), repeat =5))
+58905
+• Quelle est la probabilit´e de tirer 7 fois“pile”en 10 lancers de pi`ece ?
+>>> 2** -10* sum(sum(x)==7
+for x in
+product ((0,1), repeat =10))
+0.171875
+• R´esoudre le cryptarithme SIX2 = TROIS
+(chaque lettre repr´esente un chiffre diff´erent) :
+>>> for s,i,x,t,r,o in
+permutations (’0123456789 ’ ,6):
+...
+if int(s+i+x)**2 == int(t+r+o+i+s):
+...
+print(’trois=’+t+r+o+i+s+’ six=’+s+i+x)
+...
+trois =28561
+six =169
+68

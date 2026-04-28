@@ -1,0 +1,329 @@
+
+===== PAGE 1/6 =====
+Universit´e Paris Cit´e, Campus Saint-Germain-des-Pr`es
+UFR de Math´ematiques et Informatique
+45, rue des Saints-P`eres 75006 Paris
+Algorithmique et Programmation 2
+Correction du partiel du 20 mars 2025 — dur´ee: 1h30
+Tout document interdit. Les calculatrices et les t´el´ephones portables, mˆeme pr´evus `a titre d’horloge, sont
+´egalement interdits.
+MERCI DE BIEN INDIQUER VOTRE GROUPE DE TD SUR VOTRE COPIE
+Tous les exercices sont ind´ependants. On pr´ecisera bien la signature (type des entr´ees/sorties) de chaque
+fonction Python propos´ee. Ces signatures seront not´ees globalement sur 1 point.
+Bar`eme sur 21 points (en comptant le point global pour les signatures)
+Exercice 1.
+(au total sur 5 points)
+Pour chaque ligne (ind´ependante) d’instructions ci-dessous, donner le contenu de la variable x apr`es
+ex´ecution de la ligne consid´er´ee, ou expliquer le probl`eme si l’instruction produit une erreur. Expliquer
+votre r´eponse (une r´eponse correcte sans explication ne sera pas comptabilis´ee).
+1
+x = bin(0b10 )*(0 b10+0b1)
+2
+x = int (3.2)+3/2+3//2
+3
+j = 1; x = abs (3+4j)
+4
+x = [[1] ,[2 ,3]]; y = x[:]; y[0]. append (2)
+5
+L = list(’python ’); x = L.index(’n’)
+6
+x = set(range (4,1,-1)) & {3,0,1}
+7
+x = len( set ([1 ,3]) - [1] )
+8
+x = {1,3}
+<= {3,1}
+9
+x = {1:2, 2:3, 3:4}. get (4,0)
+10
+L = lambda t: 1-t; x = L(L(3))
+(1) x = ’0b100b100b10’ car 0b10 vaut 2 (sp´eciﬁ´e en binaire), bin(0b10) vaut ’0b10’ (´ecriture bi-
+naire de 2), et 0b10+0b1 vaut 3 (2+1, sp´eciﬁ´es en binaire), donc x est obtenue en recopiant 3 fois
+la chaˆıne ’0b10’.
+(2) int(3.2) retourne 3 (arrondi sans partie d´ecimale), 3/2 vaut 1.5 et 3//2 vaut 1 (quotient dans la
+division euclidienne), donc ﬁnalement x = 5.5.
+(3) x est d´eﬁni comme le module (fonction abs sur les complexes) du nombre complexe 3 + 4i (la
+d´eﬁnition j=1 est inutile ici), donc x =
+√
+32 + 42 = 5.
+(4) x est une liste, y est une autre liste, mais qui contient les mˆemes sous-listes que x puisqu’on n’a
+pas utilis´e deepcopy. Par cons´equent, l’ajout de 2 `a la premi`ere sous-liste de y impacte aussi x et
+on a donc `a la ﬁn x = [[1,2],[2,3]].
+(5) On a L = [’p’,’y’,’t’,’h’,’o’,’n’] donc x vaut 5 (indice de la premi`ere occurrence de la
+chaˆıne ’n’ dans la liste L).
+
+
+
+===== PAGE 2/6 =====
+(6) x est l’intersection (symbole &) de l’ensemble {4, 3, 2} (r´esultat de set(range(4,1,-1)) et de
+l’ensemble {3, 0, 1}, donc x={3}.
+(7) L’expression set([1,3]) - [1] produit une erreur car l’op´erateur - n’est pas d´eﬁni entre un en-
+semble (set) et une liste.
+(8) x est le r´esultat du test d’inclusion large de l’ensemble {1, 3} dans lui-mˆeme, donc x = True.
+(9) Cette instruction tente de calculer la valeur associ´e `a la cl´e 4 dans le dictionnaire {1:2, 2:3,
+3:4}. Comme 4 n’est pas une cl´e de ce dictionnaire, c’est la valeur par d´efaut (deuxi`eme argument
+de la m´ehode get()) qui est retourn´ee, c’est-`a-dire x = 0.
+(10) x est la valeur de L(L(3)), o`u L est la fonction d´eﬁnie par L(t) = 1−t. On a donc x= 1−(1−3) = 3.
+Exercice 2.
+(au total sur 2 points)
+On consid`ere une fonction f d´eﬁnie avec l’en-tˆete suivant:
+def f(x, y=1., z=False ):
+Pour chaque ligne ci-dessous, d´eterminer si l’appel `a la fonction f est valide (dans ce cas, pr´eciser la
+valeur de chaque argument dans f) ou si l’appel est invalide (dans ce cas, expliquer pourquoi).
+1
+f(z=True , 3, 2.)
+2
+f([])
+3
+f(z=True , x=2)
+4
+f(1, False , y=-2.)
+(1) erreur, une sp´eciﬁcation positionnelle (2e argument, 3) arrive apr`es une sp´eciﬁcation par mot-cl´e
+(z=True).
+(2) appel correct, x=[], y=1., z=False
+(3) appel correct, x=2, y=1., z=True
+(4) erreur, l’argument y est sp´eciﬁ´e deux fois, une fois de mani`ere positionnelle (2e argument, False),
+et une fois par mot-cl´e (y=-2.).
+Exercice 3.
+(au total sur 2 points)
+Soit A une matrice carr´ee.
+(1) (sur 0,5 point) Quelle est la complexit´e, en nombre de multiplications matricielles, du calcul de
+An par l’algorithme d’exponentiation rapide ?
+La complexit´e est O(ln n) (voir cours).
+(2) (sur 1,5 point) Expliquer comment calculer A45 avec cet algorithme. Combien de multiplications
+matricielles sont-elles n´ecessaires ?
+
+
+
+===== PAGE 3/6 =====
+On ´ecrit successivement
+A45
+=
+A × A44
+A44
+=
+A22 × A22
+A22
+=
+A11 × A11
+A11
+=
+A × A10
+A10
+=
+A5 × A5
+A5
+=
+A × A4
+A4
+=
+A2 × A2
+A2
+=
+A × A
+Le calcul eﬀectif se fait en reprenant les lignes dans l’ordre inverse. Il y a au total 8 lignes, donc 8
+multiplications matricielles `a eﬀectuer pour parvenir au r´esultat.
+Exercice 4.
+(au total sur 5 points)
+On consid`ere une suite (un)n∈N d´eﬁnie par u0 = −1, u1 = 2 et la relation de r´ecurrence
+∀n ∈N,
+un+2 =
+(
+2un+1 + un
+si un ⩽0,
+un+1 −3un
+sinon.
+(1) (sur 0,5 point) Calculer u5.
+On a successivement:
+u2 = 2u1 + u0 = 4 −1 = 3
+(n = 0, u0 ⩽0)
+u3 = u2 −3u1 = 3 −6 = −3
+(n = 1, u1 > 0)
+u4 = u3 −3u2 = −3 −9 = −12
+(n = 2, u2 > 0)
+u5 = 2u4 + u3 = −24 −3 = −27
+(n = 3, u3 ⩽0)
+(2) (sur 1,5 point) ´Ecrire une fonction doublement r´ecursive suite(n) qui prend en entr´ee un entier
+naturel n et renvoie la valeur de un.
+def suite(n):
+’’’ int -> int
+retourne la valeur de u(n)
+’’’
+if n==0:
+return
+-1
+if n==1:
+return 2
+u2 = suite(n-2) # u(n-2)
+u1 = suite(n-1) # u(n-1)
+if u2 <=0:
+return 2*u1 + u2
+else:
+return u1 - 3*u2
+Attention, l’impl´ementation ci-dessous n’est pas correcte, car elle eﬀectue 3 appels r´ecursifs au
+lieu de 2:
+def suite(n):
+’’’ int -> int
+retourne la valeur de u(n)
+’’’
+if n==0:
+return
+-1
+if n==1:
+
+
+
+===== PAGE 4/6 =====
+return 2
+if suite(n -2) <=0:
+return 2* suite(n-1) + suite(n-2)
+else:
+return
+suite(n-1) - 3* suite(n-2)
+(3) (sur 1,5 point) Dessiner l’arbre des appels r´ecursifs associ´es `a l’appel suite(5). Combien y a-t-il
+d’appels `a la fonction suite ? De mani`ere g´en´erale, quelle est la complexit´e, en nombre d’appels
+r´ecursifs, de l’appel suite(n) ?
+suite(5)
+suite(4)
+suite(3)
+suite(2)
+suite(1)
+suite(0)
+suite(1)
+suite(2)
+suite(1)
+suite(0)
+suite(3)
+suite(2)
+suite(1)
+suite(0)
+suite(1)
+Il y a au total 15 appels `a la fonction suite (c’est le nombre de nœuds de l’arbre).
+De mani`ere g´en´erale, nous avons vu en cours que la complexit´e d’une telle fonction doublement
+r´ecursive est exponentielle (plus pr´ecis´ement, O(ϕn), o`u ϕ =
+√
+5+1
+2
+est le nombre d’or).
+(4) (sur 1,5 point) ´Ecrire une fonction suite2, version modiﬁ´ee avec m´emo¨ısation de la fonction
+suite. Quel est l’int´erˆet de cette modiﬁcation ?
+D = {0:-1, 1:2} # dictionnaire
+pour la m´emoisation
+def suite2(n):
+’’’ int -> int
+retourne la valeur de u(n)
+’’’
+if n not in D:
+u2 = suite(n-2) # u(n-2)
+u1 = suite(n-1) # u(n-1)
+if u2 <=0:
+D[n] = 2*u1 + u2
+else:
+D[n] = u1 - 3*u2
+return D[n]
+L’int´erˆet de cette modiﬁcation est qu’elle acc´el`ere ´enorm´ement le calcul, puisque l’on passe d’une
+complexit´e exponentielle O(ϕn) `a une complexit´e lin´eaire O(n) (avec la m´emo¨ısation on ne calcule
+qu’une fois chaque uk pour k ⩽n).
+Exercice 5.
+(au total sur 6 points)
+(1) (sur 1,5 point)
+´Ecrire une fonction encode(s, D), qui prend en entr´ee une chaˆıne de caract`eres s et un dictio-
+nnaire D (dont les cl´es sont des chaˆınes de caract`eres de longueur 1 et les valeurs des chaˆınes de
+caract`eres quelconques), et retourne une chaˆıne t qui correspond `a une copie de s dans laquelle les
+caract`eres qui sont des cl´es de D sont remplac´es par les valeurs correspondantes dans D. Par exem-
+ple, si s="Hello, world!" et D={’e’:’3’, ’l’:’1’, ’o’:’00’, ’,’:’’}, alors encode(s, D)
+doit retourner la chaˆıne de caract`eres "H31100 w00r1d!"
+def encode(s, D):
+’’’ str x dict -> str
+retourne l’encodage de s par D
+’’’
+
+
+
+===== PAGE 5/6 =====
+t = ""
+for c in s:
+if c in D:
+t += D[c]
+else:
+t += c
+return t
+On peut simpliﬁer le code pr´ec´edent en utilisant ma m´ethode get() du type dict:
+def encode(s, D):
+’’’ str x dict -> str
+retourne l’encodage de s par D
+’’’
+t = ""
+for c in s:
+t += D.get(c,c)
+return t
+(2) (sur 1,5 point)
+´Ecrire une fonction g´en´eratrice pairs(L), qui prend en entr´ee une liste de nombres (entiers ou
+r´eels) L et d´elivre successivement, dans l’ordre, tous les ´el´ements de L qui sont pairs. Par exemple,
+si L = [1, 0, 2., 4, -1, -6], alors pairs(L) doit d´elivrer successivement les valeurs 0, 2., 4,
+et -6.
+def pairs(L):
+’’’ list -> generator
+d´elivre les nombres
+pairs de L
+’’’
+for x in L:
+if x%2==0:
+yield x
+(3) (sur 1,5 point)
+´Ecrire une fonction intersection(D1, D2) qui prend en entr´ee deux dictionnaires D1 et D2, et
+retourne un dictionnaire D3, dont les cl´es sont les cl´es communes `a D1 et D2, et la valeur correspon-
+dant `a une cl´e x de D3 est un tuple `a 2 ´el´ements, form´e des valeurs associ´ees `a la cl´e x dans D1 et D2.
+Par exemple, si D1={1:2, 2:3, 3:4} et D2={2:0, 3:True, 4:1}, alors intersection(D1, D2)
+doit retourner le dictionnaire D3={2:(3,0), 3:(4,True)}.
+def
+intersection(D1 , D2):
+’’’ dict x dict -> dict
+retourne "l’intersection" des
+dictionnaires D1 et D2
+’’’
+D = dict ()
+for x in D1:
+if x in D2:
+D[x] = (D1[x], D2[x])
+return D
+(4) (sur 1,5 point)
+´Ecrire une fonction r´ecursive applique(f, L), qui prend en entr´ee une fonction f et une liste L
+(compos´ee d’entiers et ´eventuellement, r´ecursivement, de listes), et retourne une copie de la liste L
+dans laquelle toutes les valeurs enti`eres ont ´et´e remplac´ees par leur image par la fonction f. Par
+exemple, si f = lambda x:x+1 et L = [1,[[2,3],0,[[1],[-1]]]], alors applique(f, L) doit
+retourner la liste L = [2,[[3,4],1,[[2],[0]]]].
+On construit la liste r´esultat (notons la R par exempl) ´el´ement par ´el´ement, `a partir de chaque
+´el´ement x de L:
+• si x est un entier, on ajoute f(x) `a R;
+
+
+
+===== PAGE 6/6 =====
+• sinon, c’est que x est une liste, et on ajoute `a R sa “traduction” obtenue par l’appel r´ecursif
+applique(f, x).
+On obtient ainsi le code suivant:
+def
+applique(f, L):
+’’’ function x list -> list
+applique
+une
+fonction r´ecursivement
+sur les
+entiers d’une liste
+’’’
+R = []
+for x in L:
+if type(x) is int:
+R.append(f(x))
+else:
+R.append(applique(f,x))
+return R
+On peut si on le souhaite int´egrer tout le code en une seule compr´ehension de liste:
+def
+applique(f, L):
+’’’ function x list -> list
+’’’
+return [f(x) if type(x) is int else
+applique(f,x) for x in L]
+`A noter que la syntaxe type(x)==int est ´egalement correcte.

@@ -1,0 +1,108 @@
+
+===== PAGE 1/2 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 27 `a 32
+Exercice 27 (analyse de code I).
+D´eterminer, pour chaque ligne d’instruction ci-dessous, le type de la
+variable x (nombre, liste, tuple, g´en´erateur, etc.) apr`es ex´ecution de la ligne consid´er´ee. On pourra v´erifier
+avec type(x) sous python, mais dans un second temps seulement.
+1
+x = [1/a for a in range (1 ,10)]
+2
+x = (1/a for a in range (1 ,10))
+3
+x = [(1/a for a in range (1 ,10))]
+4
+x = sum ([1/a for a in range (1 ,10)])
+5
+x = [sum (1/a for a in range (1 ,10))]
+6
+x = (sum (1/a for a in range (1 ,10)) ,)
+7
+x = [1/ sum([a]) for a in range (1 ,10)]
+8
+x = (1/ sum(a for a in range (1 ,10)))
+Exercice 28 (analyse de code II). D´eterminer ce qu’affichent les programmes Python ci-dessous.
+def f(n):
+for k in range(1,n+1):
+if n%k==0:
+yield k
+for x in f(30):
+print(x)
+def g(n):
+if n>0:
+for k in g(n -1):
+yield k
+for k in range(n):
+yield n
+print ([x for x in g(5)])
+def h(s,n):
+if n>0:
+for x in s:
+for t in h(s,n -1):
+yield x+t
+else:
+yield ’’
+print(list(h(’ab’ ,3)))
+Exercice 29 (g´en´erateurs, TD/TP). ´Ecrire en Python les g´en´erateurs suivants (`a l’aide d’une expression
+g´en´eratrice), puis v´erifier la solution en r´ealisant le g´en´erateur dans une liste.
+(1) les entiers de 1 `a 100;
+(2) les entiers multiples de 10 compris entre 10 et 200 (inclus);
+(3) les carr´es des entiers impairs compris entre 1 et 51 (inclus);
+(4) les couples d’entiers strictement positifs dont la somme est ´egale `a 72.
+Exercice 30 (fonctions g´en´eratrices, TD/TP). ´Ecrire en Python les fonctions g´en´eratrices suivantes, et
+tester chacune d’entre elles sur un exemple de votre choix.
+(1) triplets(L) d´elivre tous les triplets (x, y, z) form´es d’´el´ements de L tels que x < y < z
+(2) pythagore(N) d´elivre, dans un ordre quelconque, tous les triplets (x, y, z) d’entiers tels que
+1 ⩽x ⩽y ⩽z ⩽N
+et
+x2 + y2 = z2.
+(3) quatrain(N) d´elivre, dans l’ordre croissant, tous les nombres entiers inf´erieurs ou ´egaux `a N dont
+l’´ecriture en base 2 utilise exactement 4 fois le chiffre 1
+(4) diviseurs(n) d´elivre, dans l’ordre croissant, tous les diviseurs de l’entier n⩾1
+(5) sommes(L) d´elivre, dans un ordre quelconque, toutes les sommes partielles possibles d’´el´ements de la
+liste L (utiliser la r´ecursivit´e)
+
+
+
+===== PAGE 2/2 =====
+Exercice 31 (cryptarithmes, TP). Un cryptarithme est une ´equation math´ematique dans laquelle chaque
+lettre repr´esente un chiffre, un mˆeme chiffre ne pouvant pas ˆetre repr´esent´e par deux lettres distinctes. Par
+ailleurs, aucun nombre de 2 chiffres ou plus ne peut commencer par 0.
+Nous avons r´esolu en cours le cryptarithme SIX2=TROIS, qui admet pour unique solution 1692 = 28561,
+c’est-`a-dire S=1, I=6, X=9, T=2, R=8 et O=5.
+En utilisant la fonction permutations du module itertools, r´esoudre les cryptarithmes suivants :
+(1) UN × UN + UN = DEUX
+(2) SEND + MORE = MONEY
+Exercice 32 (croissance exponentielle de la suite de Fibonacci).
+(1) (TP) ´Ecrire une fonction non r´ecursive fib(n), qui prend en entr´ee un entier n ⩾1 et renvoie la
+liste des termes F0, F1, . . . Fn de la suite de Fibonacci. Tester la fonction fib() en affichant la liste L
+obtenue par L = fib(40).
+(2) (TP) Calculer, `a l’aide de la liste L pr´ec´edente, la liste R des termes F2/F1, F3/F2, . . . , F40/F39, et
+afficher le r´esultat. Que constate-t-on ? Pouvait-on pr´edire la valeur num´erique observ´ee ?
+(3) (TP) `A l’aide de l’´equivalent de Fn vu en cours, pr´edire une valeur approch´ee de Fn sous la forme
+Fn ≃10x pour n = 220. Combien de chiffres a l’´ecriture d´ecimale de Fn ? Que donne fib(2**20) ?
+(4) (TP*) On consid`ere la matrice A =
+
+1
+1
+1
+0
+
+. Montrer par r´ecurrence que An =
+
+Fn+1
+Fn
+Fn
+Fn−1
+
+pour
+tout n ⩾2, puis ´ecrire un code Python permettant de calculer Fn pour n = 220 en utilisant le principe
+de l’exponentiation rapide. V´erifier que la valeur trouv´ee a bien le nombre de chiffres pr´edit `a la question
+pr´ec´edente. On pourra utiliser les instructions
+import sys
+sys. set_int_max_str_digits (10**6)
+pour passer outre les limitations par d´efaut de la fonction str().

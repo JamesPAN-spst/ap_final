@@ -1,0 +1,160 @@
+
+===== PAGE 1/4 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 48 et 49
+Note: si vous rencontrez des difficult´es sur l’une des questions de cette feuille d’exercices, vous pouvez lire les indications
+correspondantes `a la fin de ce document. Il est cependant conseill´e de ne le faire qu’en dernier recours: trop utiliser ces
+indications pourrait vous donner `a tort l’impression que vous maˆıtrisez les exercices alors que ce n’est pas encore le cas.
+Exercice 48 (jeu de taquin).
+L’objectif de cet exercice est d’´ecrire une fonction Python qui r´esout (en le
+moins de coups possible) le jeu de taquin dans le cas d’une grille 3×3. Le module taquin tkinter (disponible
+sur la page moodle du cours sous la forme d’un fichier taquin tkinter.py `a placer dans votre r´epertoire
+courant) d´efinit une classe Taquin qui se charge de cr´eer la grille et de g´erer la visualisation.
+(1) Commencer par jouer une partie “`a la main” en lan¸cant une fenˆetre interactive avec les commandes
+from
+taquin_tkinter
+import
+Taquin
+X = Taquin (3, 3, interactif=True) # grille 3 x 3
+(2) Une instance de la classe Taquin poss`ede :
+• un attribut T, qui code l’´etat du jeu sous la forme d’une liste des num´eros des pi`eces rencontr´ees
+sur les cases successives (avec le num´ero 0 pour la case vide). Dans le cas d’une grille 3 × 3, le jeu
+est donc r´esolu lorsque l’attribut T vaut [1, 2, 3, 4, 5, 6, 7, 8, 0].
+• un attribut final, qui code justement l’´etat final `a atteindre (pout une grille 3 × 3, c’est donc la
+liste [1, 2, 3, 4, 5, 6, 7, 8, 0])
+• un attribut coups, qui est une liste de listes (si k est la position de la case vide, alors coup[k]
+est la liste des coups possibles, c’est-`a-dire la liste des positions possibles de la case vide au coup
+suivant). Les cases sont num´erot´ees 0,1,2,. . . `a partir du coin haut-gauche de la grille.
+• une m´ethode d´eplace, qui permet d’effectuer un mouvement (l’appel d´eplace(n) d´eplace la case
+vide `a la position n).
+On consid`ere la position initiale suivante :
+Compl´eter le programme ci-dessous pour r´esoudre la grille propos´ee (il y a 4 d´eplacements `a ajouter).
+On utilisera une console python interactive pour plus de facilit´e, et l’on en profitera pour examiner les
+attributs de X mention´es ci-dessus.
+from
+taquin_tkinter
+import
+Taquin
+X = Taquin (3, 3, position =[2,0,3,1,4,6,7,5,8], temps =1)
+X.d´eplace (0)
+(3) On consid`ere le graphe form´e par les 9! = 362880 configurations possibles de la grille, o`u deux sommets
+sont reli´es si on peut passer d’une configuration `a une autre par un d´eplacement ´el´ementaire. ´Ecrire
+
+
+
+===== PAGE 2/4 =====
+une fonction distance(X) qui prend en entr´ee une instance X de la classe Taquin, et retourne le nombre
+minimal de d´eplacements n´ecessaires pour atteindre la solution, c’est-`a-dire la distance entre le sommet
+du graphe associ´e `a X.T et le sommet du graphe associ´e `a X.final. On utilisera, comme vu en cours,
+un parcours du graphe en largeur. Tester cette fonction sur plusieurs instances (al´eatoires) obtenues
+par X = Taquin(3, 3).
+(4) Modifier la fonction distance en une fonction r´esout(X) qui retourne la liste des positions successives
+de la case vide donnant la solution la plus courte. Tester cette fonction sur une instance X = Taquin(3,
+3) et visualiser la solution obtenue en appelant la m´ethode d´eplace sur les ´el´ements de cette liste.
+Exercice 49 (jeu `a deux joueurs).
+Alice et Bernard d´ecident de jouer au jeu suivant. `A tour de rˆole,
+chaque joueur re¸coit un entier n, choisit un entier k selon certaines r`egles, et donne le nombre n −k `a l’autre
+joueur, qui continue de mˆeme. Le premier joueur qui ne peut pas jouer a perdu. Les r`egles impos´es pour le
+choix de k sont les suivantes :
+• le nombre k est compris entre 1 et le double du nombre choisi par l’autre joueur au tour pr´ec´edent
+(pour Alice, qui joue en premier, le choix k = 1 est impos´e);
+• le nombre k n’a jamais ´et´e jou´e depuis le d´ebut de la partie;
+• le r´esultat n −k doit ˆetre positif ou nul.
+On convient que Alice commence syst´ematiquement le jeu, et que sa valeur de d´epart (n) est fix´ee d’un commun
+accord avec Bernard. Par exemple, si Alice commence le jeu avec n = 8, alors elle doit soustraire k = 1 (choix
+forc´e au premier coup); Bernard re¸coit donc l’entier 7, et est forc´e de jouer k = 2 (car k = 1 a d´ej`a ´et´e choisi);
+Alice re¸coit alors l’entier 5, et peut jouer k = 3 ou k = 4. Dans les deux cas, Bernard re¸coit un entier inf´erieur
+ou ´egal `a 2, et ne peut donc plus jouer, donc Alice gagne. On peut r´esumer cette analyse pour n = 8 avec
+l’arbre ci-dessous, qui repr´esente toutes les parties possibles, au nombre de 2 ici (l’´etiquette de chaque nœud
+indique la valeur de n, et l’´etiquette sur chaque arˆete indique le choix de k. Les feuilles correspondent aux
+situations perdantes (le joueur ne peut plus jouer).
+8
+7
+5
+2
+(3)
+1
+(4)
+(2)
+(1)
+(1) Dessiner l’arbre correspondant lorsque la valeur de d´epart est n = 15, puis lorsque la valeur de d´epart est
+n = 16 (on rappelle que c’est toujours Alice qui commence, avec cette valeur de n). Indiquer comment
+Bernard peut forcer le gain pour n = 15 (bien que ce ne soit pas lui qui commence), et comment Alice
+peut forcer le gain pour n = 16.
+(2) Soit arbre(n, E, m) la fonction qui prend en entr´ee un entier n ⩾1, un ensemble d’entiers E et un
+entier m, et renvoie l’arbre associ´e `a toutes les fins de parties possibles `a partir de la valeur n, de
+l’ensemble de coups jou´es E (´eventuellement vide) et de la contrainte k ⩽m pour le coup `a venir.
+Montrer que l’arbre renvoy´e par arbre(n, E, m) a pour racine un sommet d’´etiquette n et dont les
+enfants sont les sous-arbres retourn´es par arbre(n−k, E∪{k}, 2k) pour k ∈N, 1 ⩽k ⩽n, k ⩽m, k ̸∈E.
+(3) En d´eduire une impl´ementation Python de la fonction pr´ec´edente sous la forme d’une fonction d´efinie
+par l’en-tˆete
+def arbre(n,E=set(),m=1):
+On pourra utiliser la fonction creer arbre() ci-dessous pour la cr´eation des arbres :
+def
+creer_arbre(e,L=[]):
+"""
+Retourne un arbre
+dont la racine a pour ´etiquette e,
+et pour
+enfants
+les ´el´ements de la liste L (´e ventuellement
+vide)
+signature: ´etiquette x liste d’arbres
+-> arbre
+"""
+return [e]+L
+
+
+
+===== PAGE 3/4 =====
+Compte-tenu des valeurs par d´efaut de E et m, comment interpr`ete-t-on le r´esultat retourn´e par l’appel
+arbre(n) ?
+(4) V´erifier les r´esultats obtenus `a la question 1 en examinant les r´esultats retourn´es par arbre(15)
+arbre(16).
+(5) Soit A l’arbre des parties possibles pour un entier n donn´e. On d´efinit une fonction bool´eenne g sur les
+nœuds de A avec la r`egle r´ecursive suivante :
+• si g(y) = faux pour au moins un enfant y de x, alors g(x) = vrai;
+• dans tous les autres cas (et en particulier lorsque x est une feuille de A), g(x) = faux.
+Calculer la fonction g sur tous les nœuds des arbres de la question 1. Comment s’interpr`ete la valeur
+que prend g pour la racine de A ?
+(6) ´Ecrire une fonction Python g(A) qui prend en entr´ee un arbre A, et renvoie la valeur de la fonction g
+pour la racine de A. Pour le parcours de l’arbre A, on utilisera la fonction enfants() ci-dessous, qui
+retourne la liste des enfants de la racine d’un arbre (voir cours).
+def
+enfants(A):
+"retourne la liste des
+enfants de la racine de l’arbre A"
+return A[1:]
+V´erifier les r´esultats de la question 1 en calculant g(arbre(15)) et g(arbre(16)).
+(7) D´eterminer tous les entiers n ⩽60 pour lesquels Alice a une strat´egie gagnante.
+
+
+
+===== PAGE 4/4 =====
+Indications
+49.1 Pour n = 15 les deux premiers coups sont forc´es (Alice: k = 1 puis Bernard: k = 2), ensuite Alice a le
+choix entre k = 3 et k = 4. Montrer que dans les deux cas, Bernard peut trouver un coup qui m`ene
+Alice `a une position perdante.
+49.2 Traduire les r`egles du jeu comme une relation permettant de construire l’arbre renvoy´e par l’appel
+arbre(n, E, m).
+Le param`etre n repr´esente le total disponible, l’ensemble E les entiers k d´ej`a jou´es, et m est la borne
+maximale sur k due au coup pr´ec´edent (ou impos´ee au d´epart)
+49.3 Faire une boucle sur k, en se limitant avec un test aux valeurs admissibles.
+Construire ainsi, par des appels r´ecursifs, la liste des sous-arbres arbre(n −k, E ∪{k}, 2k) pour les
+valeurs admissibles de k.
+Construire enfin l’arbre cherch´e grˆace `a la fonction cr´eer arbre().
+49.4 Calculer arbre(15) et arbre(16), et v´erifier que les listes retourn´ees codent bien les arbres obtenus `a la
+question 1.
+49.5 Colorier en 2 couleurs distinctes chaque nœud des arbres obtenus pour n = 15 et n = 16 selon que g y
+prend la valeur vrai ou faux.
+Si x est un nœud de l’arbre, quel est le lien entre g(x) et la possibilit´e de gagner `a partir du nœud x ?
+(commencer par le cas des feuilles)
+Montrer que l’appel g(arbre(n)) permet de savoir, pour une valeur de n donn´ee, si Alice a une strat´egie
+gagnante (r´eponse True) ou si, au contraire, c’est Bernard qui dispose d’une telle strat´egie (r´eponse
+False).
+49.6 Utiliser une d´efinition r´ecursive de g.
+La condition d’arrˆet est atteinte lorsque A n’a pas d’enfants.
+Utiliser la fonction any vue au chapitre 2 (p. 61).

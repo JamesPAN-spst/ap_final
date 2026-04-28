@@ -1,0 +1,292 @@
+
+===== PAGE 1/8 =====
+Universit´e Paris Cit´e, Campus Saint-Germain-des-Pr`es
+UFR de Math´ematiques et Informatique
+45, rue des Saints-P`eres 75006 Paris
+Algorithmique et Programmation 2
+Contrˆole terminal du 16 mai 2025 — dur´ee: 1h30
+Correction
+Tout document interdit. Les calculatrices et les t´el´ephones portables, mˆeme pr´evus `a titre d’horloge, sont ´egalement
+interdits.
+MERCI DE BIEN INDIQUER VOTRE GROUPE DE TD SUR VOTRE COPIE
+Tous les exercices sont ind´ependants. On pr´ecisera bien la signature (le type des entr´ees/sorties suﬃt) pout chaque
+fonction (Python ou pseudo-code) propos´ee. Sur la note globale, 1 point sera attribu´e en fonction de la proportion
+de signatures correctes.
+Exercice 1.
+Pour chaque ligne (ind´ependante) d’instructions ci-dessous, donner le contenu de la variable x
+apr`es ex´ecution de la ligne consid´er´ee si l’ex´ecution de la ligne ne provoque pas d’erreur, ou expliquer la nature
+de l’erreur dans le cas contraire. Expliquer votre r´eponse dans les deux cas (une r´eponse correcte sans
+explication ne sera pas comptabilis´ee).
+1
+x = (1 ,2 ,3); x.append (4)
+2
+x = [1 ,2 ,3]. append (4)
+3
+x = {1:{1 ,2 ,3} , 3:{1 ,2 ,3}}; x[1]. remove (3)
+4
+x = ({1 ,2}|{1 ,3}) - ({1 ,3}&{1 ,2})
+5
+L = [i**2 for i in range (-6,3,2)]; x = len(set(L))
+6
+L = set(range (10)); x = [{10 -2*i,i*3}
+<= L for i in range (5)]
+7
+A = frozenset ({1}); S = frozenset(A) | frozenset ([A]); x = len(S)
+8
+x = {1:2 ,2:3}. get (0,1) - {1:2 ,2:3}. get (1,0)
+9
+x = "abc"; x[0],x[2] = x[2],x[0]
+10
+s = "123"; x = s[s[1]]
+(1) Ligne 1: provoque une erreur, car le type tuple n’a pas de m´ethode append (cons´equence du fait que le
+type tuple est immutable).
+(2) Ligne 2: x = None, car la m´ethode append, appliqu´ee `a la liste [1,2,3], ne retourne rien (cette m´ethode
+modiﬁe la liste [1,2,3] quelque part en m´emoire, mais c’est sans rapport avec x).
+(3) Ligne 3: x = {1:
+{1, 2}, 3:
+{1, 2, 3}}, car la deuxi`eme instruction x[1].remove(3) supprime
+l’´el´ement 3 de la valeur associ´ee `a la cl´e 1 dans le dictionnaire x initial.
+(4) Ligne 4: x = {2, 3}, car x est d´eﬁni comme l’ensemble ({1, 2}∪{1, 3})\({1, 3}∩{1, 2}) = {1, 2, 3}\{1} =
+{2, 3}).
+(5) Ligne 5: x = 4. range(-6,3,2) correspond aux valeurs -6, -4, -2, 0, 2, donc L = [36, 16, 4, 0, 4],
+set(L) = {36, 16, 4, 0} et donc len(set(L)) = 4.
+(6) Ligne 6: x = [False, True, True, True, False]. On commence par construire L, qui est l’ensemble
+des entiers de 0 `a 9 inclus. Puis x est une liste de bool´eens obtenue en testant, pour chaque valeur de i
+entre 0 et 4 inclus, si l’ensemble {10 −2i, 3i} est inclus dans L.
+Pour i = 0, {10 −2i, 3i} = {10, 0} ̸⊂{0, 1, . . . , 9} −→False
+
+
+
+===== PAGE 2/8 =====
+Pour i = 1, {10 −2i, 3i} = {8, 3} ⊂{0, 1, . . . , 9} −→True
+Pour i = 2, {10 −2i, 3i} = {6} ⊂{0, 1, . . . , 9} −→True
+Pour i = 3, {10 −2i, 3i} = {4, 9} ⊂{0, 1, . . . , 9} −→True
+Pour i = 4, {10 −2i, 3i} = {2, 12} ̸⊂{0, 1, . . . , 9} −→False
+(7) Ligne 7: x=2. A est l’ensemble (de type frozenset) {1}, frozenset(A) aussi (la conversion frozenset
+en frozenset ne change rien bien sˆur), et frozenset([A]) est un frozenset dont l’unique ´el´ement est le
+frozenset {1}, car c’est la conversion en frozenset d’une liste form´ee du frozenset {1}. Au ﬁnal on a
+S = {1, {1}} (tous les ensembles consid´er´es ´etant de type frozenset), donc len(S)=2.
+(8) Ligne 8: x = -1, car {1:2,2:3}.get(0,1) retourne 1 (la cl´e 0 n’est pas dans le dictionnaire {1:2,2:3},
+donc c’est la valeur par d´efaut, le 2e argument de get, qui est retourn´ee) et {1:2,2:3}.get(1,0) retourne
+2, la valeur associ´ee `a la cl´e 1 dans le dictionnaire {1:2,2:3}.
+(9) Ligne 9: erreur, car x est de type str, qui est immutable, donc on ne peut pas aﬀecter x[0] (ni x[2] bien
+sˆur).
+(10) Ligne 10: erreur, car s[1] retourne la chaˆıne de caract`ere "2", qui n’est pas un index valide pour s car de
+type str et non int.
+
+
+
+===== PAGE 3/8 =====
+Exercice 2.
+Pour chaque fonction ci-dessous, proposez un algorithme sous forme de pseudo-code (les
+codes Python ne seront pas accept´es ici).
+(1) La fonction r´ecursive f1 prend en entr´ee la racine d’un arbre, et retourne le nombre de nœuds de l’arbre
+ayant au moins une feuille parmi leurs enfants.
+Il faut calculer `a la fois la contribution du nœud courant N (0 ou 1 selon la valeur de compte, le nombre
+d’enfants de N qui sont des feuilles) et la somme des contributions des enfants de N (total, la somme des
+f1(E) pour E enfant de N). On peut faire deux boucles s´epar´ees, ou faire comme ci-dessous le calcul en
+parall`ele dans la mˆeme boucle.
+fonction f1(N)
+// noeud -> entier
+compte <- 0 // nombre de feuilles parmi les enfants de N
+total <- 0
+// contributions `a f1(N) venant des enfants de N
+pour tout enfant E de N
+total <- total + f1(E)
+si le nombre d’enfants de E est ´egal `a 0
+compte <- compte + 1
+si compte >= 1
+total <- total + 1
+retourner total
+(2) La fonction r´ecursive f2 prend en entr´ee la racine d’un arbre dont les nœuds sont ´etiquet´es par des nombres
+positifs, et retourne le score maximal parmi les nœuds de l’arbre, o`u le score d’un nœud est d´eﬁni par la
+somme des valeurs des ´etiquettes de ses enfants (par convention, 0 s’il n’a pas d’enfants).
+Comme pour la question pr´ec´edente, il faut `a la fois calculer le score du nœud N (ici, la variable score),
+et le maximum des scores des enfants de N (ici, m). Ceci peut se faire en parall`ele dans la mˆeme boucle sur
+les enfants E de N.
+fonction f2(N)
+// noeud -> nombre
+score <- 0
+m <- 0
+pour tout enfant E de N
+m <- max(m, f2(E))
+score <- score + ´etiquette(E)
+retourner max(m, score)
+
+
+
+===== PAGE 4/8 =====
+(3) La fonction f3 prend entr´ee une pile A form´ee de nombres entiers, et retourne une pile B form´ee des ´el´ements
+strictement positifs de A, dans l’ordre inverse par rapport `a l’ordre de d´epart.
+Quand on recopie une pile dans une autre pile, l’ordre s’inverse naturellement, donc ici on a juste `a
+enlever dans la recopie les ´el´ements qui ne sont pas strictement positifs.
+fonction f3(A)
+// pile -> pile
+B <- pile vide
+tant que A n’est pas vide
+d´epiler A dans x
+si x > 0
+empiler x dans B
+retourner B
+(4) La fonction f4 prend en entr´ee un graphe G simple, non orient´e, et retourne le bool´een vrai si G admet
+au moins un cycle de longueur 3, et le bool´een faux sinon.
+Un cycle est un chemin qui relie un sommet `a lui-mˆeme sans employer deux fois la mˆeme arrˆete. Comme
+le graphe est simple (aucune arˆete ne relie un sommet `a lui-mˆeme), un cycle de longueur 3 est simplement
+un chemin ferm´e de longueur 3.
+fonction f4(G)
+// graphe -> bool´een
+pour tout sommet x de G
+pour tout voisin y de x
+pour tout voisin z de y
+si x est voisin de z
+retourner vrai
+retourner faux
+
+
+
+===== PAGE 5/8 =====
+Exercice 3.
+Proposer une impl´ementation Python de chaque fonction ci-dessous.
+(1) La fonction g1 prend en entr´ee une liste d’entiers L non vide et retourne la liste des sommes partielles de L.
+Par exemple, g1([2, 1, 0, 5]) doit retourner la liste [2, 3, 3, 8].
+On peut calculer la liste des cumuls en parcourant une seule fois la liste de d´epart, et en cumulant
+progressivement les valeurs:
+def g1(L):
+"list -> list"
+cumul = 0
+S = []
+for x in L:
+cumul += x
+S.append(cumul)
+return S
+La solution ci-dessous, bien que de complexit´e moins bonne (O(n2) si n est la taille de L, contre O(n)
+pour la premi`ere solution), est aussi valable:
+def g1(L):
+"list -> list"
+return [sum(L[:k+1]) for k in range(len(L))]
+On acceptera sans p´enalit´e les solutions qui modiﬁent l’argument de la fonction, par exemple
+def g1(L):
+"list -> list"
+for i in range(len(L)-1):
+L[i+1] += L[i]
+return L
+
+
+
+===== PAGE 6/8 =====
+(2) La fonction g2 prend en entr´ee une chaˆıne de caract`eres s et retourne une liste de nombres L de mˆeme
+taille que s. Pour tout indice valide i de s, L[i] est le nombre d’occurrences de s[i] rencontr´ees dans s
+strictement avant l’indice i.
+Par exemple, si s="abacbbd", g2(s) doit retourner la liste [0, 0, 1, 0, 1, 2, 0].
+Cette fonction pourra utiliser un dictionnaire accessoire. Les solutions de complexit´e O(n) (o`u n est la
+taille de s) se verront gratiﬁ´ees d’un bonus de points.
+Une premi`ere solution consiste `a compter le nombre d’occurences de chaque caract`ere rencontr´e, par
+exemple:
+def g2(s):
+" str -> list "
+return [s[:i]. count(s[i]) for i in range(len(s))]
+Mais cette solution a une complexit´e O(n2) (n ´etant la longueur de s), car la m´ethode count eﬀectue un
+nouveau parcours de s `a chaque fois.
+Pour obtenir une solution de complexit´e O(n), une m´ethode simple consiste `a utiliser un dictionnaire
+accessoire pour garder le compte `a chaque instant du nombre d’occurences de chaque caract`ere rencontr´e:
+def g2(s):
+" str -> list "
+D = dict () # nombre d’occurences
+pour
+chaque ´el´ement de s, `a
+un instant
+donn´e
+L = []
+for x in s:
+n = D.get(x,0) # nombre d’occurences pr´ec´edentes de x
+L.append(n)
+D[x] = n+1
+return L
+(3) La fonction r´ecursive g3 qui prend en entr´ee un entier naturel n, et renvoie le terme un de la suite d´eﬁnie
+par u0 = 1 et la relation de r´ecurrence
+∀n ∈N,
+un+1 =
+
+u2
+n + 1
+si un est pair,
+un + n
+sinon.
+def g3(n):
+" int -> int "
+if n==0:
+return 1
+u = g3(n-1)
+if u%2==0:
+return u**2+1
+return u+n-1
+(4) La fonction g´en´eratrice g4 prend en entr´ee un ensemble non vide S de type set, et d´elivre tous les sous-
+ensembles de S obtenus en supprimant un seul ´el´ement de S. Par exemple, g4({1,2,3}) doit d´elivrer les
+ensembles {1,2}, {2,3} et {1,3}.
+def g4(S):
+" set -> generator "
+for x in S:
+yield S - {x}
+
+
+
+===== PAGE 7/8 =====
+(5) La fonction g´en´eratrice r´ecursive g5 prend en entr´ee un nombre entier n ⩾1, et d´elivre toutes les listes L
+form´ees d’entiers strictement positifs en ordre croissant (au sens large), dont la somme des ´el´ements vaut n.
+Par exemple, g5(5) doit d´elivrer les listes
+[1,1,1,1,1], [1,1,1,2], [1,2,2], [1,1,3], [2,3], [1,4], [5].
+On pourra utiliser la remarque suivante: pour toute liste B d´elivr´ee par g5(n) de la forme B = A + [p],
+A fait partie des listes d´elivr´ees par g5(n-p).
+def g5(n):
+" int -> generator "
+if n==1:
+yield [1]
+else:
+for last in range(1,n):
+for L in g5(n-last ):
+if L[-1]<= last:
+yield L+[ last]
+yield [n]
+
+
+
+===== PAGE 8/8 =====
+Exercice 4.
+On souhaite manipuler avec une classe Python des nombres d´ecimaux, sans contrainte sur le
+nombre de chiﬀres. Pour cela, on choisit de repr´esenter un tel nombre `a l’aide de deux attributs de type int, not´es
+x et p (avec p ⩾0), qui ensemble codent le nombre x.10−p.
+Par exemple, le nombre d´ecimal -435,0072 peut ˆetre cod´e par x = −4350072 et p = 4, mais aussi, de mani`ere
+´equivalente, par x = −43500720 et p = 5 (on ne cherche pas `a normaliser la repr´esentation dans cet exercice).
+´Ecrire un code Python permettant de d´eﬁnir une telle classe Decimal avec les fonctionnalit´es suivantes :
+(1) Decimal(x,p) cr´ee une instance de la classe correspondant au nombre x.10−p.
+(2) si a et b sont deux instances de la classe Decimal, alors a*b retourne une nouvelle instance de la classe
+Decimal, correspondant au produit des deux nombres d´ecimaux cod´es par a et b.
+(3) Si a est une instance de la classe Decimal, alors a.int() retourne un nombre de type int ´egal `a la partie
+enti`ere de a.
+(4) Si a est une instance de la classe Decimal, l’aﬃchage de a (par exemple avec print(a)) est r´ealis´e comme
+dans les exemples ci-dessous:
+>>> print(Decimal ( -4350072 ,4))
+-435.0072
+>>> print(Decimal (42 ,0))
+42.
+>>> print(Decimal (3 ,2))
+0.03
+class
+Decimal ():
+def
+__init__(self , x, p):
+self.x = x
+self.p = p
+def __mul__(P, Q):
+return
+Decimal(P.x*Q.x, P.p+Q.p)
+def
+__repr__(self ):
+s = str(self.x)
+if len(s) < self.p + 1: # il faut
+compl´eter s par des z´eros `a gauche
+s = "0"*( self.p + 1 - len(s)) + s
+return s[:len(s)-self.p]+"."+s[len(s)-self.p:]
+def int(self ):
+return
+self.x//10** self.p

@@ -1,0 +1,214 @@
+
+===== PAGE 1/4 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 40 et 41
+Note: si vous rencontrez des difficult´es sur l’une des questions de cette feuille d’exercices, vous pouvez lire les indications
+correspondantes `a la fin de ce document. Il est cependant conseill´e de ne le faire qu’en dernier recours: trop utiliser ces
+indications pourrait vous donner `a tort l’impression que vous maˆıtrisez les exercices alors que ce n’est pas encore le cas.
+Exercice 40 (codage avec un arbre binaire).
+Un arbre binaire strict est un arbre dont chaque nœud
+interne (c’est-`a-dire un nœud qui n’est pas une feuille) a exactement 2 enfants. Dans toute la suite, on d´esignera
+par “enfant 0” et “enfant 1” ces deux enfants. La figure ci-dessous donne un exemple d’arbre binaire strict,
+dont les feuilles sont ´etiquet´ees par des lettres (on a repr´esent´e par des nombres entre parenth`eses le num´ero
+de l’enfant point´e par chaque branche de l’arbre).
+u
+(0)
+f
+(0)
+i
+(0)
+o
+(1)
+(1)
+(1)
+(0)
+m
+(0)
+r
+(1)
+(1)
+On peut utiliser cet arbre pour d´efinir un code binaire (c’est-`a-dire une chaˆıne de caract`eres constitu´ee
+uniquement de ’0’ et de ’1’) pour chaque feuille de l’arbre, en codant par une suite de 0 et de 1 le chemin `a
+parcouru pour atteindre la feuille souhait´ee. Par exemple, pour atteindre la feuille ’f’, il faut, depuis la racine
+de l’arbre, suivre la branche (0), puis la branche (1), puis la branche (0). Le code binaire de ’f’ est donc ’010’.
+Si l’on souhaite coder plusieurs lettres `a la suite, on concat`ene simplement les codes. Par exemple, ’ufr’ est
+cod´e par ’0001011’.
+Inversement, pour d´ecoder un message binaire cod´e selon ce principe, il suffit de parcourir l’arbre en suivant
+les symboles du message binaire, et lorsqu’on arrive `a une feuille, noter la lettre associ´ee et revenir `a la racine.
+En pseudo-code, cet algorithme peut s’´ecrire ainsi :
+m ←chaˆıne de caract`eres vide // on initialise le r´esultat
+N ←racine de l’arbre // on pr´epare le d´ecodage du premier caract`ere
+pour i parcourant successivement les symboles du message binaire // i vaut 0 ou 1
+N ←enfant i de N // on descend dans l’arbre selon la branche i
+si N est une feuille
+ajouter `a la fin de m la lettre donn´ee par l’´etiquette de N // on vient de d´ecoder une lettre
+N ←racine de l’arbre // on pr´epare le d´ecodage du caract`ere suivant
+v´erifier que N = racine de l’arbre // si ce n’est pas le cas, le code est incoh´erent
+(1) D´eterminer (`a la main) la chaˆıne de caract`eres cod´ee par le code binaire ’01000011011’
+(2) Donner le code binaire associ´e `a chaque feuille de l’arbre, puis en d´eduire le code binaire de la chaˆıne
+de caract`eres ’fourmi’.
+(3) Cr´eer, au moyen de la fonction noeud d´efinie ci-dessous, l’arbre donn´e en exemple (plus exactement, sa
+racine). On utilisera la valeur None pour les ´etiquettes des nœuds internes.
+def noeud(e,L):
+’’’ ´etiquette x liste de noeuds
+-> noeud
+retourne un noeud d’´etiquette e et dont L contient la liste des
+enfants
+’’’
+return [e]+L
+
+
+
+===== PAGE 2/4 =====
+(4) ´Ecrire une fonction Python decode(r,code), qui prend en entr´ee la racine r d’un arbre et une chaˆıne
+de caract`eres code constitu´ee uniquement des caract`eres ’0’ et ’1’, et retourne la chaˆıne de carac-
+t`eres m obtenue selon le pseudo-code pr´ec´edent. On pourra utiliser, pour parcourir l’arbre, une fonc-
+tion enfants(N) qui renvoie la liste —´eventuellement vide— des enfants du nœud N, et une fonction
+´etiquette(N).
+(5) V´erifier, `a l’aide de cette fonction decode(), le r´esultat de la question 1. On pourra utiliser l’impl´ementation
+ci-dessous pour les fonctions enfants(N) et ´etiquette(N),
+def
+enfants(N):
+’’’ noeud
+-> liste
+retourne la liste des enfants du noeud N
+’’’
+return N[1:]
+def ´etiquette(N):
+’’’ noeud
+-> ´etiquette
+retourne l’´etiquette du noeud N
+’’’
+return N[0]
+(6) On souhaite maintenant cr´eer un dictionnaire permettant de coder facilement un message, en con-
+cat´enant les codes binaires donn´es par le dictionnaire pour chaque lettre. Un tel dictionnaire peut ˆetre
+construit simplement `a l’aide d’une fonction r´ecursive qui parcourt l’arbre et compl`ete le dictionnaire
+`a chaque feuille rencontr´ee, selon l’algorithme suivant (p est le code binaire permettant d’atteindre le
+nœud r):
+fonction codes(r,p)
+// arbre (racine) × chaˆıne de caract`eres →dictionnaire
+// retourne un dictionnaire associ´e au codage donn´e par le sous-arbre de racine r et le pr´efixe p
+// la valeur par d´efaut de p est la chaˆıne de caract`eres vide
+si r est une feuille
+retourner un dictionnaire D tel que D[´etiquette(r)] = p
+retourner l’union des dictionnaires codes(enfant 0 de r, p+’0’) et codes(enfant 1 de r, p+’1’)
+(le symbole + d´esigne ici la concat´enation de chaˆınes de caract`eres)
+Impl´ementer la fonction codes() en Python, et v´erifier que codes(r,’’) renvoie bien le dictionnaire
+souhait´e.
+On pourra utiliser la syntaxe A|B pour fusioner deux dictionnaires A et B (remarque: si une mˆeme
+cl´e est pr´esente `a a fois dans A et dans B, ce qui n’arrivera pas ici, c’est la valeur de B qui est retenue).
+(7) Impl´ementer une fonction codage(D,m) qui prend en entr´ee un dictionnaire D et une chaˆıne de
+caract`eres m form´ee de caract`eres qui sont tous des cl´es de D, et retourne la concat´enation des valeurs
+associ´ees aux caract`eres de m par D. V´erifier que codage(codes(r),’fourmi’) retourne bien le code
+binaire trouv´e `a la question 2.
+Exercice 41 (codage de Huffman).
+Dans cet exercice, qui prolonge naturellement le pr´ec´edent, nous allons
+voir comment d´efinir un arbre optimal pour un message donn´e. Cette m´ethode est appel´ee codage de Huffman.
+(1) Lire le contenu du fichier goriot.txt (`a r´ecup´erer sur Moodle) dans une chaˆıne de caract`eres s au moyen
+de la fonction open et de la m´ethode read (on n’oubliera pas de fermer le fichier au moyen de la m´ethode
+close). Afficher les 1000 premiers caract`eres de s.
+(2) ´Ecrire une fonction occurrences(s), qui prend en entr´ee une chaˆıne de caract`eres s et retourne un dictio-
+nnaire dont les cl´es sont les diff´erents caract`eres trouv´es dans s et la valeur associ´ee `a chaque caract`ere
+est son nombre d’occurrences dans s.
+(3) ´Ecrire une fonction pop min(L), qui prend en entr´ee une liste constitu´ees de tuples `a 2 composantes
+(la premi`ere composante est un nombre, la deuxi`eme un objet quelconque), et retourne l’´el´ement de L
+dont la premi`ere composante est minimale. Cet ´element est retir´e de L (on pourra utiliser la syntaxe
+L.pop(i) pour retirer de L l’´el´ement d’indice i). S’il y a plusieurs ´el´ements possibles, l’un est choisi
+arbitrairement. V´erifier le fonctionnement de cette fonction avec l’exemple ci-dessous:
+
+
+
+===== PAGE 3/4 =====
+>>> L = [(10,’ok’), (100,’bof’), (1,’excellent ’), (2,’tr`es bon’)]
+>>> pop_min(L)
+(1, ’excellent ’)
+>>> L
+[(10, ’ok’), (100, ’bof’), (2, ’tr`es bon’)]
+(4) Le principe de construction de l’arbre de codage de Huffman est le suivant:
+• On construit une liste L de tuples `a deux ´el´ements (comme dans la question pr´ec´edente) `a partir du
+dictionnaire retourn´e par occurrences(s), o`u s est une chaˆıne de caract`eres, comme `a la question (1).
+Chaque paire cl´e-valeur du dictionnaire produit le tuple (valeur, nœud) dans cette liste, o`u nœud
+est une feuille dont l’´etiquette est la cl´e.
+• Tant que la liste L contient au moins deux ´el´ements, on extrait de L ses deux ´el´ements (n1, x1) et
+(n2, x2) associ´es `a des valeurs minimales de n1 et n2 (le nombre d’occurrences) au moyen de deux
+appels la fonction pop min(), et on ajoute `a L le tuple (n1 + n2, nœud)), o`u nœud est un arbre
+dont la racine a pour ´etiquette None et deux enfants x1 et x2.
+• L’arbre de Huffman est l’unique ´el´ement de la liste L obtenue `a la sortie de la boucle.
+Pr´edire `a la main l’arbre obtenu par cet algorithme appliqu´e au dictionnaire d´efini par
+D = dict(e=100,a=30,b=33,c=40,d=40)
+(5) ´Ecrire une fonction huffman(D) qui prend en entr´ee un dictionnaire (du mˆeme type que le r´esultat de
+la fonction occurrences) et retourne la racine de l’arbre calcul´e avec l’algorithme d´ecrit ci-dessus. On
+pourra utiliser, pour la construction de l’arbre, la fonction noeud (d´ej`a vue en cours)
+def noeud(e,L):
+’’’ ´etiquette x liste de noeuds
+-> noeud
+retourne un noeud d’´etiquette e et dont L contient la liste des
+enfants
+’’’
+return [e]+L
+V´erifier le r´esultat obtenu sur l’exemple de la question pr´ec´edente.
+(6) Calculer l’arbre associ´e `a la chaˆıne s (issue du fichier goriot.txt) de la question (1) au moyen des
+fonctions occurrences et huffman, puis le dictionnaire de codage associ´e grˆace `a la fonction codes de
+l’exercice pr´ec´edent. Afficher le nombre d’occurrences et le code obtenu pour les caract`eres suivants:
+les lettres e, a, Z et ¸c, et le caract`ere virgule. Quel lien remarque-t-on entre le nombre d’occurrences et
+le code obtenu ?
+(7) En d´eduire le codage de Huffman du fichier goriot.txt au moyen de la fonction codage de l’exercice
+pr´ec´edent, et v´erifier que le d´ecodage de la chaˆıne binaire obtenue (`a l’aide de la fonction decode du
+mˆeme exercice) permet bien de retrouver le texte initial.
+(8) Calculer le taux de compression (rapport entre le nombre d’octets n´ecessaires au stockage de la chaˆıne
+de codage obtenue et le nombre d’octets du fichier initial). On prendra soin de faire la distinction entre
+nombre d’octets et nombre de caract`eres Unicode, et on pourra n´egliger le codage de l’arbre lui-mˆeme
+(qui devrait en pratique ˆetre int´egr´e `a la donn´ee compress´ee pour permettre ensuite le d´ecodage).
+
+
+
+===== PAGE 4/4 =====
+Indications
+40.1 Lorsque l’on avance dans l’arbre en suivant les directions sp´ecifi´es dans le code binaire, on produit 4
+lettres de codes respectifs ’010’, ’00’, ’0110’, et ’11’. Quelles sont ces 4 lettres ?
+40.2 On donne le code de chaque lettre: u:00, f:010, etc. puis on concat`ene les codes des lettres f,o,u,r,m,i.
+40.3 L’instruction Ai = noeud(’i’,[ ]) cr´ee une feuille d’´etiquette le caract`ere i, et de mˆeme pour le caract`ere
+o avec Ao = noeud(’o’,[ ]). On peut alors d´efinir leur nœud parent par A = noeud( None, [Ai,Ao] ) et
+ainsi de suite jusqu’`a obtenir l’arbre tout entier.
+40.4 Ne pas oublier de rajouter, par rapport au pseudo-code de l’´enonc´e, l’en-tˆete de d´efinition de la fonction
+et l’instruction return terminale. Les caract`eres ’0’ et ’1’ du code doivent ˆetre convertis en les entiers
+0 et 1 afin de choisir le bon ´el´ement (indice 0 ou 1) de la liste retourn´ee par l’appel enfants(N).
+40.5 decode(r,’01000011011’) doit renvoyer le r´esultat donn´e `a la question 1. On peut ´egalement v´erifier
+le r´esultat de la question 2 en testant la fonction decode() sur le r´esultat propos´e (la fonction doit
+renvoyer la chaˆıne de caract`eres ’fourmi’).
+40.6 On teste si un nœud N est une feuille par le bool´een len(enfants(N))==0. L’appel codes(r) doit
+renvoyer un code qui contient notamment les paires (cl´es,valeurs) ’u ’:’00’ et ’f’:’010’.
+40.7 La fonction codage() it`ere sur les caract`eres de m, qui sont convertis par D et concat´en´es dans une
+chaˆıne de caract`ere qui est ensuite retourn´ee.
+41.1 Une fois le fichier ouvert dans f `a l’aide de la fonction open, la lecture du contenu entier dans une chaˆıne
+de caract`ere se fait simplement avec s = f.read(). Ne pas oublier de fermer le fichier avec la m´ethode
+close ensuite.
+41.2 Initialiser un dictionnaire D, puis faire un parcours de la chaˆıne s dans lequel on met `a jour le dictionnaire
+(soit on d´efinit une nouvelle cl´e —avec la valeur associ´ee 1— si le caract`ere courant n’est pas d´ej`a une
+cl´e, soit on incr´emente la valeur associ´ee `a la cl´e existante). On peut (mais ce n’est pas une obligation)
+utiliser la m´ethode get pour ´eviter de tester l’existence de la cl´e.
+41.3 Faire un parcours de la liste L pour trouver la valeur minimale cherch´ee, en mettant `a jour non seulement
+la valeur minimale trouv´ee `a chaque ´etape, mais ´egalement l’indice correspondant `a cette valeur. Cet
+indice est pass´e en argument `a la m´ethode pop utilis´ee `a la fin de la fonction.
+41.4 La liste L est constitu´ee de paires. Le premier ´el´ement de chaque paire est un nombre, le deuxi`eme
+´el´ement de chaque paire est un arbre. Lors de l’initialisation ces arbres sont des feuilles, mais au fur
+et `a mesure de l’avancement dans la boucle, ces arbres sont combin´es entre eux pour former des arbres
+plus complexes, exactement comme dans la question (1) de l’exercice 38.
+41.5 Une premi`ere boucle sur les cl´es de D permet de construire la liste L, en prenant soin d’appeler la fonction
+noeud avec la cl´e de l’arbre pour fabriquer chaque feuille. Le cœur de la deuxi`eme boucle commence
+avec une instruction nx,x = pop min(L) pour extraire de L son ´el´ement (nx,x) de 1`ere composante (nx)
+minimale.
+41.6 Il suffit de reprendre les fonctions enfants, ´etiquette, et codes de l’exercice pr´ec´edent, puis d’enchaˆıner
+l’appel des fonctions occurrences, huffman et codes.
+41.7 Comme dans l’exercice pr´ec´edent, on appelle la fonction codage avec deux arguments: le dictionnaire
+obtenu `a l’aide de la fonction codes, et la chaˆıne de caract`eres `a coder. La fonction decode permet de
+v´erifier le r´esultat (attention, cette fonction ne prend pas en argument le dictionnaire de codage comme
+la fonction codage, mais l’arbre de codage obtenu directement avec la fonction huffman).
+41.8 La longueur de la chaˆıne renvoy´ee par la fonction codage donne le nombre de chiffres binaires du texte
+cod´e. Il faut donc diviser ce nombre par 8 pour obtenir la taille en octets. Pour la taille du texte initial,
+on peut utiliser un navigateur de fichiers, ou la commande Unix ls avec la bonne option. L’instruction
+len(s) donne le nombre de caract`eres (Unicode) de la chaˆıne s, mais ce nombre est strictement inf´erieur
+`a la taille du texte original en octets, car certains caract`eres Unicode sont cod´es sur plus d’un octet.

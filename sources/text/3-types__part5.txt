@@ -1,0 +1,366 @@
+# 3-types -- part 5  pages 101-119 / 119
+
+
+===== PAGE 101/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+file :
+G
+E
+−→
+L
+J
+96
+
+
+
+===== PAGE 102/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+file :
+L
+J
+−→vide
+97
+
+
+
+===== PAGE 103/119 =====
+Parcours d’un graphe en largeur
+Dans le parcours d’un graphe en largeur, on s’assure de traiter tous les
+voisins d’un sommet donn´e avant de consid´erer leurs propres voisins.
+Pour cela, on ajoute au fur et `a mesure les nouveaux voisins rencontr´es
+dans une file (FIFO)
+fonction parcours largeur(G)// parcours du graphe G en largeur
+F ←file vide()
+pour tout sommet s de G
+si s n’est pas marqu´e
+ajouter ´el´ement(s,F)
+// explore la partie de G accessible depuis les sommets pr´esents dans F
+tant que la file F n’est pas vide
+s ←extraire ´el´ement(F)
+... traiter s ... // d´epend de l’algorithme `a impl´ementer
+marquer s
+pout tout voisin t de s dans G // ajout dans F des voisins de s
+si t n’est pas marqu´e
+ajouter ´el´ement(t,F)
+98
+
+
+
+===== PAGE 104/119 =====
+Parcours d’un graphe en largeur : application
+On appelle distance entre deux sommets x et y d’un graphe la
+longueur du plus petit chemin qui relie x `a y (si x et y ne sont pas reli´es,
+la distance est infinie).
+Le parcours en largeur du graphe permet de calculer la distance de x `a y,
+en parcourant successivement les sommets `a distance 1, puis 2, etc. de x
+jusqu’`a trouver y.
+Remarque : Dans le cas d’un graphe pond´er´e, on d´efinit la poids d’un
+chemin comme la somme des poids de ses arˆetes, et la distance pond´er´ee
+entre deux sommets comme le poids minimal d’un chemin qui les relie.
+Cette distance pond´er´ee peut ˆetre calcul´ee avec l’algorithme de Dijkstra
+(hors programme).
+99
+
+
+
+===== PAGE 105/119 =====
+Calcul de la distance entre deux sommets d’un graphe
+fonction distance(G,x,y)
+// retourne la distance de x `a y dans G
+F ←file vide()
+ajouter ´el´ement(x,F)
+d ←0
+tant que la file F n’est pas vide
+C ←file vide() // couche suivante
+tant que F n’est pas vide
+s ←extraire ´el´ement(F)
+si s=y
+retourner d // on a atteint y →on retourne d
+si s n’est pas marqu´e
+marquer s
+pour tout voisin t de s dans G
+si t n’est pas marqu´e
+ajouter ´el´ement(t,C)
+d ←d+1 // on incr´emente la distance
+F ←C // on passe `a la couche suivante
+retourner +∞// pas de chemin de x `a y
+100
+
+
+
+===== PAGE 106/119 =====
+Calcul de la distance entre deux sommets d’un graphe
+def
+distance(G,x,y):
+"retourne
+la
+distance
+de x `a y, None si elle
+est
+infinie"
+F = file_vide ()
+ajouter_´el´ement(x,F)
+M = set () # ensemble
+des
+sommets
+marqu´es (= visit´es)
+d = 0
+while
+not
+est_vide(F):
+C = file_vide ()
+while
+not
+est_vide(F): # on
+explore F
+s = extraire_´el´ement(F)
+if s==y:
+return d # on a atteint y -> on
+retourne d
+if s not in M:
+M.add(s) # on marque s
+for t in
+voisins(G,s):
+if t not in M:
+ajouter_´el´ement(t,C)
+d = d+1
+F = C
+return
+None # pas de chemin de x `a y -> distance
+infinie
+101
+
+
+
+===== PAGE 107/119 =====
+Parcours d’un arbre en largeur
+Pour les arbres, le parcours en largeur s’effectue de mani`ere similaire,
+mais la fonction est plus simple, car :
+• il est inutile de marquer les nœuds
+• il n’y a qu’une composante connexe `a visiter (issue de la racine)
+fonction parcours largeur(A)
+// parcours de l’arbre A en largeur
+F ←file vide()
+ajouter ´el´ement(racine(A),F)
+tant que la file F n’est pas vide
+N ←extraire ´el´ement(F)
+... traiter N ... // d´epend de l’algorithme `a impl´ementer
+pout tout enfant E de N // ajout dans la file F des enfants de N
+ajouter ´el´ement(E,F)
+102
+
+
+
+===== PAGE 108/119 =====
+Compl´ement sur les graphes :
+chemins eul´eriens
+
+
+
+===== PAGE 109/119 =====
+Graphes et trac´es sans lever le crayon
+Question : peut-on tracer les figures suivantes sans lever le crayon ?
+(et sans repasser sur le mˆeme trait plusieurs fois)
+103
+
+
+
+===== PAGE 110/119 =====
+Chemins eul´eriens
+D´efinition
+Dans un graphe simple non orient´e, un chemin eul´erien est une chemin
+qui contient exactement une fois chaque arˆete du graphe.
+a
+b
+c
+d
+e
+f
+g
+Ce graphe contient-il un chemin eul´erien ?
+→oui, par exemple la chemin e-b-a-c-g-d-a-g-f-c-e-f
+Th´eor`eme d’Euler
+Un graphe connexe admet une chemin eul´erien si et seulement si il
+poss`ede 0 ou 2 sommets de degr´e impair.
+104
+
+
+
+===== PAGE 111/119 =====
+Chemins eul´eriens
+a
+b
+c
+d
+e
+f
+g
+2
+2
+4
+4
+4
+3
+3
+En bleu, le degr´e de chaque sommet
+Il y a exactement 2 sommets de degr´e impair
+→il existe une chemin eul´erien
+105
+
+
+
+===== PAGE 112/119 =====
+Trac´e sans lever le crayon ?
+Dessin initial
+106
+
+
+
+===== PAGE 113/119 =====
+Trac´e sans lever le crayon ?
+Graphe associ´e
+(on place des sommets aux intersections et pour distinguer les arˆetes multiples)
+107
+
+
+
+===== PAGE 114/119 =====
+Trac´e sans lever le crayon ?
+3
+4
+3
+3
+3
+2
+Avec le degr´e de chaque sommet indiqu´e en bleu
+Il y a exactement 4 sommets de degr´e impair
+→pas de chemin eul´erien
+→pas de trac´e sans lever le crayon
+108
+
+
+
+===== PAGE 115/119 =====
+Trac´e sans lever le crayon ?
+Dessin initial
+109
+
+
+
+===== PAGE 116/119 =====
+Trac´e sans lever le crayon ?
+Graphe associ´e
+(on place des sommets aux intersections et pour distinguer les arˆetes multiples)
+110
+
+
+
+===== PAGE 117/119 =====
+Trac´e sans lever le crayon ?
+4
+4
+4
+3
+3
+2
+2
+Avec le degr´e de chaque sommet indiqu´e en bleu
+Il y a exactement 2 sommets de degr´e impair
+→il existe un chemin eul´erien
+→on peut tracer la figure sans lever le crayon
+111
+
+
+
+===== PAGE 118/119 =====
+Cas des multigraphes
+Remarque : Le th´eor`eme d’Euler reste valable pour les multigraphes,
+c’est-`a-dire des graphes pour lesquels on peut avoir plusieurs arˆetes qui
+joignent deux mˆemes sommets
+Pour les deux exemples pr´ec´edents, on a ´evit´e de consid´erer des
+multigraphes en introduisant artificiellement des sommets
+Si l’on s’en tient au multigraphe obtenu en pla¸cant des sommets
+uniquement aux intersections, la conclusion est identique
+4
+4
+4
+3
+3
+112
+
+
+
+===== PAGE 119/119 =====
+Algorithme pour l’existence d’un chemin eul´erien
+fonction a chemin eulerien(G)
+// retourne vrai ssi le graphe (simple) G admet un chemin eul´erien
+si G n’est pas connexe
+retourner faux
+nb impair ←0 // pour compter le nombre de sommets de degr´e impair
+pour tout sommet s de G
+si cardinal(voisins(G,s)) est impair
+nb impair ←nb impair + 1
+retourner ( nb impair ∈{0, 2} ) // retourne le r´esultat du test
+Impl´ementation Python :
+def
+a_chemin_eulerien (G): # graphe
+-> bool´een
+if not
+est_connexe(G):
+return
+False
+nb_impair = 0
+for s in
+sommets(G):
+if len(voisins(G,s))%2==1:
+nb_impair = nb_impair + 1
+return
+nb_impair
+in {0 ,2}
+113

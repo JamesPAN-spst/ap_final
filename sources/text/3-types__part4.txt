@@ -1,0 +1,651 @@
+# 3-types -- part 4  pages 76-100 / 119
+
+
+===== PAGE 76/119 =====
+Graphes et arbres
+Si l’on fait abstraction des diff´erences de vocabulaire (nœud contre
+sommet, relation parent-enfant contre arˆete), un arbre peut-ˆetre vu
+comme un graphe dont un sommet est point´e (= distingu´e) comme la
+racine de l’arbre.
+R´eciproquement, tout graphe (non orient´e) connexe acyclique
+(c’est-`a-dire ne comportant pas de cycle) dont on pointe un sommet S
+est ´equivalent `a un arbre de racine S.
+a
+S
+b
+c
+d
+e
+f
+S
+f
+b
+a
+c
+e
+d
+un graphe connexe acyclique
+l’arbre de racine S associ´e
+avec un sommet point´e (S)
+71
+
+
+
+===== PAGE 77/119 =====
+Parcours d’un graphe
+Beaucoup d’algorithmes ´evolu´es sur les graphes n´ecessitent d’effectuer un
+parcours du graphe.
+Comme pour les arbres, essentiellement deux types de parcours :
+• le parcours en profondeur : on explore r´ecursivement les voisins (non
+d´ej`a visit´es) des voisins avant d’explorer les autres voisins
+• le parcours en largeur : on explore tous les voisins (non d´ej`a visit´es),
+puis on passe aux voisins des voisins
+Dans les deux cas, il est n´ecessaire de marquer les sommets visit´es au fur
+et `a mesure, par exemple en positionnant `a Vrai une ´etiquette bool´eenne
+associ´ee au sommet, ou bien en tenant `a jour un ensemble de sommets
+marqu´es
+72
+
+
+
+===== PAGE 78/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+73
+
+
+
+===== PAGE 79/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+74
+
+
+
+===== PAGE 80/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+75
+
+
+
+===== PAGE 81/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+76
+
+
+
+===== PAGE 82/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+77
+
+
+
+===== PAGE 83/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+78
+
+
+
+===== PAGE 84/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+79
+
+
+
+===== PAGE 85/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+80
+
+
+
+===== PAGE 86/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+81
+
+
+
+===== PAGE 87/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+9
+82
+
+
+
+===== PAGE 88/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+83
+
+
+
+===== PAGE 89/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+84
+
+
+
+===== PAGE 90/119 =====
+Parcours d’un graphe en profondeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+parcours en profondeur : A,B,D,I,K,F,H,C,E,J,L,G
+il y a 2 composantes connexes
+85
+
+
+
+===== PAGE 91/119 =====
+Parcours d’un graphe en profondeur
+En partant du sommet s d’un graphe G et en explorant r´ecursivement ses
+voisins, on visite la composante connexe de G contenant s (c’est-`a-dire
+l’ensemble des sommets de G accessibles depuis s)
+fonction explore(G,s)
+// explore la partie du graphe G accessible depuis le sommet s
+... traiter s ... // d´epend de l’algorithme `a impl´ementer
+marquer s
+pout tout voisin t de s dans G
+si t n’est pas marqu´e
+explore(G,t)
+Pour explorer compl`etement le graphe G, il faut appeler la fonction
+explore() pour toutes les composantes connexes de G
+fonction parcours profondeur(G)
+pour tout sommet s de G
+si s n’est pas marqu´e
+explore(G,s)
+86
+
+
+
+===== PAGE 92/119 =====
+Application du parcours en profondeur : test de connexit´e
+fonction explore(G,s,M)
+// explore la partie du graphe G accessible depuis le sommet s
+ajouter `a l’ensemble M le sommet s // marque s
+pout tout voisin t de s dans G
+si t ̸∈M // si t n’est pas marqu´e
+explore(G,t,M)
+fonction nb composantes connexes(G)
+// retourne le nombre de composantes connexes du graphe G
+n ←0 // nombre de composantes connexes
+M ←∅// ensemble des sommets marqu´es
+pour tout sommet s de G
+si s ̸∈M // si s n’est pas marqu´e
+n ←n+1 // nouvelle composante connexe trouv´ee
+explore(G,s,M)// explore la composante connexe contenant s
+retourner n
+fonction est connexe(G)
+// retourne vrai si le graphe G est connexe, faux sinon
+retourner ( nb composantes connexes(G) = 1 )
+87
+
+
+
+===== PAGE 93/119 =====
+Application du parcours en profondeur : test de connexit´e
+def
+explore(G,s,M):
+# graphe x sommet x ensemble
+de
+sommets (modifi´e) ->
+"parcours
+de la
+composante
+connexe
+de G contenant s"
+M.add(s) # on marque s
+for t in
+voisins(G,s):
+if t not in M: # si t n’est pas
+marqu´e
+explore(G,t,M)
+def
+nb_composantes_connexes (G): # graphe
+-> entier
+"retourne
+le nombre de
+composantes
+connexes
+du graphe G"
+n = 0 # pour
+compter
+le nombre de
+composantes
+connexes
+M = set () # pour
+marquer
+les
+sommets
+for s in
+sommets(G):
+if s not in M:
+n = n + 1 # nouvelle
+composante
+connexe
+trouv´ee
+explore(G,s,M)
+return n
+def
+est_connexe (G): # graphe
+-> bool´een
+"retourne
+True si le graphe G est connexe , False
+sinon"
+return
+nb_composantes_connexes (G)==1
+88
+
+
+
+===== PAGE 94/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+file vide −→
+A
+89
+
+
+
+===== PAGE 95/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+file :
+A
+−→
+H
+F
+B
+90
+
+
+
+===== PAGE 96/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+file :
+H
+F
+B
+−→
+D
+91
+
+
+
+===== PAGE 97/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+file :
+D
+−→
+I
+92
+
+
+
+===== PAGE 98/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+file :
+I
+−→
+K
+93
+
+
+
+===== PAGE 99/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+file :
+K
+−→
+C
+94
+
+
+
+===== PAGE 100/119 =====
+Parcours d’un graphe en largeur
+A
+B
+D
+C
+F
+H
+K
+I
+G
+E
+J
+L
+1
+2
+3
+4
+5
+6
+7
+8
+file :
+C
+−→
+G
+E
+95

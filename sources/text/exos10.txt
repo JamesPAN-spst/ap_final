@@ -1,0 +1,157 @@
+
+===== PAGE 1/4 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 42 `a 44
+Note: si vous rencontrez des difficult´es sur l’une des questions de cette feuille d’exercices, vous pouvez lire les indications
+correspondantes `a la fin de ce document. Il est cependant conseill´e de ne le faire qu’en dernier recours: trop utiliser ces
+indications pourrait vous donner `a tort l’impression que vous maˆıtrisez les exercices alors que ce n’est pas encore le cas.
+Exercice 42 (graphes). Proposer un pseudo-code pour chacune des fonctions d´efinies ci-dessous :
+(1) La fonction simple(G) prend en entr´ee un graphe G et renvoie le bool´een vrai si le graphe G est
+simple, faux sinon.
+(2) La fonction dmax(G) prend en entr´ee un graphe G non vide et renvoie le degr´e maximal obtenu parmi
+tous les sommets de G.
+(3) La fonction r´egulier(G) prend en entr´ee un graphe G et renvoie le bool´een vrai si le graphe G est
+r´egulier, faux sinon.
+(4) La fonction complet(G) prend en entr´ee un graphe G et renvoie le bool´een vrai si le graphe G est
+complet, faux sinon.
+(5) La fonction sym´etrique(G) prend en entr´ee un graphe orient´e G et renvoie le bool´een vrai si le graphe
+G est sym´etrique (au sens o`u l’arˆete A →B existe ssi l’arˆete B →A existe), faux sinon.
+(6) La fonction adjacence(G) prend en entr´ee un graphe orient´e G et renvoie sa matrice d’adjacence (on
+supposera que les sommets du graphe G sont num´erot´es `a partir de 1).
+Exercice 43 (manipulation de graphes par matrice d’adjacence). Soit G un graphe non vide, orient´e,
+de matrice d’adjacence A (on suppose que les sommets sont num´erot´es de 1 `a n). Trouver, pour chacune des
+proprit´et´es ci-dessous, une caract´erisation de la propri´et´e au moyen de A (par exemple: G est simple ssi tous
+les coefficients diagonaux de A sont nuls).
+(1) Le graphe G est r´egulier (on suppose que G est simple)
+(2) Le graphe G est complet (on suppose que G est simple)
+(3) Il existe un chemin dans G reliant le sommet 1 au sommet n
+(4) Le graphe G est connexe
+(5) Pour tout couple (x, y) de sommets de G, la distance de x `a y est au plus ´egale `a d
+Exercice 44 (mesure de volumes).
+On dispose de 2 r´ecipients, un r´ecipient A de 3 litres et un r´ecipient B de 7 litres, tous deux initialement
+vides. Si l’on ne dispose d’aucun autre r´ecipient ni moyen de mesurer des volumes, on peut n´eanmoins mesurer
+un volume d’un litre en proc´edant comme suit:
+- remplir B (compl`etement)
+- vider B dans A (jusqu’`a ce que A soit plein)
+- jeter le contenu de A
+- vider B dans A (jusqu’`a ce que A soit plein)
+→il reste alors 1 litre dans B
+Si l’on note sous la forme d’un couple (x, y) une configuration donn´ee (A contient x litres et B contient y
+litres), alors l’algorithme pr´ec´edent peut s’´ecrire sous la forme d’une suite de configurations :
+(0, 0) −(0, 7) −(3, 4) −(0, 4) −(3, 1)
+(1) Proposer un sch´ema similaire pour mesurer un volume de 2 litres.
+
+
+
+===== PAGE 2/4 =====
+(2) ´Etant donn´es deux r´ecipients A et B de contenances respectives a et b litres (avec a et b entiers et
+1 ⩽a ⩽b), on souhaite d´eterminer le graphe (simple orient´e) des configurations accessibles `a partir de
+la configuration vide. Un sommet du graphe repr´esente une configuration, et chaque arˆete correspond
+`a l’une des manipulations ´el´ementaires suivantes :
+• remplir (compl`etement) l’un des r´ecipients;
+• jeter le contenu d’un des r´ecipients;
+• vider (au maximum) l’un des r´ecipients dans l’autre (`a la fin, le premier est vide ou le deuxi`eme
+est plein).
+Par exemple, si a = 1 et b = 2, on obtient le graphe orient´e ci-dessous :
+(0,0)
+(1,0)
+(0,1)
+(1,1)
+(0,2)
+(1,2)
+On souhaite ´ecrire le pseudo-code d’une fonction configurations(a,b) qui prend en entr´ee les deux
+entiers pr´ec´edents a et b, et renvoie le graphe des configurations accessibles `a partir de la configuration
+(0, 0). Pour cela, on d´ecide de construire ce graphe comme si l’on effectuait un parcours en largeur
+`a partir de la configuration (0, 0), c’est-`a-dire en traitant dans une boucle les sommets d’un ensemble
+N (initialis´e avec {(0, 0)}), en reliant dans chaque tour de boucle chaque sommet de N `a ses voisins
+(ce qui am`ene `a la cr´eation d’un ensemble M de nouveaux sommets), et en recomman¸cant au tour de
+boucle suivant avec M `a la place de N. Compl´eter le pseudo-code ci-dessous.
+fonction configurations(a, b)
+// retourne le graphe des configurations accessibles depuis (0, 0)
+G ←graphe vide
+N ←...........
+tant que ...........
+M ←∅
+pour tout ´el´ement (x, y) de N
+fabriquer C, l’ensemble de toutes les configurations valides que l’on peut obtenir `a partir de (x, y)
+ajouter `a M ...........
+ajouter `a G le sommet (x, y), dont l’ensemble des voisins est ...
+N ←...........
+retourner ...........
+(3) Impl´ementer la fonction pr´ec´edente en Python, en utlisant les fonctions ci-dessous pour l’impl´ementation
+du type graphe orient´e (voir cours):
+def
+graphe_vide ():
+# -> graphe
+return
+dict ()
+def
+ajouter_sommet (G,s,A):
+# graphe (modifi´e) x sommet x ensemble de sommets (set) ->
+G[s] = A
+def sommets(G):
+# graphe
+-> ensemble de sommets (set)
+return set(G.keys ())
+V´erifier que configurations(1,2) retourne bien le r´esultat attendu.
+
+
+
+===== PAGE 3/4 =====
+(4) Impl´ementer une fonction Python volumes(a,b), qui renvoie l’ensemble des volumes entiers accessi-
+bles pour deux r´ecipients de tailles respectives a et b. Cette fonction pourra faire appel `a la fonc-
+tion configurations() impl´ement´ee `a la question 3.
+Examiner (apr`es tri) le r´esultat produit par
+volumes(a,b) pour plusieurs valeurs de a et b, et ´etablir une conjecture empirique sur l’expression
+g´en´erale de volumes(a,b).
+(5*) Impl´ementer une fonction Python etapes(a,b), qui renvoie un dictionnaire donnant, pour chaque
+volume entier v accessible, le nombre minimal d’´etapes `a r´ealiser pour obtenir v (dans A ou B). En
+d´eduire le nombre d’´etapes minimales n´ecessaire pour mesurer un volume de 16 litres `a partir de deux
+r´ecipients de contenances respectives 31 litres et 37 litres.
+
+
+
+===== PAGE 4/4 =====
+Indications
+42.1 Faire une boucle sur tous les sommets s du graphe G et tester si s est voisin de lui-mˆeme.
+42.2 Faire une boucle sur tous les sommets s du graphe G et examiner le nombre de voisins de s.
+42.3 Faire une boucle sur tous les sommets s du graphe G et examiner le nombre de voisins de s. Utiliser
+une variable auxilliaire, initialis´ee `a rien (par exemple), pour m´emoriser le premier degr´e rencontr´e,
+puis comparer le degr´e des sommets suivants `a cette valeur.
+42.4 Faire une boucle sur tous les sommets s du graphe G, et examiner l’ensemble des voisins de s, compl´et´e
+par s.
+42.5 Faire deux boucles imbriqu´ees, l’une sur tous les sommets s du graphe G, l’autre sur tous les voisins t
+de s, et examiner si s est un voisin de t ou pas.
+42.6 Faire deux boucles imbriqu´ees sur i = 1, 2, . . . n et sur j = 1, 2, . . . n (o`u n est le nombre de sommets de
+G), puis remplir le coefficient (i, j) de la matrice avec la valeur appropri´ee.
+43.1 Comment s’interpr`ete la quantit´e
+n
+X
+j=1
+aij ?
+43.3 Interpr´eter en termes de d´enombrement la valeur de b1n, o`u B = (bij)i,j est la matrice d´efinie par
+B = A + A2 + A3 + . . . + An−1
+43.5 Interpr´eter en termes de d´enombrement la valeur de bij, o`u B = (bij)i,j est la matrice d´efinie par
+B = A + A2 + A3 + . . . + Ad
+44.1 Commencer comme pour un volume de 1 litre, et poursuivre ensuite les manipulations de base sans
+revenir en arri`ere jusqu’`a tomber sur une configuration satisfaisante (2 litres dans l’un des r´ecipients)
+44.2 La plupart des r´eponses se trouvent dans la description informelle de l’algorithme donn´e par l’´enonc´e.
+44.3 La construction de C peut commencer comme ceci :
+C = set()
+if x<a and y>0: # vide B dans A
+d = min([y,a-x])
+C.add((x+d,y-d))
+if y>0: # vide B
+C.add((x ,0))
+if y<b: # remplit B
+......
+......
+44.4 La fonction volumes() r´ecup`ere le graphe G construit par configurations(a,b) et renvoie l’ensemble
+de tous les composantes (x et y) de tous les couples (x, y) qui sont dans sommets(G).
+44.5 On peut construire la fonction etapes() en modifiant l´eg`erement la fonction configurations(). Dans
+la boucle sur les ´el´ements (x, y) de N, on rajoute, si elles ne sont pas d´ej`a pr´esentes, les cl´es x et y
+dans le dictionnaire que l’on veut construire, avec comme valeur le num´ero (commen¸cant `a 0) de tour
+de boucle principal (boucle “tant que N ̸= ∅”).

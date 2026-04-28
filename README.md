@@ -12,6 +12,7 @@ work/web/
 ├── fascicule.html      ← 复习册页面
 ├── gen_exams.py        ← 15 套模拟卷生成器
 ├── README.md           ← 当前说明文档
+├── sources/            ← 原始课件 PDF、抽取文本与抽取脚本
 └── data/
     └── exams.json      ← 360 道题数据(15 套 × 24 题)
 ```
@@ -47,6 +48,14 @@ python gen_exams.py
 
 脚本会重写 `data/exams.json`。当前的种子规则是 `set_id * 1000 + 7`,所以同一份代码每次生成的 15 套题都可复现。
 
+### 3. 查看原始材料
+
+仓库里现在已经包含一份整理过的源材料目录 [work/web/sources/README.md](work/web/sources/README.md):
+
+1. `sources/pdf/` 保存原始 PDF 课件、练习和考卷更正。
+2. `sources/text/` 保存从 PDF 抽取出的文本版本。
+3. `sources/extract_pdfs.py` 可在仓库内直接重新生成这些文本文件。
+
 ## 题目结构
 
 | 模块 | 数量 | 覆盖内容 |
@@ -61,4 +70,4 @@ python gen_exams.py
 
 - 题库是用模板和随机参数生成的,答案由代码同步计算,不是手写硬编码。
 - 自动批改本质上还是字符串比对,虽然已经做了空格、真假值和集合顺序归一化,极端格式差异仍可能需要人工判断。
-- 这个仓库只包含站点可发布所需文件。更上层的资料整理文件仍保留在工作目录中,但发布与维护以这里为准。
+- 原始 PDF 与抽取文本也已经并入仓库中的 `sources/` 目录,后续发布与维护以这里为准。

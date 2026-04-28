@@ -1,0 +1,138 @@
+
+===== PAGE 1/2 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 13 `a 19
+Exercice 13 (arguments optionnels I). On consid`ere une fonction f d´efinie avec l’en-tˆete suivant:
+def f(x,y,z=3,L=[],t=True ):
+...
+Parmi les lignes ci-dessous, lesquelles ne constituent pas des appels valides `a la fonction f ? (expliquer alors
+pourquoi)
+1
+f(1)
+2
+f(1,3)
+3
+f(1,3,4)
+4
+f(y=2,x=1)
+5
+f(t=False ,1,2)
+6
+f(4,5,L=[1])
+7
+f(1,1,3, False)
+8
+f(1,1,L=[3], False)
+9
+d = {’x’:1,’y’:2,’t’:False }; f(**d)
+10
+d = dict(y=2,x=1,t=False ); f(**d)
+Exercice 14 (arguments optionnels II). On appelle une fonction f avec la syntaxe f(3,[],z=5). Parmi
+les en-tˆetes de d´efinition de la fonction f consid´er´es ci-dessous, lesquels conduiront `a une erreur ? (expliquer
+alors pourquoi)
+1
+def f(x,L,t=True ,z=1):
+2
+def f(x,L,t=True ,z):
+3
+def f(x,z=5,L=[]):
+4
+def f(x,L,t,z):
+Exercice 15 (fonctions et dictionnaires).
+(1) ´Ecrire une fonction Python chiffres(L) qui prend en entr´ee une liste L d’entiers positifs, et retourne
+un dictionnaire qui comptabilise les ´el´ements de L en fonction de leur nombre de chiffres en base 10. Par
+exemple, si L = [23,2,5,10,0,1000], alors chiffres(L) doit retourner le dictionnaire {1:3,2:2,4:1}
+puisque la liste L contient 3 nombres `a 1 chiffre, 2 nombres `a 2 chiffres, et 1 nombre `a 4 chiffres.
+(2) ´Ecrire une fonction Python reciproque(D) qui prend en entr´ee un dictionnaire D dont toutes les valeurs
+sont hachables, et retourne un dictionnaire dont chaque cl´e x est une valeur de D et la valeur associ´ee
+`a x est l’ensemble des cl´es de D qui ont dans D la valeur x. Par exemple, si D = {1:’a’, 2:’b’,
+3:’a’}, alors reciproque(D) doit retourner le dictionnaire
+{’a’:{1,3}, ’b’:{2}}
+(3) ´Ecrire une fonction Python classe(L) qui prend en entr´ee une liste L d’entiers positifs, et effectue un
+parcours de L pour construire progressivement un dictionnaire D dont les cl´es sont des entiers impairs
+de 1 `a 9 et la valeur associ´ee `a la cl´e k est l’ensemble des ´el´ements de L dont le chiffre des unit´es est
+k (la cl´e k n’est pas cr´e´ee si le chiffre des unit´es k n’est pas pr´esent parmi les ´el´ements de L). Par
+exemple, classe([13,7,342,57,13,18]) doit retourner le dictionnaire D = {3:{13}, 7:{7,57}}
+(4) ´Ecrire une fonction Python compte(s) qui prend en entr´ee une chaˆıne de caract`eres s, et effectue un
+parcours de s pour construire progressivement un dictionnaire D tel que pour toute lettre majuscule
+x pr´esente dans s, D[x] contienne le nombre de lettres majuscules pr´esentes dans la chaˆıne avant la
+derni`ere occurrence de x. Par exemple, compte("Correction Partiel AlgoProg2") doit retourner
+le dictionnaire D = {’C’:0, ’P’:3, ’A’:2}
+
+
+
+===== PAGE 2/2 =====
+Exercice 16 (arguments optionnels et fonctions lambda).
+Pr´edire ce qu’affichent les programmes
+ci-dessous:
+def f(x,y=3,z=True ):
+if z:
+return y-x
+print(f(3))
+print(f(5,z=False ))
+print(f(y=1,x=3))
+g = lambda x,y=1 : x//y+x%y
+print(g(17))
+print(g(17 ,3))
+def F(g,x,y=3,z=2):
+return x+g(y)*z
+print(F(lambda t:t**2 ,2 ,4))
+Exercice 17 (appels r´ecursifs).
+Pr´edire le r´esultat affich´e par chaque programme ci-dessous.
+def f(a,b):
+if b==0:
+return a
+return f(a+1,b-1)
+print(f(23 ,41))
+print(f(10 , -1))
+def g(x):
+if x==0:
+return 1
+return 10*g(x-1)
+print(g(8))
+print(g(7.99))
+def h(x):
+assert
+type(x) is int
+if x==0:
+return "0b"
+return h(x//2)+ str(x%2)
+print(h(19))
+print(h(1.3))
+Exercice 18 (r´ecurrence `a longue distance).
+On consid`ere la suite d´efinie par u0 = 1 et la relation de
+r´ecurrence
+∀n ⩾1,
+un = u[n/2] + u[n/3],
+o`u [x] d´esigne la partie enti`ere de x (plus grand entier inf´erieur ou ´egal `a x).
+(1) Calculer `a la main u10.
+(2) ´Ecrire une fonction non r´ecursive suite1(n), qui retourne la liste des termes de la suite jusqu’au
+rang n, c’est-`a-dire [u0, u1, . . . , un]. V´erifier pour u10.
+(3) ´Ecrire une fonction non r´ecursive suite2(n) qui retourne uniquement le terme de la suite d’indice n.
+V´erifier pour u10.
+Exercice 19 (m´ethode des trap`ezes).
+La m´ethode des trap`ezes consiste `a estimer num´eriquement la valeur de
+R b
+a f en subdivisant l’intervalle [a, b]
+en n sous-intervalles de mˆeme longueur, et en estimant sur chaque sous-intervalle [α, β] l’int´egrale
+R β
+α f par
+l’aire du trap`eze de sommets (α, 0); (α, f(α)); (β, f(β)); (β, 0).
+(1) Donner l’expression de l’aire du trap`eze de sommets (α, 0); (α, f(α)); (β, f(β)); (β, 0).
+(2) En d´eduire l’expression math´ematique de l’estimation de
+R b
+a f par la m´ethode des trap`ezes (on pourra
+s’inspirer de la formule vue en cours pour la m´ethode des rectangles).
+(3) ´Ecrire la fonction Python trapezes(f,a,b,n) associ´ee.
+(4) D´efinir une fonction sinc(x) ´egale au prolongement par continuit´e en 0 de la fonction x 7→sin x
+x .
+(5) (TP) Calculer, `a une pr´ecision d’environ 10−6, la constante de Wilbraham-Gibbs C =
+R π
+0
+sin x
+x
+dx
+(expliquer la d´emarche utilis´ee pour atteindre cette pr´ecision).

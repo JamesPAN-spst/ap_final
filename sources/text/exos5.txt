@@ -1,0 +1,99 @@
+
+===== PAGE 1/2 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 24 `a 26
+Exercice 24 (min et max).
+On souhaite extraire d’une liste L (non vide) de nombres r´eels son plus petit et son plus grand ´el´ement, en
+effectuant pour cela le minimum de comparaisons (et sans bien sˆur utiliser les fonctions min et max de Python).
+Dans toute la suite, on note n le nombre d’´el´ements de L.
+(1) ´Ecrire une fonction non r´ecursive minmax(L) qui prend en entr´ee la liste L et renvoie la valeur minimale
+et la valeur maximale de L, en effectuant (au plus) 2(n −1) comparaisons entre 2 nombres r´eels.
+(2) On souhaite r´esoudre le probl`eme plus efficacement, en utilisant la strat´egie “diviser pour r´egner” avec,
+lorsque n ⩾3 seulement, une division de la liste en deux sous-listes (les ⌊n
+2 ⌋premiers ´el´ements de L
+dans la premi`ere, les n −⌊n
+2 ⌋´el´ements restants dans la seconde, o`u ⌊x⌋d´esigne la partie enti`ere de x).
+´Ecrire une fonction r´ecursive minmax2(L) qui impl´emente cette strat´egie, en commentant le code
+propos´e.
+(3) On note C(k) le nombre de comparaisons effectu´ees dans la fonction minmax2 lorsque la liste L est de
+taille 2k. Montrer que C(0) = 0, C(1) = 1 et C(k) = 2C(k −1) + 2 pour tout k ⩾2, et en d´eduire
+l’expression explicite de C(k) en fonction de k. Comparer au nombre obtenu pour la fonction minmax
+et conclure.
+Exercice 25 (recherche rapide du terme de rang k).
+´Etant donn´ee une liste L de taille n et un entier k tel que 1 ⩽k ⩽n, on cherche `a d´eterminer le terme de
+rang k de L, c’est-`a-dire la k-i`eme valeur que l’on obtiendrait en triant les ´el´ements de L dans l’ordre croissant.
+Par exemple, le terme de rang 3 de la liste [8,3,7,9,5,2] est 5.
+Pour cela, on s’inspire de l’algorithme du tri rapide et l’on proc`ede comme suit:
+• on consid`ere la valeur x du premier ´el´ement de L;
+• on construit la liste L1 des ´el´ements de L (sans le premier terme x) qui sont strictement inf´erieurs `a x;
+• on distingue alors trois cas, selon le nombre d’´el´ements n1 de L1:
+a) soit n1 = k −1, auquel cas la valeur cherch´ee est x;
+b) soit n1 > k −1, auquel cas la valeur cherch´ee est le terme de rang k de L1;
+c) soit n1 < k −1, auquel cas la valeur cherch´ee est le terme de rang ℓde L2 (pour un certain ℓ), o`u
+L2 est la liste des ´el´ements de L (sans le premier terme x) qui sont sup´erieurs ou ´egaux `a x.
+(1) Expliciter la valeur de ℓen fonction de k et de n1.
+(2) ´Ecrire le pseudo-code d’une fonction r´ecursive rang(L,k) qui d´etermine, dans une liste L d’au moins
+k nombres, la valeur du terme de rang k.
+(3) (TP) Impl´ementer cet algorithme en une fonction Python rang(L,k).
+(4) (TP) V´erifier la fonction ainsi obtenue pour k = 1, 2, 3, 4, 5 sur la liste [4,2,1,3,8].
+(5) (TP) Calculer, `a l’aide de cette fonction rang, le 100e nombre de la forme ab avec a et b entiers au
+moins ´egaux `a 2.
+
+
+
+===== PAGE 2/2 =====
+Exercice 26 (les tours de Hano¨ı, TP). Le probl`eme des tours de Hano¨ı est le suivant: on dispose d’un
+plateau avec trois tiges (noires sur la figure ci-dessous) et N disques de diff´erents diam`etres (et de diff´erentes
+couleurs sur la figure). Les disques sont perc´es en leur centre pour pouvoir s’enfiler sur les tiges. Le but du jeu
+est, partant de la position initiale (`a gauche), de parvenir `a la position finale (`a droite), en d´epla¸cant les disques
+un par un d’une tige `a une autre, avec la contrainte qu’un disque ne peut jamais ˆetre pos´e sur un disque
+plus petit. Dans la position interm´ediaire ci-dessous, on ne peut donc faire que trois mouvements: d´eplacer le
+disque sup´erieur de la tige gauche vers la tige droite, ou d´eplacer le disque sup´erieur de la tige centrale vers
+l’une des deux autres tiges.
+position initiale
+position interm´ediaire
+position finale
+Pour rendre l’exercice plus ludique, nous utiliserons le module hanoi tkinter que vous pouvez t´el´echarger
+sur la page Moodle du cours. Copiez le fichier hanoi tkinter.py dans votre r´epertoire de travail et commencez
+`a tester avec le programme suivant (´ecrit dans un fichier nomm´e hanoi.py par exemple):
+from
+hanoi_tkinter
+import
+Hanoi
+H = Hanoi (3 ,1.5) # cr´ee l’objet H avec 3 disques et une
+temporisation de 1,5 seconde
+H.move (0 ,2) # effectue un mouvement de la tige 0 (gauche) vers la tige 2 (droite)
+H.move (0 ,1) # effectue un mouvement de la tige 0 (gauche) vers la tige 1 (milieu)
+H.quit () # pour
+fermer la fen^etre (apr`es appui sur la touche
+Entr´ee)
+(1) Compl´etez le programme (5 mouvements `a trouver) pour arriver `a la position finale.
+(2) On souhaite maintenant r´esoudre le probl`eme des tours de Hano¨ı pour un nombre de disques N quel-
+conque. Pour cela, on adopte une strat´egie de type diviser pour r´egner qui repose sur la remarque
+suivante: pour d´eplacer les n disques sup´erieurs de la tige A vers la tige B (en supposant que les dis-
+ques ´eventuellement d´ej`a pr´esents sur la tige B et la tige C sont plus gros que ces n disques), il suffit:
+(a) de d´eplacer les n −1 disques sup´erieurs de la tige A vers la tige C;
+(b) de d´eplacer le disque sup´erieur (initialement le n-i`eme donc) de la tige A vers la tige B;
+(c) de d´eplacer les n −1 disques sup´erieurs de la tige C vers la tige B.
+Les ´etapes (a) et (c) n´ecessitent en g´en´eral plusieurs mouvements, mais peuvent ˆetre effectu´ees par un
+simple appel r´ecursif. ´Ecrire un algorithme r´ecursif mettant en œuvre ce principe sous la forme d’une
+fonction solve(n,A,B,C). Quelle condition d’arrˆet de la r´ecursion peut-on utiliser ?
+(3) Impl´ementer cet algorithme en une fonction python solve(H,n,A,B,C), o`u H est l’objet python retourn´e
+par Hanoi() (utile pour faire les d´eplacements), n le nombre de disques `a d´eplacer (un entier entre 1
+et le nombre total de disques N), et A,B,C trois entiers distincts dans {0, 1, 2} rep´erant respectivement
+la tige de d´epart, la tige d’arriv´ee et la tige restante comme dans la question pr´ec´edente. Tester cette
+fonction solve() pour r´esoudre le probl`eme des tours de Hano¨ı dans le cas de 5 disques (temporisation
+conseill´ee: 0,5 s), puis dans le cas de 10 disques (temporisation conseill´ee: 10 ms).
+(4) Modifiez la fonction solve pour qu’elle renvoie la liste des mouvements (liste de couples par exemple)
+au lieu de les effectuer, puis calculer le nombre de mouvements effectu´es pour N=1,2,3, etc.
+Que
+conjecturez-vous sur le nombre de mouvements effectu´es dans le cas de N disques ?
+(5) (*) En observant le mouvement du plus petit disque, et en remarquant qu’il n’y a qu’un seul mouvement
+possible lorsque le plus petit disque ne bouge pas, construisez un algorithme non r´ecursif pour r´esoudre
+le probl`eme, et testez-le.
+Indication: l’appel H.move() l`eve une exception en cas de mouvement impossible ou ill´egal. On pourra
+utiliser la gestion des exceptions (instructions try et except) pour d´eterminer le bon mouvement lorsque
+le plus petit disque ne bouge pas.

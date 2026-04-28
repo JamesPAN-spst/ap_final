@@ -1,0 +1,309 @@
+
+===== PAGE 1/6 =====
+Universit´e Paris Cit´e, Campus Saint-Germain-des-Pr`es
+UFR de Math´ematiques et Informatique
+45, rue des Saints-P`eres 75006 Paris
+Algorithmique et Programmation 2
+Correction du partiel du 16 mars 2026 — dur´ee: 1h30
+Tout document interdit. Les calculatrices et les t´el´ephones portables, mˆeme pr´evus `a titre d’horloge, sont
+´egalement interdits.
+MERCI DE BIEN INDIQUER VOTRE GROUPE DE TD SUR VOTRE COPIE
+Tous les exercices sont ind´ependants. On pr´ecisera bien la signature (seulement le type des entr´ees/sorties)
+de chaque fonction Python propos´ee. Ces signatures seront not´ees globalement sur 1 point.
+Bar`eme sur 22,5 points (en comptant le point global pour les signatures)
+Exercice 1.
+(au total sur 6 points) Pour chaque ligne d’instructions ci-dessous, donner le contenu
+de la variable x (type et valeur) apr`es ex´ecution de la ligne consid´er´ee, ou expliquer le probl`eme si
+l’instruction produit une erreur. Expliquer votre r´eponse (une r´eponse correcte sans explication
+ne sera pas comptabilis´ee).
+1
+x = bin (3) + 0b1011
+2
+x = round (3.6)* int ( -1.7)
+3
+x = float (10**1000)
+4
+j = 1; x = (j + 2j)**2
+5
+L = [3,1,5,2]; x = sorted(L, reverse=True ). index (1)
+6
+x = list(range (10)). append (0)
+7
+x = [1]; y = [x]; y[0] = 3
+8
+x = set(range (1 ,3)) < set(range (2 ,4))
+9
+x = ({1 ,2} | {2 ,3}) & {3,4}
+10
+x = set("123"); x.discard (1)
+11
+x = 1 in frozenset ([1 ,2 ,3])
+12
+x = {1:2, 3:4, 5:6}; x = x[x.get (4 ,1)]
+(1) Erreur car on ne peut appliquer l’op´erateur + entre une chaˆıne de caract`ere et un entier (bin(3)
+retourne "0b11" et 0b1011 retourne 11).
+(2) Le r´esultat est -4, de type int, car round(3.6) retourne 4 (arrondi `a l’entier le plus proche) et
+int(-1.7) retourne -1 (arrondi en enlevant la partie d´edcimale).
+(3) Erreur car le nombre entier 101000 est trop grand pour ˆetre converti en float.
+(4) Le r´esultat est -3+4j, de type complex, en effet x = (1 + 2i)2 = 1 −4 + 4i = −3 + 4i.
+(5) L’instruction sorted(L, reverse=True) produit la liste [5,3,2,1] (tri d´ecroissant), donc le
+r´esultat est x=3 (int), l’indice de la premi`ere occurence de 1 dans cette liste.
+
+
+
+===== PAGE 2/6 =====
+(6) L’instruction list(range(10)) produit la liste [0,1,2,3,4,5,6,7,8,9], `a laquelle la m´ethode
+append est appliqu´ee. Cette m´ethode modifie la liste mais ne renvoie rien, le r´esultat est donc x =
+None (de type Nonetype).
+(7) x = [1] (type list), c’est le cas au d´epart et cela ne change pas car l’instructiony[0] = 3 modifie
+la valeur de y[0] (qui devient un entier), pas le contenu de la liste x anciennement r´ef´erenc´ee par
+y[0].
+(8) x = False (bool´een), car il est faux que l’ensemble {1, 2} est strictement inclus dans l’ensemble
+{2, 3}.
+(9) x = {3} (type set), en effet on calcule ({1, 2} ∪{2, 3}) ∩{3, 4} = {1, 2, 3} ∩{3, 4} = {3}.
+(10) x = {"1","2","3"} (type set), car l’instruction set("123") fabrique un ensemble avec les com-
+posants ´el´ementaires (caract`eres) de la chaˆıne de caract`eres ”123”, et la m´ethode discard() utilis´ee
+ensuite ne modifie pas x puisque l’entier 1 n’est pas un ´el´ement de x.
+(11) x = True (bool´een), car 1 est bien ´el´ement de l’ensemble (de type frozenset) {1, 2, 3}.
+(12) x = 2 (int), en effet comme 4 n’est pas une cl´e du dictionnaire x l’instruction x.get(4,1) retourne
+la valeur 1, et donc finalement x prend la valeur associ´ee `a la cl´e 1, c’est-`a-dire 2.
+Exercice 2.
+(au total sur 2 points) On consid`ere une fonction f d´efinie avec l’en-tˆete suivant:
+def f(x=1, y=True , z="0"):
+Pour chaque ligne ci-dessous, d´eterminer si l’appel `a la fonction f est valide (dans ce cas, pr´eciser la
+valeur de chaque argument dans f) ou si l’appel est invalide (dans ce cas, expliquer pourquoi).
+1
+f("0", True , 1)
+2
+f()
+3
+f(z=2, True)
+4
+f(1, False , y="1")
+(1) appel correct, x="0", y=True, z=1
+(2) appel correct, x=1, y=True, z="0" (valeurs par d´efaut)
+(3) erreur, une sp´ecification positionnelle (2e argument, True) arrive apr`es une sp´ecification par mot-cl´e
+(z=2).
+(4) erreur, l’argument y est sp´ecifi´e deux fois, une fois de mani`ere positionnelle (2e argument, False),
+et une fois par mot-cl´e (y="1").
+
+
+
+===== PAGE 3/6 =====
+Exercice 3.
+(au total sur 2 points)
+(1) (sur 0,5 point) Quelle est la complexit´e, dans le cas le pire, de l’algorithe du tri rapide ?
+La complexit´e pour trier une liste `a n ´el´ements est O(n2) (voir cours).
+(2) (sur 1,5 point) Soit f une fonction Python qui impl´emente le tri rapide en prendant comme pivot
+le premier ´el´ement. Dessiner l’arbre des appels r´ecursifs associ´e `a l’appel f([4,2,8,6,3,1,5]).
+Combien y a-t-il, au total, d’appels `a la fonction f ?
+Il y a en gros deux arbres possibles, selon que l’on consid`ere que la condition d’arrˆet de f (pas
+d’appel r´ecursif) s’applique pour les listes de taille 0 ou 1, ou uniquement pour les listes vides.
+Dans le premier cas, on obtient l’arbre:
+f([4, 2, 8, 6, 3, 1, 5])
+/
+\
+/
+\
+f([2, 3, 1])
+f([8,6,5])
+/
+\
+/
+\
+/
+\
+/
+\
+f([1])
+f([3])
+f([6,5])
+f([])
+/
+\
+/
+\
+f([5])
+f([])
+et il y a donc exactement 9 appels `a la fonction f.
+Dans le 2e cas, toute liste non vide produit deux appels r´ecursifs, ce qui conduit `a un total de
+15 appels `a la fonction f:
+f([4, 2, 8, 6, 3, 1, 5])
+/
+\
+/
+\
+f([2, 3, 1])
+f([8,6,5])
+/
+\
+/
+\
+/
+\
+/
+\
+f([1])
+f([3])
+f([6,5])
+f([])
+/
+\
+/
+\
+/
+\
+/
+\
+/
+\
+/
+\
+f([])
+f([]) f([])
+f([])
+f([5])
+f([])
+/
+\
+/
+\
+f([])
+f([])
+
+
+
+===== PAGE 4/6 =====
+Exercice 4.
+(au total sur 3,5 points)
+On consid`ere une suite (un)n∈N d´efinie par u0 = 3 et la relation de r´ecurrence
+∀n ∈N,
+un+1 =
+(
+n + 2un
+si un est pair,
+3 −un
+sinon.
+(1) (sur 0,5 point) Calculer u4.
+On a successivement:
+u1 = 3 −u0 = 0
+(n = 0, u0 impair)
+u2 = 1 + 2u1 = 1
+(n = 1, u1 pair)
+u3 = 3 −u2 = 2
+(n = 2, u2 impair
+u4 = 3 + 2u3 = 7
+(n = 3, u3 pair)
+(2) (sur 1,5 point) ´Ecrire une fonction r´ecursive suite1(n) qui prend en entr´ee un entier naturel n
+et renvoie la valeur de un.
+def suite1(n):
+""" int -> int """
+if n==0:
+return 3
+u = suite1(n-1)
+if u%2==0:
+return n-1 + 2*u
+return 3 - u
+Attention, l’impl´ementation ci-dessous n’est pas correcte, car elle effectue 2 appels r´ecursifs :
+def suite1(n):
+""" int -> int """
+if n==0:
+return 3
+if suite1(n -1)%2==0:
+return n-1 + 2* suite1(n-1)
+return 3 - suite1(n-1)
+(3) (sur 1,5 point) ´Ecrire une fonction non r´ecursive suite2(n) qui prend en entr´ee un entier
+naturel n et renvoie la liste [u0, u1, . . . , un].
+def suite2(n):
+""" int -> list """
+u = [3]
+for k in range(1, n+1):
+if u[k -1]%2==0:
+u.append(k-1 + 2*u[k -1])
+else:
+u.append (3 - u[k -1])
+return u
+
+
+
+===== PAGE 5/6 =====
+Exercice 5.
+(au total sur 6 points)
+(1) (sur 1,5 point) ´Ecrire une fonction compte(L), qui prend en entr´ee une liste L form´ee d’entiers,
+et retourne un dictionnaire dont les cl´es sont les entiers de la liste L, et la valeur d’un entier k est
+l’indice dans L de sa derni`ere occurence dans L. Par exemple, compte([1,3,2,2,1]) retourne le
+dictionnaire D={1:4, 2:3, 3:1}.
+def compte(L):
+""" list -> dict """
+D = dict ()
+for i in range(len(L)):
+D[L[i]] = i
+return D
+(2) (sur 2 points) ´Ecrire une fonction code(s1, s2), qui prend en entr´ee deux chaˆınes de caract`eres
+s1 et s2, et retourne un dictionnaire D dont les cl´es sont les caract`eres de s1, et la valeur associ´ee
+`a chaque caract`ere de s1 est le caract`ere correspondant `a la mˆeme position dans la chaˆıne s2. La
+fonction retourne None lorsque les deux chaˆınes ne sont pas de mˆeme taille, ou lorsque toutes les
+occurences d’un mˆeme caract`ere de s1 n’ont pas la mˆeme correspondance dans s2.
+Par exemple, code(’abca’, ’xxox’) retourne le dictionnaire D={’a’:’x’, ’b’:’x’, ’c’:’o’},
+et code(’abca’, ’uuxy’) retourne None.
+def code(s1 , s2):
+""" str x str -> dict ou None """
+D = dict ()
+n = len(s1)
+if len(s2)!=n:
+return
+None
+for i in range(n):
+if s1[i] in D and D[s1[i]]!= s2[i]:
+return
+None
+D[s1[i]] = s2[i]
+return D
+(3) (sur 1,5 point) ´Ecrire une fonction g´en´eratrice pos(L), qui prend en entr´ee une liste, et d´elivre,
+dans l’ordre, tous les termes positifs (au sens large) de la liste. Par exemple, si L = [1, 0, -2,
+4, -1, 6, -3], alors pos(L) doit d´elivrer successivement les valeurs 1, 0, 4, et 6.
+def pos(L):
+""" list -> generator
+"""
+for x in L:
+if x >=0:
+yield x
+(4) (sur 1 point) ´Ecrire une fonction compose(f, g), qui prend en entr´ee deux fonctions `a un ar-
+gument f et g et retourne la fonction compos´ee f◦g. Par exemple, si f = round et g = lambda
+x:x**2, alors compose(f, g) doit retourner la fonction lambda x:round(x**2).
+def compose(f, g):
+"""
+function x function
+-> function
+"""
+return
+lambda x: f(g(x))
+
+
+
+===== PAGE 6/6 =====
+Exercice 6.
+(sur 2 points)
+On appelle partition d’un entier n > 0 toute liste form´ee d’une suite finie d´ecroissante d’entiers stricte-
+ment positifs dont la somme vaut n. Par exemple, pour n = 4 il y a exactement 5 partitions possibles :
+[1, 1, 1, 1], [2, 1, 1], [2, 2], [3, 1], [4]
+On peut remarquer que toute partition de n non r´eduite `a un ´el´ement est form´ee par la concat´enation
+de la liste `a un ´el´ement [k] (pour un certain entier k > 0) et d’une partition de n −k (avec une condition
+de compatibilit´e `a trouver).
+Utiliser cette propri´et´e pour ´ecrire une fonction g´en´eratrice r´ecursive partition(n) qui prend en entr´ee
+un entier n > 0, et d´elivre toutes les partitions de n.
+On peut remarquer que :
+• il y a une seule partition de n `a un ´el´ement, c’est [n];
+• toute autre partition s’´ecrit donc comme la concat´enation de la liste [k] (pour un certain k ∈
+{1, 2, . . . n −1}) et d’une partition L de n −k. Une construction de ce type n’est cependant valide
+que si L[0] ⩽k pour respecter la condition de d´ecroissance.
+On obtient ainsi le code suivant :
+def
+partition(n):
+""" int -> generator
+"""
+for k in range(1,n):
+for L in partition(n-k):
+if L[0]<=k:
+yield [k]+L
+yield [n]

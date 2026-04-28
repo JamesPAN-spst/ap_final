@@ -1,0 +1,300 @@
+
+===== PAGE 1/5 =====
+Universit´e Paris Cit´e, Campus Saint-Germain-des-Pr`es
+UFR de Math´ematiques et Informatique
+45, rue des Saints-P`eres 75006 Paris
+Algorithmique et Programmation 2
+Correction du partiel du 22 mars 2024 — dur´ee: 1h30
+Tout document interdit. Les calculatrices et les t´el´ephones portables, mˆeme pr´evus `a titre d’horloge, sont
+´egalement interdits.
+MERCI DE BIEN INDIQUER VOTRE GROUPE DE TD SUR VOTRE COPIE
+Tous les exercices sont ind´ependants. On pr´ecisera bien la signature de chaque fonction Python propos´ee.
+Ces signatures seront not´ees globalement sur 1 point.
+Bar`eme sur 23 points (en comptant le point global pour les signatures)
+Exercice 1.
+(au total sur 5 points) Pour chaque ligne (ind´ependante) d’instructions ci-dessous,
+donner le contenu de la variable x apr`es ex´ecution de la ligne consid´er´ee. Expliquer votre r´eponse (une
+r´eponse correcte sans explication ne sera pas comptabilis´ee).
+1
+x = len(str(0 b101 ))
+2
+x = bin (3)+ hex (15)
+3
+import
+math; x = int (3.2) + math.floor ( -3.2)
+4
+j = 2; x = (1+2j)**j
+5
+L = [3,1] + list(range (4)); del L[1:3]; x = L.index (2)
+6
+x = [1 ,5 ,3]*2; y = x; y = sorted(y)
+7
+x = {0 ,1 ,2}&{1 ,2 ,3} < {2 ,3 ,4}|{3 ,4 ,5}
+8
+S = set ([1 ,3]) - {1}; x = S >{0}
+9
+z = dict(a=1, b=2, c=3); a = 3; z[a] = 2; x = z[’a’]
+10
+D = {5:0, 3:5, 1:3}; x = D[D[D[1]]]
+(1) x=1 car 0b101 correspond `a l’entier 5 (´ecrit en base 2), donc str(0b101) retourne ’5’, chaˆıne de
+caract`eres de longueur 1.
+(2) bin(3) retourne ’0b11’ (´ecriture de 3 en base 2), hex(15) retourne ’0xf’ (´ecriture de 15 en base
+16), donc x est la chaˆıne de caract`eres ’0b110xf’.
+(3) int(3.2) vaut 3 (arrondi par suppression de la partie d´ecimale), math.floor(-3.2) vaut -4 (partie
+enti`ere, i.e. arrondi vers −∞), donc x=-1.
+(4) 2j correspond au nombre complexe 2i, alors que **j est une ´el´evation au carr´e puisque j=2, donc
+x vaut le nombre complexe (1 + 2i)2 = −3 + 4i, c’est-`a-dire x = -3+4j en Python.
+(5) La premi`ere instruction fabrique une liste L = [3, 1, 0, 1, 2, 3] par concat´enation. Les ´el´ements
+d’indices 1 (inclus) `a 3 (exclu) sont ensuite supprim´es de cette liste, donc apr`es le del on a L =
+[3, 1, 2, 3]. La derni`ere instruction cherche l’indice de la premi`ere occurence de 2 dans la liste,
+qui vaut 2, donc x = 2.
+(6) Apr`es la premi`ere instruction, on a x = [1, 5, 3, 1, 5, 3]. Ensuite la variable y pointe sur la
+mˆeme liste que x, mais apr`es y = sorted(y) la variable y est red´eﬁnie comme une version tri´ee de
+la liste x, donc x n’est pas modiﬁ´ee (contrairement `a ce qui se serait pass´e avec y.sort()). On a
+donc toujours x = [1, 5, 3, 1, 5, 3] `a la ﬁn.
+(7) La variable x contient le r´esultat du test d’inclusion stricte (symbole <) entre les ensembles (set)
+{0,1,2}&{1,2,3} = {1,2} (intersection) et {2,3,4}|{3,4,5} = {2,3,4,5} (union). Le r´esultat
+est x = False car l’´el´ement 1 est dans le premier ensemble mais pas dans le deuxi`eme.
+
+
+
+===== PAGE 2/5 =====
+(8) La variable S est un ensemble (set) qui contient uniquement l’entier 3 (puisqu’on retire l’´el´ement
+1). On teste ensuite si S contient strictement l’ensemble {0}, ce qui est faux puisque 0 n’est pas
+dans S, donc x = False.
+(9) On fabrique un dictionnaire z dont les paires cl´e-valeur sont respectivement (’a’,1) (’b’,2)
+(’c’,3), et on rajoute la paire cl´e-valeur (3,2). `A la ﬁn x vaut la valeur associ´ee `a la cl´e ’a’, qui
+n’a pas chang´e, donc on a x = 1.
+(10) D est un dictionnaire, et on calcule de proche en proche x = D[D[D[1]]] = D[D[3]] = D[5] =
+0.
+Exercice 2.
+(au total sur 2,5 points) On appelle une fonction f avec la syntaxe f("", False,
+z=[]). Parmi les en-tˆetes de d´eﬁnition de la fonction f consid´er´es ci-dessous, lesquels sont corrects et
+lesquels conduiront `a une erreur lors de la d´eﬁnition de la fonction ou lors de son appel ? Pr´ecisez dans
+chaque cas soit la cause de l’erreur, soit les valeurs des arguments d’entr´ee de f si l’appel est
+correct.
+1
+def f(x, y, z):
+2
+def f(x="", y=True , z):
+3
+def f(x, y, z=False , t=[]):
+4
+def f(a=1, b=2, c=3, z=4):
+5
+def f(z, x, y=True ):
+(1) correct, x="", y=False, z=[]
+(2) erreur dans la d´eﬁnition de f (z, argument obligatoire, vient apr`es x et y, arguments optionnels)
+(3) correct, x="", y=False, z=[], t=[]
+(4) correct, a="", b=False, c=3, z=[]
+(5) erreur, l’argument z est sp´eciﬁ´e deux fois lors de l’appel (une premi`ere fois de mani`ere positionnelle,
+valeur "", et une deuxi`eme fois par nom avec la valeur []).
+Exercice 3.
+(au total sur 2 points) Soit A une matrice carr´ee.
+(1) (sur 0,5 point) Quelle est la complexit´e, en nombre de multiplications matricielles, du calcul de
+An par l’algorithme d’exponentiation rapide ?
+La complexit´e est O(ln n) (voir cours).
+(2) (sur 1,5 point) Expliquer comment calculer A19 avec cet algorithme. Combien de multiplications
+matricielles sont-elles n´ecessaires ?
+On ´ecrit successivement
+A19
+=
+A × A18
+A18
+=
+A9 × A9
+A9
+=
+A × A8
+A8
+=
+A4 × A4
+A4
+=
+A2 × A2
+A2
+=
+A × A
+Le calcul eﬀectif se fait en reprenant les lignes dans l’ordre inverse. Il y a au total 6 lignes, donc 6
+multiplications matricielles `a eﬀectuer pour parvenir au r´esultat.
+
+
+
+===== PAGE 3/5 =====
+Exercice 4.
+(au total sur 5 points) On consid`ere une suite (un)n∈N d´eﬁnie par u0 = 1 et la relation
+de r´ecurrence
+∀n ∈N,
+un+1 =
+(
+n + un
+si n est impair,
+2n + un/2
+si n est pair.
+(1) (sur 1 point) Calculer u19.
+Il est maladroit de calculer u1, u2 jusqu’`a u19, car seuls quelques termes sont utiles. On ´ecrit
+plutˆot
+u19
+=
+36 + u9
+=
+36 + 16 + u4
+=
+36 + 16 + 3 + u3
+=
+36 + 16 + 3 + 4 + u1
+=
+36 + 16 + 3 + 4 + 0 + u0
+=
+60.
+(2) (sur 2 points) ´Ecrire une fonction r´ecursive suite1(n) qui prend en entr´ee un entier naturel n et
+renvoie la valeur de un.
+Comme nous l’avons vu en TD, pour ´eviter les erreurs d’indices il est sage de commencer par
+r´e´ecrire la r´ecurrence en donnant l’expression de un (et non un+1), c’est-`a-dire :
+∀n ∈N∗,
+un =
+(
+n −1 + un−1
+si n −1 est impair,
+2(n −1) + u(n−1)/2
+si n −1 est pair.
+def suite1(n):
+’’’ int -> int
+retourne u(n)
+’’’
+if n==0:
+return 1
+if (n -1)%2==0:
+return 2*(n-1) + suite1 ((n -1)//2)
+return n-1 + suite1(n-1)
+(3) (sur 2 points) ´Ecrire une fonction non r´ecursive suite2(n) qui prend en entr´ee un entier naturel
+n et renvoie la liste [u0, u1, . . . , un].
+Cette fois-ci, on n’utilise plus la r´ecursivit´e mais une boucle. `A la ﬁn d’un tour de boucle, la
+liste L contient tous les termes de la suite jusqu’`a uk. Attention `a bien ´ecrire L[(k-1)//2] et non
+L[(k-1)/2], car la deuxi`eme expression provoquerait une erreur (les indices d’une liste doivent
+ˆetre de type int, pas float).
+def suite2(n):
+’’’ int -> list
+retourne la liste [u(0), u(1), ..., u(n)]
+’’’
+L = [1]
+for k in range(1, n+1):
+if (k -1)%2==0:
+L.append (2*(k -1)+L[(k -1)//2])
+else:
+L.append(k-1+L[k -1])
+return L
+
+
+
+===== PAGE 4/5 =====
+Exercice 5.
+(au total sur 5,5 points)
+(1) (sur 2 points) ´Ecrire une fonction occurrences(s) qui prend en entr´ee une chaˆıne de caract`eres s,
+et retourne un dictionnaire D qui donne, pour chaque caract`ere c pr´esent dans s, la liste des indices
+des occurrences de c dans s. Par exemple, si s = ’abcaaca’, occurrences(s) doit retourner le
+dictionnaire {’a’:[0,3,4,6], ’b’:[1], ’c’:[2,5]}.
+On parcourt la chaˆıne s avec un indice i (boucle for), et pour chaque caract`ere c = s[i] on
+ajoute l’indice i `a la liste D[c] (si c n’est pas encore une cl´e de D, on fait simplement D[c] = [i]).
+def
+occurrences(s):
+’’’ str -> dict
+retourne
+les
+indices des
+occurences
+des caract`eres de s
+’’’
+D = dict ()
+for i in range(len(s)):
+c = s[i]
+if c in D:
+D[c]. append(i)
+else:
+D[c] = [i]
+return D
+(2) (sur 2 points) ´Ecrire une fonction g´en´eratrice liste(n), qui prend en entr´ee un entier n et d´elivre
+successivement les n premiers termes de la suite
+1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, . . .
+La diﬃcult´e est de g´erer ind´ependamment les changements de chiﬀres et le nombre de termes `a
+d´elivrer. Dans le code ci-dessous, on utilise 2 variables: courant (le chiﬀre courant), et compte (le
+nombre d’exemplaires de courant d´ej`a d´elivr´es).
+def liste(n):
+’’’ int -> generator
+retourne un g´en´erateur de la s´equence 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, ...
+’’’
+courant = 1 # entier `a d´elivrer
+compte = 0 # nombre de valeurs de courant d´eja d´elivr´ees
+for i in range(n):
+if compte == courant:
+courant += 1
+compte = 0
+yield
+courant
+compte += 1
+(3) (sur 1,5 point) ´Ecrire une fonction g´en´eratrice itere(f, x), qui prend en entr´ee une fonction f
+et un nombre x, et d´elivre successivement les valeurs
+x, f(x), f(f(x)), f(f(f(x))), ...
+tant qu’il n’y a pas deux valeurs cons´ecutives identiques. Par exemple, si f=lambda x:abs(x-2)
+et x=7, alors itere(f, x) d´elivre les valeurs 7, 5, 3, 1.
+def itere(f, x):
+’’’ function x nombre
+-> generator
+retourne un g´en´erateur des it´er´es de f sur x jusqu ’`a obtention d’un point
+fixe
+’’’
+yield x
+while f(x)!=x:
+x = f(x)
+yield x
+
+
+
+===== PAGE 5/5 =====
+Exercice 6.
+(au total sur 2 points) On appelle d´eveloppement ´egyptien d’un nombre rationnel toute
+´ecriture de ce nombre sous la forme d’une somme d’inverses de nombres entiers distincts. Par exemple,
+2
+3 = 1
+3 + 1
+4 + 1
+12
+est un d´eveloppement ´egyptien du nombre rationnel 2
+3. Par application r´ecursive de l’identit´e (que l’on ne
+demande pas de d´emontrer)
+p
+q = 1
+q + p −1
+q + 1 +
+p −1
+q(q + 1),
+on peut obtenir un d´eveloppement ´egyptien de n’importe quel nombre rationnel strictement positif, car :
+• les d´enominateurs des termes de droite sont tous distincts;
+• si p > 1, les num´erateurs des termes de droite sont tous strictement inf´erieurs `a p.
+(sur 2 points) ´Ecrire une fonction r´ecursive egyptien(p, q) qui prend en entr´ee deux entiers stricte-
+ment positifs p et q, et retourne une liste d’entiers correspondant aux d´enominateurs d’un d´eveloppement
+´egyptien du nombre p
+q. L’exemple consid´er´e au d´ebut de l’exercice montre ainsi que [3,4,12] est un
+r´esultat valable pour l’appel egyptien(2,3).
+• Si p=1, la fraction p
+q est d´ej`a sous la forme demand´ee (1
+q), donc on retourne simplement la liste [q]
+(c’est le test d’arrˆet);
+• sinon, on utilise l’´equation de l’´enonc´e, qui montre que p
+q se d´ecompose en une somme de 3 termes:
+la fraction 1
+q qui est sous la bonne forme, et deux autres fractions qui seront `a leur tour d´ecompos´ees par
+des appels r´ecursifs. On renvoie donc la concat´enation de [q] (premi`ere fraction), egyptien(p-1,q+1)
+(d´ecomposition de la deuxi`eme fraction) et egyptien(p-1, q*(q+1)) (d´ecomposition de la troisi`eme
+fraction).
+def
+egyptien(p,q):
+’’’ int x int -> list
+retourne
+une liste de d´enominateur r´ealisant
+une d´ecomposition
+en fractions ´egyptiennes de p/q
+’’’
+if p==1:
+return [q]
+return [q] + egyptien(p-1,q+1) + egyptien(p-1, q*(q+1))

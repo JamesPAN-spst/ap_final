@@ -1,0 +1,148 @@
+
+===== PAGE 1/3 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Devoir maison n◦2
+Exercice 1 (manipulation d’expressions alg´ebriques).
+On consid`ere une expression alg´ebrique repr´esent´ee par un arbre (ordonn´e), dont chaque nœud est ´etiquet´e,
+avec les conventions suivantes :
+• une feuille peut ˆetre ´etiquet´ee avec un nombre (de type int ou float), ou avec la chaˆıne de caract`eres
+’x’ (qui d´esigne alors la variable de l’expression alg´ebrique);
+• un nœud interne (c’est-`a-dire un nœud qui n’est pas une feuille) a n´ecessairement deux enfants, et est
+´etiquet´e avec une chaˆıne de caract`eres de longueur 1 qui code l’op´eration alg´ebrique portant sur les
+enfants (’+’ ou ’-’ ou ’*’ ou ’/’).
+Par exemple, l’expression alg´ebrique
+1
+1 −x sera repr´esent´ee par l’arbre
+/
+1
+-
+1
+x
+(1) Repr´esenter l’arbre construit par le pseudo-code ci-dessous, et ´ecrire l’expression alg´ebrique associ´ee.
+A1 ←creer arbre(’-’,[creer arbre(1),creer arbre(’x’)])
+A2 ←creer arbre(’*’,[creer arbre(’x’),creer arbre(’x’)])
+A3 ←creer arbre(’+’,[creer arbre(1),A2])
+A ←creer arbre(’/’,[A1,A3])
+Dans ce pseudo-code, la fonction creer arbre(e,L) cr´ee et retourne un arbre dont la racine a pour
+´etiquette e (e peut ˆetre un nombre ou une chaˆıne de caract`eres), et dont les enfants sont les ´el´ements
+de la liste L, qui sont eux-mˆemes des (sous-)arbres. Si la liste L est vide, ou si seul l’argument e est
+sp´ecifi´e, l’arbre retourn´e n’a pas d’enfants (c’est une feuille d’´etiquette e).
+(2) R´eciproquement, repr´esenter l’arbre A associ´e `a l’expression alg´ebrique d´efinie par la fonction
+f(x) =
+3x + 2
+1 −x(1 + x),
+et donner un pseudo-code permettant de construire cet arbre selon le mod`ele de la question pr´ec´edente.
+(3) Construire effectivement l’arbre A de la question 2, en utilisant l’impl´ementation ci-dessous (qui repr´esente
+les arbres par des listes selon le mod`ele vu en cours) pour la fonction creer arbre() :
+def
+creer_arbre(e,L=[]):
+’’’ ´etiquette x liste d’arbres
+-> arbre
+Retourne un arbre
+dont la racine a pour ´etiquette e,
+et pour
+enfants
+les ´el´ements de la liste L (´e ventuellement
+vide)
+’’’
+return [e]+L
+Visualiser la liste A ainsi produite sous Python.
+(4) On souhaire ´ecrire une fonction evaluer() qui prend en entr´ee une expression alg´ebrique (repr´esent´ee
+par un arbre A) et un nombre x, et ´evalue l’expression alg´ebrique pour cette valeur de x. Par exemple,
+si A repr´esente l’arbre consid´er´e dans l’introduction (A repr´esente l’expression alg´ebrique
+1
+1−x), alors
+evaluer(A,-1) retournera
+1
+1−(−1) = 0.5.
+
+
+
+===== PAGE 2/3 =====
+Compl´eter, dans le pseudo-code ci-dessous, les passages marqu´es sous la forme de points de suspen-
+sions.
+fonction evaluer(A, x)
+// arbre (racine) × nombre →nombre
+// retourne la valeur de l’expression alg´ebrique A pour la valeur de x sp´ecifi´ee
+e ←etiquette(A)
+E ←enfants(A)
+si E est vide // cas d’une feuille
+si e est un nombre
+retourner e
+v´erifier que e =’x’
+retourner ........
+// cas d’un nœud interne (2 enfants)
+v´erifier que E est de taille 2
+a ←evaluer(E(0), x)
+b ←evaluer(E(1), x)
+si e =’+’ // addition
+retourner .........
+si e =’-’ // soustraction
+.........
+................
+(5) Impl´ementer la fonction evaluer() en Python. On pourra utiliser les impl´ementations suivantes des
+fonctions etiquette() et enfants() :
+def
+etiquette(A):
+’’’ arbre (racine) -> ´etiquette
+retourne l’´etiquette de la racine de l’arbre A
+’’’
+return A[0]
+def
+enfants(A):
+’’’ arbre (racine) -> list
+retourne la liste des enfants (sous -arbres) de la racine de A
+’’’
+return A[1:]
+Tester la fonction obtenue avec evaluer(A,0), o`u A est l’arbre construit `a la question 3.
+(6) On souhaite calculer la d´eriv´ee d’une expression alg´ebrique repr´esent´ee par un arbre A. Pour cela, on
+adopte une d´emarche r´ecursive, en remarquant que :
+• si A est la feuille x , alors derivee(A) est la feuille 1
+• si A est la feuille 17 (ou tout autre nombre), alors derivee(A) est la feuille 0
+• si A est l’arbre
++
+B
+C
+, alors derivee(A) est l’arbre
++
+B′
+C′
+, o`u B′ et C′ sont obtenus en
+appliquant la fonction derivee() aux arbres B et C (les enfants de A)
+• si A est l’arbre
+*
+B
+C
+, alors derivee(A) est l’arbre
++
+*
+B′
+C
+*
+B
+C′
+Quels sont les autres cas `a consid´erer, et quel est l’arbre r´esultat `a chaque fois ?
+En d´eduire l’´ecriture d’une fonction r´ecursive Python derivee(A) qui prend en entr´ee un arbre A
+repr´esentant une expression alg´ebrique, et renvoie un arbre repr´esentant la d´eriv´ee de cette expression
+alg´ebrique (on pourra s’inspirer du mod`ele de la fonction evaluer() vue pr´ec´edemment).
+
+
+
+===== PAGE 3/3 =====
+V´erifier le r´esultat en calculant de deux mani`eres diff´erentes f′(0), o`u f est la fonction d´efinie `a la
+question 2 : 1) en calculant `a la main la d´eriv´ee de f; 2) avec Python `a l’aide des fonctions evaluer()
+et derivee().
+Calculer ensuite avec Python la valeur de f(5)(0) (d´eriv´ee cinqui`eme de f en 0).
+(7) ´Ecrire une fonction Python DL0(A,n), qui prend en entr´ee un arbre A repr´esentant une expression
+alg´ebrique, et renvoie une chaˆıne de caract`eres repr´esentant le d´eveloppement limit´e en 0 `a l’ordre n de
+la fonction repr´esent´ee par A. Cette fonction pourra utiliser la formule de Taylor, et faire appel aux
+fonctions derivee() et evaluer() d´efinies pr´ec´edemment. Par exemple, si A repr´esente l’arbre consid´er´e
+dans l’introduction (qui repr´esente l’expression alg´ebrique
+1
+1−x), alors DL0(A,5) devra retourner la chaˆıne
+de caract`eres
+’1.0 + (1.0).x^1 + (1.0).x^2 + (1.0).x^3 + (1.0).x^4 + (1.0).x^5 + o(x^5)’
+En d´eduire le d´eveloppement limit´e `a l’ordre 6 en 0 de la fonction f d´efinie `a la question 2.

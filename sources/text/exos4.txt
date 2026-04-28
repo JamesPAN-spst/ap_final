@@ -1,0 +1,121 @@
+
+===== PAGE 1/2 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 20 `a 23
+Exercice 20 (suite r´ecurrente d’ordre 1).
+Soit (un)n∈N la suite d´efinie par u0 ∈R et la r´ecurrence
+∀n ∈N,
+un+1 =
+
+n sin(un)
+si
+un > 1
+2,
+cos(un)
+sinon.
+(1) ´Ecrire, pour tout k ∈N∗, l’expression de uk en fonction de uk−1.
+(2) ´Ecrire une fonction suite1(u0,n) qui calcule (sans les stocker en m´emoire) `a l’aide d’une boucle les
+termes successifs de la suite associ´ee `a u0 jusqu’au rang n, et retourne le terme d’indice n. Tester cette
+fonction pour u0=3 et n=10 (vous devez obtenir u10 ≃−0.3575).
+(3) ´Ecrire une fonction suite2(u0,n) qui calcule `a l’aide d’une boucle les termes successifs de la suite
+associ´ee `a u0 jusqu’au rang n, et les retourne dans une liste. V´erifier la coh´erence avec la question 2
+pour u0=3 et n=10.
+(4) ´Ecrire une fonction suite3(u0,n) r´ecursive qui renvoie le terme d’indice n associ´e `a u0. V´erifier la
+coh´erence avec la question 2 pour u0=3 et n=10.
+(5) ´Ecrire une fonction suite4(u0,n) r´ecursive qui renvoie la liste des termes d’indices 0 `a n. V´erifier la
+coh´erence avec la question 3 pour u0=3 et n=10.
+Exercice 21 (suite r´ecurrente d’ordre 2).
+On consid`ere dans cet exercice la suite d´efinie par u0 = 0, u1 = 1 et la relation de r´ecurrence
+∀n ∈N,
+un+2 = n un+1 + (n + 1)2un.
+(1) Calculer u2, u3 et u4.
+(2) ´Ecrire, pour tout k ⩾2, l’expression de uk en fonction de uk−1 et uk−2.
+(3) ´Ecrire une fonction python non r´ecursive suite1(n) qui renvoie le terme d’indice n de la suite (un).
+(4) ´Ecrire une fonction r´ecursive suite2(n) qui renvoie la liste des termes d’indices 0 `a n de la suite (un).
+La fonction suite2 devra ˆetre simplement r´ecursive (autrement dit, chaque appel de type suite2(n)
+produit au plus un appel r´ecursif `a la fonction suite2).
+(5) ´Ecrire une fonction doublement r´ecursive suite3(n) qui renvoie le terme d’indice n de la suite
+(un) (autrement dit, chaque appel de type suite3(n) produit, sauf dans certains cas particuliers, deux
+appels r´ecursifs `a la fonction suite3).
+(6) Rappeler la complexit´e (en termes de nombre d’appels r´ecursifs) des fonctions suite2 et suite3.
+(7) (TP) Impl´ementer la fonction suite3 et calculer `a l’aide de cette fonction les premi`eres valeurs de la
+suite (un). Jusqu’`a quel indice peut-on raisonnablement faire le calcul ?
+(8) (TP) Estimer, pour les premi`eres valeurs de n (jusqu’`a l’indice trouv´e `a la question pr´ec´edente), le
+temps de calcul tn consomm´e par l’appel suite3(n) (voir un exemple de code ci-dessous), puis afficher
+les valeurs de tn+1/tn pour n = 0, 1, 2, etc. Que remarque-t-on ? Ce comportement ´etait-il pr´evisible ?
+from time
+import
+perf_counter
+t0 = perf_counter ()
+suite3 (20)
+dt = perf_counter ()-t0 # temps
+consomm´e par le calcul
+suite3 (20)
+(9) (TP) ´Ecrire une fonction doublement r´ecursive avec m´emo¨ısation suite4(n) qui renvoie le terme
+d’indice n de (un), et comparer le temps de calcul avec celui des fonctions suite3 et suite1.
+
+
+
+===== PAGE 2/2 =====
+Exercice 22 (suite de Syracuse).
+La suite de Syracuse (parfois appel´ee, plus justement, suite de Collatz) est d´efinie par u0 ∈N∗et la relation
+de r´ecurrence
+∀n ∈N,
+un+1 =
+( un
+2
+si un est pair,
+3un + 1
+sinon.
+(1) Calculer les termes successifs de la suite de Syracuse lorsque u0 = 20. Que se passe-t-il `a partir de u8 ?
+(2) La conjecture de Syracuse, non d´emontr´ee `a ce jour, affirme que pour tout choix de u0 ∈N∗, la suite
+finira par prendre la valeur 1. ´Ecrire une fonction temps de vol(u0), qui prend en entr´ee la valeur de
+u0 et renvoie le premier indice n pour lequel un = 1 (cet indice est appel´e temps de vol de u0).
+(3) (TP) Calculer (dans une liste y) les temps de vol de tous les entiers u0 compris entre 1 et 10000 (stock´es
+dans une liste x), puis repr´esenter graphiquement le r´esultat (temps de vol en fonction de u0) avec
+import
+matplotlib.pyplot as plt
+plt.plot(x,y,’.’); plt.show ()
+Parmi les entiers inf´erieurs ou ´egaux `a 40, lequel a le temps de vol maximal et combien vaut-il ?
+(4) ´Ecrire une fonction altitude max(u0), qui renvoie le maximum de la suite (un) (on supposera que la
+conjecture de Syracuse est vraie pour ne calculer qu’un nombre fini de termes)
+(5) (TP) Repr´esenter, en suivant le mˆeme sch´ema qu’`a la question 3, le graphe de la fonction altitude max
+pour u0 compris entre 1 et 100.
+Exercice 23 (fonction de Bolzano-Lebesgue).
+On consid`ere une fonction r´ecursive bolzano(a,b,n) qui prend en entr´ee deux r´eels a et b et un entier
+naturel n, et renvoie une liste L constitu´ee de la mani`ere suivante :
+• si n = 0, L est constitu´ee du seul ´el´ement a;
+• si n ⩾1, on divise l’intervalle [a, b] en trois intervalles de mˆeme longueur [a, p], [p, q], [q, b] et on obtient L
+par concat´enation des listes renvoy´ees par bolzano(a,q,n-1), bolzano(q,p,n-1) et bolzano(p,b,n-1).
+Ainsi, bolzano(0,1,1) renvoie la liste [0, 2
+3, 1
+3] et bolzano(0,1,2) renvoie la liste [0, 4
+9, 2
+9, 2
+3, 4
+9, 5
+9, 1
+3, 7
+9, 5
+9].
+Pour tout n ∈N, la liste bolzano(0,1,n) (compl´et´ee d’un 1 final) permet de d´efinir les ordonn´ees successives
+d’une fonction affine par morceaux fn, comme illustr´e ci-dessous:
+f1
+f2
+f4
+(1) Impl´ementer en Python, sous forme r´ecursive, la fonction bolzano(a,b,n).
+(2) Tester les valeurs retourn´ees par bolzano(0,1,1) et bolzano(0,1,2).
+(3) Tracer le graphe de f7 au moyen des commandes
+import
+matplotlib.pyplot as plt
+n = 7;
+Y = bolzano (0,1,n)+[1]
+X = [x/3**n for x in range (1+3**n)]
+plt.plot(X,Y); plt.show ()
+Commentaire: La fonction f : [0, 1] →[0, 1] obtenue par f(x) =
+lim
+n→+∞fn(x) est continue sur [0, 1] mais
+d´erivable en aucun point de [0, 1]. Elle est appel´ee fonction de Bolzano-Lebesgue.

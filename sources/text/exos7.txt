@@ -1,0 +1,212 @@
+
+===== PAGE 1/4 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 33 `a 36
+Note: si vous rencontrez des difficult´es sur l’une des questions de cette feuille d’exercices, vous pouvez lire les indications
+correspondantes `a la fin de ce document. Il est cependant conseill´e de ne le faire qu’en dernier recours: trop utiliser ces
+indications pourrait vous donner `a tort l’impression que vous maˆıtrisez les exercices alors que ce n’est pas encore le cas.
+Exercice 33 (´ecriture de pseudo-codes).
+Pour chaque fonction ci-dessous, proposez un algorithme sous forme de pseudo-code.
+(1) La fonction f1 prend en entr´ee deux entiers k et n tels que 0 ⩽k ⩽n, et renvoie le nombre
+d’arrangements de k ´el´ements parmi n, c’est-`a-dire le nombre n(n −1) . . . (n −k + 1), avec la con-
+vention que ce produit vaut 1 si k = 0.
+(2) La fonction f2 prend en entr´ee une liste de L de nombres r´eels et renvoie le plus petit ´el´ement strictement
+positif de L, ou le mot-cl´e aucun s’il n’y en a aucun.
+(3) La fonction f3 prend en entr´ee une matrice M et renvoie le nombre de coefficients entiers de M.
+(4) La fonction f4 prend en entr´ee une chaine de caract`eres s et renvoie deux chaˆınes de caract`eres, l’une
+constitu´ee uniquement des voyelles (minuscules ou majuscules) de s, et l’autre constitu´ee des autres
+caract`eres de s (`a elles deux, ces deux chaˆınes ont donc le mˆeme nombre de caract`eres que s).
+(5) La fonction f5 prend en entr´ee un polynˆome P et renvoie
+lim
+x→+∞P(x), ´el´ement de R ∪{−∞, +∞}.
+Exercice 34 (traduction de pseudo-codes en Python).
+Pour chaque fonction ci-dessous, d´efinie par un pseudo-code, proposez une impl´ementation Python, puis
+pr´edisez le r´esultat sur deux exemples simples et v´erifiez que votre code Python retourne les bons r´esultats.
+(1)
+fonction sans cube(n)
+// entier →bool´een
+// teste si n n’est divisible par aucun nombre de type p3 avec p ⩾2 entier
+p ←2
+tant que n ̸= 1
+si n est divisible par p
+si n est divisible par p3
+retourner faux
+n ←n
+p
+si n est divisible par p
+n ←n
+p
+p ←p + 1
+retourner vrai
+(2)
+fonction somme poly(P1,P2)
+// polynˆome × polynˆome →polynˆome
+// calcule la somme de deux polynˆomes
+// chaque polynˆome est repr´esent´e par une liste (la composante i est le coefficient de Xi)
+n1 ←taille de P1
+n2 ←taille de P2
+si n1 < n2
+retourner somme poly(P2,P1) // on se ram`ene au cas n1 ⩾n2
+P ←copie de P1
+pour k = 0, 1, . . . n2 −1
+P(k) ←P(k) + P2(k)
+retourner P
+
+
+
+===== PAGE 2/4 =====
+(3)
+fonction texte(s,n)
+// chaˆıne de caract`eres × entier →liste (de chaˆınes de caract`eres)
+// extrait d’une chaˆıne de caract`eres s toutes les sous-chaˆınes maximales de longueur au moins n
+// compos´ees uniquement de lettres (caract`eres ’a’ `a ’z’, majuscules et minuscules)
+v´erifier que n ⩾1
+ajouter le caract`ere ’.’ `a la fin de s
+L ←liste vide // r´esultat
+m ←chaˆıne vide // mot extrait courant
+pour tout caract`ere c de s
+si c est une lettre
+ajouter c `a m
+sinon
+si ( taille de m ) ⩾n
+ajouter m `a L
+m ←chaˆıne vide
+retourner L
+(4)
+fonction produit matrices(A,B)
+// matrice × matrice →matrice
+// calcule le produit de deux matrices A et B
+// chaque matrice est repr´esent´ee par une liste de lignes
+// chaque ligne est repr´esent´ee par une liste de coefficients
+n ←nombre de lignes de A
+p ←nombre de colonnes de A
+v´erifier que p = nombre de lignes de B
+q ←nombre de colonnes de B
+C ←liste vide
+pour i = 0, 1, . . . , n −1
+L ←liste vide
+pour j = 0, 1, . . . , q −1
+ajouter `a L la valeur
+p−1
+X
+k=0
+AikBkj
+ajouter L `a C
+retourner C
+Exercice 35 (type abstrait ensemble).
+Pr´edisez le contenu de la variable X apr`es ex´ecution de chaque pseudo-code ci-dessous, puis traduisez le
+pseudo-code en Python (en utilisant le type set, ou bien frozenset lorsque c’est n´ecessaire) et v´erifiez votre
+pr´ediction en l’ex´ecutant.
+(1)
+A ←ensemble vide()
+ajouter ´el´ement(0,A)
+B ←ensemble vide()
+ajouter ´el´ement(est vide(A),B)
+ajouter ´el´ement(appartient `a(0,A),B)
+X ←ensemble vide()
+ajouter ´el´ement(cardinal(B),X)
+X ←union(A,X)
+(2)
+Y ←ensemble vide()
+pour k = 2, 3, . . . , 10
+ajouter ´el´ement(k,Y )
+X ←ensemble vide()
+tant que non est vide(Y )
+x ←extraire ´el´ement(Y )
+si x est pair
+ajouter ´el´ement(2x + 1,X)
+ajouter ´el´ement(cardinal(X),X)
+
+
+
+===== PAGE 3/4 =====
+(3)
+X ←ensemble vide()
+ajouter ´el´ement(2,X)
+ajouter ´el´ement(3,X)
+ajouter ´el´ement(X,X)
+ajouter ´el´ement(X,X)
+T ←appartient `a(X,X)
+ajouter ´el´ement(T,X)
+Exercice 36 (foug`ere de Barnsley).
+On condid`ere une fonction ifs qui prend en entr´ee une famille (Ak)k=0,1,2,... de matrices 2 × 2, une famille
+de vecteurs (Bk)k=0,1,2,... de R2, ainsi qu’une liste de r´eels P et un entier n, et renvoie deux listes X et Y
+construites selon l’algorithme ci-dessous:
+fonction ifs((Ak),(Bk),P,n)
+x ←tirage al´eatoire uniforme dans [0, 1]
+y ←tirage al´eatoire uniforme dans [0, 1]
+X ←liste vide
+Y ←liste vide
+r´ep´eter n fois
+t ←tirage al´eatoire uniforme dans [0, 1]
+k ←nombre d’´el´ements de P qui sont inf´erieurs `a t
+x
+y
+
+←Ak
+x
+y
+
++ Bk
+ajouter x `a la fin de la liste X
+ajouter y `a la fin de la liste Y
+retourner X et Y
+On d´ecide de repr´esenter la famille (Ak) par une liste de listes de listes A, de telle sorte que le coefficient
+(i, j) de Ak (en commen¸cant la num´erotation `a 0) est donn´e par A[k][i][j]. De mˆeme, le coefficient i de Bk est
+donn´e par B[k][i].
+(1) Traduire en Python le pseudo-code de la fonction ifs.
+On rappelle qu’un tirage (pseudo-)al´eatoire
+uniforme sur [0, 1] peut ˆetre obtenu par la fonction random du module random.
+(2) Tester la fonction ifs `a l’aide du code ci-dessous (voir le fichier test ifs.py), en mettant la figure en
+plein ´ecran `a la fin pour bien voir les d´etails.
+import
+matplotlib.pyplot as plt
+A = [[[0 ,0] ,[0 ,0.16]] ,[[0.85 ,0.04] ,[ -0.04 ,0.85]] ,
+[[0.2 , -0.26] ,[0.23 ,0.22]] ,[[ -0.15 ,0.28] ,[0.26 ,0.24]]]
+B = [[0 ,0] ,[0 ,1.6] ,[0 ,1.6] ,[0 ,0.44]]
+P = [0.01 ,0.77 ,0.88];
+for n in range (1000):
+X,Y = ifs(A,B,P ,1000)
+plt.plot(X[100:] ,Y[100:] , ’k.’,markersize =0.1)
+plt.axis(’off’)
+plt.axes (). set_aspect(’equal ’)
+plt.show ()
+
+
+
+===== PAGE 4/4 =====
+Indications
+33.1 S’inspirer du pseudo-code de la fonction factorielle vu au chapitre 3 p. 3
+33.2 Faire une boucle sur les ´el´ements de L et, dans la boucle, mettre `a jour le plus petit ´el´ement strictement
+positif rencontr´e jusque l`a (initialis´e `a aucun).
+33.3 Faire deux boucles imbriqu´ees pour parcourir la matrice M, un boucle sur les indices de lignes et une
+boucle sur les indices de colonnes.
+`A l’int´erieur de la double boucle, mettre `a jour un compteur si le coefficient courant est entier.
+33.4 Faire une boucle sur les caract`eres de s, et dans la boucle un test pour savoir si le caract`ere courant est
+une voyelle.
+33.5 Consid´erer `a part le cas o`u P = 0, puis le cas o`u P est de degr´e nul.
+Dans les cas restants, consid´erer c, le coefficient dominant de P, et conclure en fonction de c.
+34.1 La divisibilit´e de n par p se teste en consid´erant n%p (reste dans la division euclidienne de n par p).
+34.2 Pour faire une copie de P1 on peut utiliser la fonction list() ou la syntaxe P1[:].
+34.3 Attention, les chaˆınes de caract`eres sont immutables; pour ajouter le caract`ere ’.’ `a la fin de s, il faut
+donc ´ecrire s = s+’.’
+Pour tester si un caract`ere c est une lettre minuscule, on peut ´ecrire c>=’a’ and c<=’z’ ou mˆeme plus
+simplement ’a’<=c<=’z’
+34.4 Le nombre de lignes de A est simplement len(A); le nombre de colonnes de A est len(A[0])
+Le coefficient Aik s’´ecrit A[i][k].
+Pour calculer la somme cherch´ee, on peut utiliser une compr´ehension de liste
+35.1 Les ensembles A et X contiennent des nombres, mais l’ensemble B contient des bool´eens.
+35.2 Ex´ecuter les boucles pas `a pas et observer l’´evolution des ensembles Y et X.
+35.3 Attention `a l’effet de ajouter ´el´ement(X,X), qui ajoute `a X un ´el´ement qui est lui-mˆeme un ensemble,
+ce qui n’est pas ´equivalent `a X ←X ∪X.
+Attention `a l’effet de appartient `a(X,X), qui ne teste pas l’inclusion de X dans X mais l’appartenance
+de X (en tant qu’´element) `a l’ensemble X.
+36.1 Pour calculer k, on peut utiliser la somme (fonction sum) d’une expression g´en´eratrice simple.
+Calculer x et y en parall`ele en transcrivant en Python les formules de multiplication d’une matrice 2×2
+(Ak) par une matrice 2 × 1 (Bk); les 4 coefficients de la matrice Ak sont A[k][0][0] et A[k][0][1]
+(premi`ere ligne), et A[k][1][0] et A[k][1][1] (deuxi`eme ligne); les 2 coefficients du vecteur Bk sont
+B[k][0] et B[k][1].
+36.2 Compl´eter le fichier test ifs.py avec la fonction ifs ´ecrite `a la question pr´ec´edente.

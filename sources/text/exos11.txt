@@ -1,0 +1,160 @@
+
+===== PAGE 1/3 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 45 `a 47
+Exercice 45 (compr´ehension de code).
+Pour chaque exemple ci-dessous, d´ecrire en quelques mots le
+fonctionnement de la classe impl´ement´e par le code propos´e, et pr´edire le r´esultat affich´e par Python.
+(1) Classe D´e:
+from
+random
+import
+randint
+class D´e():
+def
+__init__(self , nombre_de_faces =6):
+self.n = nombre_de_faces
+def lance(self ):
+return
+randint (1,self.n)
+d = D´e(6)
+print(d.lance ())
+(2) Classe Candidat:
+class
+Candidat ():
+def
+__init__(self , nom):
+self.nom = nom
+self.votes = 0
+def re¸coit_vote(self ):
+self.votes += 1
+def
+__repr__(self ):
+return str(self.nom)+’ : ’+str(self.votes )+’ vote(s)’
+c = Candidat(’Joe’)
+print(c)
+c.re¸coit_vote ()
+c.re¸coit_vote ()
+print(c)
+(3) Classe Film:
+class
+Film ():
+def
+__init__(self , titre , realisateur=None ):
+self.titre = titre
+self.realisateur = realisateur
+def
+__repr__(self ):
+s = ’"’+str(self.titre )+’"’
+if self.realisateur is not None:
+s = s+’ de ’+str(self.realisateur)
+return s
+F = []
+F.append(Film(’Inception ’,’Christopher
+Nolan ’))
+F.append(Film(’Interstellar ’))
+F.append(Film(’L´eon’,’Luc Besson ’))
+F.append(Film("L’adversaire"))
+print(F)
+S = [f for f in F if f.titre ==’Interstellar ’]
+S[0]. realisateur = ’Nolan ’
+print ([f for f in F if f.realisateur is not None and "Nolan" in f.realisateur ])
+
+
+
+===== PAGE 2/3 =====
+(4) Classe Rationnel:
+# fonction
+pgcd (d´ej`a vue)
+pgcd = lambda a,b: a if b==0 else pgcd(b,a%b)
+class
+Rationnel ():
+def
+__init__(self , p, q):
+assert q!=0
+d = pgcd(p,q)
+self.p = p//d
+self.q = q//d
+def
+__repr__(self ):
+return str(self.p)+’/’+str(self.q)
+def
+__add__(r1 , r2):
+return
+Rationnel( r1.p*r2.q + r2.p*r1.q, r1.q*r2.q )
+x = Rationnel (10 ,12)
+y = Rationnel (-2,15)
+print(x,y,x+y)
+(5) Classe Intervalle:
+class
+Intervalle ():
+def
+__init__(self , a, b):
+self.a = a
+self.b = b
+def
+__repr__(self ):
+if self.a<= self.b:
+return ’[’+str(self.a)+’,’+str(self.b)+’]’
+else:
+return ’∅’
+def
+__and__(I1 , I2):
+return
+Intervalle(max(I1.a,I2.a),min(I1.b,I2.b))
+I1 = Intervalle (0,2)
+I2 = Intervalle (1,4)
+I3 = Intervalle (2,3)
+print(I1 ,I2 ,I3 ,I1&I2 ,I1&I3 ,I2&I3)
+Exercice 46 (modification de classes).
+Effectuer les modifications requises sur les classes de l’exercice
+pr´ec´edent, et tester ensuite vos modifications avec un exemple.
+(1) Compl´eter la classe D´e en ajoutant un attribut historique de type liste qui permet d’obtenir la liste
+de tous les r´esultats obtenus lors des tirages pr´ec´edents.
+(2) Modifier et compl´eter la classe Rationnel pour obtenir les fonctionnalit´es suivantes :
+(a) les attributs p et q ne sont pas accessibles directement;
+(b) deux m´ethodes numerateur et denominateur sont ajout´ees (elles renvoient respectivement le
+num´erateur et le d´enominateur de la fraction irr´eductible associ´ee);
+(c) les op´erateurs * et < sont surcharg´es.
+(3) Compl´eter la classe Intervalle en ajoutant les fonctionnalit´es suivantes :
+(a) la classe contient ´egalement des intervalles ouverts `a gauche (c’est-`a-dire du cˆot´e de la borne
+inf´erieure);
+(b) l’op´erateur <= permet de tester si deux intervalles sont inclus (au sens large) l’un dans l’autre.
+
+
+
+===== PAGE 3/3 =====
+Exercice 47 (classe Quaternion).
+Les nombres complexes peuvent ˆetre d´efinis formellement comme des
+expressions de la forme x + y.i, o`u x et y sont des nombres r´eels et i est un symbole abstrait, et des r`egles
+d’addition et de multiplications standard auxquelles viennent s’ajouter la r`egle sp´eciale i × i = −1. On peut
+de mˆeme d´efinir les quaternions comme des expressions de la forme
+q = a + b.i + c.j + d.k,
+o`u a, b, c, d sont des nombres r´eels et i, j, k des symboles abstraits. Entre quaternions, l’addition est d´efinie de
+mani`ere standard (comme pour les nombre complexes, on ajoute les composantes qui se correspondent), et la
+multiplication s’obtient au moyen des r`egles suivantes :
+i × i = −1
+i × j = k
+i × k = −j
+j × i = −k
+j × j = −1
+j × k = i
+k × i = j
+k × j = −i
+k × k = −1
+Attention, comme pour les matrices, la multiplication est non commutative, c’est-`a-dire que l’on n’a pas
+syst´ematiquement l’´egalit´e q1 × q2 = q2 × q1.
+(1) Calculer, `a l’aide des r`egles ci-dessus, le quaternion (1 + 2i −k)2
+(2) D´efinir une classe Quaternion qui permet la d´efinition et l’affichage de quaternions.
+(3) Ajouter la surcharge des op´erateurs + et * selon les r`egles de calcul ´enonc´ees plus haut.
+(4) Ajouter la surcharge de l’op´erateur ** pour la puissance enti`ere (positive ou nulle) d’un quaternion.
+(5) V´erifier les codes propos´es en calculant (1 + 2i −k)2, puis calculer (1 + 2i −k)10.
+Note: les quaternions ont de multiples applications en math´ematiques, physique, informatique, sciences de
+l’ing´enieur, etc.
+Ils sont notamment utilis´es en informatique graphique pour la visualisation 3D, car ils
+permettent de repr´esenter efficacement les rotations de l’espace.
+On trouvera plus de d´etails sur la page
+fr. wikipedia. org/ wiki/ Quaternion

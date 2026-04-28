@@ -1,0 +1,978 @@
+
+===== PAGE 1/42 =====
+Algorithmique et Programmation 2
+1. Compl´ements sur les types Python
+Lionel.Moisan@u-paris.fr
+Universit´e Paris Cit´e
+UFR de Math´ematiques et Informatique
+Campus Saint-Germain-des-Pr`es
+1
+
+
+
+===== PAGE 2/42 =====
+Compl´ements sur les types Python
+1. Nombres (int, float, complex)
+2. Listes
+3. Tuples (n-uplets)
+4. Ensembles
+5. Tableaux associatifs (dictionnaires)
+2
+
+
+
+===== PAGE 3/42 =====
+Nombres (int, float, complex)
+
+
+
+===== PAGE 4/42 =====
+Les nombres entiers
+Le type int
+En Python, les entiers sont cod´es dans le type int. Contrairement `a la
+plupart des langages, des entiers arbitrairement grands peuvent ˆetre
+repr´esent´es, il n’y a pas de limitation intrins`eque au codage.
+>>> N = 3**1000; N
+132207081948080663689045525975214436596542203275214816766492
+036822682859734670489954077831385060806196390977769687258235
+595095458210061891186534272525795367402762022519832080387801
+477422896484127439040011758861804112894781562309443806156617
+305408667449050617812548034440554705439703889581746536825491
+613622083026856377858229022841639830788789691855640408489893
+760937324217184635993869551676501894058810906042608967143886
+4102814350385648747165832010614366132173102768902855220001
+>>> import
+math
+>>> N = math.factorial (200000) # factorielle
+de 200000
+>>> 10**90000
+< N < 10**1000000
+True
+3
+
+
+
+===== PAGE 5/42 =====
+Utilisation d’autres bases
+Si l’on souhaite d´efinir un entier dans une base autre que la base 10, on
+peut utiliser un pr´efixe :
+• ’0b’ pour la base 2 (repr´esentation binaire)
+• ’0o’ pour la base 8 (repr´esentation octale)
+• ’0x’ pour la base 16 (repr´esentation hexad´ecimale)
+Inversement, les fonctions str(), bin(), oct() et hex() renvoient
+l’´ecriture d’un nombre en base 10, 2, 8 et 16 respectivement.
+>>> 0b1111 # 2^3+2^2+2^1+2^0
+15
+>>> 0o60 # 6*8+0
+48
+>>> 0xff # 15*16+15
+255
+>>> str (15) , bin (15) , oct (48) , hex (255)
+(’15’, ’0b1111 ’, ’0o60’, ’0xff’)
+4
+
+
+
+===== PAGE 6/42 =====
+Les nombres r´eels
+Le type float
+En Python, les nombres r´eels sont cod´es dans le type float. Sur la
+plupart des architectures, la repr´esentation est fait sur 8 octets (64
+chiffres binaires) selon le standard IEEE 754.
+Ce format fixe ne repr´esente qu’un nombre fini de nombre r´eels. Les
+calculs sont donc limit´es et effectu´es avec une pr´ecision donn´ee (environ
+16 chiffres significatifs).
+>>> 1.3, 1.,
+-.027, 13.2 e18 # quelques
+nombres r´eels (float)
+(1.3 , 1.0,
+-0.027, 1.32e+19)
+>>> a = 1e307; a,a*10,a*100 # existence d’un plus
+grand r´eel
+(1e+307 , 1e+308 , inf)
+>>> a = 1e -322; a,a/10,a/100 # et d’un plus
+petit r´eel
+positif
+(1e-322 , 1e-323 , 0.0)
+>>> format (1+1e-15,’.20f’) # affichage
+avec 20 d´ecimales
+’1.00000000000000111022 ’
+>>> 1+1e-16 -1 # l’addition n’est pas
+associative !
+0.0
+5
+
+
+
+===== PAGE 7/42 =====
+Les nombres r´eels
+• On peut convertir un nombre entier en r´eel avec la fonction float().
+>>> float (3**100)
+5.153775207320113 e+47
+>>> float (3**1000) # valeur
+trop
+grande
+pour le type
+float
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+OverflowError : int too
+large to
+convert
+to float
+• Inversement, on peut arrondir un r´eel avec int() (arrondi vers 0),
+round() (entier le plus proche), math.floor() (partie enti`ere, donc
+arrondi vers −∞) ou math.ceil() (arrondi vers +∞).
+>>> from
+math
+import
+floor , ceil
+>>> int (3.1) ,
+round (3.1) ,
+floor (3.1) ,
+ceil (3.1)
+(3, 3, 3, 4)
+>>> int (3.7) ,
+round (3.7) ,
+floor (3.7) ,
+ceil (3.7)
+(3, 4, 3, 4)
+>>> int (-3.7),
+round (-3.7),
+floor (-3.7), ceil ( -3.7)
+(-3,
+-4, -4,
+-3)
+6
+
+
+
+===== PAGE 8/42 =====
+Constantes et fonctions math´ematiques
+Le module math contient les constantes et fonctions math´ematiques
+usuelles : trigonom´etriques (cos, sin, tan) et r´eciproques, (acos,
+asin, atan), hyperboliques (cosh, sinh, tanh) et r´eciproques,
+(acosh, asinh, atanh), logarithme (log), exponentielle (exp),
+fonction gamma (gamma), etc.
+>>> import
+math
+>>> math.pi
+3.141592653589793
+>>> math.e
+2.718281828459045
+>>> math.acos (0) # pi/2
+1.5707963267948966
+>>> math.asinh (0)
+0.0
+>>> math.gamma (5) # pour n entier , gamma(n) = (n -1)!
+24.0
+7
+
+
+
+===== PAGE 9/42 =====
+Erreurs
+Certaines op´erations illicites conduisent `a des erreurs, d’autres renvoient
+des valeurs correspondant `a des limites.
+>>> I = float(’inf ’); I # +infini
+inf
+>>> 2* math.atan(I) # limite de Arctan en +infini
+3.141592653589793
+>>> math.log (0)
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+ValueError : math
+domain
+error
+>>> math.log(I)
+inf
+>>> 1/I
+0.0
+>>> 1/0
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+ZeroDivisionError : division
+by zero
+8
+
+
+
+===== PAGE 10/42 =====
+les nombres complexes
+Le type complex
+En Python, les nombres complexes sont cod´es dans le type complex.
+Les nombres imaginaires se notent avec le suffixe ’j’.
+>>> z = 3+4j; z
+(3+4j)
+>>> z.real # partie r´eelle
+3.0
+>>> z.imag # partie
+imaginaire
+4.0
+>>> abs(z) # module de z
+5.0
+>>> import
+cmath; cmath.phase (1+1j) # argument
+principal
+0.7853981633974483
+>>> z =
+-8-6j
+>>> z**0.5 # une
+racine
+carr´ee de z
+(1-3j)
+>>> cmath.exp (1j*math.pi) # identit´e d’Euler (num´erique)
+( -1+1.2246467991473532e-16j)
+9
+
+
+
+===== PAGE 11/42 =====
+Listes
+
+
+
+===== PAGE 12/42 =====
+Les listes
+Le type list
+Rappel : une liste de type list est une collection ordonn´ee et mutable
+(i.e. modifiable) d’´el´ements ´eventuellement h´et´erog`enes.
+D´efinition d’une liste : ´el´ements entre crochets, s´epar´es par des virgules
+>>> L = [3,1e-10,’Paris ’,abs]
+Op´erations sur les listes :
+• extraction/suppression/remplacement (L[a:b:c])
+• concat´enation (’+’)
+• multiplication (’*’)
+• supression de l’´el´ement d’indice i : del L[i]
+• supression des ´el´ement d’indices i (inclus) `a j (exclu) : del L[i:j]
+10
+
+
+
+===== PAGE 13/42 =====
+M´ethodes et fonctions associ´ees aux listes
+• L.append(e) : ajoute l’´el´ement e `a la fin de L
+• L.pop() : supprime (et renvoie) le dernier ´el´ement de L
+• L.count(v) : nombre d’occurrences de v dans L
+• L.index(v) : indice de la 1`ere occurrence de v dans L
+• L.index(v,i,j) : idem, entre i (inclus) et j (exclu)
+• L.remove(v) : supprime la 1`ere occurrence de v dans L
+• L.insert(i,v) : ins`ere v juste avant L[i]
+• L.sort() : trie L par valeurs croissantes
+• L.sort(reverse=True) : trie L par valeurs d´ecroissantes
+• len(L) : nombre d’´el´ements dans la liste L
+• sum(L) : somme des ´el´ements de L (si d´efini)
+• min(L) / max(L) : min/max des ´el´ements de L (si d´efini)
+• sorted(L) : renvoie la liste L tri´ee (sans la modifier)
+11
+
+
+
+===== PAGE 14/42 =====
+Copie d’une liste
+Attention, une affectation entre listes ne copie pas le contenu mais
+seulement une r´ef´erence.
+>>> A = [1,2,3]
+>>> B = A; B
+[1, 2, 3]
+>>> A[1] = 10 # on
+modifie A
+>>> A
+[1, 10, 3]
+>>> B # ce qui
+impacte B !
+[1, 10, 3]
+12
+
+
+
+===== PAGE 15/42 =====
+Copie d’une liste
+Pour recopier une liste A en une nouvelle liste B, on peut utiliser
+B = A[:]
+ou
+B = A.copy()
+ou
+B = list(A)
+`a condition qu’aucun ´el´ement de A ne soit de type compos´e.
+>>> A = [1,2,3]
+>>> B = A[:] # copie de A dans B
+>>> B
+[1, 2, 3]
+>>> A[1] = 10; A # on
+modifie A
+[1, 10, 3]
+>>> B # B n’est pas
+affect´e
+[1, 2, 3]
+13
+
+
+
+===== PAGE 16/42 =====
+Copie d’une liste
+Si A contient des types compos´es, (par exemple A est une liste de listes),
+on peut utiliser la fonction deepcopy() du module copy.
+>>> A = [[1 ,2] ,[3 ,4]] # liste de listes
+>>> B = A[:]
+>>> A[0][0] = ’nouveau ’ # modification
+de A
+>>> B # B n’est pas une
+copie de A ind´ependante
+[[’nouveau ’, 2], [3, 4]]
+>>> import
+copy; C = copy.deepcopy(B)
+>>> A[0][0] = ’encore ’
+>>> C # C n’est pas
+modifi´ee
+[[’nouveau ’, 2], [3, 4]]
+Dans le cas d’une liste de listes, on peut aussi utiliser une compr´ehension
+de liste :
+>>> A = [[1 ,2] ,[3 ,4]] # liste de listes
+>>> C = [L[:] for L in A] # vraie
+copie de A
+>>> A[0][0] = ’nouveau ’ # modification
+de A
+>>> C # C n’est pas
+modifi´ee
+[[1, 2], [3, 4]]
+14
+
+
+
+===== PAGE 17/42 =====
+Tuples (n-uplets)
+
+
+
+===== PAGE 18/42 =====
+Les tuples
+Le type tuple
+Un tuple (ou n-uplet) de type tuple est une collection ordonn´ee et non
+mutable d’´el´ements ´eventuellement h´et´erog`enes.
+Un tuple est donc une sort de liste non modifiable.
+D´efinition d’un tuple : ´el´ements s´epar´es par des virgules (souvent entre
+parenth`eses pour plus de lisibilit´e)
+>>> T = (3,1e-10,’Paris ’,abs) # d´efinition d’un tuple
+>>> T = 3,1e-10,’Paris ’,abs # d´efinition ´e quivalente
+>>> type(T)
+<class ’tuple ’>
+>>> T = 1
+>>> type(T)
+<class ’int ’>
+>>> T = 1, # d´efinition d’un tuple `a un seul ´el´ement
+>>> type(T)
+<class ’tuple ’>
+15
+
+
+
+===== PAGE 19/42 =====
+Op´erations sur les tuples
+Par rapport aux listes, seules les op´erations qui ne modifient pas le tuple
+sont possibles :
+• extraction (T[a:b:c])
+• concat´enation (’+’)
+• multiplication (’*’)
+• T.count(v) : nombre d’occurrences de v dans T
+• T.index(v) : indice de la 1`ere occurrence de v dans T
+• T.index(v,i,j) : idem, entre i (inclus) et j (exclu)
+• fonctions len(T), sum(T), min(T), max(T)
+• sorted(T) : renvoie la liste des valeurs tri´ees de T
+16
+
+
+
+===== PAGE 20/42 =====
+Conversions tuple / list
+Le passage d’un type `a l’autre se fait avec les fonctions tuple et list.
+>>> T = (1,2,’a’,True)
+>>> T
+(1, 2, ’a’, True)
+>>> type(T)
+<class ’tuple ’>
+>>> L = list(T); L # conversion
+tuple
+-> list
+[1, 2, ’a’, True]
+>>> type(L)
+<class ’list ’>
+>>> L==T # attention , pas d´egalit´e car
+types
+diff´erents
+False
+>>> S = tuple(L); S # conversion
+list
+-> tuple
+(1, 2, ’a’, True)
+>>> S==T
+True
+17
+
+
+
+===== PAGE 21/42 =====
+Int´erˆet des tuples
+• L’immutabilit´e ´evite les modifications accidentelles
+• Le traitement des tuples est plus rapide et moins gourmand en
+m´emoire que celui des listes
+• Les tuples sont, comme tous les types immutables de Python,
+hachables (on verra l’int´erˆet de cette propri´et´e pour les dictionnaires)
+Exemple : d´efinition d’une fonction retournant plusieurs valeurs (un tuple)
+def mv(L):
+"""
+list
+-> float x float
+retourne
+la
+moyenne
+et la
+variance
+des
+valeurs de L
+"""
+m,v = 0,0
+for x in L:
+m,v = m+x,v+x**2
+m,v = m/len(L), v/len(L)
+return m, v-m**2
+>>> moyenne , variance = mv([1 ,2 ,3 ,4 ,5])
+>>> print(moyenne ,variance)
+3.0 2.0
+18
+
+
+
+===== PAGE 22/42 =====
+Les fonction zip et enumerate
+La fonction zip cr´ee, `a partir de deux listes (ou tuples) A et B de mˆeme
+taille, la s´equence des couples form´es d’un ´el´ement de A et de l’´el´ement
+de mˆeme rang de B.
+Par exemple, au lieu de
+produit_scalaire = sum( [u[i]*v[i] for i in range(len(u))] )
+on peut ´ecrire
+produit_scalaire = sum( [a*b for a,b in zip(u,v)] )
+Un cas particulier est donn´e par la fonction enumerate, qui, `a partir
+d’une liste (ou tuple) L, enum`ere la s´equence des couples (i,L(i)) :
+>>> L = [’Paris ’,’Lyon ’,’Marseille ’]
+>>> print(list(enumerate(L)))
+[(0, ’Paris ’), (1, ’Lyon ’), (2, ’Marseille ’)]
+est ´equivalent `a
+>>> print ([(i,v) for i,v in zip(range(len(L)),L)])
+[(0, ’Paris ’), (1, ’Lyon ’), (2, ’Marseille ’)]
+19
+
+
+
+===== PAGE 23/42 =====
+Ensembles
+
+
+
+===== PAGE 24/42 =====
+Les ensembles
+Le type set
+Un ensemble de type set est une collection non ordonn´ee et mutable
+d’´el´ements uniques (i.e. non r´ep´et´es) et potentiellement h´et´erog`enes.
+Chaque ´el´ement doit ˆetre de type immutable.
+D´efinition d’un ensemble : ´el´ements entre accolades, s´epar´es par des
+virgules
+>>> S = {27 ,3.13 , ’Paris ’}
+Op´erations sur les ensembles :
+• appartenance (a ∈A) : a in A
+• non-appartenance (a ̸∈A) : a not in A
+• inclusion large (A ⊂B) : A <= B
+• inclusion stricte (A ⊊B) : A < B
+• intersection (A ∩B) : A & B
+• union (A ∪B) : A | B
+• diff´erence (A \ B) : A - B
+20
+
+
+
+===== PAGE 25/42 =====
+Exemple d’utilisation du type set
+>>> A = {12 ,19}; A
+{19, 12}
+>>> B = set(range (11 ,21 ,2)); B
+{17, 11, 19, 13, 15}
+>>> 11 in A
+False
+>>> 11 in B
+True
+>>> A <= B
+False
+>>> A&B
+{19}
+>>> A|B
+{17, 19, 11, 12, 13, 15}
+>>> C = {[1 ,2] ,3} # incorrect
+TypeError: unhashable
+type: ’list ’
+>>> C = {(1 ,2) ,3} # correct
+>>> C
+{(1, 2), 3}
+>>> C = {{1 ,2} ,{3 ,4}} # incorrect
+TypeError: unhashable
+type: ’set’
+21
+
+
+
+===== PAGE 26/42 =====
+M´ethodes et fonctions associ´ees aux set
+Si S est un ensemble de type set :
+• S.add(e) : ajoute l’´el´ement e `a l’ensemble S
+• S.discard(e) : supprime l’´el´ement e de l’ensemble S
+(ne fait rien si e ̸∈S)
+• S.remove(e) : supprime l’´el´ement e de l’ensemble S
+(g´en`ere une erreur si e ̸∈S)
+• S.clear() : supprime tous les ´el´ements de S
+• S.pop() : renvoie un ´el´ement (quelconque) de S, et le supprime de S
+(g´en`ere une erreur si S est vide)
+• len(S) : renvoie le cardinal (nombre d’´el´ements) de l’ensemble S
+Remarque : l’ensemble vide s’´ecrit set() (et non {})
+22
+
+
+
+===== PAGE 27/42 =====
+Exemple d’utilisation du type set (suite)
+>>> A = set(’abcdefg ’); A
+{’f’, ’d’, ’c’, ’b’, ’a’, ’e’, ’g’}
+>>> A.add (10); A
+{’f’, ’d’, 10, ’c’, ’b’, ’a’, ’e’, ’g’}
+>>> A.pop ()
+’f’
+>>> A
+{’d’, 10, ’c’, ’b’, ’a’, ’e’, ’g’}
+>>> A.remove(’B’) # incorrect
+car ’B’ n’est pas ´el´ement de A
+KeyError: ’B’
+>>> A.discard(’B’) # correct
+mais ne fait
+rien
+>>> A.discard(’b’) # correct
+et
+supprime
+’b’
+>>> A
+{’d’, 10, ’c’, ’a’, ’e’, ’g’}
+>>> len(A)
+6
+>>> A = set () # ensemble
+vide
+>>> A.pop () # erreur
+KeyError: ’pop
+from an empty
+set’
+23
+
+
+
+===== PAGE 28/42 =====
+Version immutable
+Le type frozenset
+Un ensemble de type frozenset est une collection non ordonn´ee et
+immutable d’´el´ements uniques (i.e. non r´ep´et´es) et potentiellement
+h´et´erog`enes. Comme pour le type set, chaque ´el´ement doit ˆetre de
+type immutable.
+Le type frozenset est donc une sorte de type set, mais immutable. Il
+est `a peu pr`es au type set ce que le type tuple est au type list.
+Les conversions se font avec les fonctions set() et frozenset().
+Les op´erateurs associ´es au type set fonctionnent ´egalement pour le type
+frozenset.
+Si A est de type set et B de type frozenset, alors :
+• A==B est vrai si A et B contiennent les mˆemes ´el´ements
+• A&B, A|B et A-B renvoient un objet de type set
+24
+
+
+
+===== PAGE 29/42 =====
+Exemple d’utilisation dy type frozenset
+>>> A = frozenset ([12 ,19]); A
+frozenset ({19 , 12})
+>>> B = frozenset(range (11 ,21 ,2)); B
+frozenset ({17 , 11, 19, 13, 15})
+>>> 11 in B # test d’appartenance
+True
+>>> A <= B # test d’inclusion
+False
+>>> A&B # intersection
+frozenset ({19})
+>>> A|B # union
+frozenset ({17 , 19, 11, 12, 13, 15})
+>>> A.add (10) # incorrect (les
+frozenset
+sont
+immutables )
+AttributeError : ’frozenset ’ object
+has no
+attribute
+’add ’
+>>> A = A|frozenset ({10}); A # correct
+frozenset ({10 , 19, 12})
+>>> C = {{1 ,2} ,{3 ,4}} # incorrect
+TypeError: unhashable
+type: ’set’
+>>> C = {frozenset ({1 ,2}) , frozenset ({3 ,4})}; C # correct
+{frozenset ({3, 4}),
+frozenset ({1, 2})}
+25
+
+
+
+===== PAGE 30/42 =====
+Tableaux associatifs
+(dictionnaires)
+
+
+
+===== PAGE 31/42 =====
+Les dictionnaires
+Le type dict
+Un tableau associatif (ou dictionnaire) de type dict est une collection
+non ordonn´ee et mutable de paires (cl´e, valeur), d’´el´ements
+´eventuellement h´et´erog`enes. Chaque cl´e doit ˆetre de type immutable.
+• d´efinition directe avec la syntaxe {cl´e1 :valeur1, cl´e2 :valeur2, ...} :
+>>> d = {’veste ’:2, ’pantalon ’:4, ’chaussures ’:4}
+>>> d # ordre
+quelconque (avant
+Python v. 3.7)
+{’pantalon ’: 4, ’chaussures ’: 4, ’veste ’: 2}
+• d´efinition incr´ementale
+>>> d = {} # ou bien d = dict ()
+>>> d[’veste ’] = 2
+>>> d[’pantalon ’] = 4
+>>> d[’chaussures ’] = 4
+>>> d
+{’pantalon ’: 4, ’chaussures ’: 4, ’veste ’: 2}
+26
+
+
+
+===== PAGE 32/42 =====
+Cas particulier : cl´es de type str
+Lorsque les cl´es sont des chaˆınes de caract`eres simples, il existe une
+syntaxe particuli`ere, de type cl´e=valeur :
+# bien
+noter l’absence
+de
+guillemets
+autour
+des cha^ınes cl´es !
+d = dict(veste =2, pantalon =4, chaussures =4)
+est ´equivalent `a
+d = {’veste ’:2, ’pantalon ’:4, ’chaussures ’:4}
+Attention, ceci ne fonctionne que si les chaˆınes de caract`eres d´efinissant
+les cl´es sont des noms de variables valides :
+>>> d = dict(veste =2, 1pantalon =4, chaussures =4)
+SyntaxError : invalid
+syntax
+>>> d = dict(veste =2, pantalon =4, chaussures
+ferm´ees =4)
+SyntaxError : invalid
+syntax
+>>> d = dict(veste =2, pantalon =4,
+chaussures_ferm ´ees =4) # ok
+Cette syntaxe particuli`ere prendra tout son sens lorsque nous ´etudierons
+les fonctions avec arguments optionnels
+27
+
+
+
+===== PAGE 33/42 =====
+La cl´e doit ˆetre immutable
+>>> d = dict ()
+>>> d[1515] = ’Marignan ’
+>>> d[1789] = ’R´evolution ’
+>>> d[[1495 ,1610]] = ’Renaissance ’ # incorrect (list)
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+TypeError: unhashable
+type: ’list ’
+>>> d[(1495 ,1610)] = ’Renaissance ’ # correct (tuple)
+>>> d
+{1515: ’Marignan ’, 1789: ’R´evolution ’, (1495 ,1610): ’Renaissance ’}
+Cons´equence : pour les cl´es d’un dictionnaire,
+• les types int, float, complex, bool, str sont accept´es tels quels
+• Le type list doit ˆetre remplac´e par le type tuple*
+• Le type set doit ˆetre remplac´e par le type frozenset
+* avec des ´el´ements eux-mˆemes immutables
+28
+
+
+
+===== PAGE 34/42 =====
+Pourquoi les cl´es doivent-elles ˆetre immutables ?
+Lorsque l’on demande la valeur associ´ee `a la cl´e k dans le dictionnaire D,
+Python doit a priori chercher k parmi les cl´es du dictionnaire D
+La recherche syst´ematique consistant `a balayer les N cl´es de D jusqu’`a
+trouver k est tr`es inefficace pour N grand (n´ecessite jusqu’`a N
+comparaisons)
+→une id´ee efficace est de maintenir une liste de cl´es tri´ee, afin de faire la
+recherche beaucoup plus rapidement (l’ordre de grandeur du nombre de
+comparaisons est log(N) avec une recherche dichotomique)
+→l’impl´ementation Python actuelle du type dict (et du type set)
+permet en r´ealit´e une recherche en temps constant (ind´ependant de N)
+en moyenne.
+Comme les cl´es peuvent ˆetre de natures tr`es diff´erentes, Python utilise
+une fonction de hachage (hash()), qui fabrique un entier (appel´e
+empreinte) `a partir d’une cl´e quelconque.
+29
+
+
+
+===== PAGE 35/42 =====
+Pourquoi les cl´es doivent-elles ˆetre immutables ?
+>>> hash (1515) # pour un entier
+assez
+petit , identit´e
+1515
+>>> hash ([1495 ,1610]) # incorrect (list n’est pas
+hachable)
+TypeError: unhashable
+type: ’list ’
+>>> hash ((1495 ,1610)) # correct (tuple
+est
+hachable)
+3712308706137777606
+>>> hash(’Python 3’) # fonction
+aussi d´efinie
+pour
+des cha^ınes
+1842537825426745422
+>>> hash (3.1415) # ou des r´eels
+326276785803738115
+>>> hash (10**20) ,
+hash (848750603811160107) # pas
+injective
+(848750603811160107 ,
+848750603811160107)
+Python utilise ces valeurs enti`eres pour trier les cl´es.
+En Python, les types immutables, simples ou compos´es d’´el´ements
+immutables, sont hachables.
+Remarque : La fonction hash() n’est pas injective, mais les collisions
+(deux arguments diff´erents qui conduisent `a la mˆeme valeur retourn´ee par
+hash()) sont rares en pratique.
+30
+
+
+
+===== PAGE 36/42 =====
+Parcours d’un dictionnaire
+Si d est un dictionnaire :
+• d.keys() est une s´equence d´ecrivant l’ensemble des cl´es
+• si k est une cl´e, d[k] est la valeur correspondante dans d
+>>> d = {’arbre ’:’tree ’, ’route ’:’road ’, ’h´erisson ’:’hedgehog ’}
+>>> print(d.keys ()) # la s´equence
+des cl´es
+dict_keys ([’arbre ’, ’route ’, ’h´erisson ’])
+>>> print(list(d.keys ())) # peut ^etre
+convertie
+en liste
+[’arbre ’, ’route ’, ’h´erisson ’]
+>>> print(tuple(d.keys ())) # ou en tuple
+(’arbre ’, ’route ’, ’h´erisson ’)
+>>> for k in d.keys (): # parcours
+de l’ensemble
+des cl´es
+...
+print(k,’se traduit
+en
+anglais
+par’,d[k])
+...
+arbre se
+traduit
+en
+anglais
+par
+tree
+route se
+traduit
+en
+anglais
+par
+road
+h´erisson se
+traduit
+en
+anglais
+par
+hedgehog
+Remarque : on peut ´ecrire k in d `a la place de k in d.keys()
+31
+
+
+
+===== PAGE 37/42 =====
+Manipulation des dictionnaires
+• remplacement d’un ´el´ement par red´efinition
+>>> D = {1: ’a’ ,2:’c’ ,3:’c’ ,4:’d’}
+>>> D[2] = ’b’; D # red´efinition
+de D[2]
+{1: ’a’, 2: ’b’, 3: ’c’, 4: ’d’}
+• suppression d’un ´el´ement avec del (comme pour le type list)
+>>> del D[1]; D
+{2: ’b’, 3: ’c’, 4: ’d’}
+• attention, pas de“tranches”possibles avec les dictionnaires :
+>>> D[2:4]
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+TypeError: unhashable
+type: ’slice ’
+• de mˆeme, pas d’extraction multiple possible
+>>> D[2,3,4]
+Traceback (most
+recent
+call
+last ):
+File "<stdin >", line 1, in <module >
+KeyError: (2, 3, 4)
+32
+
+
+
+===== PAGE 38/42 =====
+Cl´es potentiellement inexistantes : la m´ethode get()
+Si k n’est pas une cl´e du dictionnaire D, alors D[k] produit une erreur
+→`a chaque appel de type D[k], il faut s’assurer que k est une cl´e valide
+Exemple : d´ecompte des occurrences dans une liste L
+D = dict ()
+for k in L:
+if k in D: # ´equivalent `a if k in D.keys ():
+D[k] = D[k] + 1
+else:
+D[k] = 1
+On peut ´eviter ce test syst´ematique au moyen de la m´ethode get(), qui
+permet de sp´ecifier une valeur par d´efaut :
+D.get(k,v) renvoie D[k] si k est une cl´e de D, et v sinon
+Le code pr´ec´edent devient donc
+D = dict ()
+for k in L:
+D[k] = D.get(k ,0) + 1
+33
+
+
+
+===== PAGE 39/42 =====
+Autres fonctions et m´ethodes sur les dictionnaires
+Si D est un dictionnaire :
+• D.clear() efface toutes les paires (cl´e,valeur) de D
+• D.copy() renvoie une copie de D
+(attention, mˆeme remarque que pour les listes et les tuples)
+• len(D) renvoie le nombre de cl´es de D
+• D.items() renvoie toutes les paires (cl´e,valeur) de D
+• D.popitem() renvoie un couple (cl´e,valeur) de D, et le supprime
+dans D
+34
+
+
+
+===== PAGE 40/42 =====
+Exemple 1 : d´ecompte des occurrences dans une liste
+On part d’une liste L, et l’on souhaite d´eterminer les valeurs pr´esentes
+dans L, avec pour chacune le nombre d’occurrences dans L
+→structure naturelle du r´esultat : un dictionnaire dont les cl´es sont les
+valeurs pr´esentes dans L, et la valeur associ´ee `a une cl´e son nombre
+d’occurrence dans L
+Exemple : si L = [0,7,9,5,7,0,0,5,7,7,5,3], on doit obtenir le
+dictionnaire
+D = { 0:3, 7:4, 9:1, 5:3, 3:1 }
+def
+occurrences (L):
+"""
+list
+-> dict
+d´ecompte
+les
+occurrences
+des ´el´ements de L
+"""
+D = dict ()
+for k in L:
+D[k] = D.get(k,0) + 1
+return D
+>>> occurrences ([0,7,9,5,7,0,0,5,7,7,5,3])
+{0: 3, 9: 1, 3: 1, 5: 3, 7: 4}
+35
+
+
+
+===== PAGE 41/42 =====
+Exemple 2 : d´ecomposition en facteurs premiers
+Tout entier n s’´ecrit sous la forme n =
+Y
+p∈Pn
+pkp ,
+o`u Pn d´esigne l’ensemble des diviseurs premiers de n, et kp ∈N∗
+Exemple : 3300 = 33 × 100 = 22 × 3 × 52 × 11
+On souhaite coder, pour un entier n, cette d´ecomposition dans un
+dictionnaire, sous la forme D[p] = kp pour tout p ∈Pn
+On suppose d´ej`a cod´ee la fonction est_premier(p), qui teste si
+l’argument p est un nombre premier (et renvoie un bool´een)
+>>> n = 3300
+>>> D = dict ()
+>>> for p in range (2,n+1): # diviseurs
+premiers
+potentiels
+...
+if
+est_premier(p): # on se limite `a p premier
+...
+while n%p==0:
+...
+n = n//p # division
+de N par p
+...
+D[p] = D.get(p ,0) + 1 # incr´ementation
+de D[p]
+>>> D # code la d´e composition
+en
+facteurs
+premiers
+de n
+{11: 1, 2: 2, 3: 1, 5: 2}
+36
+
+
+
+===== PAGE 42/42 =====
+Exemple 2 : d´ecomposition en facteurs premiers (fin)
+V´erification :
+def
+prod(L):
+"""
+list
+-> number
+calcule
+le
+produit
+des ´el´ements de L
+"""
+p = 1
+for x in L:
+p = p*x
+return p
+>>> D
+{11: 1, 2: 2, 3: 1, 5: 2}
+>>> prod ([p**D[p] for p in D])
+3300
+37

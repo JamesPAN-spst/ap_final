@@ -1,0 +1,793 @@
+# 3-types -- part 3  pages 51-75 / 119
+
+
+===== PAGE 51/119 =====
+Graphes
+
+
+
+===== PAGE 52/119 =====
+D´efinition d’un graphe
+D´efinition
+Un graphe (simple non orient´e) est constitu´e d’un ensemble de
+sommets, et d’un ensemble d’arˆetes qui relient entre eux certains
+couples de sommets. On peut le repr´esenter math´ematiquement par un
+couple (S, A), o`u S est l’ensemble des sommets et
+A ⊂
+
+{x, y}, (x, y) ∈S2, x ̸= y
+	
+l’ensemble des arˆetes.
+G
+F
+A
+E
+I
+S
+B
+S = {G, B, A, F, S, E, I}
+A =
+
+{B, A}, {B, F}, {A, F}, {A, S}, {F, S}, {F, E}, {F, I}, {S, I}
+	
+47
+
+
+
+===== PAGE 53/119 =====
+Dessin d’un graphe
+Attention de ne pas confondre le graphe avec le dessin du graphe !
+Par exemple, les deux graphes ci-dessous sont les mˆemes !
+1
+2
+3
+4
+1
+2
+3
+4
+48
+
+
+
+===== PAGE 54/119 =====
+Vocabulaire des graphes
+L’ordre d’un graphe est son nombre de sommets.
+Dans un graphe, on appelle degr´e d’un sommet le nombre d’arˆetes qui
+partent de ce sommet. Un graphe dont tous les sommets ont le mˆeme
+degr´e est dit r´egulier.
+Dans un graphe non orient´e, deux sommets reli´es par une arˆete sont dits
+adjacents ou voisins.
+Un graphe est complet si toutes les arˆetes possibles sont pr´esentes
+(autrement dit, tout sommet est voisin de tous les autres sommets).
+3
+1
+2
+4
+5
+6
+1
+2
+3
+4
+5
+Graphe r´egulier (sommets de degr´e 3)
+Graphe complet d’ordre 5
+49
+
+
+
+===== PAGE 55/119 =====
+Le type abstrait graphe
+D´efinition (fonctions de base pour les graphes)
+Les fonctions de base associ´ees au type graphe (simple non orient´e)
+sont :
+• cr´eer un graphe vide :
+graphe vide() : →graphe
+• tester si un graphe est vide :
+est vide() : graphe →bool´een
+• ajouter un sommet `a un graphe, en pr´ecisant ses voisins :
+(les voisins qui n’existent pas ne sont pas cr´e´es)
+ajouter sommet() :
+graphe (modifi´e) × sommet × ensembles de sommets →
+• obtenir l’ensemble des voisins d’un sommet :
+voisins() : graphe × sommet →ensemble de sommets
+• obtenir l’ensemble des sommets d’un graphe :
+sommets() : graphe →ensemble de sommets
+50
+
+
+
+===== PAGE 56/119 =====
+Le type abstrait graphe
+Quiz : que vaut le graphe g apr`es l’ex´ecution du pseudo-code suivant ?
+g ←graphe vide()
+ajouter sommet(g,G,{})
+ajouter sommet(g,B,{})
+ajouter sommet(g,A,{B})
+ajouter sommet(g,F,{B,A})
+ajouter sommet(g,S,{F,A})
+ajouter sommet(g,E,{F})
+ajouter sommet(g,I,{F,S})
+G
+F
+A
+E
+I
+S
+B
+51
+
+
+
+===== PAGE 57/119 =====
+Impl´ementation Python du type abstrait graphe
+On peut impl´ementer un graphe (simple non orient´e) au moyen d’un
+dictionnaire :
+• les sommets sont les cl´es
+• la valeur associ´ee `a un sommet s est l’ensemble des voisins de s
+def
+graphe_vide (): # -> graphe
+return
+dict ()
+def
+ajouter_sommet (G,s,A):
+# graphe (modifi´e) x sommet x ensemble
+de
+sommets
+->
+G[s] = A # ajout du sommet s et des ar^etes
+partant
+de s
+for t in A: # pour
+tout
+voisin de s
+if t in G:
+G[t]. add(s) # ajout de l’ar^ete de t vers s
+def
+voisins(G,s): # graphe x sommet
+-> ensemble
+de
+sommets
+return G[s]
+def
+sommets(G): # graphe
+-> ensemble
+de
+sommets
+return G.keys ()
+52
+
+
+
+===== PAGE 58/119 =====
+Impl´ementation Python du type abstrait graphe
+G
+F
+A
+E
+I
+S
+B
+>>> g = graphe_vide ()
+>>> ajouter_sommet (g,’G’,set ())
+>>> ajouter_sommet (g,’B’,set ())
+>>> ajouter_sommet (g,’A’,{’B’})
+>>> ajouter_sommet (g,’F’,{’B’,’A’})
+>>> ajouter_sommet (g,’S’,{’F’,’A’})
+>>> ajouter_sommet (g,’E’,{’F’})
+>>> ajouter_sommet (g,’I’,{’F’,’S’})
+>>> g
+{’E’:{’F’}, ’I’:{’S’,’F’}, ’B’:{’F’,’A’}, ’S’:{’F’,’I’,’A’},
+’G’:set(), ’F’:{’S’,’E’,’I’,’B’,’A’}, ’A’:{’S’,’F’,’B’}}
+53
+
+
+
+===== PAGE 59/119 =====
+Impl´ementation Python du type abstrait graphe
+On peut compl´eter les fonctions de base pr´ec´edentes pour pouvoir
+modifier un graphe existant :
+def
+supprimer_sommet (G,s): # graphe (modifi´e) x sommet
+->
+for t in G[s]:
+G[t]. remove(s) # on
+supprime
+les ar^etes
+vers s
+del G[s] # on
+supprime
+le sommet s
+def
+supprimer_arete (G,s,t):
+# graphe (modifi´e) x sommet x sommet
+->
+G[s]. remove(t)
+G[t]. remove(s)
+def
+ajouter_arete (G,s,t):
+# graphe (modifi´e) x sommet x sommet
+->
+G[s]. add(t)
+G[t]. add(s)
+L’utilisation des types Python dict et set permet d’obtenir, pour toutes
+les fonctions de base, une complexit´e moyenne constante O(1)
+(donc ind´ependante du nombre de sommets et d’arˆetes dans le graphe)
+54
+
+
+
+===== PAGE 60/119 =====
+Autres impl´ementations du type abstrait graphe
+On peut ´egalement impl´ementer le type abstrait graphe (simple non
+orient´e) :
+• avec des listes (un sommet est une liste compos´ee de son nom et de
+ses voisins) ;
+• par la matrice d’adjacence du graphe (voir d´efinition plus loin) ;
+• par un ensemble de sommets et un ensemble d’arˆetes
+(impl´ementation `a la lettre de la d´efinition math´ematique) ;
+• etc.
+En termes de complexit´e, ces m´ethodes sont moins efficaces que
+l’impl´ementation par dictionnaire. Elles peuvent n´eanmoins avoir un
+int´erˆet pour des graphes de taille mod´er´ee.
+Pour l’impl´ementation par liste d’adjacence par exemple, l’ajout d’un
+sommet ou d’une arˆete, et la d´etermination des voisins d’un sommet, ont
+une complexit´e lin´eaire (et non constante) en le nombre de sommets.
+55
+
+
+
+===== PAGE 61/119 =====
+Exemple d’algorithme
+V´erifier qu’un graphe est complet, autrement dit que chaque sommet est
+voisin de tous les autres :
+fonction est complet(G)
+// retourne vrai si le graphe G est complet, faux sinon
+S ←ensemble form´e par les sommets de G
+pour tout ´el´ement s de S
+si {s} ∪voisins(G,s) ̸= S
+retourner faux
+retourner vrai
+Impl´ementation Python :
+def
+est_complet (G): # graphe
+-> bool´een
+S = set(sommets(G))
+for s in S:
+if {s}| voisins(G,s) != S:
+return
+False
+return
+True
+56
+
+
+
+===== PAGE 62/119 =====
+Les graphes en informatique
+Le graphes sont extrˆemement utiles en informatique, et on les utilise dans
+des contextes tr`es diff´erents :
+• pour la mod´elisation de r´eseaux (internet, chemin de fer, lignes
+a´eriennes, t´el´ephonie mobile, ´electricit´e, r´eseaux sociaux, etc.)
+• en robotique, et plus g´en´eralement pour l’automatisation de tˆaches
+(les sommets sont des ´etats de la machine, les arˆetes des actions)
+• pour la logistique (planification du transport de produits chimiques
+incompatibles)
+• en mod´elisation biologique (ex : propagation d’une ´epid´emie)
+• en mod´elisation de ph´enom`enes physiques (ex : percolation)
+• en th´eorie des jeux (par exemple, on peut voir une partie d’´echecs
+comme une promenade sur un graphe dont les sommets sont les
+configurations et les arˆetes des coups valides)
+• et beaucoup d’autres !
+57
+
+
+
+===== PAGE 63/119 =====
+autres types de graphes
+• un graphe est simple s’il ne comporte pas de boucles, c’est-`a-dire
+d’arˆetes dont les deux extr´emit´es sont identiques
+1
+3
+2
+ce graphe n’est pas simple
+• un graphe orient´e (simple ou non) est un graphe dans lequel les
+arˆetes sont dirig´ees (l’arˆete x→y va de x vers y). Il peut ˆetre
+repr´esent´e par un couple (S, A), avec A ⊂S2.
+x
+z
+t
+y
+x
+z
+t
+y
+graphe orient´e simple
+graphe orient´e non simple
+58
+
+
+
+===== PAGE 64/119 =====
+autres types de graphes
+• Un graphe ´etiquet´e (orient´e ou non) est un graphe dont les arˆetes
+sont munies d’´etiquettes. Lorsque ces ´etiquettes sont des r´eels
+positifs, on a un graphe pond´er´e.
+essai 1
+essai 2
+essai 3
+bloquer
+déverrouiller
+incorrect
+incorrect
+code
+code
+code
+incorrect
+code
+correct
+code
+correct
+code
+correct
+graphe ´etiquet´e orient´e (repr´esentation d’un automate)
+Paris
+Rennes
+Dijon
+Reims
+Brest
+163
+Le Mans
+Angers
+Nantes
+Rouen
+Tours
+211
+235
+99
+97
+88
+152
+248
+357
+108
+315
+156
+140
+graphe pond´er´e non orient´e (distances SNCF en km)
+59
+
+
+
+===== PAGE 65/119 =====
+Chemins et cycles
+Dans un graphe, un chemin (ou une chaˆıne) est une liste de sommets
+dans laquelle deux sommets cons´ecutifs sont adjacents.
+La longueur d’une chemin est le nombre d’arˆetes qui la constitue (donc,
+le nombre de sommets moins un).
+Une chemin est ferm´e si ses deux extr´emit´es (son premier et son dernier
+´el´ement) sont identiques.
+Un cycle est un chemin ferm´e dont toutes les arˆetes sont distinctes.
+D´efinition
+Un graphe est connexe si deux sommets quelconques sont connect´es,
+c’est-`a-dire, peuvent ˆetre reli´es par un chemin dont ils sont les deux
+extr´emit´es.
+Th´eor`eme
+Un graphe est connexe si et seulement si il existe un chemin passant par
+tous les sommets.
+60
+
+
+
+===== PAGE 66/119 =====
+Exemples de graphe
+Quiz : remplir le tableau pour le graphe ci-dessous
+G
+F
+A
+E
+I
+S
+B
+simple
+connexe
+do min
+do max
+r´egulier
+complet
+ordre
+cycles
+oui
+non
+0
+5
+non
+non
+7
+oui
+61
+
+
+
+===== PAGE 67/119 =====
+Exemples de graphe
+Quiz : remplir le tableau pour le graphe ci-dessous
+1
+3
+2
+simple
+connexe
+do min
+do max
+r´egulier
+complet
+ordre
+cycles
+non
+oui
+1
+2
+non
+non
+3
+oui
+62
+
+
+
+===== PAGE 68/119 =====
+Exemples de graphe
+Quiz : remplir le tableau pour le graphe ci-dessous
+Paris
+Rennes
+Dijon
+Reims
+Brest
+163
+Le Mans
+Angers
+Nantes
+Rouen
+Tours
+211
+235
+99
+97
+88
+152
+248
+357
+108
+315
+156
+140
+simple
+connexe
+do min
+do max
+r´egulier
+complet
+ordre
+cycles
+oui
+oui
+1
+5
+non
+non
+10
+oui
+63
+
+
+
+===== PAGE 69/119 =====
+Exemples de graphe
+Quiz : remplir le tableau pour le graphe ci-dessous
+a
+S
+b
+c
+d
+e
+f
+simple
+connexe
+do min
+do max
+r´egulier
+complet
+ordre
+cycles
+oui
+oui
+1
+3
+non
+non
+7
+non
+64
+
+
+
+===== PAGE 70/119 =====
+Exemples de graphe
+Quiz : remplir le tableau pour le graphe ci-dessous
+3
+1
+2
+4
+5
+6
+simple
+connexe
+do min
+do max
+r´egulier
+complet
+ordre
+cycles
+oui
+oui
+3
+3
+oui
+non
+6
+oui
+65
+
+
+
+===== PAGE 71/119 =====
+Exemples de graphe
+Quiz : remplir le tableau pour le graphe ci-dessous
+1
+2
+3
+4
+5
+simple
+connexe
+do min
+do max
+r´egulier
+complet
+ordre
+cycles
+oui
+oui
+4
+4
+oui
+oui
+5
+oui
+66
+
+
+
+===== PAGE 72/119 =====
+Matrice d’adjacence associ´ee `a un graphe
+On peut repr´esenter un graphe par sa matrice d’adjacence
+On num´erote les sommets de 1 `a n
+La matrice d’adjacence A = (aij)1≤i,j≤n du graphe est d´efinie par
+aij =
+
+
+
+1 s’il existe une arˆete allant du sommet i au sommet j,
+0 sinon.
+Elle d´efinit compl`etement le graphe.
+Si le graphe est non orient´e, la matrice A est sym´etrique
+(∀i, j, aji = aij)
+Si le graphe est simple, tous les coefficients diagonaux de A sont nuls
+(∀i, aii = 0)
+67
+
+
+
+===== PAGE 73/119 =====
+Matrice d’adjacence associ´ee `a un graphe
+G
+1
+3
+2
+3
+1
+2
+4
+5
+6
+A
+
+
+
+0
+1
+1
+1
+1
+0
+1
+0
+0
+
+
+
+
+
+
+
+
+
+
+
+
+0
+1
+0
+1
+1
+0
+1
+0
+1
+0
+0
+1
+0
+1
+0
+0
+1
+1
+1
+0
+0
+0
+1
+1
+1
+0
+1
+1
+0
+0
+0
+1
+1
+1
+0
+0
+
+
+
+
+
+
+
+
+
+68
+
+
+
+===== PAGE 74/119 =====
+Matrice d’adjacence associ´ee `a un graphe
+G
+1
+3
+4
+2
+A
+
+
+
+
+
+1
+1
+0
+0
+0
+0
+0
+1
+0
+1
+1
+0
+0
+1
+1
+0
+
+
+
+
+
+69
+
+
+
+===== PAGE 75/119 =====
+Matrice d’adjacence associ´ee `a un graphe
+Th´eor`eme (d´enombrement de chemins)
+Si A est la matrice d’adjacence d’un graphe G, alors pour tout entier
+k ∈N∗, le coefficient (i, j) de la matrice Ak est le nombre de chemins
+distincts de longueur k allant du sommet i au sommet j dans G.
+Exemple : G =
+1
+3
+2
+A =
+
+
+
+0
+1
+1
+1
+1
+0
+1
+0
+0
+
+
+
+A2 =
+
+
+
+2
+1
+0
+1
+2
+1
+0
+1
+1
+
+
+;
+A3 =
+
+
+
+1
+3
+2
+3
+3
+1
+2
+1
+0
+
+
+;
+A4 =
+
+
+
+5
+4
+1
+4
+6
+3
+1
+3
+2
+
+
+;
+etc.
+→il y a 5 mani`eres d’aller du sommet 1 `a lui-mˆeme en 4 ´etapes
+(1-3-1-3-1, 1-3-1-2-1, 1-2-1-3-1, 1-2-1-2-1, 1-2-2-2-1)
+70

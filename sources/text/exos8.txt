@@ -1,0 +1,137 @@
+
+===== PAGE 1/3 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 37 `a 39
+Note: si vous rencontrez des difficult´es sur l’une des questions de cette feuille d’exercices, vous pouvez lire les indications
+correspondantes `a la fin de ce document. Il est cependant conseill´e de ne le faire qu’en dernier recours: trop utiliser ces
+indications pourrait vous donner `a tort l’impression que vous maˆıtrisez les exercices alors que ce n’est pas encore le cas.
+Exercice 37 (manipulation des types abstraits files et piles).
+(1) Que vaut la pile P apr`es ex´ecution de l’algorithme ci-dessous ?
+F ←file vide()
+pour k = 1, 2, . . . , 10
+ajouter ´el´ement(k,F)
+P ←pile vide()
+tant que F n’est pas vide
+x ←extraire ´el´ement(F)
+ajouter ´el´ement(x,F)
+x ←extraire ´el´ement(F)
+empiler(x,P)
+(2) ´Ecrire en pseudo-code une fonction inverse(F) qui prend en entr´ee une file F et renvoie une file
+G, constitu´ee des ´el´ements de F dans l’ordre inverse. Cette fonction pourra faire appel `a une pile
+auxilliaire P.
+Exercice 38 (manipulation du type abstrait arbre).
+(1) Que vaut l’arbre A apr`es ex´ecution de l’algorithme ci-dessous ?
+F ←file vide()
+pour k = 1, 2, . . . , 8
+x ←feuille d’´etiquette k
+ajouter ´el´ement(x,F)
+tant que F contient au moins deux ´el´ements
+x ←extraire ´el´ement(F)
+ajouter ´el´ement(x,F)
+x ←extraire ´el´ement(F)
+y ←extraire ´el´ement(F)
+z ←nœud d’´etiquette vide, et d’enfants x et y
+ajouter ´el´ement(z,F)
+x ←extraire ´el´ement(F)
+A ←arbre de racine x
+(2) Si N est la racine d’un arbre ´etiquet´e, que calcule f(N) pour la fonction f ci-dessous ?
+fonction f(N)
+// nœud →nombre
+m ←´etiquette(N)
+pour tout enfant E de N
+m ←min(m, f(E))
+retourner m
+(3) ´Ecrire en pseudo-code une fonction r´ecursive total(N) qui prend en entr´ee la racine N d’un arbre A
+dont les nœuds sont ´etiquet´es avec des nombres, et renvoie la somme des ´etiquettes de A.
+(4) ´Ecrire en pseudo-code une fonction r´ecursive scoremax(N) qui prend en entr´ee la racine N d’un arbre
+A dont les nœuds sont ´etiquet´es avec des nombres, et renvoie le score maximal possible obtenu en
+cumulant les valeurs des ´etiquettes des nœuds travers´es en remontant d’une feuille de l’arbre vers la
+racine.
+
+
+
+===== PAGE 2/3 =====
+(5) ´Ecrire en pseudo-code une fonction r´ecursive arit´e(N) qui prend en entr´ee la racine N d’un arbre A
+et renvoie le nombre maximal d’enfants pour un nœud de A.
+(6) ´Ecrire en pseudo-code une fonction r´ecursive arit´e2(N) qui prend en entr´ee la racine N d’un arbre A
+et renvoie le nombre maximal de petits-enfants (enfants d’enfants) pour un nœud de A.
+Exercice 39 (expressions bien parenth´es´ees).
+On a vu en cours (chapitre 3, p.
+31-32) que l’on pouvait v´erifier le bon parenth´esage d’une expression
+alg´ebrique `a l’aide d’une pile. Plus pr´ecis´ement, on analyse la chaˆıne de caract`eres codant l’expression avec
+l’algorithme suivant :
+• on balaie les caract`eres un `a un, dans l’ordre
+• lorsqu’on tombe sur un symbole ouvrant, on l’empile
+• lorsqu’on tombe sur un symbole fermant c :
+– on v´erifie que la pile est non vide
+– on d´epile un ´el´ement
+– on v´erifie que cet ´el´ement d´epil´e est bien le symbole ouvrant correspondant au symbole fermant c
+• lorsque l’on a balay´e toute la chaˆıne, on v´erifie que la pile est vide
+(1) ´Ecrire le pseudo-code de la fonction parenthesage(s), qui prend en entr´ee une chaˆıne de caract`eres, et
+retourne le bool´een vrai ou faux selon que la chaˆıne de caract`eres est bien parenth´es´ee avec les symboles
+( ) [ ] { } ou pas. On utilisera les fonctions pile vide(), est vide(), empiler() et d´epiler() du type
+abstrait pile. Pour all´eger le pseudo-code, on pourra ´egalement utiliser un dictionnaire pour d´ecrire les
+associations entre symboles ouvrants et fermants (mais ce n’est pas une obligation).
+(2) Proposer, sans l’aide du cours si possible, une impl´ementation Python des fonction pile vide(),
+est vide(), empiler() et d´epiler() du type abstrait pile `a l’aide du type list Python.
+(3) En d´eduire une impl´ementation Python du pseudo-code de la question 1 (on utilisera les fonctions
+cod´ees `a la question pr´ec´edente).
+(4) V´erifier `a l’aide de ce code le parenth´esage des expressions suivantes :
+s1 = "f(x+[g(y,z)-3x+1]^2(x+1))+h{g}[x]()-1+y"
+s2 = "(({[(A^2)^2]^2}^2)^2"
+s3 = "exp(sin(x+1/[x^{1+n}+1)+x^2)/2)"
+(5) Modifier la fonction de la question 3 pour qu’elle renvoie non pas un bool´een, mais :
+• None si l’expression est bien parenth´es´ee;
+• un chaˆıne de caract`eres d´ecrivant le plus pr´ecis´ement possible l’erreur rencontr´ee si l’expression
+n’est pas bien parenth´es´ee.
+Tester ensuite cette fonction sur les expressions de la question 4.
+
+
+
+===== PAGE 3/3 =====
+Indications
+37.1 Ex´ecuter pas-`a-pas les instructions du pseudo-code, en modifiant au fil des instructions la file F et la
+pile G (voir le cours chapitre 3 p. 22 et 26)
+37.2 Extraire les ´el´ements de F un `a un `a l’aide d’une boucle, et les empiler au fur et `a mesure dans la pile
+P (initialis´ee vide).
+Ensuite, d´epiler les ´el´ements de P un `a un `a l’aide d’une boucle, et les ajouter au fur et `a mesure `a la
+file G (initialis´ee vide).
+38.1 Ex´ecuter pas-`a-pas les instructions du pseudo-code, en modifiant au fil des it´erations de la boucle la
+file F, qui contient des arbres en construction (au d´epart, uniquement des feuilles).
+38.2 Tester le code sur un arbre `a quelques nœuds, en ´ecrivant `a cot´e de chaque nœud N la valeur f(N)
+correspondante (commencer par les feuilles et remonter progressivement vers la racine).
+38.3 S’inspirer du pseudo-code de la question pr´ec´edente, en rempla¸cant la combinaison min(..., ...) par
+l’op´eration ad´eqate.
+38.4 Faire une boucle sur les enfants de N, appliquer la fonction scoremax() `a chacun et conserver la valeur
+maximale.
+Ne pas oublier d’ajouter `a ce maximum la valeur de l’´etiquette de N.
+38.5 Commencer par calculer le nombre n d’enfants de N.
+Ensuite, appliquer r´ecursivement la fonction arit´e() `a tous les enfants de N et prendre la valeur
+maximale entre n et toutes les valeurs ainsi obtenues.
+38.6 On peut s’inspirer de la fonction arit´e() ci-dessus.
+Commencer par calculer le nombre n de petits-enfants de N en sommant le nombre d’enfants des enfants
+de N (faire une boucle sur les enfants de N).
+Ensuite, appliquer r´ecursivement la fonction arit´e2() `a tous les enfants de N et prendre la valeur
+maximale entre n et toutes les valeurs ainsi obtenues.
+39.1 Voir le cours chapitre 3 p.32 pour un pseudo-code sans les symboles { et }.
+On peut utiliser un dictionnaire qui `a chacun des 3 symboles ouvrants fait correspondre le symbole
+fermant associ´e.
+Si l’on rencontre une cl´e du dictionnaire, il faut l’empiler (symbole ouvrant).
+Si l’on rencontre une valeur du dictionnaire, il faut v´erifier qu’elle correspond bien `a la valeur associ´ee
+par le dictionnaire `a l’´el´ement au sommet de la pile P.
+39.2 La pile est impl´ement´ee avec une liste Python, le sommet de la pile ´etant le dernier ´el´ement de la liste.
+Utiliser les m´ethodes append() et pop() pour empiler ou d´epiler une valeur.
+39.3 Traduire ligne `a ligne le pseudo-code de la question 1.
+Les cl´es d’un dictionnaire D s’obtiennent avec D.keys().
+Les valeurs pr´esentes dans un dictionnaire D s’obtiennent avec D.values().
+39.4 Appeler la fonction parenth´esage() avec comme argument s1 (d´efini comme dans l’´enonc´e), puis s2,
+puis enfin s3.
+V´erifier que la valeur retourn´ee par la fonction est correcte (True pour s1, qui est bien parenth´es´ee,
+False pour s2 et s3, qui sont mal parenth´es´ees).
+39.5 En cas de chaˆıne mal parenth´es´ee, on peut par exemple retourner la partie d´ej`a lue de la chaˆıne s au
+moment o`u l’on rencontre l’erreur, suivie d’une chaˆıne expliquant quel caract`ere ´etait attendu.
+Plutˆot qu’une boucle for c in s:, utiliser plutˆot une boucle avec un indice (for i in range(len(s)):)
+puis poser c = s[i]. Ceci permet d’extraire ensuite facilement la partie de s d´ej`a analys´ee, avec s[:i].

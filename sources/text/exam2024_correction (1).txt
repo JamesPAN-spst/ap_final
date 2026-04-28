@@ -1,0 +1,311 @@
+
+===== PAGE 1/6 =====
+Universit´e Paris Cit´e, Campus Saint-Germain-des-Pr`es
+UFR de Math´ematiques et Informatique
+45, rue des Saints-P`eres 75006 Paris
+Algorithmique et Programmation 2
+Correction du contrˆole terminal du 15 mai 2024 — dur´ee: 1h30
+Tout document interdit. Les calculatrices et les t´el´ephones portables, mˆeme pr´evus `a titre d’horloge, sont ´egalement
+interdits.
+Tous les exercices sont ind´ependants. On pr´ecisera bien la signature (type des entr´ees/sorties) de chaque fonction
+(Python ou pseudo-code) propos´ee.
+Sur la note globale, 1 point sera attribu´e en fonction de la proportion de
+signatures correctes.
+Exercice 1.
+Pour chaque ligne (ind´ependante) d’instructions ci-dessous, donner le contenu de la variable x
+apr`es ex´ecution de la ligne consid´er´ee si l’ex´ecution de la ligne ne provoque pas d’erreur, ou expliquer la nature
+de l’erreur dans le cas contraire. Expliquer votre r´eponse dans les deux cas (une r´eponse correcte sans
+explication ne sera pas comptabilis´ee).
+1
+S = {-1,0,1} - {1}; x = (S <= {0})
+2
+S = {-1,0,1} + {1}; x = (S >= {0})
+3
+x = frozenset(range (3 ,10)) & frozenset(range (7,-2,-3))
+4
+x = {n**2 for n in range (3)}; x.remove (9)
+5
+x = {}; x.add ((0 ,))
+6
+x = ({(1 ,2)} | {(2 ,1)}) - {1,2}
+7
+S = set("abc"); S.add("abc"); x = len(S)
+8
+D = {1:"a"}; D["a"] = 2; x = D[D[1]]
+9
+D = {1:3, 2:5, 3:0}; x = sum(z*D[z] for z in D)
+10
+D = {z**2:z for z in range (10)}; x = D.get (54 ,36)
+(1) Ligne 1: S est l’ensemble (de type set) {−1, 0}, qui n’est pas inclus dans l’ensemble {0}, donc x=False.
+(2) Ligne 2: erreur car l’op´erateur + n’est pas d´eﬁni entre 2 objets de type set.
+(3) Ligne 3: x est l’ensemble (de type frozenset) obtenu par intersection de {3, 4, 5, 6, 7, 8, 9} et {7, 4, 1}, donc
+x=frozenset({4,7}).
+(4) Ligne 4: x est l’ensemble (de type set) {0, 1, 4}.
+Cet ensemble ne contient pas 9 donc x.remove(9)
+provoque une erreur.
+(5) Ligne 5: x est un dictionnaire vide, or la m´ethode add() n’est pas d´eﬁnie sur un dictionnaire, donc erreur.
+(6) Ligne 6: x est un ensemble (de type set) ´egal `a {(1, 2), (2, 1)} (union de deux ensembles `a un ´el´ement,
+chaque ´el´ement ´etant un tuple `a deux ´el´ements; la ﬁn de la ligne -{1,2} n’a aucun eﬀet car 1 et 2 ne font
+pas partie de l’ensemble form´e par l’union).
+(7) Ligne 7: On ajoute `a l’ensemble (set) initial {"a","b","c"} l’´el´ement "abc", donc `a la ﬁn
+S = {"a","b","c","abc"} donc x=4.
+(8) Ligne 8: x = D[D[1]] = D["a"] = 2.
+(9) Ligne 9: x = 1.3 + 2.5 + 3.0 = 13.
+(10) Ligne 10: D est le dictionnaire {0:0, 1:1, 4:2, 9:3, 16:4, 25:5, ..., 81:9} (les cl´es sont les carr´ees
+des entiers de 0 `a 9 inclus, les valeurs les racines carr´ees des cl´es). Comme 54 n’est pas le carr´e d’un entier,
+ce n’est pas une cl´e de D donc D.get(54,36) retourne son deuxi`eme argument et x=36.
+
+
+
+===== PAGE 2/6 =====
+Exercice 2.
+Pour chaque fonction ci-dessous, proposez un algorithme sous forme de pseudo-code (les
+codes Python ne seront pas accept´es ici).
+(1) La fonction r´ecursive f1 prend en entr´ee la racine d’un arbre, et retourne le nombre de nœuds (y compris
+la racine) qui ont exactement deux enfants.
+fonction f1(N)
+// noeud -> entier
+// retourne le nombre de noeuds qui ont exactement deux enfants
+compte <- 0
+si taille(enfants(N)) = 2
+compte <- 1
+pour tout enfant E de N
+compte <- compte + f1(E)
+retourner compte
+(2) La fonction r´ecursive f2 prend en entr´ee la racine d’un arbre dont les nœuds sont ´etiquet´es par des nombres,
+et retourne le nombre de nœuds qui ont la mˆeme valeur d’´etiquette que leur parent.
+fonction f2(N)
+// noeud -> entier
+// retourne le nombre de noeuds qui ont la m^eme ´etiquette que leur parent
+compte <- 0
+pour tout enfant E de N
+si ´etiquette(E) = ´etiquette(N)
+compte <- compte + 1
+compte <- compte + f2(E)
+retourner compte
+(3) La fonction f3 prend entr´ee deux ﬁles A et B, et retourne une ﬁle C form´ee par les ´el´ements de A puis ceux
+de B.
+fonction f3(A, B)
+// file x file -> file
+// retourne une file constitu´ee des ´el´ements de A puis de B
+C <- file vide
+tant que A est non vide
+extraire un ´el´ement x de A
+ajouter x `a C
+tant que B est non vide
+extraire un ´el´ement x de B
+ajouter x `a C
+retourner C
+
+
+
+===== PAGE 3/6 =====
+(4) La fonction f4 prend en entr´ee un graphe G non orient´e et non vide et retourne un sommet (quelconque) de
+G parmi les sommets de degr´e maximal (on rappelle que le degr´e d’un sommet est son nombre de voisins).
+fonction f4(G)
+// graphe -> sommet
+// retourne un sommet de degr´e maximal
+dmax <- -1
+pour tout sommet s de G
+d <- nombre de voisins de s
+si d > dmax
+dmax <- d
+t <- s
+retourner t
+Exercice 3.
+Traduire le pseudo-code ci-dessous en langage Python. Dans ce pseudo-code, on suppose que les
+chaˆınes de caract`eres sont index´ees `a partir de l’indice 0, et pour une chaˆıne de caract`eres s de taille n, le caract`ere
+d’indice k (avec 0 ⩽k ⩽n −1) est d´esign´e par s(k).
+fonction recherche(s1, s2)
+// chaˆıne de caract`eres × chaˆıne de caract`eres →bool´een
+// teste si la chaˆıne s1 est pr´esente dans la chaˆıne s2
+n1 ←taille de s1
+n2 ←taille de s2
+pour i = 0, 1, ..., n2 −1
+k ←0
+tant que k < n1 et i + k < n2 et s1(k) = s2(i + k)
+k ←k + 1
+si k = n1
+retourner vrai
+retourner faux
+La traduction ne pose pas de probl`eme particulier:
+def
+recherche(s1 , s2):
+’’’ str x str -> bool
+teste si la cha^ıne s1 est pr´esente
+dans la cha^ıne s2
+’’’
+n1 = len(s1)
+n2 = len(s2)
+for i in range(n2):
+k = 0
+while k<n1 and i+k<n2 and s1[k]==s2[i+k]:
+k = k+1
+if k==n1:
+return
+True
+return
+False
+
+
+
+===== PAGE 4/6 =====
+Exercice 4.
+Proposer une impl´ementation Python de chaque fonction ci-dessous.
+(1) La fonction g1 prend en entr´ee un dictionnaire D dont les valeurs sont suppos´ees immutables et distinctes
+(on ne demande pas de v´eriﬁer cette condition dans le code) et retourne un dictionnaire “inverse” E qui
+v´eriﬁe E[y]=x pour tous (x,y) tels que y=D[x].
+Par exemple, g1({1:5, 2:4, 3:0}) doit retourner {5:1, 4:2, 0:3}.
+Un simple parcours de D suﬃt `a d´eﬁnir E en inversant cl´es et valeurs.
+def g1(D):
+’’’ dict -> dict
+retourne le dictionnaire "inverse" de D
+’’’
+E = dict ()
+for x in D:
+E[D[x]] = x
+return E
+(2) La fonction g´en´eratrice g2 qui prend en entr´ee une liste d’entiers L non vide et un entier naturel n, et
+d´elivre dans l’ordre croissant tous les entiers k ∈{0, 1, . . . , n} qui sont multiples d’exactement un ´el´ement
+de L. Par exemple, list(g2([3,7,6],15)) doit retourner la liste [3,7,9,14,15].
+Il suﬃt de parcourir chaque entier k ∈{0, 1, . . . , n} et de compter le nombre d’´el´ements de L qui le divisent;
+si ce nombre est un, alors il faut d´elivrer k.
+def g2(L, n):
+’’’ list x int -> generator
+retourne un g´en´erateur des
+entiers k, 0<=k<=n
+qui sont
+multiple d’exactement un ´el´ement de L
+’’’
+for k in range(n+1):
+nombre = 0
+for x in L:
+if k%x==0:
+nombre += 1
+if nombre ==1:
+yield k
+On peut racourcir sensiblement le code pr´ec´edent en utilisant la fonction sum() (qui, lorsqu’on lui demande
+de sommer des bool´eens, compte le nombre de valeurs True):
+def g2(L, n):
+’’’ list x int -> generator
+retourne un g´en´erateur des
+entiers k, 0<=k<=n
+qui sont
+multiple d’exactement un ´el´ement de L
+’’’
+for k in range(n+1):
+if sum(k%x==0 for x in L)==1:
+yield k
+
+
+
+===== PAGE 5/6 =====
+(3) La fonction r´ecursive g3 qui prend en entr´ee un entier naturel n, et renvoie le terme un de la suite d´eﬁnie
+par u0 = 1 et la relation de r´ecurrence
+∀n ∈N,
+un+1 =
+
+u2
+n
+si n est pair,
+un + n
+sinon.
+Par exemple, g3(4) doit retourner 7.
+Attention `a ne pas se tromper dans les indices, car dans le code il faut calculer un en fonction de un−1, et
+non un+1 en fonction de un. Il est sage de commencer par r´e´ecrire la r´ecurrence sous la “bonne” forme
+∀n ∈N∗,
+un =
+
+u2
+n−1
+si n −1 est pair,
+un−1 + n −1
+sinon.
+def g3(n):
+’’’ int -> int
+retourne la valeur de u(n)
+’’’
+if n==0:
+return 1
+if (n -1)%2==0:
+return g3(n -1)**2
+return g3(n -1)+n-1
+(4) La fonction g´en´eratrice r´ecursive g4 prend en entr´ee un entier n ⩾0, et d´elivre les coeﬃcients du binˆome
+
+n
+k
+
+pour k = 0, 1, . . . , n. On pourra utiliser la relation
+
+n
+k
+
+=
+
+n −1
+k −1
+
++
+
+n −1
+k
+
+.
+Par exemple, list(g4(4)) doit retourner la liste [1,4,6,4,1].
+Pour n = 0, il y a seulement la valeur 1 `a d´elivrer (condition d’arrˆet de la r´ecursivit´e).
+Pour n > 0, on fabrique les coeﬃcients `a partir de ceux d´elivr´es pour n −1:
+• on commence par d´elivrer 1
+• on parcours les coeﬃcients d´elivr´es pour n-1, et on d´elivre leur sommes 2 `a 2
+• on termine en d´elivrant 1
+def g4(n):
+’’’ int -> generator
+d´elivre les
+coefficients du bin^ome k parmi n’’ pour k=0,1,...,n
+’’’
+if n==0:
+yield 1
+else:
+yield 1
+x = 0
+for y in g4(n -1):
+if x!=0:
+yield x+y
+x = y
+yield 1
+
+
+
+===== PAGE 6/6 =====
+Exercice 5.
+On souhaite manipuler avec un classe Python des polynˆomes de degr´e au plus 2. ´Ecrire un code
+Python permettant de d´eﬁnir une telle classe Trinome avec les fonctionnalit´es suivantes :
+(1) Trinome(a,b,c) cr´ee une instance de la classe correspondant au polynˆome aX2 + bX + c
+(2) si P et Q sont deux instances de la classe Trinome, alors P+Q retourne une nouvelle instance de la classe
+correspondant `a la somme des deux polynˆomes associ´es
+(3) si P est une instance de la classe Trinome, alors P.derive() retourne une nouvelle instance de la classe
+correspondant `a la d´eriv´ee du polynˆome repr´esent´e par P
+On d´eﬁnit une classe Trinome `a l’aide du mot r´eserv´e class, et:
+• La cr´eation d’une instance se fait avec la m´ethode sp´eciale
+init (), qui se contente ici de recopier
+les arguments a,b,c dans des attributs de la classe (ici on garde les mˆemes noms mais ce n’est pas une
+obligation).
+• L’addition de deux instances de la classe se fait avec la m´ethode sp´eciale
+add (). On retourne simplement
+une nouvelle instance obtenue en sommant terme `a terme les coeﬃcients des deux polynˆomes (attributs
+a,b,c).
+• Pour la d´erivation, on cr´ee une nouvelle instance qui code le polynˆome 0.X2 + 2a.X + b, puisque c’est la
+d´eriv´ee de a.X2 + b.X + c.
+class
+Trinome ():
+def
+__init__(self , a, b, c):
+self.a = a
+self.b = b
+self.c = c
+def
+__add__(P, Q):
+return
+Trinome(P.a+Q.a, P.b+Q.b, P.c+Q.c)
+def derive(self ):
+return
+Trinome (0, 2* self.a, self.b)

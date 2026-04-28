@@ -1,0 +1,113 @@
+
+===== PAGE 1/2 =====
+Universit´e Paris Cit´e — UFR Math-Info
+Ann´ee 2025-2026
+Licence 1`ere ann´ee semestre 2
+Algorithmique et programmation 2 (L. Moisan)
+Exercices 1 `a 6
+Exercice 1 (manipulation des ensembles).
+Compl´eter le tableau ci-dessous en ´ecrivant le contenu des
+variables A, B, C au fur et `a mesure de l’ex´ecution des lignes de code de la colonne de gauche.
+ligne de code
+A
+B
+C
+A = {1,’n’}
+{1,’n’}
+—
+—
+B = len(A)
+"
+2
+—
+C = set(’python ’)
+A.add(’t’)
+B = A|C
+B = A&C
+B = (A<=C)
+B = C-A
+A.remove (1)
+B = (A<C)
+B = (1 in A)
+Exercice 2 (correction de code).
+Chacune des expressions suivantes comporte une erreur. Expliquer
+pourquoi, et proposer une version corrig´ee de l’expression.
+1
+z = (1+2j)**2;
+real(z)
+2
+x = (1); len(x)
+3
+x = (1 ,)+(2 ,); x.append (3)
+4
+L = (1 ,2 ,3); del L[0]
+5
+L = [10 ,3 ,20]; sort(L)
+Exercice 3 (interpr´etation de code).
+Pour chaque ligne (ind´ependante) d’instructions ci-dessous, pr´edire
+(en expliquant votre raisonnement) le contenu de la variable x apr`es ex´ecution de la ligne consid´er´ee.
+1
+x = bin (7) + str(0b11)
+2
+x = int(’11’) - 0b11
+3
+x = 1.1; x = int(x) - int(-x)
+4
+import
+math; x = math.floor ( -2.1) - int ( -2.1)
+5
+j = 1; x = (1+2j)**2
+6
+x = abs ((1j -1)**2)
+7
+x = [5, 3, 1]; del x[1]; x.pop()
+8
+x = [2,2,4,3,2,5]. count (2)
+9
+z = sorted ((2 ,)*3 + (1 ,)*2); x = z[1:3]
+10
+x = [5, 3, 1]; y = x; y.sort ()
+11
+x = [1]; y = x[0]; y = 0
+12
+z = {5, 3, 1}; z.add (1); x = len(z)
+13
+x = {3,2,1} - {1,1,1}
+14
+x = set ([0 ,1]) < {1 ,2}
+15
+x = 2 in {1,3} & {2 ,4}
+
+
+
+===== PAGE 2/2 =====
+Exercice 4 (´equation du second degr´e).
+On consid`ere trois nombres complexes a, b, c non tous nuls.
+(1) Quel est l’ensemble des solutions (complexes) z de l’´equation az2 +bz +c = 0 lorsque a ̸= 0 ? R´epondre
+`a la mˆeme question lorsque a = 0.
+(2) ´Ecrire une fonction Python racines complexes(a,b,c), qui renvoie les solutions (complexes) de
+l’´equation az2 + bz + c = 0 sous la forme d’un ensemble (´eventuellement vide) de type set, les ar-
+guments a,b,c ´etant des nombres complexes non tous nuls (on pourra v´erifier cette condition avec une
+instruction assert au d´ebut de la fonction). On utilisera l’´ecriture D**0.5 pour calculer sous Python
+une racine carr´ee d’un nombre complexe D.
+(3) (TP) Tester la racines complexes (et v´erifier le r´esultat) sur les triplets (a, b, c) suivants :
+(1, −2, 2);
+(2, −1 −2i, i);
+(0, 1 + i, 2);
+(0, 0, 1).
+Exercice 5 (pr´ecision des float).
+(1) Proposer des codes Python permettant de d´eterminer les r´eels x et y de type float caract´eris´es par les
+propri´et´es suivantes.
+(a) x est le plus petit float de la forme 2k (avec k ∈Z) tel que x+1==x
+(b) y est le plus petit float de la forme 2k (avec k ∈Z) tel que 1+y!=1
+(2) (TP) Calculer num´eriquement x et y. Quel est le lien entre x et de y ?
+Exercice 6 (racine carr´ee enti`ere).
+(1) Proposer une fonction Python intsqrt(n), qui prend en entr´ee un entier n ⩾0 et renvoie la partie
+enti`ere de √n, calcul´ee `a l’aide des fonctions int() et de l’op´erateur puissance **.
+(2) (TP) V´erifier que fonction pr´ec´edente fonctionne correctement pour n = 90 et n = 320 (si r est le
+r´esultat obtenu, on doit avoir r2 ⩽n < (r + 1)2).
+(3) (TP) Tester de mˆeme la valeur r retourn´ee par intsqrt(n) pour n = 3100. Pouvez-vous expliquer ce
+que vous observez ? Expliquer de mˆeme le ph´enom`ene observ´e pour n = 31000.
+(4) (TP) (*) Proposer une nouvelle impl´ementation de la fonction intsqrt(n), qui produit un r´esultat
+correct pour tout entier n ⩾0, en proc´edant par dichotomie. On ajoutera une instruction assert dans
+la fonction pour garantir que le r´esultat retourn´e est correct.

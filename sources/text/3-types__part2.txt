@@ -1,0 +1,629 @@
+# 3-types -- part 2  pages 26-50 / 119
+
+
+===== PAGE 26/119 =====
+Le type abstrait file
+Quiz : que vaut la file F apr`es l’ex´ecution du pseudo-code suivant ?
+F ←file vide()
+ajouter ´el´ement(5,F)
+ajouter ´el´ement(3,F)
+tant que non(est vide(F)) et premier ´el´ement(F)>2
+x ←extraire ´el´ement(F)
+ajouter ´el´ement(x-1,F)
+ajouter ´el´ement(x-3,F)
+R´eponse :
+avant la boucle :
+F =
+5
+puis
+F =
+3
+5
+apr`es le premier tour de boucle :
+F =
+2
+4
+3
+apr`es le deuxi`eme tour de boucle :
+F =
+0
+2
+2
+4
+apr`es le troisi`eme tour de boucle :
+F =
+1
+3
+0
+2
+2
+23
+
+
+
+===== PAGE 27/119 =====
+Impl´ementation Python du type abstrait file
+Le type abstrait file peut ˆetre impl´ement´e `a partir du type list. On
+choisit ci-dessous d’ajouter les ´el´ements `a gauche de la liste (donc `a
+l’indice 0, en d´ecalant les autres), et de les extraire `a droite (dernier
+indice valide).
+def
+file_vide (): # -> file
+return []
+def
+est_vide(F): # file
+-> bool´een
+return
+len(F)==0
+def
+ajouter_´el´ement(x,F): # ´el´ement x file
+-> file
+return [x]+F
+def
+extraire_´el´ement(F): # file (modifi´ee) -> ´el´ement
+return F.pop ()
+def
+premier_´el´ement(F): # file
+-> ´el´ement
+return F[-1]
+Cette impl´ementation est correcte mais pas compl`etement satisfaisante
+car l’ajout d’un ´el´ement n´ecessite de recopier la liste existante
+→peu efficace si la file est tr`es grande
+24
+
+
+
+===== PAGE 28/119 =====
+Impl´ementation Python du type abstrait file
+On peut ´egalement impl´ementer le type file dans l’autre sens, avec l’ajout
+des ´el´ements `a droite (en fin de liste) et l’extraction `a gauche (indice 0).
+def
+file_vide (): # -> file
+return []
+def
+est_vide(F): # file
+-> bool´een
+return
+len(F)==0
+def
+ajouter_´el´ement(x,F): # ´el´ement x file (modifi´ee) ->
+F.append(x)
+def
+extraire_´el´ement(F): # file
+-> ´el´ement x file
+return F[0],F[1:]
+def
+premier_´el´ement(F): # file
+-> ´el´ement
+return F[0]
+Cette impl´ementation est cette fois inefficace pour l’extraction (pour une
+liste de taille n, complexit´e O(n) au lieu de O(1)).
+Une meilleure impl´ementation peut ˆetre obtenue grˆace au type deque
+(double-ended queue) du module collections (hors programme).
+25
+
+
+
+===== PAGE 29/119 =====
+Le type abstrait pile
+D´efinition (fonctions de base pour les piles)
+Les fonctions de base associ´ees au type pile sont :
+• cr´eer une pile vide :
+pile vide() : →pile
+• tester si une pile est vide :
+est vide() : pile →bool´een
+• empiler un ´el´ement au sommet de la pile :
+empiler() : ´el´ement × pile (modifi´ee) →
+• d´epiler l’´el´ement en haut de la pile (si la pile est non vide) :
+d´epiler() : pile (modifi´ee) →´el´ement
+• lire l’´el´ement au sommet de la pile (si la pile est non vide) :
+sommet() : pile →´el´ement
+Aux noms pr`es, les fonctions de base sont similaires `a celles du type file,
+mais elles diff`erent dans leur effet en raison de la diff´erence FIFO / LIFO.
+26
+
+
+
+===== PAGE 30/119 =====
+Le type abstrait pile
+Quiz : que vaut la pile P apr`es l’ex´ecution du pseudo-code suivant ?
+P ←pile vide()
+empiler(5,P)
+empiler(3,P)
+tant que non(est vide(P)) et sommet(P)>2
+x ←d´epiler(P)
+empiler(x-1,P)
+empiler(x-3,P)
+R´eponse :
+avant la boucle
+apr`es le premier tour de boucle
+P =
+5
+puis P =
+3
+5
+P =
+0
+2
+5
+27
+
+
+
+===== PAGE 31/119 =====
+Impl´ementation Python du type abstrait pile
+Le type abstrait pile peut ˆetre impl´ement´e `a partir du type list.
+def
+pile_vide (): # -> pile
+return []
+def
+est_vide(P): # pile
+-> bool´een
+return
+len(P)==0
+def
+empiler(P,x): # pile (modifi´ee) x ´el´ement
+->
+P.append(x)
+def d´epiler(P): # pile (modifi´ee) -> ´el´ement
+return P.pop ()
+def
+sommet(P): # pile
+-> ´el´ement
+return P[-1]
+Cette impl´ementation est efficace (et conforme `a ce qui est attendu) car
+toutes ces fonctions s’ex´ecutent en temps constant (la complexit´e est
+O(1), c’est-`a-dire major´ee par une constante ind´ependante de la taille de
+la pile)
+28
+
+
+
+===== PAGE 32/119 =====
+Piles et r´ecursivit´e
+`A peu pr`es tous les langages de programmation utilisent des piles (stack
+en anglais), en particulier pour g´erer les appels de fonctions et la
+r´ecursivit´e.
+Par exemple, si une fonction f a ´et´e d´efinie par def f(a,b):
+l’instruction x = f (1, 3) se traduit pour le syst`eme par :
+• empiler 1, puis 3
+• appeler la fonction f , qui va :
+• utiliser les deux emplacements m´emoire au sommet de la pile comme
+variables locales pour ses deux arguments (a = 1 et b = 3)
+• ...faire des calculs...
+• `a l’instruction return, lib´erer (d´epiler) les deux emplacements
+utilis´es par a et b au sommet de la pile
+• empiler la valeur de retour
+• rendre la main au programme appelant
+• d´epiler la valeur de retour de f dans x
+29
+
+
+
+===== PAGE 33/119 =====
+Piles et r´ecursivit´e
+Examinons la pile du syst`eme lors de l’appel pgcd(9,6), o`u pgcd() est
+l’impl´ementation r´ecursive du calcul du pgcd par l’algorithme d’Euclide
+(voir chapitre 2) :
+def
+pgcd(a,b):
+return a if b==0
+else
+pgcd(b,a%b)
+´etape →
+0
+1
+2
+3
+4
+5
+6
+pgcd(9,6)
+appel
+—
+—
+—
+—
+return
+pgcd(6,3)
+appel
+—
+—
+return
+pgcd(3,0)
+appel
+return
+pile −→
+6
+9
+3
+6
+6
+9
+0
+3
+3
+6
+6
+9
+3
+3
+6
+6
+9
+3
+6
+9
+3
+30
+
+
+
+===== PAGE 34/119 =====
+Exemple d’utilisation d’une pile : v´erifier le parenth´esage
+On souhaite analyser une chaˆıne de caract`eres et d´eterminer si elle est
+correctement parenth´es´ee avec les symboles ( ) [ ]
+Exemples :
+• [(x+1)/z-f(y)]/2 est correctement parenth´es´ee
+• 3((1+x) n’est pas bien parenth´es´ee
+• (1+f][3x-2) n’est pas bien parenth´es´ee
+Autrement dit, la chaˆıne de caract`eres est bien parenth´es´ee si lorsqu’on
+tombe sur un symbole de fermeture ) ou ], le dernier symbole d’ouverture
+non d´ej`a referm´e correspond au symbole d’ouverture ´equivalent ( ou [.
+On peut faire cette v´erification `a l’aide d’une pile :
+• on balaie les caract`eres un `a un, dans l’ordre
+• lorsqu’on tombe sur un symbole ouvrant, on l’empile
+• lorsqu’on tombe sur un symbole fermant, on v´erifie que la pile est
+non vide, puis que l’´el´ement que l’on d´epile est bien le symbole
+ouvrant correspondant
+• `a la fin de la chaˆıne, la pile doit ˆetre vide
+31
+
+
+
+===== PAGE 35/119 =====
+Exemple d’utilisation d’une pile : v´erifier le parenth´esage
+L’algorithme de v´erification peut se d´ecrire avec le pseudo-code suivant :
+fonction bien parenth´es´ee(s)
+// teste si la chaˆıne de caract`eres s est bien parenth´es´ee avec ( ) et [ ]
+// signature : chaˆıne de caract`eres →bool´een
+P ←pile vide() // initialisation
+pour tout caract`ere c de s
+si c = ’(’ ou c = ’[’ // symbole ouvrant
+empiler(c,P)
+sinon si c = ’)’
+si est vide(P), retourner FAUX // manque (
+si d´epiler(P)̸= ’(’, retourner FAUX // incoh´erence
+sinon si c = ’]’
+si est vide(P), retourner FAUX // manque [
+si d´epiler(P)̸= ’[’, retourner FAUX // incoh´erence
+si non(est vide(P)), retourner FAUX // symboles ouvrants non referm´es
+retourner VRAI // tout a ´et´e v´erifi´e
+32
+
+
+
+===== PAGE 36/119 =====
+Arbres
+
+
+
+===== PAGE 37/119 =====
+Le type abstrait arbre
+Premi`ere d´efinition
+Un arbre est une structure de donn´ees hi´erarchique constitu´ee de
+nœuds. A l’exception d’un nœud particulier appel´e racine de l’arbre,
+chaque nœud a un unique parent (qui est un autre nœud de l’arbre).
+R´eciproquement, un nœud peut avoir 0, un ou plusieurs enfants dont il
+est le parent. Un nœud sans enfant est appel´e feuille.
+F
+X
+A
+R
+B
+U
+L
+T
+M
+33
+
+
+
+===== PAGE 38/119 =====
+Le type abstrait arbre
+Premi`ere d´efinition
+Un arbre est une structure de donn´ees hi´erarchique constitu´ee de
+nœuds. A l’exception d’un nœud particulier appel´e racine de l’arbre,
+chaque nœud a un unique parent (qui est un autre nœud de l’arbre).
+R´eciproquement, un nœud peut avoir 0, un ou plusieurs enfants dont il
+est le parent. Un nœud sans enfant est appel´e feuille.
+F
+X
+A
+R
+B
+U
+L
+T
+M
+racine
+nœuds
+enfants de X
+feuilles
+parent de R
+34
+
+
+
+===== PAGE 39/119 =====
+Le type abstrait arbre
+On appelle branche le lien entre un nœud et son parent.
+Dans un arbre, les nœuds (et, plus rarement, les branches) contiennent
+g´en´eralement une information (on parle de l’´etiquette, du label, ou plus
+simplement du nom du nœud).
+La profondeur d’un nœud est le nombre de parents `a remonter pour
+atteindre la racine (qui est de profondeur 0).
+La hauteur d’un arbre est la profondeur maximale de ses nœuds (donc de
+ses feuilles en fait).
+La taille d’un arbre est son nombre de nœuds.
+Un arbre peut ˆetre ordonn´e (si les enfants sont num´erot´es) ou non
+ordonn´e (on parle alors de l’ensemble des enfants)
+Remarque : il y a une analogie avec les arbres biologiques, mais en
+informatique on les repr´esente dans l’autre sens, avec la racine en haut et
+les feuilles en bas !
+35
+
+
+
+===== PAGE 40/119 =====
+Le type abstrait arbre
+Deuxi`eme d´efinition (r´ecursive)
+Un objet A est un arbre si :
+• soit A est l’arbre vide ;
+• soit A est un arbre constitu´e d’un nœud appel´e racine de A,
+dont les enfants sont eux-mˆemes des arbres.
+Le nombre d’enfants peut ˆetre nul.
+Le type abstrait arbre se rencontre dans de nombreuses situations :
+• les objets graphiques d’une application (fenˆetres, menus, etc.)
+• les repr´esentations hi´erarchiques
+• la structure d’un syst`eme de fichier
+• la repr´esentation d’une formule alg´ebrique
+• l’´etablissement d’un diagnostic (arbre de d´ecision)
+• etc.
+Les arbres se pr`etent particuli`erement bien aux algorithmes r´ecursifs
+36
+
+
+
+===== PAGE 41/119 =====
+Le type abstrait arbre
+D´efinition (fonctions de base pour les arbres)
+Les fonctions de base associ´ees au type arbre (ordonn´e) sont :
+• cr´eer un nœud `a partir d’une ´etiquette et d’une liste de nœuds enfants
+(si la liste est vide, on cr´ee une feuille) :
+cr´eer noeud() : ´etiquette × liste de nœuds →nœud
+• lire l’´etiquette d’un nœud :
+´etiquette() : nœud →´etiquette
+• lire la liste des enfants d’un nœud :
+enfants() : nœud →liste de nœuds
+• cr´eer un arbre dont la racine est donn´ee par un nœud :
+cr´eer arbre() : nœud →arbre
+• lire la racine d’un arbre :
+racine() : arbre →nœud
+37
+
+
+
+===== PAGE 42/119 =====
+Le type abstrait arbre
+Quiz : que vaut l’arbre a apr`es l’ex´ecution du pseudo-code suivant ?
+U ←cr´eer noeud(’U’,[ ])
+M ←cr´eer noeud(’M’,[ ])
+B ←cr´eer noeud(’B’,[U,M])
+A ←cr´eer noeud(’A’,[ ])
+R ←cr´eer noeud(’R’,[ ])
+X ←cr´eer noeud(’X’,[A,R,B])
+a ←cr´eer arbre(X)
+X
+A
+R
+B
+U
+M
+38
+
+
+
+===== PAGE 43/119 =====
+Impl´ementation Python du type abstrait arbre
+On peut impl´ementer simplement le type abstrait arbre (ordonn´e) `a l’aide
+de listes (type list).
+Chaque nœud est repr´esent´e par une liste dont le premier ´el´ement est
+l’´etiquette, et les ´el´ements suivants les enfants.
+def
+creer_noeud (e,L): # ´etiquette x liste de noeuds
+-> noeud
+return [e]+L
+def
+etiquette(N): # noeud
+-> ´etiquette
+return N[0]
+def
+enfants(N): # noeud
+-> liste de noeuds
+return N[1:]
+def
+creer_arbre (N): # noeud
+-> arbre
+return N # ici , on
+identifie
+un arbre
+avec sa racine
+def
+racine(A): # arbre
+-> noeud
+return A # m^eme
+remarque
+39
+
+
+
+===== PAGE 44/119 =====
+Le type abstrait arbre
+Quiz : selon l’impl´ementation pr´ec´edente, qu’elle liste L coderait l’arbre
+ci-dessous ?
+X
+A
+R
+B
+U
+M
+R´eponse :
+L = [’X’,[’A’],[’R’],[’B’,[’U’],[’M’]]]
+40
+
+
+
+===== PAGE 45/119 =====
+Le type abstrait arbre : autres fonctions de base
+Dans certains algorithmes, il est utile de disposer de fonctions pour
+pouvoir“remonter”dans l’arbre :
+• tester si un nœud est la racine (= n’a pas de parent) :
+est racine() : nœud →bool´een
+• lire le parent d’un nœud (si ce nœud n’est pas la racine) :
+parent() : nœud →nœud
+Pour impl´ementer efficacement en Python ces fonctions de base, on peut
+modifier la repr´esentation pr´ec´edente en ajoutant le parent dans la
+structure liste, ou bien utiliser une structure de donn´ees“objet”sp´ecifique.
+D’autres fonctions de base peuvent ´egalement ˆetre ajout´ees (supression
+de feuilles ou de nœuds, cr´eation et test de l’arbre vide, modification
+d’une ´etiquette, d´eplacement d’un nœud, etc.)
+41
+
+
+
+===== PAGE 46/119 =====
+Parcours d’un arbre
+Pour visiter tous les nœuds d’un arbre, on peut utiliser un algorithme
+r´ecursif tr`es simple appel´e parcours en profondeur :
+• on part de la racine
+• le parcours d’un nœud consiste `a parcourir successivement ses
+enfants
+Le parcours d’un arbre A s’´ecrit ainsi simplement explore(racine(A)), o`u la
+fonction explore() est d´efinie par le pseudo-code suivant :
+fonction explore(N)
+// explore le sous-arbre d´efini par le nœud N
+traiter le nœud N (selon l’objectif du parcours)
+pour tout enfant E de N
+explore(E)
+Il existe d’autres m´ethodes de parcours d’un arbre, notamment le
+parcours en largeur que nous verrons plus tard.
+42
+
+
+
+===== PAGE 47/119 =====
+Exemples de fonctions simples sur les arbres
+Grˆace au parcours en profondeur que nous venons de voir, nous pouvons
+impl´ementer tr`es simplement les fonctions suivantes :
+• Calcul de la taille d’un arbre A avec taille(racine(A)) :
+fonction taille(N)
+// retourne la taille (nombre de nœuds) du sous-arbre de nœud N
+T ←1 // compte le nœud N
+pour tout enfant E de N
+T ←T + taille(E)
+retourner T
+• Calcul de la hauteur d’un arbre A avec hauteur(racine(A)) :
+fonction hauteur(N)
+// retourne la hauteur (profondeur maximale) du sous-arbre de nœud N
+T ←0 // initialisation
+pour tout enfant E de N
+T ←max( T , hauteur(E)+1 )
+retourner T
+43
+
+
+
+===== PAGE 48/119 =====
+Arbre des appels r´ecursifs
+Lors de l’appel d’une fonction r´ecursive, on peut repr´esenter les appels de
+la fonction sous la forme d’un arbre (si un appel A provoque l’appel B,
+alors A est parent de B).
+Nous avons vu au chapitre 2 la fonction doublement r´ecursive fib2() :
+def
+fib2(n):
+return n if n <=1
+else
+fib2(n -2)+ fib2(n-1)
+L’appel fib2(5) produit l’arbre des appels r´ecursifs suivant :
+fib2(5)
+fib2(3)
+fib2(1)
+fib2(2)
+fib2(0)
+fib2(1)
+fib2(4)
+fib2(2)
+fib2(0)
+fib2(1)
+fib2(3)
+fib2(1)
+fib2(2)
+fib2(0)
+fib2(1)
+44
+
+
+
+===== PAGE 49/119 =====
+Arbre de d´ecision
+Un arbre de d´ecision est un arbre dont les nœuds internes (c’est-`a-dire les
+nœuds qui ne sont pas des feuilles) sont des tests et les feuilles des
+´el´ements de classification ou de d´ecision.
+Exemple : classification d’un nombre
+partie imaginaire non nulle ?
+nombre complexe
+oui
+´ecriture d´ecimale finie ?
+chiffres apr`es la virgule ?
+nombre d´ecimal
+oui
+nombre entier
+non
+oui
+d´eveloppement d´ecimal p´eriodique
+`a partir d’un certain rang ?
+nombre rationnel
+oui
+nombre irrationnel
+non
+non
+non
+45
+
+
+
+===== PAGE 50/119 =====
+Repr´esentation d’une expression alg´ebrique
+Les expressions alg´ebriques se manipulent plus facilement par des
+algorithmes lorsqu’elles sont repr´esent´ees par des arbres. Les nœuds sont
+des fonctions ou des op´erateurs, les feuilles des variables ou des nombres.
+Par exemple, l’expression alg´ebrique (-1-f(a,b)/cos(x^2))*sin(x)
+sera repr´esent´ee par l’arbre
+*
+-
+-
+1
+/
+f
+a
+b
+cos
+ˆ
+x
+2
+sin
+x
+L’op´erateur ’-’ est ici pr´esent `a la fois sous sa forme unaire (oppos´e) et
+binaire (soustraction).
+46
