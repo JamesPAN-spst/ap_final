@@ -230,6 +230,44 @@ footer {
   cursor: pointer;
   font-weight: 650;
 }
+.copy-pre {
+  position: relative;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.copy-pre-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0 6px;
+}
+.copy-pre-toolbar + pre {
+  margin-top: 0;
+}
+.copy-pre-button {
+  appearance: none;
+  border: 1px solid #d3dac6;
+  background: #ffffff;
+  color: #243f40;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font: 600 12px/1.2 "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+.copy-pre-button:hover {
+  background: #f3f6ee;
+  border-color: #9fb48e;
+}
+.copy-pre-button.copied {
+  background: #e8f6ec;
+  border-color: #7db28d;
+  color: #1f6b3c;
+}
+.copy-pre-button.failed {
+  background: #fff1ef;
+  border-color: #d9867b;
+  color: #a33a2b;
+}
 @media (max-width: 840px) {
   .hero, .diagram-row, .grid-2, .checklist { grid-template-columns: 1fr; }
   header { padding: 20px 18px; }
@@ -239,7 +277,7 @@ footer {
 @media print {
   body { background: white; }
   header { background: none; color: #111; padding: 0 0 10px; }
-  .topbar, nav.quick, footer, .print-button { display: none !important; }
+  .topbar, nav.quick, footer, .print-button, .copy-pre-toolbar { display: none !important; }
   .hero { display: block; }
   .hero p, .hero-note, h1 { color: #111; }
   main { max-width: none; margin: 0; padding: 0; }
@@ -611,5 +649,76 @@ retourner faux</code></pre><p>这里 <code>k</code> 是递归规模。每走一�
 <footer>
   AP2 图与树递归特训 · 本页可直接打印为 PDF · 与模拟卷页面同仓库维护。
 </footer>
+
+<script>
+function setupCopyButtons() {
+  document.querySelectorAll('pre').forEach((pre) => {
+    if (pre.dataset.copyReady === 'true') {
+      return;
+    }
+
+    pre.dataset.copyReady = 'true';
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'copy-pre';
+
+    const toolbar = document.createElement('div');
+    toolbar.className = 'copy-pre-toolbar';
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'copy-pre-button';
+    button.textContent = '复制';
+
+    button.addEventListener('click', async () => {
+      const text = pre.textContent.replace(/\u00a0/g, ' ');
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const area = document.createElement('textarea');
+          area.value = text;
+          area.setAttribute('readonly', '');
+          area.style.position = 'fixed';
+          area.style.opacity = '0';
+          area.style.pointerEvents = 'none';
+          document.body.appendChild(area);
+          area.focus();
+          area.select();
+          const ok = document.execCommand('copy');
+          document.body.removeChild(area);
+          if (!ok) {
+            throw new Error('copy_failed');
+          }
+        }
+        button.textContent = '已复制';
+        button.classList.remove('failed');
+        button.classList.add('copied');
+      } catch (error) {
+        button.textContent = '复制失败';
+        button.classList.remove('copied');
+        button.classList.add('failed');
+      }
+
+      window.clearTimeout(button._resetTimer);
+      button._resetTimer = window.setTimeout(() => {
+        button.textContent = '复制';
+        button.classList.remove('copied', 'failed');
+      }, 1600);
+    });
+
+    toolbar.appendChild(button);
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(toolbar);
+    wrapper.appendChild(pre);
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupCopyButtons, { once: true });
+} else {
+  setupCopyButtons();
+}
+</script>
 </body>
 </html>
