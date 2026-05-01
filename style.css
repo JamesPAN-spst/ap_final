@@ -48,7 +48,6 @@ main {
   display: flex; justify-content: space-between; align-items: center;
 }
 .exam-header h2 { margin: 0; }
-.set-focus { margin-top: 4px; color: #666; font-size: 13px; }
 .actions { display: flex; gap: 8px; }
 button.primary {
   background: #2c7be5; color: white; border: none; padding: 8px 18px;
@@ -117,7 +116,6 @@ input.short-input:focus { outline: 2px solid #2c7be5; border-color: #2c7be5; }
 .feedback strong.label { display: inline-block; min-width: 60px; }
 .feedback details summary { cursor: pointer; color: #2c7be5; font-weight: 500; }
 .feedback details[open] summary { margin-bottom: 6px; }
-.print-solution { display: none; }
 
 .score-card {
   background: linear-gradient(135deg, #2c7be5, #1a5fc7);
@@ -137,7 +135,6 @@ footer {
 
 /* ---------- Print stylesheet (PDF export) ---------- */
 @media print {
-  @page { size: A4; margin: 10mm; }
   header { background: none; color: black; box-shadow: none; padding: 8px 0; }
   header nav, .actions, footer, #welcome { display: none !important; }
   main { max-width: 100%; margin: 0; padding: 0; }
@@ -148,42 +145,10 @@ footer {
   .feedback { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
   pre { background: #f0f0f0; color: #000; border: 1px solid #ccc; }
   body { background: white; }
-  body.print-questions .feedback-zone,
-  body.print-questions .print-solution,
-  body.print-questions .score-card,
-  body.print-questions .self-eval { display: none !important; }
-  body.print-answers { font-size: 9pt; line-height: 1.22; }
-  body.print-answers header { padding: 0 0 4mm; }
-  body.print-answers header h1 { font-size: 14pt; margin: 0; }
-  body.print-answers .exam-header {
-    box-shadow: none; border-radius: 0; padding: 0 0 3mm;
-    margin-bottom: 3mm; display: block;
-  }
-  body.print-answers .set-focus { font-size: 8.5pt; margin-top: 1mm; }
-  body.print-answers #score-zone,
-  body.print-answers .feedback-zone,
-  body.print-answers .short-input,
-  body.print-answers textarea,
-  body.print-answers .choices input,
-  body.print-answers .self-eval { display: none !important; }
-  body.print-answers .print-solution { display: block; margin-top: 1.5mm; }
-  body.print-answers .q-card {
-    padding: 3mm 4mm; margin-bottom: 2mm; box-shadow: none;
-    border: 1px solid #b8b8b8; border-left-width: 3px;
-    page-break-inside: avoid; break-inside: avoid;
-  }
-  body.print-answers .q-head { font-size: 7.8pt; margin-bottom: 1mm; }
-  body.print-answers .q-tag { font-size: 7pt; padding: 0 4px; margin-right: 3px; }
-  body.print-answers .q-body { margin-bottom: 1mm; }
-  body.print-answers .q-body p,
-  body.print-answers .print-explanation p { margin: 1.5px 0; }
-  body.print-answers .choices { margin: 1mm 0; }
-  body.print-answers .choices li { margin: 0; }
-  body.print-answers .choices label { padding: 0; gap: 0; cursor: default; }
-  body.print-answers pre {
-    font-size: 7pt; line-height: 1.12; padding: 2.5px 4px;
-    margin: 1.5px 0; white-space: pre-wrap; border-radius: 0;
-  }
-  body.print-answers code:not(pre code) { font-size: 0.9em; padding: 0 2px; }
-  body.print-answers .print-explanation { margin-top: 1mm; }
+  /* Caché les inputs lors d'une impression « blanche » :
+     la touche raccourcie « Imprimer ÉNONCÉS » utilise body.print-blank */
+  body.print-blank .feedback,
+  body.print-blank .self-eval { display: none !important; }
+  body.print-corrige .choices input,
+  body.print-corrige .short-input { display: none; }
 }

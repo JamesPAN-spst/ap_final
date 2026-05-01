@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP2 图与树递归特训</title>
+<style>
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", Roboto, sans-serif;
+  color: #20242a;
+  background: #f5f6f2;
+  line-height: 1.62;
+}
+code, pre { font-family: "SF Mono", Consolas, "Courier New", monospace; }
+code:not(pre code) {
+  background: #eef0e7;
+  color: #9d2d47;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.95em;
+}
+pre {
+  margin: 10px 0 0;
+  padding: 13px 15px;
+  overflow-x: auto;
+  border-radius: 6px;
+  background: #20242a;
+  color: #f2f3ee;
+  font-size: 13px;
+  line-height: 1.48;
+}
+pre.light {
+  background: #fbfbf7;
+  color: #20242a;
+  border: 1px solid #dadfcd;
+}
+a { color: #1f6f78; text-decoration: none; }
+a:hover { text-decoration: underline; }
+header {
+  color: #fff;
+  background: linear-gradient(135deg, #2d4d4f, #526f49 58%, #a2622b);
+  padding: 24px 28px 26px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1120px;
+  margin: 0 auto 18px;
+}
+.topbar a {
+  color: #fff7cf;
+  font-weight: 650;
+  border-bottom: 1px solid rgba(255,247,207,0.45);
+}
+.hero {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 26px;
+  align-items: end;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+.hero p {
+  margin: 16px 0 0;
+  max-width: 720px;
+  color: rgba(255,255,255,0.88);
+  font-size: 17px;
+}
+.hero-note {
+  border: 1px solid rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.hero-note strong { display: block; margin-bottom: 8px; }
+.hero-note ol { margin: 0; padding-left: 21px; color: rgba(255,255,255,0.88); }
+nav.quick {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 14px 28px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #ffffff;
+  border-bottom: 1px solid #dfe3d6;
+}
+nav.quick a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 11px;
+  border-radius: 6px;
+  color: #2b4c4d;
+  background: #eef3e8;
+  border: 1px solid #d9e3d0;
+  font-size: 14px;
+  font-weight: 600;
+}
+main { max-width: 1120px; margin: 28px auto 44px; padding: 0 28px; }
+section.band {
+  background: #fff;
+  border: 1px solid #dfe3d6;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(32,36,42,0.04);
+}
+h2 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  line-height: 1.2;
+  color: #243f40;
+}
+h3 {
+  margin: 20px 0 8px;
+  font-size: 18px;
+  color: #526f49;
+}
+p { margin: 8px 0; }
+ul, ol { margin: 8px 0; padding-left: 23px; }
+li { margin: 5px 0; }
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.step, .exercise, .answer, .warning, .recipe {
+  border-radius: 8px;
+  border: 1px solid #dfe3d6;
+  padding: 15px 16px;
+  background: #fbfcf8;
+}
+.step strong, .exercise strong, .recipe strong { color: #243f40; }
+.recipe { border-left: 4px solid #1f6f78; }
+.warning { border-left: 4px solid #b3532a; background: #fff7ef; }
+.answer { border-left: 4px solid #526f49; background: #f1f7ee; }
+.exercise { border-left: 4px solid #d59a2f; }
+.tagline {
+  display: inline-block;
+  color: #6b5a2d;
+  background: #fff4cd;
+  border: 1px solid #f0dd9c;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 13px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 0;
+  font-size: 14px;
+}
+th, td { border: 1px solid #d8ddcf; padding: 9px 10px; vertical-align: top; }
+th { background: #eef3e8; color: #243f40; text-align: left; }
+tbody tr:nth-child(even) td { background: #fbfcf8; }
+details {
+  margin-top: 10px;
+  border: 1px solid #d8ddcf;
+  border-radius: 8px;
+  background: #fbfcf8;
+}
+summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  color: #1f6f78;
+  font-weight: 700;
+}
+details .inside { padding: 0 12px 12px; }
+.diagram-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+  gap: 16px;
+  align-items: stretch;
+}
+.diagram {
+  min-height: 100%;
+  background: #fbfbf7;
+  border: 1px solid #d8ddcf;
+  border-radius: 8px;
+  padding: 16px;
+}
+.tree-art, .graph-art {
+  font-family: "SF Mono", Consolas, "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.5;
+  white-space: pre;
+  color: #2d4d4f;
+}
+.checklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 14px;
+  list-style: none;
+  padding: 0;
+}
+.checklist li {
+  padding: 8px 10px;
+  background: #f3f5ed;
+  border-radius: 6px;
+  border: 1px solid #dfe3d6;
+}
+.practice-list > li { margin-bottom: 14px; }
+footer {
+  max-width: 1120px;
+  margin: 0 auto 30px;
+  padding: 0 28px;
+  color: #68706b;
+  font-size: 13px;
+}
+.print-button {
+  border: 1px solid rgba(255,255,255,0.36);
+  background: rgba(255,255,255,0.14);
+  color: white;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 650;
+}
+@media (max-width: 840px) {
+  .hero, .diagram-row, .grid-2, .checklist { grid-template-columns: 1fr; }
+  header { padding: 20px 18px; }
+  nav.quick, main, footer { padding-left: 18px; padding-right: 18px; }
+  .topbar { align-items: flex-start; flex-direction: column; }
+}
+@media print {
+  body { background: white; }
+  header { background: none; color: #111; padding: 0 0 10px; }
+  .topbar, nav.quick, footer, .print-button { display: none !important; }
+  .hero { display: block; }
+  .hero p, .hero-note, h1 { color: #111; }
+  main { max-width: none; margin: 0; padding: 0; }
+  section.band { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+  details { break-inside: avoid; }
+  details:not([open]) .inside { display: block; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <a href="index.html">返回模拟卷首页</a>
+    <button class="print-button" onclick="window.print()">打印 / PDF</button>
+  </div>
+  <div class="hero">
+    <div>
+      <h1>图与树递归特训</h1>
+      <p>目标不是背几段答案,而是形成一套稳定的递归分析动作:先看当前节点或当前顶点,再决定对子结构递归,最后把局部信息和递归结果合并。</p>
+    </div>
+    <div class="hero-note">
+      <strong>训练顺序</strong>
+      <ol>
+        <li>从实例模拟递归调用</li>
+        <li>填空补齐关键结构</li>
+        <li>先规划变量和返回值</li>
+        <li>独立写完整伪代码</li>
+      </ol>
+    </div>
+  </div>
+</header>
+
+<nav class="quick" aria-label="页面导航">
+  <a href="#method">递归分析法</a>
+  <a href="#tree-basic">树:从例子开始</a>
+  <a href="#tree-fill">树:填空训练</a>
+  <a href="#graph-basic">图:visited 思维</a>
+  <a href="#planning">结构规划</a>
+  <a href="#full-practice">完整伪代码练习</a>
+  <a href="#mistakes">高频错误</a>
+</nav>
+
+<main>
+  <section class="band" id="method">
+    <h2>一、先固定递归的四个问题</h2>
+    <p>遇到 <span class="tagline">arbre / graphe / recursivite</span> 题,不要先急着写循环或代码。先把下面四件事写出来。</p>
+    <div class="grid-2">
+      <div class="step">
+        <strong>1. 当前对象是什么?</strong>
+        <p>树题通常是一个节点 <code>N</code>;图题通常是一个顶点 <code>s</code>,再配合图 <code>G</code> 和已访问集合 <code>M</code>。</p>
+      </div>
+      <div class="step">
+        <strong>2. 当前对象自己贡献什么?</strong>
+        <p>例如当前节点是否满足条件、当前节点标签是多少、当前顶点是否需要标记。</p>
+      </div>
+      <div class="step">
+        <strong>3. 对哪些更小结构递归?</strong>
+        <p>树是对子节点 <code>enfants(N)</code>;图是对未访问邻居 <code>voisins(G, s)</code>。</p>
+      </div>
+      <div class="step">
+        <strong>4. 怎么合并返回值?</strong>
+        <p>计数用加法,最大值用 <code>max</code>,存在性用“只要一个为真”,路径用“找到后接上当前节点”。</p>
+      </div>
+    </div>
+    <div class="recipe" style="margin-top:14px">
+      <strong>考试版模板</strong>
+      <pre><code>fonction f(N)
+// noeud -&gt; type_de_retour
+resultat &lt;- contribution_du_noeud_N
+pour tout enfant E de N
+  resultat &lt;- combiner(resultat, f(E))
+retourner resultat</code></pre>
+      <p>这就是绝大多数树递归题的骨架。难点不在“递归”这两个字,而在 <code>contribution</code> 和 <code>combiner</code> 怎么定义。</p>
+    </div>
+  </section>
+
+  <section class="band" id="tree-basic">
+    <h2>二、树递归:从手算实例开始</h2>
+    <div class="diagram-row">
+      <div class="diagram"><div class="tree-art">        r
+      / | \
+     a  b  e
+       / \
+      c   d</div></div>
+      <div>
+        <p>先用一棵小树练习。这里 <code>r</code> 有 3 个孩子,<code>b</code> 有 2 个孩子,<code>a,c,d,e</code> 是叶子。</p>
+        <table>
+          <thead><tr><th>问题</th><th>当前节点贡献</th><th>合并方式</th></tr></thead>
+          <tbody>
+            <tr><td>节点总数 <code>taille</code></td><td>当前节点贡献 1</td><td>1 + 所有子树大小</td></tr>
+            <tr><td>高度 <code>hauteur</code></td><td>叶子高度为 1</td><td>1 + 子树高度最大值</td></tr>
+            <tr><td>叶子数</td><td>叶子贡献 1,内部节点贡献 0</td><td>所有子树叶子数相加</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <h3>例 1:节点总数</h3>
+    <pre><code>fonction taille(N)
+// noeud -&gt; entier
+total &lt;- 1
+pour tout enfant E de N
+  total &lt;- total + taille(E)
+retourner total</code></pre>
+    <p>这段伪代码的意思是:每个节点先数自己,再让每个孩子去数自己的子树。</p>
+    <h3>例 2:高度</h3>
+    <pre><code>fonction hauteur(N)
+// noeud -&gt; entier
+si N est une feuille
+  retourner 1
+h &lt;- 0
+pour tout enfant E de N
+  h &lt;- max(h, hauteur(E))
+retourner h + 1</code></pre>
+    <p>高度不是把所有子树高度相加,而是取最深的那一条路,所以用 <code>max</code>。</p>
+  </section>
+
+  <section class="band" id="tree-fill">
+    <h2>三、树递归填空:从骨架到完整函数</h2>
+    <div class="exercise">
+      <strong>练习 A:统计叶子数</strong>
+      <p>补全伪代码。</p>
+      <pre><code>fonction nb_feuilles(N)
+// noeud -&gt; entier
+si N est une feuille
+  retourner ____
+total &lt;- ____
+pour tout enfant E de N
+  total &lt;- total + ____
+retourner total</code></pre>
+      <details><summary>查看答案</summary><div class="inside">
+        <pre><code>fonction nb_feuilles(N)
+// noeud -&gt; entier
+si N est une feuille
+  retourner 1
+total &lt;- 0
+pour tout enfant E de N
+  total &lt;- total + nb_feuilles(E)
+retourner total</code></pre>
+        <p>叶子自己就是一个叶子;内部节点只负责把各子树结果加起来。</p>
+      </div></details>
+    </div>
+    <div class="exercise" style="margin-top:14px">
+      <strong>练习 B:统计“有叶子孩子”的节点数</strong>
+      <p>这类题非常像真题。注意计数对象是“父节点”,不是叶子。</p>
+      <pre><code>fonction nb_avec_feuille(N)
+// noeud -&gt; entier
+total &lt;- 0
+a_feuille &lt;- faux
+pour tout enfant E de N
+  si E est une feuille
+    a_feuille &lt;- ____
+  total &lt;- total + ____
+si a_feuille
+  total &lt;- ____
+retourner total</code></pre>
+      <details><summary>查看答案</summary><div class="inside">
+        <pre><code>fonction nb_avec_feuille(N)
+// noeud -&gt; entier
+total &lt;- 0
+a_feuille &lt;- faux
+pour tout enfant E de N
+  si E est une feuille
+    a_feuille &lt;- vrai
+  total &lt;- total + nb_avec_feuille(E)
+si a_feuille
+  total &lt;- total + 1
+retourner total</code></pre>
+        <p>先看当前节点是否有叶子孩子,同时递归累计每个孩子子树中的答案。</p>
+      </div></details>
+    </div>
+    <div class="exercise" style="margin-top:14px">
+      <strong>练习 C:最大根叶路径和</strong>
+      <p>节点标签都是数。求从当前节点到某个叶子的路径上,标签和的最大值。</p>
+      <pre><code>fonction somme_max(N)
+// noeud -&gt; nombre
+si N est une feuille
+  retourner etiquette(N)
+m &lt;- -infini
+pour tout enfant E de N
+  m &lt;- max(m, ____)
+retourner ____ + m</code></pre>
+      <details><summary>查看答案</summary><div class="inside">
+        <pre><code>fonction somme_max(N)
+// noeud -&gt; nombre
+si N est une feuille
+  retourner etiquette(N)
+m &lt;- -infini
+pour tout enfant E de N
+  m &lt;- max(m, somme_max(E))
+retourner etiquette(N) + m</code></pre>
+        <p>路径只能选择一个孩子继续往下,所以合并方式是 <code>max</code>,不是求和。</p>
+      </div></details>
+    </div>
+  </section>
+
+  <section class="band" id="graph-basic">
+    <h2>四、图递归:先建立 visited 思维</h2>
+    <div class="diagram-row">
+      <div class="diagram"><div class="graph-art">A --- B --- D
+|     |
+C --- E</div></div>
+      <div>
+        <p>图和树最大的不同:图可能有环。递归访问图时,如果没有已访问集合 <code>M</code>,可能在 <code>A - B - A - B</code> 之间无限循环。</p>
+        <div class="warning"><strong>图递归基本规则</strong><p>进入顶点 <code>s</code> 后,立刻把 <code>s</code> 标记为已访问;之后只递归访问 <code>t ∉ M</code> 的邻居。</p></div>
+      </div>
+    </div>
+    <h3>例 3:DFS 探索一个连通分量</h3>
+    <pre><code>fonction explore(G, s, M)
+// graphe x sommet x ensemble(modifie) -&gt;
+ajouter s a M
+pour tout voisin t de s dans G
+  si t n'appartient pas a M
+    explore(G, t, M)</code></pre>
+    <p><code>M</code> 是会被修改的集合。调用结束后,<code>M</code> 中包含从 <code>s</code> 能到达的所有顶点。</p>
+    <div class="exercise">
+      <strong>练习 D:可达性</strong>
+      <p>补全递归函数。它判断从 <code>s</code> 是否能到达 <code>cible</code>。</p>
+      <pre><code>fonction accessible(G, s, cible, M)
+// graphe x sommet x sommet x ensemble -&gt; booleen
+si s = cible
+  retourner ____
+ajouter s a M
+pour tout voisin t de s
+  si t n'appartient pas a M
+    si accessible(G, t, cible, M)
+      retourner ____
+retourner ____</code></pre>
+      <details><summary>查看答案</summary><div class="inside">
+        <pre><code>fonction accessible(G, s, cible, M)
+// graphe x sommet x sommet x ensemble -&gt; booleen
+si s = cible
+  retourner vrai
+ajouter s a M
+pour tout voisin t de s
+  si t n'appartient pas a M
+    si accessible(G, t, cible, M)
+      retourner vrai
+retourner faux</code></pre>
+        <p>存在性问题用“找到一个成功分支就立刻返回 <code>vrai</code>”。所有分支失败才返回 <code>faux</code>。</p>
+      </div></details>
+    </div>
+  </section>
+
+  <section class="band" id="planning">
+    <h2>五、正式写之前,先做结构规划</h2>
+    <p>结构规划不是额外步骤,它是防止递归题写乱的核心。下面这张表可以直接当草稿纸模板。</p>
+    <table>
+      <thead><tr><th>规划项</th><th>树题怎么填</th><th>图题怎么填</th></tr></thead>
+      <tbody>
+        <tr><td>输入类型</td><td><code>noeud</code> 或 <code>arbre</code></td><td><code>graphe x sommet</code>,常加 <code>ensemble</code></td></tr>
+        <tr><td>输出类型</td><td><code>entier</code>, <code>booleen</code>, <code>liste</code>, <code>nombre</code></td><td><code>booleen</code>, <code>entier</code>, 或修改集合</td></tr>
+        <tr><td>基准情形</td><td>叶子、空孩子列表、标签满足目标</td><td>已到目标、没有新邻居、顶点已访问</td></tr>
+        <tr><td>局部贡献</td><td>当前节点是否计数、当前标签、当前 score</td><td>标记当前顶点、当前顶点是否计数</td></tr>
+        <tr><td>递归对象</td><td>每个孩子 <code>E</code></td><td>每个未访问邻居 <code>t</code></td></tr>
+        <tr><td>合并方式</td><td>加法、最大值、最小值、逻辑或、路径拼接</td><td>加法、逻辑或、修改已访问集合</td></tr>
+      </tbody>
+    </table>
+    <h3>示范:从题目到伪代码</h3>
+    <div class="recipe">
+      <strong>题目</strong>
+      <p>函数 <code>f(N)</code> 输入一棵标签为数的树,返回“所有节点中,其孩子标签和”的最大值。叶子孩子标签和按 0 计。</p>
+      <table><tbody>
+        <tr><th>输出</th><td>最大值,所以返回 <code>nombre</code></td></tr>
+        <tr><th>当前贡献</th><td>当前节点的孩子标签和 <code>s</code></td></tr>
+        <tr><th>递归对象</th><td>每个孩子 <code>E</code></td></tr>
+        <tr><th>合并方式</th><td><code>max(当前贡献, 每个子树最大值)</code></td></tr>
+      </tbody></table>
+      <pre><code>fonction f(N)
+// noeud -&gt; nombre
+s &lt;- 0
+m &lt;- 0
+pour tout enfant E de N
+  s &lt;- s + etiquette(E)
+  m &lt;- max(m, f(E))
+retourner max(s, m)</code></pre>
+    </div>
+  </section>
+
+  <section class="band" id="full-practice">
+    <h2>六、完整伪代码练习</h2>
+    <p>这一组按难度递增。建议先只写结构规划,再写完整伪代码,最后打开答案对比。</p>
+    <ol class="practice-list">
+      <li><div class="exercise"><strong>练习 1:树的最小标签</strong><p>写函数 <code>min_etiquette(N)</code>,返回树中所有节点标签的最小值。</p><details><summary>参考答案</summary><div class="inside"><pre><code>fonction min_etiquette(N)
+// noeud -&gt; nombre
+m &lt;- etiquette(N)
+pour tout enfant E de N
+  m &lt;- min(m, min_etiquette(E))
+retourner m</code></pre></div></details></div></li>
+      <li><div class="exercise"><strong>练习 2:树中恰有两个孩子的节点数</strong><p>写函数 <code>deux_enfants(N)</code>,返回整棵树中孩子数恰好为 2 的节点个数。</p><details><summary>参考答案</summary><div class="inside"><pre><code>fonction deux_enfants(N)
+// noeud -&gt; entier
+compte &lt;- 0
+si nombre_enfants(N) = 2
+  compte &lt;- 1
+pour tout enfant E de N
+  compte &lt;- compte + deux_enfants(E)
+retourner compte</code></pre></div></details></div></li>
+      <li><div class="exercise"><strong>练习 3:树中是否存在标签 x</strong><p>写函数 <code>contient(N, x)</code>,若树中有某个节点标签等于 <code>x</code>,返回 <code>vrai</code>,否则返回 <code>faux</code>。</p><details><summary>参考答案</summary><div class="inside"><pre><code>fonction contient(N, x)
+// noeud x etiquette -&gt; booleen
+si etiquette(N) = x
+  retourner vrai
+pour tout enfant E de N
+  si contient(E, x)
+    retourner vrai
+retourner faux</code></pre></div></details></div></li>
+      <li><div class="exercise"><strong>练习 4:从根到目标的路径</strong><p>写函数 <code>chemin(N, x)</code>。若存在标签 <code>x</code>,返回从根到该节点的标签列表;否则返回空列表。</p><details><summary>参考答案</summary><div class="inside"><pre><code>fonction chemin(N, x)
+// noeud x etiquette -&gt; liste
+si etiquette(N) = x
+  retourner [x]
+pour tout enfant E de N
+  C &lt;- chemin(E, x)
+  si C n'est pas vide
+    retourner [etiquette(N)] + C
+retourner []</code></pre><p>这是“存在性 + 返回结构”的题。找到子树路径后,把当前根接到前面。</p></div></details></div></li>
+      <li><div class="exercise"><strong>练习 5:图中可达顶点数</strong><p>写递归过程 <code>explore(G, s, M)</code>,使调用结束后 <code>M</code> 包含从 <code>s</code> 可达的所有顶点。再写函数 <code>nb_accessibles(G, s)</code> 返回可达顶点个数。</p><details><summary>参考答案</summary><div class="inside"><pre><code>fonction explore(G, s, M)
+// graphe x sommet x ensemble(modifie) -&gt;
+ajouter s a M
+pour tout voisin t de s
+  si t n'appartient pas a M
+    explore(G, t, M)
+
+fonction nb_accessibles(G, s)
+// graphe x sommet -&gt; entier
+M &lt;- ensemble_vide()
+explore(G, s, M)
+retourner cardinal(M)</code></pre></div></details></div></li>
+      <li><div class="exercise"><strong>练习 6:图的连通分量数</strong><p>写函数 <code>nb_composantes(G)</code>,返回无向图的连通分量个数。</p><details><summary>参考答案</summary><div class="inside"><pre><code>fonction nb_composantes(G)
+// graphe -&gt; entier
+M &lt;- ensemble_vide()
+n &lt;- 0
+pour tout sommet s de G
+  si s n'appartient pas a M
+    n &lt;- n + 1
+    explore(G, s, M)
+retourner n</code></pre><p>每遇到一个还没访问过的顶点,就发现了一个新分量,然后用 DFS 一口气标记整个分量。</p></div></details></div></li>
+      <li><div class="exercise"><strong>练习 7:有限步可达</strong><p>写函数 <code>chemin_borne(G, s, t, k, M)</code>,判断是否存在从 <code>s</code> 到 <code>t</code> 且长度不超过 <code>k</code> 的路径。可以假设路径不重复顶点。</p><details><summary>参考答案</summary><div class="inside"><pre><code>fonction chemin_borne(G, s, t, k, M)
+// graphe x sommet x sommet x entier x ensemble -&gt; booleen
+si s = t
+  retourner vrai
+si k = 0
+  retourner faux
+ajouter s a M
+pour tout voisin u de s
+  si u n'appartient pas a M
+    si chemin_borne(G, u, t, k-1, M)
+      retourner vrai
+retourner faux</code></pre><p>这里 <code>k</code> 是递归规模。每走一条边就把 <code>k</code> 减 1。</p></div></details></div></li>
+      <li><div class="exercise"><strong>练习 8:树到图的思维切换</strong><p>解释为什么树递归通常不需要 <code>M</code>,而图递归通常需要 <code>M</code>。再写一句话说明 <code>M</code> 应该在什么时候更新。</p><details><summary>参考答案</summary><div class="inside answer"><p>树天然没有回到父节点的环,每个节点只有唯一父节点,所以沿孩子递归不会无限绕圈。图可能有环,例如 <code>A-B-A</code>,因此必须记录访问过的顶点。</p><p>进入顶点后应尽早把它加入 <code>M</code>,通常是在递归函数开始处、遍历邻居之前。</p></div></details></div></li>
+    </ol>
+  </section>
+
+  <section class="band" id="mistakes">
+    <h2>七、递归题高频错误清单</h2>
+    <ul class="checklist">
+      <li>把“当前节点的贡献”漏掉,只返回子树结果。</li>
+      <li>在 <code>for</code> 循环第一轮就 <code>retourner</code>,导致只处理第一个孩子。</li>
+      <li>该用 <code>max</code> 的题误用求和,尤其是高度和路径最优值。</li>
+      <li>该用求和的题误用 <code>max</code>,尤其是节点计数。</li>
+      <li>图递归忘记 <code>M</code>,或者标记太晚,导致重复访问。</li>
+      <li>把“邻居”与“所有可达顶点”混淆。</li>
+      <li>伪代码没写 signature,被扣掉容易拿的分。</li>
+      <li>在图题里修改 <code>G</code> 本身,而题目只要求遍历。</li>
+      <li>路径题找到子路径后忘记把当前节点接在前面。</li>
+      <li>布尔存在性题所有分支失败后忘记返回 <code>faux</code>。</li>
+    </ul>
+    <div class="answer" style="margin-top:14px"><strong>最后的自检句</strong><p>写完后问自己:如果当前节点是叶子会怎样? 如果当前节点有 3 个孩子会不会全处理? 如果图里有环会不会无限递归? 返回值类型是不是和 signature 一致?</p></div>
+  </section>
+</main>
+
+<footer>
+  AP2 图与树递归特训 · 本页可直接打印为 PDF · 与模拟卷页面同仓库维护。
+</footer>
+</body>
+</html>

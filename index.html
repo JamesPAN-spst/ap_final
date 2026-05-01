@@ -12,26 +12,31 @@
 <header>
   <h1>AP2 — 模拟卷训练 <span class="sub">Algorithmique et Programmation 2</span></h1>
   <nav id="set-picker"><!-- boutons 1..15 injectés en JS --></nav>
-  <p style="margin-top:10px"><a href="fascicule.html" target="_blank" style="color:#ffd54f; font-weight:600;">📖 打开复习册(可打印 PDF)</a></p>
+  <p style="margin-top:10px">
+    <a href="fascicule.html" target="_blank" style="color:#ffd54f; font-weight:600;">📖 打开复习册(可打印 PDF)</a>
+    <span style="opacity:.6; margin:0 8px;">|</span>
+    <a href="recursion-training.html" target="_blank" style="color:#ffd54f; font-weight:600;">图 / 树递归特训</a>
+  </p>
 </header>
 
 <main id="app">
   <section id="welcome">
     <h2>欢迎</h2>
-    <p>上方可选择 <strong>15 套模拟卷</strong>。每套含 <strong>24 道题</strong>,按往年期末卷节奏组织:trace 与细节判断、短编程、伪代码 / ADT、综合长题。</p>
+    <p>上方可选择 <strong>15 套模拟卷</strong>。每套含 <strong>24 道题</strong>:前 20 题是基础与中档题,最后 4 题是更接近真题结构的<strong>伪代码 / 算法应用长题</strong>。</p>
     <ul>
-      <li>Q1-Q10 — <em>代码追踪、选择题、细节短答</em></li>
-      <li>Q11-Q15 — <em>短编程与小算法</em></li>
-      <li>Q16-Q20 — <em>伪代码、pile/file/arbre/graphe</em></li>
-      <li>Q21-Q24 — <em>记忆化递归、树/图、类、生成器长题</em></li>
+      <li>约 6 题 — <em>Python 类型补充</em></li>
+      <li>约 6 题 — <em>函数 / 递归 / 生成器</em></li>
+      <li>约 5 题 — <em>抽象类型:队列、栈、树、图、欧拉</em></li>
+      <li>约 3 题 — <em>类与对象</em></li>
+      <li>追加 4 题 — <em>伪代码 / 算法实现 / 递归与生成器应用</em></li>
     </ul>
     <p><strong>题型</strong>:选择题(自动批改)、简答题(自动批改,会忽略大部分空格差异)、代码题(提交后手动自评)。</p>
-    <p>每套卷可使用 <button class="ghost" disabled>打印题目</button> 导出空白题目,或使用 <button class="ghost" disabled>打印答案</button> 导出紧凑版“题目-答案-解析”。</p>
+    <p>每套卷底部都可以点 <button class="ghost" disabled>打印 / PDF</button>,使用浏览器打印功能导出 PDF。</p>
   </section>
 </main>
 
 <footer>
-  <small>本地运行 · 不上传数据 · 在浏览器中打开 web/index.html 即可使用。</small>
+  <small>本地运行 · 不上传数据 · 建议通过本地服务器访问 index.html。</small>
 </footer>
 
 <script src="app.js"></script>
