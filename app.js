@@ -87,11 +87,15 @@ function renderExam() {
   const set = state.currentSet;
   main.innerHTML = `
     <div class="exam-header">
-      <h2>${set.title}</h2>
+      <div>
+        <h2>${set.title}</h2>
+        ${set.focus ? `<div class="set-focus">${escapeHtml(set.focus)}</div>` : ''}
+      </div>
       <div class="actions">
         <button class="primary" id="btn-submit">提交并批改</button>
         <button class="ghost" id="btn-reset">重新作答</button>
-        <button class="ghost" id="btn-print">打印 / PDF</button>
+        <button class="ghost" id="btn-print-questions">打印题目</button>
+        <button class="ghost" id="btn-print-answers">打印答案</button>
       </div>
     </div>
     <div id="score-zone"></div>
@@ -100,7 +104,8 @@ function renderExam() {
       <span style="color:#666">本套试卷结束。</span>
       <div class="actions">
         <button class="primary" id="btn-submit2">提交并批改</button>
-        <button class="ghost" id="btn-print2">打印 / PDF</button>
+        <button class="ghost" id="btn-print-questions2">打印题目</button>
+        <button class="ghost" id="btn-print-answers2">打印答案</button>
       </div>
     </div>
   `;
@@ -108,7 +113,8 @@ function renderExam() {
   set.questions.forEach((q, i) => qzone.appendChild(renderQuestion(q, i + 1)));
   $('#btn-submit').onclick = $('#btn-submit2').onclick = submit;
   $('#btn-reset').onclick = () => loadSet(set.id);
-  $('#btn-print').onclick = $('#btn-print2').onclick = () => window.print();
+  $('#btn-print-questions').onclick = $('#btn-print-questions2').onclick = () => printExam('questions');
+  $('#btn-print-answers').onclick = $('#btn-print-answers2').onclick = () => printExam('answers');
 }
 
 function renderQuestion(q, num) {
@@ -144,6 +150,10 @@ function renderQuestion(q, num) {
     <div class="q-body">${md(q.statement_md)}</div>
     ${inputHTML}
     <div class="feedback-zone"></div>
+    <div class="print-solution">
+      <div><strong>答案:</strong> ${answerDisplay(q)}</div>
+      <div class="print-explanation"><strong>解析:</strong> ${md(q.explanation_md || '')}</div>
+    </div>
   `;
 
   // Bind input change → state
@@ -159,6 +169,25 @@ function renderQuestion(q, num) {
 
   return div;
 }
+
+function answerDisplay(q) {
+  if (q.type === 'mcq') {
+    const index = q.answer.charCodeAt(0) - 65;
+    const choice = q.choices?.[index] || '';
+    return `<code>${q.answer}.</code> ${escapeHtml(choice)}`;
+  }
+  return `<code>${escapeHtml(q.answer || '(voir explication)')}</code>`;
+}
+
+function printExam(mode) {
+  document.body.classList.remove('print-questions', 'print-answers');
+  document.body.classList.add(mode === 'answers' ? 'print-answers' : 'print-questions');
+  window.print();
+}
+
+window.addEventListener('afterprint', () => {
+  document.body.classList.remove('print-questions', 'print-answers');
+});
 
 function escapeHtml(s) {
   return String(s).replace(/[<>&"']/g, c => ({
@@ -201,14 +230,12 @@ function submit() {
     else label = '<strong class="label" style="color:#666">📝 需自评</strong>';
 
     let userDisplay = userAns ? `<code>${escapeHtml(userAns)}</code>` : '<em>(未作答)</em>';
-    let answerDisplay = q.type === 'mcq'
-      ? `<code>${q.answer}.</code> ${escapeHtml(q.choices[q.answer.charCodeAt(0)-65])}`
-      : `<code>${escapeHtml(q.answer || '(voir explication)')}</code>`;
+    let expectedDisplay = answerDisplay(q);
 
     fb.innerHTML = `
       <div class="feedback ${isCorrect===true?'correct':isCorrect===false?'incorrect':''}">
         <div>${label} &nbsp; <strong>你的答案:</strong> ${userDisplay}</div>
-        <div style="margin-top:4px"><strong>参考答案:</strong> ${answerDisplay}</div>
+        <div style="margin-top:4px"><strong>参考答案:</strong> ${expectedDisplay}</div>
         <details ${isCorrect===false?'open':''} style="margin-top:6px">
           <summary>解析 / 讲解</summary>
           <div style="margin-top:6px">${md(q.explanation_md || '')}</div>
