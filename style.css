@@ -48,6 +48,8 @@ main {
   display: flex; justify-content: space-between; align-items: center;
 }
 .exam-header h2 { margin: 0; }
+.exam-title { min-width: 0; }
+.exam-focus { margin: 4px 0 0; color: #666; font-size: 14px; }
 .actions { display: flex; gap: 8px; }
 button.primary {
   background: #2c7be5; color: white; border: none; padding: 8px 18px;
@@ -116,6 +118,7 @@ input.short-input:focus { outline: 2px solid #2c7be5; border-color: #2c7be5; }
 .feedback strong.label { display: inline-block; min-width: 60px; }
 .feedback details summary { cursor: pointer; color: #2c7be5; font-weight: 500; }
 .feedback details[open] summary { margin-bottom: 6px; }
+.print-solution { display: none; }
 
 .score-card {
   background: linear-gradient(135deg, #2c7be5, #1a5fc7);
@@ -145,10 +148,15 @@ footer {
   .feedback { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
   pre { background: #f0f0f0; color: #000; border: 1px solid #ccc; }
   body { background: white; }
-  /* Caché les inputs lors d'une impression « blanche » :
-     la touche raccourcie « Imprimer ÉNONCÉS » utilise body.print-blank */
-  body.print-blank .feedback,
-  body.print-blank .self-eval { display: none !important; }
-  body.print-corrige .choices input,
-  body.print-corrige .short-input { display: none; }
+  body.print-questions .feedback,
+  body.print-questions .self-eval,
+  body.print-questions .print-solution { display: none !important; }
+  body.print-answers .feedback,
+  body.print-answers .self-eval,
+  body.print-answers .choices,
+  body.print-answers .short-input { display: none !important; }
+  body.print-answers .print-solution {
+    display: block; margin-top: 10px; padding: 10px 12px;
+    border: 1px solid #ccc; background: #f7f7f7;
+  }
 }

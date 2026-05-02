@@ -10,6 +10,8 @@ const state = {
   submitted: false,
 };
 
+const DATA_VERSION = '2026-05-02-unique-exams';
+
 // ----------------- Util -----------------
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -87,11 +89,15 @@ function renderExam() {
   const set = state.currentSet;
   main.innerHTML = `
     <div class="exam-header">
-      <h2>${set.title}</h2>
+      <div class="exam-title">
+        <h2>${set.title}</h2>
+        ${set.focus ? `<p class="exam-focus">${escapeHtml(set.focus)}</p>` : ''}
+      </div>
       <div class="actions">
         <button class="primary" id="btn-submit">提交并批改</button>
         <button class="ghost" id="btn-reset">重新作答</button>
-        <button class="ghost" id="btn-print">打印 / PDF</button>
+        <button class="ghost" id="btn-print-questions">打印题目</button>
+        <button class="ghost" id="btn-print-answers">打印答案</button>
       </div>
     </div>
     <div id="score-zone"></div>
@@ -100,7 +106,8 @@ function renderExam() {
       <span style="color:#666">本套试卷结束。</span>
       <div class="actions">
         <button class="primary" id="btn-submit2">提交并批改</button>
-        <button class="ghost" id="btn-print2">打印 / PDF</button>
+        <button class="ghost" id="btn-print-questions2">打印题目</button>
+        <button class="ghost" id="btn-print-answers2">打印答案</button>
       </div>
     </div>
   `;
@@ -108,7 +115,16 @@ function renderExam() {
   set.questions.forEach((q, i) => qzone.appendChild(renderQuestion(q, i + 1)));
   $('#btn-submit').onclick = $('#btn-submit2').onclick = submit;
   $('#btn-reset').onclick = () => loadSet(set.id);
-  $('#btn-print').onclick = $('#btn-print2').onclick = () => window.print();
+  $('#btn-print-questions').onclick = $('#btn-print-questions2').onclick = () => printExam('questions');
+  $('#btn-print-answers').onclick = $('#btn-print-answers2').onclick = () => printExam('answers');
+}
+
+function answerDisplay(q) {
+  if (q.type === 'mcq') {
+    const idx = q.answer.charCodeAt(0) - 65;
+    return `<code>${escapeHtml(q.answer)}.</code> ${escapeHtml(q.choices[idx] || '')}`;
+  }
+  return `<code>${escapeHtml(q.answer || '(voir explication)')}</code>`;
 }
 
 function renderQuestion(q, num) {
@@ -144,6 +160,10 @@ function renderQuestion(q, num) {
     <div class="q-body">${md(q.statement_md)}</div>
     ${inputHTML}
     <div class="feedback-zone"></div>
+    <div class="print-solution">
+      <div><strong>参考答案:</strong> ${answerDisplay(q)}</div>
+      <div><strong>解析:</strong> ${md(q.explanation_md || '')}</div>
+    </div>
   `;
 
   // Bind input change → state
@@ -201,14 +221,12 @@ function submit() {
     else label = '<strong class="label" style="color:#666">📝 需自评</strong>';
 
     let userDisplay = userAns ? `<code>${escapeHtml(userAns)}</code>` : '<em>(未作答)</em>';
-    let answerDisplay = q.type === 'mcq'
-      ? `<code>${q.answer}.</code> ${escapeHtml(q.choices[q.answer.charCodeAt(0)-65])}`
-      : `<code>${escapeHtml(q.answer || '(voir explication)')}</code>`;
+    const expectedHTML = answerDisplay(q);
 
     fb.innerHTML = `
       <div class="feedback ${isCorrect===true?'correct':isCorrect===false?'incorrect':''}">
         <div>${label} &nbsp; <strong>你的答案:</strong> ${userDisplay}</div>
-        <div style="margin-top:4px"><strong>参考答案:</strong> ${answerDisplay}</div>
+        <div style="margin-top:4px"><strong>参考答案:</strong> ${expectedHTML}</div>
         <details ${isCorrect===false?'open':''} style="margin-top:6px">
           <summary>解析 / 讲解</summary>
           <div style="margin-top:6px">${md(q.explanation_md || '')}</div>
@@ -236,6 +254,13 @@ function submit() {
   });
 
   renderScore(auto_correct, auto_total, manual_total, byChapter);
+}
+
+function printExam(mode) {
+  document.body.classList.remove('print-questions', 'print-answers');
+  document.body.classList.add(mode === 'answers' ? 'print-answers' : 'print-questions');
+  window.print();
+  setTimeout(() => document.body.classList.remove('print-questions', 'print-answers'), 500);
 }
 
 function updateScore() {
@@ -284,7 +309,7 @@ function renderScore(correct, total, manualPending, byChapter) {
 // ----------------- Boot -----------------
 async function boot() {
   try {
-    const r = await fetch('data/exams.json');
+    const r = await fetch(`data/exams.json?v=${DATA_VERSION}`, { cache: 'no-store' });
     state.data = await r.json();
     renderSetPicker();
   } catch (e) {

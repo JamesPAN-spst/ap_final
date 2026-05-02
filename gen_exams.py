@@ -3,6 +3,7 @@
 """
 
 import json
+import math
 import os
 import random
 
@@ -30,6 +31,27 @@ def shuffled_choices(rng, correct, distractors):
     choices = [correct] + distractors
     rng.shuffle(choices)
     return choices, chr(ord('A') + choices.index(correct))
+
+
+def fmt_complex(real, imag):
+    return f'{real}{imag:+d}j'
+
+
+def statement_key(question):
+    return ' '.join(question.get('statement_md', '').split())
+
+
+def make_unique_question(template, rng, used_statements):
+    last_question = None
+    for _ in range(200):
+        question = template(rng)
+        key = statement_key(question)
+        if key not in used_statements:
+            used_statements.add(key)
+            return question
+        last_question = question
+    topic = last_question.get('topic', template.__name__) if last_question else template.__name__
+    raise RuntimeError(f'impossible de générer une question unique pour {topic}')
 
 
 def make_code_question(
@@ -110,10 +132,11 @@ def t_dict_trace(rng):
 
 
 def t_arrondis(rng):
-    correct = '`floor(x)` 对任意实数都表示“向负无穷方向取整”'
+    x = rng.choice([-4.7, -3.5, -2.1, 2.5, 3.7, 5.2])
+    correct = f'`math.floor({x}) == {math.floor(x)}`'
     distractors = [
-        '`int(x)` 总是和 `floor(x)` 完全相同',
-        '`ceil(x)` 表示“向 0 取整”',
+        f'`int({x}) == {math.floor(x)}`',
+        f'`math.ceil({x}) == {math.trunc(x)}`',
         '`round(2.5)` 在 Python 中一定等于 `3`',
     ]
     choices, answer = shuffled_choices(rng, correct, distractors)
@@ -122,7 +145,7 @@ def t_arrondis(rng):
         topic='取整',
         difficulty=2,
         type='mcq',
-        statement_md='关于 `int / floor / ceil / round` 的行为,下列哪项说法正确?',
+        statement_md=f'关于 `int / floor / ceil / round` 的行为,令 `x = {x}`,下列哪项说法正确?',
         choices=choices,
         answer=answer,
         explanation_md=(
@@ -151,28 +174,37 @@ def t_alias(rng):
 
 
 def t_tuple_pieges(rng):
+    value = rng.randint(2, 18)
     return dict(
         chapter=CH1,
         topic='元组',
         difficulty=1,
         type='mcq',
-        statement_md='哪个表达式会得到“只含一个元素 7 的元组(tuple)”?',
-        choices=['(7)', '[7]', '(7,)', '{7}'],
+        statement_md=f'哪个表达式会得到“只含一个元素 {value} 的元组(tuple)”?',
+        choices=[f'({value})', f'[{value}]', f'({value},)', f'{{{value}}}'],
         answer='C',
-        explanation_md='`(7)` 只是整数 7 外面套括号。单元素元组必须写成 `(7,)`,关键是那个逗号。',
+        explanation_md=f'`({value})` 只是整数 `{value}` 外面套括号。单元素元组必须写成 `({value},)`,关键是那个逗号。',
     )
 
 
 def t_set_litt(rng):
+    var = f'{rng.choice(["S", "D", "E", "X"])}{rng.randint(1, 9)}'
+    target, correct, note = rng.choice([
+        ('空集合(set)', 'set()', '`{}` 是空字典(dict),`set()` 才是空集合。'),
+        ('空字典(dict)', '{}', '`{}` 是空字典(dict),不是空集合。'),
+        ('只含一个元素 `None` 的集合(set)', '{None}', '`{None}` 是含有一个元素的集合,而不是空集合。'),
+    ])
+    distractors = [option for option in ['{}', 'set()', '{None}', '()'] if option != correct]
+    choices, answer = shuffled_choices(rng, correct, distractors)
     return dict(
         chapter=CH1,
         topic='集合/字典',
         difficulty=1,
         type='mcq',
-        statement_md='哪个表达式会创建“空集合(set)”?',
-        choices=['{}', 'set()', '{None}', '()'],
-        answer='B',
-        explanation_md='`{}` 是空字典(dict),`set()` 才是空集合,`()` 是空元组(tuple)。',
+        statement_md=f'若要让变量 `{var}` 成为“{target}”,右侧应使用哪个表达式?',
+        choices=choices,
+        answer=answer,
+        explanation_md=f'{note}`()` 是空元组(tuple)。',
     )
 
 
@@ -213,7 +245,7 @@ def t_slice(rng):
 
 
 def t_int_arbitraire(rng):
-    n = rng.choice([200, 300, 500])
+    n = rng.randrange(180, 901, 40)
     return dict(
         chapter=CH1,
         topic='整数',
@@ -232,11 +264,17 @@ def t_int_arbitraire(rng):
 
 
 def t_complex(rng):
-    correct = '`abs(3+4j)` 的值是 `5.0`'
+    real, imag, modulus = rng.choice([(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25)])
+    if rng.random() < 0.5:
+        real = -real
+    if rng.random() < 0.5:
+        imag = -imag
+    z = fmt_complex(real, imag)
+    correct = f'`abs({z})` 的值是 `{float(modulus)}`'
     distractors = [
-        '`(3+4j) < (4+5j)` 在 Python 中合法并返回 `True`',
-        '`(3+4j).real` 的值是 `4.0`',
-        '`(3+4j).imag` 的值是 `3.0`',
+        f'`({z}) < ({fmt_complex(real + 1, imag + 1)})` 在 Python 中合法并返回 `True`',
+        f'`({z}).real` 的值是 `{float(imag)}`',
+        f'`({z}).imag` 的值是 `{float(real)}`',
     ]
     choices, answer = shuffled_choices(rng, correct, distractors)
     return dict(
@@ -244,11 +282,11 @@ def t_complex(rng):
         topic='复数',
         difficulty=2,
         type='mcq',
-        statement_md='关于 Python 复数(`complex`),下面哪项说法正确?',
+        statement_md=f'关于 Python 复数 `z = {z}`,下面哪项说法正确?',
         choices=choices,
         answer=answer,
         explanation_md=(
-            '对 `z = 3+4j`,有 `z.real = 3.0`,`z.imag = 4.0`,`abs(z) = 5.0`。'
+            f'对 `z = {z}`,有 `z.real = {float(real)}`,`z.imag = {float(imag)}`,`abs(z) = {float(modulus)}`。'
             '复数不支持 `<`、`>` 这样的大小比较。'
         ),
     )
@@ -256,19 +294,22 @@ def t_complex(rng):
 
 # ===== CH2 =====
 def t_fact(rng):
+    name = f'{rng.choice(["factorielle", "fact", "fac"])}_{rng.randint(10, 99)}'
     correct = '基准情形 `n == 0` 返回 1,递推写成 `n * factorielle(n-1)`'
     distractors = [
         '基准情形 `n == 0` 返回 0,递推写成 `n + factorielle(n-1)`',
         '基准情形 `n == 1` 返回 0,递推写成 `n * factorielle(n-1)`',
         '无论 n 是多少都返回 `factorielle(n-1)`',
     ]
+    correct = correct.replace('factorielle', name)
+    distractors = [item.replace('factorielle', name) for item in distractors]
     choices, answer = shuffled_choices(rng, correct, distractors)
     return dict(
         chapter=CH2,
         topic='阶乘递归',
         difficulty=1,
         type='mcq',
-        statement_md='如果要递归实现 `factorielle(n)` (`n!`),下面哪种描述是正确的?',
+        statement_md=f'如果要递归实现 `{name}(n)` (`n!`),下面哪种描述是正确的?',
         choices=choices,
         answer=answer,
         explanation_md='因为 `0! = 1`,所以基准情形必须返回 1;对 `n > 0` 时递推关系是 `n! = n × (n-1)!`。',
@@ -276,11 +317,13 @@ def t_fact(rng):
 
 
 def t_pgcd(rng):
-    correct = '`pgcd(a, b) = pgcd(b, a % b)` ,并在 `b == 0` 时返回 `a`'
+    b = rng.randint(18, 120)
+    a = b * rng.randint(2, 8) + rng.randint(1, b - 1)
+    correct = f'第一步可写成 `pgcd({a}, {b}) = pgcd({b}, {a % b})`,并在第二个参数为 0 时停止'
     distractors = [
-        '`pgcd(a, b) = pgcd(a - 1, b - 1)`',
-        '`pgcd(a, b) = pgcd(a, b // 2)`',
-        '`pgcd(a, b)` 必须先把 `a` 和 `b` 排序后直接返回较小值',
+        f'第一步应写成 `pgcd({a}, {b}) = pgcd({a - 1}, {b - 1})`',
+        f'第一步应写成 `pgcd({a}, {b}) = pgcd({a}, {b // 2})`',
+        f'可以直接返回较小值 `{min(a, b)}`',
     ]
     choices, answer = shuffled_choices(rng, correct, distractors)
     return dict(
@@ -288,7 +331,7 @@ def t_pgcd(rng):
         topic='欧几里得算法',
         difficulty=1,
         type='mcq',
-        statement_md='关于欧几里得算法 `pgcd(a, b)` 的递推关系,下列哪项正确?',
+        statement_md=f'关于欧几里得算法在 `pgcd({a}, {b})` 上的递推,下列哪项正确?',
         choices=choices,
         answer=answer,
         explanation_md='欧几里得算法利用不变量 `pgcd(a, b) = pgcd(b, a % b)`。当 `b = 0` 时,最大公约数就是 `a`。',
@@ -296,6 +339,7 @@ def t_pgcd(rng):
 
 
 def t_fib(rng):
+    n = rng.randint(12, 35)
     correct = '使用记忆化(mémoïsation)或缓存,避免重复计算同一个 `fib(k)`'
     distractors = [
         '先把 `n` 转成 `float`,这样会更快',
@@ -308,7 +352,7 @@ def t_fib(rng):
         topic='Fibonacci/记忆化',
         difficulty=2,
         type='mcq',
-        statement_md='想把朴素递归版 `fib(n)` 从指数复杂度降到线性复杂度,最直接的方法是什么?',
+        statement_md=f'想把朴素递归版 `fib({n})` 的计算从指数复杂度降到线性复杂度,最直接的方法是什么?',
         choices=choices,
         answer=answer,
         explanation_md='朴素递归会一遍又一遍地重复算同一个 `fib(k)`。加缓存后,每个 `k` 只算一次,时间复杂度可降到 `O(n)`。',
@@ -316,7 +360,7 @@ def t_fib(rng):
 
 
 def t_fib_calls(rng):
-    n = rng.randint(5, 10)
+    n = rng.randint(5, 22)
     return dict(
         chapter=CH2,
         topic='复杂度',
@@ -340,11 +384,13 @@ def t_fib_calls(rng):
 
 
 def t_lambda(rng):
-    correct = '`lambda x, y: x + y`'
+    x, y = rng.choice([('x', 'y'), ('a', 'b'), ('u', 'v'), ('p', 'q')])
+    expr = rng.choice([f'{x} + {y}', f'{x} - {y}', f'{x} * {y}', f'{x} if {x} > {y} else {y}', f'{x} % {y}'])
+    correct = f'`lambda {x}, {y}: {expr}`'
     distractors = [
-        '`lambda x, y: return x + y`',
-        '`lambda x, y: if x > y: x else y`',
-        '`lambda x, y: x = y`',
+        f'`lambda {x}, {y}: return {expr}`',
+        f'`lambda {x}, {y}: if {x} > {y}: {x} else {y}`',
+        f'`lambda {x}, {y}: {x} = {y}`',
     ]
     choices, answer = shuffled_choices(rng, correct, distractors)
     return dict(
@@ -352,7 +398,7 @@ def t_lambda(rng):
         topic='lambda',
         difficulty=1,
         type='mcq',
-        statement_md='下面哪个表达式是**合法**的 Python `lambda`?',
+        statement_md=f'下面哪个表达式是**合法**的 Python `lambda`,并能表达 `{expr}` 这个计算?',
         choices=choices,
         answer=answer,
         explanation_md='`lambda` 后面只能跟“单个表达式”,不能写 `return`、赋值语句,也不能写多行 `if` 语句块。',
@@ -360,35 +406,48 @@ def t_lambda(rng):
 
 
 def t_gen_count(rng):
+    n = rng.randint(3, 8)
+    expr = rng.choice(['x*x', 'x+1', '2*x', 'x%3'])
+    first = [eval(expr, {'x': x}) for x in range(n)]
+    correct = '[]'
+    choices, answer = shuffled_choices(rng, correct, [str(first), '同一个 generator 对象', '会抛出 SyntaxError'])
     return dict(
         chapter=CH2,
         topic='生成器',
         difficulty=2,
         type='mcq',
         statement_md=(
-            '设 `g = (x*x for x in range(4))`。先执行一次 `list(g)`,然后再次执行 `list(g)`。'
+            f'设 `g = ({expr} for x in range({n}))`。先执行一次 `list(g)`,然后再次执行 `list(g)`。'
             '第二次的结果是什么?'
         ),
-        choices=['[]', '[0, 1, 4, 9]', '会返回同一个 generator 对象', '会抛出 SyntaxError'],
-        answer='A',
+        choices=choices,
+        answer=answer,
         explanation_md='生成器是“一次性”的。第一次 `list(g)` 已经把它消费完了,第二次再转列表时就只剩空列表 `[]`。',
     )
 
 
 def t_sort_none(rng):
+    values = rng.sample(range(1, 10), 4)
+    method = rng.choice(['sort', 'reverse'])
+    after = sorted(values) if method == 'sort' else list(reversed(values))
+    correct = 'None'
+    choices, answer = shuffled_choices(rng, correct, [str(after), str(values), '会报错'])
     return dict(
         chapter=CH2,
         topic='None',
         difficulty=1,
         type='mcq',
-        statement_md='执行 `y = [3, 1, 2].sort()` 后,变量 `y` 的值是什么?',
-        choices=['[1, 2, 3]', '[3, 1, 2]', 'None', '会报错'],
-        answer='C',
-        explanation_md='`list.sort()` 是“原地排序”,它修改原列表,但返回值是 `None`。需要新列表时应使用 `sorted(...)`。',
+        statement_md=f'执行 `L = {values}; y = L.{method}()` 后,变量 `y` 的值是什么?',
+        choices=choices,
+        answer=answer,
+        explanation_md=f'`list.{method}()` 是“原地修改”,它会把 `L` 改成 `{after}`,但返回值是 `None`。',
     )
 
 
 def t_default_arg(rng):
+    values = rng.sample(range(1, 9), 3)
+    answer_list = str(values)
+    choices, answer = shuffled_choices(rng, answer_list, [str([values[-1]]), str([values[0], values[-1]]), '会报错'])
     return dict(
         chapter=CH2,
         topic='默认参数',
@@ -400,15 +459,15 @@ def t_default_arg(rng):
             'def f(x, L=[]):\n'
             '    L.append(x)\n'
             '    return L\n'
-            'f(1); f(2); print(f(3))\n'
+            f'f({values[0]}); f({values[1]}); print(f({values[2]}))\n'
             '```\n'
             '最后一行会输出什么?'
         ),
-        choices=['[3]', '[1, 2, 3]', '[1, 3]', '会报错'],
-        answer='B',
+        choices=choices,
+        answer=answer,
         explanation_md=(
             '默认参数 `L=[]` 在函数定义时只创建一次,后续每次不显式传 `L` 都会复用这同一个列表。'
-            '所以三次调用依次把 1、2、3 都追加进去了。'
+            f'所以三次调用依次把 `{values[0]}`、`{values[1]}`、`{values[2]}` 都追加进去了。'
         ),
     )
 
@@ -634,8 +693,14 @@ def t_euler(rng):
 
 
 def t_bfs_order(rng):
-    vertices = ['A', 'B', 'C', 'D', 'E']
-    graph = {'A': {'B', 'C'}, 'B': {'A', 'D'}, 'C': {'A', 'D', 'E'}, 'D': {'B', 'C'}, 'E': {'C'}}
+    variants = [
+        {'A': {'B', 'C'}, 'B': {'A', 'D'}, 'C': {'A', 'D', 'E'}, 'D': {'B', 'C'}, 'E': {'C'}},
+        {'A': {'B', 'D'}, 'B': {'A', 'C', 'E'}, 'C': {'B'}, 'D': {'A', 'E'}, 'E': {'B', 'D'}},
+        {'A': {'C'}, 'B': {'C', 'D'}, 'C': {'A', 'B', 'E'}, 'D': {'B', 'E'}, 'E': {'C', 'D'}},
+        {'A': {'B', 'E'}, 'B': {'A', 'C'}, 'C': {'B', 'D', 'E'}, 'D': {'C'}, 'E': {'A', 'C'}},
+    ]
+    graph = rng.choice(variants)
+    vertices = sorted(graph)
     start = rng.choice(vertices)
     seen = set()
     queue = [start]
@@ -655,7 +720,7 @@ def t_bfs_order(rng):
         difficulty=2,
         type='short',
         statement_md=(
-            "设图 `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`。\n\n"
+            f"设图 `G = {{{', '.join(f'{v!r}:{sorted(graph[v])}' for v in vertices)}}}`。\n\n"
             f'从 `{start}` 开始做广度优先搜索(BFS),并且每次都按字母顺序访问邻居。'
             '请写出访问顺序(字母直接连写,例如 `ABCDE`)。'
         ),
@@ -665,15 +730,34 @@ def t_bfs_order(rng):
 
 
 def t_distance(rng):
-    pairs = [('A', 'D', 2), ('A', 'E', 2), ('B', 'E', 3), ('A', 'C', 1), ('B', 'C', 2), ('D', 'E', 2)]
-    x, y, distance = rng.choice(pairs)
+    variants = [
+        {'A': {'B', 'C'}, 'B': {'A', 'D'}, 'C': {'A', 'D', 'E'}, 'D': {'B', 'C'}, 'E': {'C'}},
+        {'A': {'B', 'D'}, 'B': {'A', 'C', 'E'}, 'C': {'B'}, 'D': {'A', 'E'}, 'E': {'B', 'D'}},
+        {'A': {'C'}, 'B': {'C', 'D'}, 'C': {'A', 'B', 'E'}, 'D': {'B', 'E'}, 'E': {'C', 'D'}},
+        {'A': {'B', 'E'}, 'B': {'A', 'C'}, 'C': {'B', 'D', 'E'}, 'D': {'C'}, 'E': {'A', 'C'}},
+    ]
+    graph = rng.choice(variants)
+    vertices = sorted(graph)
+    x, y = rng.sample(vertices, 2)
+    queue = [(x, 0)]
+    seen = {x}
+    distance = None
+    while queue:
+        node, depth = queue.pop(0)
+        if node == y:
+            distance = depth
+            break
+        for nxt in sorted(graph[node]):
+            if nxt not in seen:
+                seen.add(nxt)
+                queue.append((nxt, depth + 1))
     return dict(
         chapter=CH3,
         topic='距离/BFS',
         difficulty=2,
         type='short',
         statement_md=(
-            "设图 `G = {'A':{'B','C'}, 'B':{'A','D'}, 'C':{'A','D','E'}, 'D':{'B','C'}, 'E':{'C'}}`。"
+            f"设图 `G = {{{', '.join(f'{v!r}:{sorted(graph[v])}' for v in vertices)}}}`。"
             f'请给出从 `{x}` 到 `{y}` 的最短距离(边数)。'
         ),
         answer=str(distance),
@@ -682,14 +766,27 @@ def t_distance(rng):
 
 
 def t_pseudo_signature(rng):
+    base_name, input_type, output_type, task = rng.choice([
+        ('taille', 'arbre', 'entier', '一棵树,输出节点总数'),
+        ('hauteur', 'arbre', 'entier', '一棵树,输出高度'),
+        ('est_vide', 'pile', 'booleen', '一个栈,判断是否为空'),
+        ('degre', 'graphe x sommet', 'entier', '一个图和一个顶点,输出顶点度数'),
+    ])
+    name = f'{base_name}_{rng.randint(10, 99)}'
+    correct = f'fonction {name}(A) // {input_type} → {output_type}'
+    choices, answer = shuffled_choices(rng, correct, [
+        f'fonction {name}(A) // {input_type}',
+        f'def {name}(A: {input_type}) -> {output_type}',
+        f'fonction {name}(A) → {output_type}',
+    ])
     return dict(
         chapter=CH3,
         topic='伪代码',
         difficulty=1,
         type='mcq',
-        statement_md='某函数输入一棵树,输出节点总数。下面哪条伪代码签名(signature)最符合本课约定?',
-        choices=['fonction f(A) // arbre', 'fonction f(A) // arbre → entier', 'fonction f(A: arbre): entier', 'fonction f(A) → entier'],
-        answer='B',
+        statement_md=f'某函数名为 `{name}`,输入{task}。下面哪条伪代码签名(signature)最符合本课约定?',
+        choices=choices,
+        answer=answer,
         explanation_md='课程约定是 `fonction nom(args) // 输入类型 → 输出类型`。既要写输入类型,也要写返回类型。',
     )
 
@@ -776,27 +873,30 @@ def t_dunder_mcq(rng):
 
 
 def t_default_attr(rng):
+    param = f'{rng.choice(["enfants", "voisins", "items", "notes"])}_{rng.randint(10, 99)}'
+    correct = f'def __init__(self, {param}=None): self.{param} = {param} if {param} is not None else []'
+    choices, answer = shuffled_choices(rng, correct, [
+        f'def __init__(self, {param}=[]): self.{param} = {param}',
+        f'{param} = []  # directement dans le corps de classe',
+        f'def __init__(self, {param}={{}}): self.{param} = {param}',
+    ])
     return dict(
         chapter=CH4,
         topic='类的陷阱',
         difficulty=3,
         type='mcq',
-        statement_md='下面哪种写法**能够避免**“共享可变默认值”这个经典坑?',
-        choices=[
-            'def __init__(self, enfants=[]): self.enfants = enfants',
-            'def __init__(self, enfants=None): self.enfants = enfants if enfants is not None else []',
-            'enfants = []  # 直接写在类体里',
-            'def __init__(self, enfants={}): self.enfants = enfants',
-        ],
-        answer='B',
+        statement_md=f'在类的 `__init__` 中初始化 `{param}` 时,下面哪种写法**能够避免**“共享可变默认值”这个经典坑?',
+        choices=choices,
+        answer=answer,
         explanation_md='`[]` 和 `{}` 这样的可变对象若作为默认值,会在定义时只创建一次并被后续实例共享。安全写法是 `=None` 再在方法体里新建列表。',
     )
 
 
 # ===== Long-form algorithmic questions (pseudo-code / application) =====
 def t_pseudo_tree_leaf_child(rng):
+    fname = f'nb_parent_feuille_{rng.randint(10, 99)}'
     statement = (
-        '按课程要求的**伪代码**格式,写一个递归函数 `f1(N)`。\n\n'
+        f'按课程要求的**伪代码**格式,写一个递归函数 `{fname}(N)`。\n\n'
         '输入是一棵树的根节点 `N`,返回整棵树中“**至少有一个叶子作为孩子**”的节点个数。\n\n'
         '要求:\n'
         '- 必须写 signature\n'
@@ -806,12 +906,12 @@ def t_pseudo_tree_leaf_child(rng):
     explanation = (
         '一种标准写法如下:\n\n'
         '```text\n'
-        'fonction f1(N)\n'
+        f'fonction {fname}(N)\n'
         '// noeud -> entier\n'
         'compte <- 0\n'
         'total <- 0\n'
         'pour tout enfant E de N\n'
-        '  total <- total + f1(E)\n'
+        f'  total <- total + {fname}(E)\n'
         '  si nombre d\'enfants(E) = 0\n'
         '    compte <- compte + 1\n'
         'si compte >= 1\n'
@@ -824,21 +924,22 @@ def t_pseudo_tree_leaf_child(rng):
 
 
 def t_pseudo_tree_same_label(rng):
+    fname = f'nb_meme_etiquette_{rng.randint(10, 99)}'
     statement = (
-        '按课程要求的**伪代码**格式,写一个递归函数 `f2(N)`。\n\n'
+        f'按课程要求的**伪代码**格式,写一个递归函数 `{fname}(N)`。\n\n'
         '输入是一棵带数值标签的树根 `N`,返回整棵树中“**标签与父节点相同**”的节点个数。\n\n'
         '要求:写出 signature,并使用伪代码而不是 Python。'
     )
     explanation = (
         '一种标准写法如下:\n\n'
         '```text\n'
-        'fonction f2(N)\n'
+        f'fonction {fname}(N)\n'
         '// noeud -> entier\n'
         'compte <- 0\n'
         'pour tout enfant E de N\n'
         '  si etiquette(E) = etiquette(N)\n'
         '    compte <- compte + 1\n'
-        '  compte <- compte + f2(E)\n'
+        f'  compte <- compte + {fname}(E)\n'
         'retourner compte\n'
         '```\n\n'
         '关键点:比较发生在“父子”之间,所以要先比较 `E` 与 `N`,再递归处理 `E` 的子树。'
@@ -847,15 +948,16 @@ def t_pseudo_tree_same_label(rng):
 
 
 def t_pseudo_graph_triangle(rng):
+    fname = f'a_triangle_{rng.randint(10, 99)}'
     statement = (
-        '按课程要求的**伪代码**格式,写一个函数 `triangle(G)`。\n\n'
+        f'按课程要求的**伪代码**格式,写一个函数 `{fname}(G)`。\n\n'
         '输入是一个简单无向图 `G`,输出布尔值,表示图中是否存在长度为 3 的环(三角形)。\n\n'
         '要求:必须写 signature,并使用伪代码记号。'
     )
     explanation = (
         '一种典型写法如下:\n\n'
         '```text\n'
-        'fonction triangle(G)\n'
+        f'fonction {fname}(G)\n'
         '// graphe -> booleen\n'
         'pour tout sommet x de G\n'
         '  pour tout voisin y de x\n'
@@ -870,15 +972,16 @@ def t_pseudo_graph_triangle(rng):
 
 
 def t_pseudo_graph_max_degree(rng):
+    fname = f'sommet_deg_max_{rng.randint(10, 99)}'
     statement = (
-        '按课程要求的**伪代码**格式,写一个函数 `sommet_deg_max(G)`。\n\n'
+        f'按课程要求的**伪代码**格式,写一个函数 `{fname}(G)`。\n\n'
         '输入是一个非空无向图 `G`,返回一个**度数最大的顶点**(若有多个,返回任意一个即可)。\n\n'
         '要求:必须写 signature,并使用伪代码而不是 Python。'
     )
     explanation = (
         '一种标准写法如下:\n\n'
         '```text\n'
-        'fonction sommet_deg_max(G)\n'
+        f'fonction {fname}(G)\n'
         '// graphe -> sommet\n'
         'dmax <- -1\n'
         'pour tout sommet s de G\n'
@@ -894,15 +997,22 @@ def t_pseudo_graph_max_degree(rng):
 
 
 def t_code_partial_sums(rng):
+    fname = f'prefixes_{rng.randint(10, 99)}'
+    values = rng.sample(range(-2, 8), 4)
+    cumul = []
+    total = 0
+    for value in values:
+        total += value
+        cumul.append(total)
     statement = (
-        '写一个 Python 函数 `g1(L)`,输入是一个**非空整数列表** `L`,返回它的**前缀和列表**。\n\n'
-        '例: `g1([2, 1, 0, 5])` 应返回 `[2, 3, 3, 8]`。\n\n'
+        f'写一个 Python 函数 `{fname}(L)`,输入是一个**非空整数列表** `L`,返回它的**前缀和列表**。\n\n'
+        f'例: `{fname}({values})` 应返回 `{cumul}`。\n\n'
         '要求:写出 signature,并给出完整函数。'
     )
     explanation = (
         '一种线性时间实现如下:\n\n'
         '```python\n'
-        'def g1(L):\n'
+        f'def {fname}(L):\n'
         '    """ list -> list """\n'
         '    cumul = 0\n'
         '    S = []\n'
@@ -917,16 +1027,21 @@ def t_code_partial_sums(rng):
 
 
 def t_code_occurrences_indices(rng):
+    fname = f'occurrences_{rng.randint(10, 99)}'
+    sample = rng.choice(['abcaaca', 'mississippi', 'banane', 'abracadabra'])
+    positions = {}
+    for index, char in enumerate(sample):
+        positions.setdefault(char, []).append(index)
     statement = (
-        '写一个 Python 函数 `occurrences(s)`,输入是字符串 `s`,返回一个字典 `D`。\n\n'
+        f'写一个 Python 函数 `{fname}(s)`,输入是字符串 `s`,返回一个字典 `D`。\n\n'
         '对每个在 `s` 中出现过的字符 `c`,有 `D[c]` 等于字符 `c` 在 `s` 中所有出现位置的下标列表。\n\n'
-        '例: `occurrences("abcaaca")` 应返回 `{\'a\':[0,3,4,6], \'b\':[1], \'c\':[2,5]}`。\n\n'
+        f'例: `{fname}("{sample}")` 应返回 `{positions}`。\n\n'
         '要求:写出 signature 和完整函数。'
     )
     explanation = (
         '一种标准实现如下:\n\n'
         '```python\n'
-        'def occurrences(s):\n'
+        f'def {fname}(s):\n'
         '    """ str -> dict """\n'
         '    D = {}\n'
         '    for i, c in enumerate(s):\n'
@@ -942,8 +1057,11 @@ def t_code_occurrences_indices(rng):
 
 
 def t_code_search_substring(rng):
+    fname = f'recherche_{rng.randint(10, 99)}'
+    needle, haystack = rng.choice([('ana', 'banane'), ('cad', 'abracadabra'), ('py', 'apython'), ('aba', 'abacaba')])
     statement = (
-        '写一个 Python 函数 `recherche(s1, s2)`,判断字符串 `s1` 是否作为**连续子串**出现在 `s2` 中。\n\n'
+        f'写一个 Python 函数 `{fname}(s1, s2)`,判断字符串 `s1` 是否作为**连续子串**出现在 `s2` 中。\n\n'
+        f'例如 `{fname}("{needle}", "{haystack}")` 应返回 `{needle in haystack}`。\n\n'
         '要求:\n'
         '- 返回布尔值\n'
         '- 写出 signature\n'
@@ -952,7 +1070,7 @@ def t_code_search_substring(rng):
     explanation = (
         '一种直接翻译真题伪代码的实现如下:\n\n'
         '```python\n'
-        'def recherche(s1, s2):\n'
+        f'def {fname}(s1, s2):\n'
         '    """ str x str -> bool """\n'
         '    n1 = len(s1)\n'
         '    n2 = len(s2)\n'
@@ -970,16 +1088,19 @@ def t_code_search_substring(rng):
 
 
 def t_code_generator_unique_multiple(rng):
+    fname = f'multiples_uniques_{rng.randint(10, 99)}'
+    values, limit = rng.choice([([3, 7, 6], 15), ([2, 5, 10], 18), ([4, 6, 9], 24), ([5, 8, 12], 30)])
+    expected = [k for k in range(limit + 1) if sum(k % value == 0 for value in values) == 1]
     statement = (
-        '写一个**生成器** `g2(L, n)`,其中 `L` 是由正整数组成的列表,`n` 是自然数。\n\n'
+        f'写一个**生成器** `{fname}(L, n)`,其中 `L` 是由正整数组成的列表,`n` 是自然数。\n\n'
         '它要按递增顺序产出所有 `0 <= k <= n` 中,恰好是 `L` 中**一个且仅一个**元素倍数的整数 `k`。\n\n'
-        '例: `list(g2([3,7,6], 15))` 应得到 `[3, 7, 9, 14, 15]`。\n\n'
+        f'例: `list({fname}({values}, {limit}))` 应得到 `{expected}`。\n\n'
         '要求:写出 signature 和完整函数。'
     )
     explanation = (
         '一种简洁实现如下:\n\n'
         '```python\n'
-        'def g2(L, n):\n'
+        f'def {fname}(L, n):\n'
         '    """ list x int -> generator """\n'
         '    for k in range(n + 1):\n'
         '        if sum(k % x == 0 for x in L) == 1:\n'
@@ -991,11 +1112,12 @@ def t_code_generator_unique_multiple(rng):
 
 
 def t_code_memo_suite(rng):
+    fname = f'suite_memo_{rng.randint(10, 99)}'
     statement = (
         '定义数列 `u0 = -1`, `u1 = 2`,并且对任意 `n >= 0` 有:\n\n'
         '- 若 `u_n <= 0`,则 `u_(n+2) = 2*u_(n+1) + u_n`\n'
         '- 否则 `u_(n+2) = u_(n+1) - 3*u_n`\n\n'
-        '写一个带**记忆化**的递归函数 `suite2(n)`,返回 `u_n`。\n\n'
+        f'写一个带**记忆化**的递归函数 `{fname}(n)`,返回 `u_n`。\n\n'
         '要求:写出 signature,并使用一个字典缓存已经算出的项。'
     )
     explanation = (
@@ -1003,11 +1125,11 @@ def t_code_memo_suite(rng):
         '```python\n'
         'D = {0: -1, 1: 2}\n'
         '\n'
-        'def suite2(n):\n'
+        f'def {fname}(n):\n'
         '    """ int -> int """\n'
         '    if n not in D:\n'
-        '        u2 = suite2(n - 2)\n'
-        '        u1 = suite2(n - 1)\n'
+        f'        u2 = {fname}(n - 2)\n'
+        f'        u1 = {fname}(n - 1)\n'
         '        if u2 <= 0:\n'
         '            D[n] = 2 * u1 + u2\n'
         '        else:\n'
@@ -1020,21 +1142,23 @@ def t_code_memo_suite(rng):
 
 
 def t_code_partitions_generator(rng):
+    fname = f'partitions_{rng.randint(10, 99)}'
+    n = rng.choice([4, 5, 6, 7])
     statement = (
-        '写一个**递归生成器** `g5(n)`,其中 `n >= 1`,它要产出所有由**正整数**组成、且元素按**非降序**排列、总和等于 `n` 的列表。\n\n'
-        '例: `list(g5(5))` 应产出 `[1,1,1,1,1]`, `[1,1,1,2]`, `[1,2,2]`, `[1,1,3]`, `[2,3]`, `[1,4]`, `[5]`。\n\n'
+        f'写一个**递归生成器** `{fname}(n)`,其中 `n >= 1`,它要产出所有由**正整数**组成、且元素按**非降序**排列、总和等于 `n` 的列表。\n\n'
+        f'例: `list({fname}({n}))` 应产出所有总和为 `{n}` 的非降序正整数拆分。\n\n'
         '要求:写出 signature 和完整函数。'
     )
     explanation = (
         '一种真题风格的递归生成器如下:\n\n'
         '```python\n'
-        'def g5(n):\n'
+        f'def {fname}(n):\n'
         '    """ int -> generator """\n'
         '    if n == 1:\n'
         '        yield [1]\n'
         '    else:\n'
         '        for last in range(1, n):\n'
-        '            for L in g5(n - last):\n'
+        f'            for L in {fname}(n - last):\n'
         '                if L[-1] <= last:\n'
         '                    yield L + [last]\n'
         '        yield [n]\n'
@@ -1110,6 +1234,24 @@ EXTRA_RECURSIVE_TEMPLATES = [
 
 QUESTIONS_PER_SET = sum(BASE_ALLOC.values()) + 4
 
+SET_FOCI = {
+    1: '热身:进制、取整、参数、栈队列和基础类',
+    2: '热身:拷贝、集合、lambda、BFS 和可变默认值',
+    3: '热身:哈希性、迭代器、图概念和类属性',
+    4: '复数与类型转换、Fibonacci、树叶子孩子、Trinome',
+    5: '集合运算、双递归复杂度、图三角形、运算符重载',
+    6: '字典推导、生成器消费、栈反序、Decimal 初级',
+    7: '浮点精度、递归终止、BFS/欧拉、类属性共享',
+    8: '列表推导、记忆化 Fibonacci、树 score、Trinome',
+    9: '进制字符串、快排复杂度、3-cycle、Decimal 格式化',
+    10: '集合对称差、递归生成器、连通性、类方法组合',
+    11: '字典倒置、记忆化应用、树权重、Decimal repr',
+    12: '嵌套拷贝、递归树计数、ADT 多操作、类不变量',
+    13: '类型混合、递归生成器、图剪枝、Decimal 高阶',
+    14: '浮点边界、递归转迭代、树路径、对象构造',
+    15: '综合类型、生成器递归、最短路、综合类题',
+}
+
 
 def pool_by_chapter():
     pools = {1: [], 2: [], 3: [], 4: []}
@@ -1122,7 +1264,7 @@ def pool_by_chapter():
 # ======================================================================
 # Build 15 sets
 # ======================================================================
-def build_set(set_id):
+def build_set(set_id, used_statements):
     rng = random.Random(set_id * 1000 + 7)
     pools = pool_by_chapter()
     base_questions = []
@@ -1138,35 +1280,43 @@ def build_set(set_id):
                     break
                 chosen.append(template)
         for template in chosen:
-            q = template(rng)
+            q = make_unique_question(template, rng, used_statements)
             q['id'] = f'{set_id}-{qid}'
             qid += 1
             base_questions.append(q)
 
     rng.shuffle(base_questions)
 
-    extra_questions = [
-        rng.choice(EXTRA_PSEUDO_TREE_TEMPLATES)(rng),
-        rng.choice(EXTRA_PSEUDO_GRAPH_TEMPLATES)(rng),
-        rng.choice(EXTRA_IMPL_TEMPLATES)(rng),
-        rng.choice(EXTRA_RECURSIVE_TEMPLATES)(rng),
+    extra_templates = [
+        EXTRA_PSEUDO_TREE_TEMPLATES[(set_id - 1) % len(EXTRA_PSEUDO_TREE_TEMPLATES)],
+        EXTRA_PSEUDO_GRAPH_TEMPLATES[(set_id - 1) % len(EXTRA_PSEUDO_GRAPH_TEMPLATES)],
+        EXTRA_IMPL_TEMPLATES[(set_id - 1) % len(EXTRA_IMPL_TEMPLATES)],
+        EXTRA_RECURSIVE_TEMPLATES[(set_id - 1) % len(EXTRA_RECURSIVE_TEMPLATES)],
     ]
+    extra_questions = [make_unique_question(template, rng, used_statements) for template in extra_templates]
 
     questions = base_questions + extra_questions
     for i, question in enumerate(questions, 1):
         question['id'] = f'{set_id}-{i}'
 
-    return {'id': set_id, 'title': f'第 {set_id} 套模拟卷', 'questions': questions}
+    return {
+        'id': set_id,
+        'title': f'第 {set_id} 套模拟卷',
+        'focus': SET_FOCI[set_id],
+        'questions': questions,
+    }
 
 
 def main():
+    used_statements = set()
+    sets = [build_set(i, used_statements) for i in range(1, 16)]
     out = {
         'meta': {
             'course': 'AP2 — 算法与程序设计 2',
             'sets_count': 15,
             'questions_per_set': QUESTIONS_PER_SET,
         },
-        'sets': [build_set(i) for i in range(1, 16)],
+        'sets': sets,
     }
     here = os.path.dirname(os.path.abspath(__file__))
     out_dir = os.path.join(here, 'data')
