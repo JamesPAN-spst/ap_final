@@ -25,7 +25,7 @@ for i in range(1, 11):
     if not f.exists():
         problems.append(f"missing {f.name}")
         continue
-    data = json.loads(f.read_text(encoding="utf-8"))
+    data = json.loads(f.read_text(encoding="utf-8-sig"))
     if data.get("id") != i:
         problems.append(f"set_{i}: id mismatch ({data.get('id')})")
     qs = data.get("questions", [])

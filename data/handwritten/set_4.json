@@ -1,29 +1,29 @@
 {
   "id": 4,
-  "title": "第 4 套 — Diviser pour régner & tris",
+  "title": "第 4 套 — 分治与排序",
   "focus": "分治法、排序算法复杂度对比、快速幂、二分查找与不变量",
   "questions": [
     {
       "chapter": 1,
-      "topic": "float et précision",
+      "topic": "float 与精度",
       "difficulty": 1,
       "type": "mcq",
-      "statement_md": "关于 Python 的浮点数精度,下列哪项说法正确?",
+      "statement_md": "关于 Python 的浮点数精度，下列哪项说法正确？",
       "choices": [
-        "`float` 类型遵循 IEEE 754 标准,约有 16 位有效数字",
+        "`float` 类型遵循 IEEE 754 标准，约有 16 位有效数字",
         "任何十进制小数都能精确表示为 `float`",
         "`1.0 + 1e-16 == 1.0` 在 Python 中一定返回 `True`",
         "`float` 的范围是 `[-2^32, 2^32)`"
       ],
       "answer": "C",
-      "explanation_md": "`float` 采用 IEEE 754 双精度格式,约 16 位有效数字。由于精度限制,`1.0 + 1e-16` 的结果由于舍入而等于 `1.0`。"
+      "explanation_md": "`float` 采用 IEEE 754 双精度格式，约有 16 位有效数字。由于精度限制，`1.0 + 1e-16` 会因为舍入而仍然等于 `1.0`。"
     },
     {
       "chapter": 1,
-      "topic": "round floor ceil int",
+      "topic": "round / floor / ceil / int",
       "difficulty": 2,
       "type": "mcq",
-      "statement_md": "对于 `x = -4.7`,下列哪项说法正确?",
+      "statement_md": "对于 `x = -4.7`，下列哪项说法正确？",
       "choices": [
         "`int(-4.7) == -5`",
         "`math.floor(-4.7) == -5`",
@@ -31,44 +31,44 @@
         "`round(2.5) == 3` 在 Python 中一定成立"
       ],
       "answer": "B",
-      "explanation_md": "`int` 向 0 截断得 `-4`;`floor` 向 $-\\infty$ 得 `-5`;`ceil` 向 $+\\infty$ 得 `-4`;`round(2.5)` 用银行家舍入得 `2`。"
+      "explanation_md": "`int` 会向 0 截断，所以得到 `-4`；`floor` 向 $-\\infty$ 取整，得到 `-5`；`ceil` 向 $+\\infty$ 取整，得到 `-4`；`round(2.5)` 在 Python 中采用银行家舍入，因此结果是 `2`。"
     },
     {
       "chapter": 2,
-      "topic": "diviser pour régner",
+      "topic": "分治法",
       "difficulty": 2,
       "type": "mcq",
-      "statement_md": "关于分治法(diviser pour régner),下列哪项描述是正确的?",
+      "statement_md": "关于分治法，下列哪项描述是正确的？",
       "choices": [
         "分治法总是比迭代法更快",
-        "分治法包括三个阶段:分割(diviser)、征服(régner/conquer)、合并(combiner)",
-        "分治法必须用递归实现,不能用迭代",
+        "分治法包括三个阶段：分解、解决子问题、合并结果",
+        "分治法必须用递归实现，不能用迭代",
         "分治法的时间复杂度总是 $O(n \\log n)$"
       ],
       "answer": "B",
-      "explanation_md": "分治法的核心三步是:1) 将问题分割成更小的子问题 2) 递归解决子问题 3) 合并子问题的解。不同问题的复杂度不同,例如 quicksort 最坏是 $O(n^2)$。"
+      "explanation_md": "分治法的核心三步是：1）把问题拆成更小的子问题；2）递归解决这些子问题；3）把子问题的解合并起来。不同问题的复杂度并不相同，例如 quicksort 的最坏情况是 $O(n^2)$。"
     },
     {
       "chapter": 2,
-      "topic": "tri fusion vs quicksort",
+      "topic": "归并排序与快速排序",
       "difficulty": 2,
       "type": "mcq",
-      "statement_md": "关于 tri_fusion 与 quicksort 的时间复杂度,下列哪项最准确?",
+      "statement_md": "关于 `tri_fusion` 与 `quicksort` 的时间复杂度，下列哪项最准确？",
       "choices": [
-        "tri_fusion 总是 $O(n \\log n)$,quicksort 总是 $O(n^2)$",
-        "tri_fusion 最坏也是 $O(n \\log n)$,quicksort 最坏是 $O(n^2)$",
-        "quicksort 平均 $O(n \\log n)$,tri_fusion 总是 $O(n^2)$",
+        "`tri_fusion` 总是 $O(n \\log n)$，`quicksort` 总是 $O(n^2)$",
+        "`tri_fusion` 最坏也是 $O(n \\log n)$，`quicksort` 最坏是 $O(n^2)$",
+        "`quicksort` 平均是 $O(n \\log n)$，`tri_fusion` 总是 $O(n^2)$",
         "两者在最坏情况下复杂度相同"
       ],
       "answer": "B",
-      "explanation_md": "tri_fusion 的分割和合并策略保证最坏也是 $O(n \\log n)$。quicksort 若 pivot 每次都是最大/最小值,会退化为 $O(n^2)$。Python 内置 `sort` 用 Timsort(混合归并+插入)避免最坏情形。"
+      "explanation_md": "归并排序 `tri_fusion` 的分割和合并策略保证了最坏情况仍是 $O(n \\log n)$。而 `quicksort` 如果每次 pivot 都碰到最大值或最小值，就会退化成 $O(n^2)$。Python 内置 `sort` 使用的是 Timsort（归并与插入的混合），用来避免这种最坏情形。"
     },
     {
       "chapter": 2,
-      "topic": "recherche dichotomique",
+      "topic": "二分查找",
       "difficulty": 2,
       "type": "mcq",
-      "statement_md": "二分查找(recherche dichotomique)在一个长度为 $n$ 的已排序数组上最多需要多少次比较?",
+      "statement_md": "在一个长度为 $n$ 的已排序数组上，二分查找最多需要多少次比较？",
       "choices": [
         "$n$ 次",
         "$\\log_2 n$ 次",
@@ -76,61 +76,61 @@
         "$2^n$ 次"
       ],
       "answer": "B",
-      "explanation_md": "每次比较后,搜索范围减半。深度最多为 $\\lceil \\log_2 n \\rceil$,所以时间复杂度是 $O(\\log n)$。"
+      "explanation_md": "每次比较之后，搜索区间都会减半。递归树或循环层数最多是 $\\lceil \\log_2 n \\rceil$，因此时间复杂度为 $O(\\log n)$。"
     },
     {
       "chapter": 2,
-      "topic": "quicksort分割",
+      "topic": "快速排序分割",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "考虑如下快速排序:\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a < x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\n若 `L = [47, 23, 81, 15, 58, 34, 68]`,第一次分割后 `L2` 的大小是多少?",
+      "statement_md": "考虑下面这个快速排序：\n```python\ndef tri(L):\n    if not L: return []\n    x = L[0]\n    L1 = [a for a in L[1:] if a < x]\n    L2 = [a for a in L[1:] if a >= x]\n    return tri(L1) + [x] + tri(L2)\n```\n\n若 `L = [47, 23, 81, 15, 58, 34, 68]`，第一次分割后 `L2` 的大小是多少？",
       "answer": "3",
-      "explanation_md": "pivot `x = 47`。满足 `a >= 47` 的元素是 `[47, 81, 58, 68]` (包括自己本身计入 L2 的规则中),所以 `L2` 包含这些元素。实际上从 `L[1:]` 中找 `>= 47` 的是 `[81, 58, 68]`,共 3 个。"
+      "explanation_md": "pivot `x = 47`。满足 `a >= 47` 的元素是 `[47, 81, 58, 68]`（如果把 pivot 自己也算进去的话）。但这里真正用于构造 `L2` 的是 `L[1:]`，因此 `>= 47` 的元素只有 `[81, 58, 68]`，一共 3 个。"
     },
     {
       "chapter": 2,
-      "topic": "exponentiation rapide",
+      "topic": "快速幂",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "快速幂函数:\n```python\ndef power(A, n):\n    if n == 0: return 1\n    if n == 1: return A\n    if n % 2: return power(A, n-1) * A\n    B = power(A, n // 2)\n    return B * B\n```\n\n计算 `power(A, 23)` 需要做多少次乘法(不包括递归调用的开销,只计最终乘法操作数)?",
+      "statement_md": "考虑下面这个快速幂函数：\n```python\ndef power(A, n):\n    if n == 0: return 1\n    if n == 1: return A\n    if n % 2: return power(A, n-1) * A\n    B = power(A, n // 2)\n    return B * B\n```\n\n计算 `power(A, 23)` 时需要做多少次乘法（不计递归调用本身的开销，只数最后真正执行的乘法）？",
       "answer": "5",
-      "explanation_md": "按递归追踪: 23(奇)→ power(A,22)*A; 22(偶)→ B²(其中 B=power(A,11)); 11(奇)→ power(A,10)*A; 10(偶)→ B²; 5(奇)→ power(A,4)*A; 4(偶)→ B²; 2(偶)→ B²; 1→ A。总计 5 次乘法。"
+      "explanation_md": "按递归路径追踪：23（奇）→ `power(A,22) * A`；22（偶）→ `B²`（其中 `B = power(A,11)`）；11（奇）→ `power(A,10) * A`；10（偶）→ `B²`；5（奇）→ `power(A,4) * A`；4（偶）→ `B²`；2（偶）→ `B²`；1 → `A`。总计 5 次乘法。"
     },
     {
       "chapter": 3,
-      "topic": "树的taille和hauteur",
+      "topic": "树的节点数与高度",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "树用列表 `[标签, 子树1, 子树2, ...]` 表示。给定:\n```python\nA = ['r', ['a', ['x'], ['y']], ['b', ['z']], ['c']]\n```\n请填写 `taille hauteur`(空格分隔),其中高度按\"根到最深叶子的节点数\"定义。",
+      "statement_md": "树用列表 `[标签, 子树1, 子树2, ...]` 表示。给定：\n```python\nA = ['r', ['a', ['x'], ['y']], ['b', ['z']], ['c']]\n```\n请填写 `节点数 高度`（空格分隔），其中高度按“从根到最深叶子的节点数”定义。",
       "answer": "7 3",
-      "explanation_md": "数节点: r, a, x, y, b, z, c 共 7 个。最深路径: r→a→x(或 r→a→y 或 r→b→z),共 3 个节点。"
+      "explanation_md": "数节点：r、a、x、y、b、z、c，一共 7 个。最深路径可以是 `r→a→x`（也可以是 `r→a→y` 或 `r→b→z`），因此高度是 3。"
     },
     {
       "chapter": 1,
       "topic": "浮点加法不结合",
       "difficulty": 3,
       "type": "short",
-      "statement_md": "关于浮点数运算的结合性,请计算下面表达式的结果(用 Python 标准双精度浮点计算):\n\n```python\n(1e-16 + 1) - 1\n```\n\n结果是多少?",
+      "statement_md": "关于浮点数运算的结合性，请计算下面这个表达式的结果（按 Python 标准双精度浮点计算）：\n\n```python\n(1e-16 + 1) - 1\n```\n\n结果是多少？",
       "answer": "0.0",
-      "explanation_md": "由于浮点精度只有约 16 位有效数字,$1 + 10^{-16}$ 舍入回 `1.0`,再减 1 得 `0.0`。这展示了浮点加法的非结合性。"
+      "explanation_md": "由于浮点数只有大约 16 位有效数字，$1 + 10^{-16}$ 会被舍入回 `1.0`，再减去 1 就得到 `0.0`。这正好展示了浮点加法不满足结合性。"
     },
     {
       "chapter": 3,
-      "topic": "BFS追踪",
+      "topic": "BFS 追踪",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "设图 `G = {'A': ['B', 'C'], 'B': ['A', 'D'], 'C': ['A', 'D'], 'D': ['B', 'C', 'E'], 'E': ['D']}`。\n\n从节点 `A` 开始做 BFS,每次按字母顺序访问邻居。请写出访问顺序(字母直接连写,例 `ABCDE`)。",
+      "statement_md": "设图 `G = {'A': ['B', 'C'], 'B': ['A', 'D'], 'C': ['A', 'D'], 'D': ['B', 'C', 'E'], 'E': ['D']}`。\n\n从节点 `A` 开始做 BFS，每次都按字母顺序访问邻居。请写出访问顺序（把字母直接连写，例如 `ABCDE`）。",
       "answer": "ABCDE",
-      "explanation_md": "BFS 按层级展开: 第 0 层 `[A]`,第 1 层 `[B, C]`,第 2 层新邻居 `[D]`,第 3 层新邻居 `[E]`。访问顺序是 `A → B, C → D → E`。"
+      "explanation_md": "BFS 会按层展开：第 0 层是 `[A]`，第 1 层是 `[B, C]`，第 2 层新增邻居是 `[D]`，第 3 层新增邻居是 `[E]`。因此访问顺序为 `A → B, C → D → E`。"
     },
     {
       "chapter": 2,
-      "topic": "recherche dichotomique",
+      "topic": "二分查找",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "写一个 Python 函数 `recherche_dicho(L, x)`,在已排序列表 `L` 中搜索值 `x`。\n\n- 若找到,返回其下标; 若未找到,返回 `-1`。\n- 使用迭代(不是递归)。\n- 时间复杂度必须是 $O(\\log n)$。\n\n例: `recherche_dicho([1, 3, 5, 7, 9], 5)` 应返回 `2`; `recherche_dicho([1, 3, 5, 7, 9], 4)` 应返回 `-1`。",
+      "statement_md": "写一个 Python 函数 `recherche_dicho(L, x)`，在已排序列表 `L` 中搜索值 `x`。\n\n- 若找到，返回其下标；若未找到，返回 `-1`。\n- 使用迭代写法（不能递归）。\n- 时间复杂度必须是 $O(\\log n)$。\n\n例：`recherche_dicho([1, 3, 5, 7, 9], 5)` 应返回 `2`；`recherche_dicho([1, 3, 5, 7, 9], 4)` 应返回 `-1`。",
       "answer": "循环不变量 `L[gauche:droite]` 始终包含所有可能的候选值",
-      "explanation_md": "标准的二分查找实现如下:\n\n```python\ndef recherche_dicho(L, x):\n    \"\"\" list × int -> int \"\"\"\n    gauche, droite = 0, len(L)\n    while gauche < droite:\n        mid = (gauche + droite) // 2\n        if L[mid] == x:\n            return mid\n        elif L[mid] < x:\n            gauche = mid + 1\n        else:\n            droite = mid\n    return -1\n```\n\n关键点:不变量是 `L[gauche:droite]` 范围内仍可能包含 `x`;每轮循环将范围减半;复杂度 $O(\\log n)$。"
+      "explanation_md": "标准的二分查找实现如下：\n\n```python\ndef recherche_dicho(L, x):\n    \"\"\" list × int -> int \"\"\"\n    gauche, droite = 0, len(L)\n    while gauche < droite:\n        mid = (gauche + droite) // 2\n        if L[mid] == x:\n            return mid\n        elif L[mid] < x:\n            gauche = mid + 1\n        else:\n            droite = mid\n    return -1\n```\n\n关键点：循环不变量是 `L[gauche:droite]` 这个区间仍然可能包含 `x`；每一轮循环都会把区间缩小一半，因此复杂度是 $O(\\log n)$。"
     },
     {
       "chapter": 2,
@@ -139,7 +139,7 @@
       "type": "code",
       "statement_md": "写一个 Python 函数 `power_mat(M, n)`,计算矩阵 `M` 的 `n` 次方。\n\n- 输入 `M` 是一个 $k \\times k$ 的嵌套列表矩阵。\n- 使用分治的快速幂算法,复杂度 $O(k^3 \\log n)$。\n- 例: `power_mat([[1,1],[1,0]], 3)` 应返回矩阵计算结果。\n\n要求:写出完整函数,包括矩阵乘法辅助函数。",
       "answer": "按递推 $M^{2k} = (M^k)^2$, $M^{2k+1} = M \\cdot M^{2k}$ 实现",
-      "explanation_md": "完整实现如下:\n\n```python\ndef matrix_mult(A, B):\n    \"\"\"两个 k×k 矩阵相乘\"\"\"\n    k = len(A)\n    C = [[0]*k for _ in range(k)]\n    for i in range(k):\n        for j in range(k):\n            for p in range(k):\n                C[i][j] += A[i][p] * B[p][j]\n    return C\n\ndef matrix_id(k):\n    \"\"\"k×k 单位矩阵\"\"\"\n    return [[1 if i==j else 0 for j in range(k)] for i in range(k)]\n\ndef power_mat(M, n):\n    \"\"\" matrice × int -> matrice \"\"\"\n    if n == 0:\n        return matrix_id(len(M))\n    if n == 1:\n        return [row[:] for row in M]  # 复制\n    if n % 2:\n        return matrix_mult(power_mat(M, n-1), M)\n    B = power_mat(M, n // 2)\n    return matrix_mult(B, B)\n```\n\n关键点:分治避免重复计算,总乘法操作数 $O(\\log n)$ 而非 $O(n)$。"
+      "explanation_md": "完整实现如下：\n\n```python\ndef matrix_mult(A, B):\n    \"\"\"两个 k×k 矩阵相乘\"\"\"\n    k = len(A)\n    C = [[0]*k for _ in range(k)]\n    for i in range(k):\n        for j in range(k):\n            for p in range(k):\n                C[i][j] += A[i][p] * B[p][j]\n    return C\n\ndef matrix_id(k):\n    \"\"\"k×k 单位矩阵\"\"\"\n    return [[1 if i==j else 0 for j in range(k)] for i in range(k)]\n\ndef power_mat(M, n):\n    \"\"\" 矩阵 × int -> 矩阵 \"\"\"\n    if n == 0:\n        return matrix_id(len(M))\n    if n == 1:\n        return [row[:] for row in M]  # 复制\n    if n % 2:\n        return matrix_mult(power_mat(M, n-1), M)\n    B = power_mat(M, n // 2)\n    return matrix_mult(B, B)\n```\n\n关键点：分治能避免重复计算，因此总乘法操作数是 $O(\\log n)$，而不是 $O(n)$。"
     },
     {
       "chapter": 3,
@@ -148,7 +148,7 @@
       "type": "code",
       "statement_md": "写一个 Python 函数 `feuilles(N)`,返回以树节点 `N` 为根的整棵树中所有**叶子节点的标签列表**。\n\n树的表示: `[标签, 子树1, 子树2, ...]`。\n\n例: 对于 `['r', ['a'], ['b', ['x'], ['y']]]`,应返回 `['a', 'x', 'y']`。",
       "answer": "若无子树则返回当前标签列表;否则递归收集所有子树的叶子",
-      "explanation_md": "实现如下:\n\n```python\ndef feuilles(N):\n    \"\"\" noeud -> list \"\"\"\n    etiquette = N[0]\n    enfants = N[1:]\n    \n    if not enfants:  # 叶子节点\n        return [etiquette]\n    \n    resultat = []\n    for enfant in enfants:\n        resultat.extend(feuilles(enfant))\n    return resultat\n```\n\n关键点:检查是否是叶子(无子树);若是,返回 `[etiquette]`;否则对每个子树递归并合并。"
+      "explanation_md": "实现如下：\n\n```python\ndef feuilles(N):\n    \"\"\" 节点 -> list \"\"\"\n    etiquette = N[0]\n    enfants = N[1:]\n    \n    if not enfants:  # 叶子节点\n        return [etiquette]\n    \n    resultat = []\n    for enfant in enfants:\n        resultat.extend(feuilles(enfant))\n    return resultat\n```\n\n关键点：先检查当前节点是不是叶子（没有子树）；如果是，就返回 `[etiquette]`；否则递归收集每棵子树里的叶子并合并结果。"
     },
     {
       "chapter": 1,
@@ -161,12 +161,12 @@
     },
     {
       "chapter": 2,
-      "topic": "complexité",
+      "topic": "复杂度",
       "difficulty": 3,
       "type": "short",
-      "statement_md": "关于排序算法的时间复杂度记号,下列哪个描述最准确地说明了为什么 tri_fusion 总是 $O(n \\log n)$?\n\n(A) 递归深度为 $\\log_2 n$,每层归并操作耗 $O(n)$,共 $O(n \\log n)$\n(B) 因为 `sort()` 本身就是 $O(n \\log n)$\n(C) 分治法总是 $O(n \\log n)$\n(D) 归并比较次数最多 $n \\log n$\n\n请填答案选项。",
+      "statement_md": "关于排序算法的时间复杂度记号，下列哪个描述最准确地说明了为什么 `tri_fusion` 总是 $O(n \\log n)$？\n\n(A) 递归深度为 $\\log_2 n$，每层归并操作花费 $O(n)$，因此总共是 $O(n \\log n)$\n(B) 因为 `sort()` 本身就是 $O(n \\log n)$\n(C) 分治法总是 $O(n \\log n)$\n(D) 归并比较次数最多是 $n \\log n$\n\n请填写选项字母。",
       "answer": "A",
-      "explanation_md": "正确理由是:tri_fusion 的递归树深度为 $\\lceil \\log_2 n \\rceil$,每层(每个深度的所有节点)总共做 $O(n)$ 次归并比较和数据移动,故总复杂度 $O(n \\log n)$。"
+      "explanation_md": "正确理由是：`tri_fusion` 的递归树深度为 $\\lceil \\log_2 n \\rceil$，而每一层（同一深度的所有节点合起来）总共只做 $O(n)$ 次归并比较和数据移动，因此总复杂度是 $O(n \\log n)$。"
     },
     {
       "chapter": 2,
@@ -184,7 +184,7 @@
       "type": "code",
       "statement_md": "写一个 Python 函数 `nb_composantes(G)`,计算无向图 `G` 的**连通分量个数**。\n\n图 `G` 用字典套列表表示: `G[u]` 是 `u` 的邻接表。\n\n例: `G = {1: [2, 3], 2: [1], 3: [1], 4: [5], 5: [4]}` 有 2 个连通分量。\n\n要求:使用 DFS 或 BFS,时间复杂度 $O(V + E)$。",
       "answer": "用全局 visited 集合,对每个未访问节点做一次 DFS/BFS,计数分量数",
-      "explanation_md": "DFS 实现:\n\n```python\ndef nb_composantes(G):\n    \"\"\" graphe -> int \"\"\"\n    visited = set()\n    count = 0\n    \n    def dfs(u):\n        visited.add(u)\n        for v in G.get(u, []):\n            if v not in visited:\n                dfs(v)\n    \n    for u in G:\n        if u not in visited:\n            dfs(u)\n            count += 1\n    \n    return count\n```\n\n关键点:遍历所有未访问的起点,每个新起点开启一个新的 DFS 即为一个分量。"
+      "explanation_md": "DFS 实现：\n\n```python\ndef nb_composantes(G):\n    \"\"\" 图 -> int \"\"\"\n    visited = set()\n    count = 0\n    \n    def dfs(u):\n        visited.add(u)\n        for v in G.get(u, []):\n            if v not in visited:\n                dfs(v)\n    \n    for u in G:\n        if u not in visited:\n            dfs(u)\n            count += 1\n    \n    return count\n```\n\n关键点：遍历所有还未访问的起点；每发现一个新的起点并启动一次 DFS，就说明找到了一个新的连通分量。"
     },
     {
       "chapter": 4,
@@ -197,29 +197,29 @@
     },
     {
       "chapter": 2,
-      "topic": "tri_fusion完整",
+      "topic": "完整归并排序",
       "difficulty": 5,
       "type": "code",
-      "statement_md": "写一个 Python 函数 `tri_fusion(L)`,实现**归并排序(tri_fusion)**的完整版本,包括递归分割和显式的两路归并。\n\n要求:\n1. 必须写出**署名** `tri_fusion: list -> list`。\n2. 递归分割列表为两个子列表。\n3. 显式实现**两路归并**(merge)逻辑:比较两个排好的列表的元素,依次取最小。\n4. 给出**时间复杂度分析**:解释为什么是 $O(n \\log n)$。\n\n例: `tri_fusion([5, 2, 8, 1, 9])` 应返回 `[1, 2, 5, 8, 9]`。",
+      "statement_md": "写一个 Python 函数 `tri_fusion(L)`，实现**归并排序** `tri_fusion` 的完整版本，包括递归分割和显式的双路归并。\n\n要求：\n1. 必须写出**函数签名** `tri_fusion: list -> list`。\n2. 递归地把列表分成两个子列表。\n3. 显式实现**双路归并**（merge）逻辑：比较两个排好序的列表元素，并依次取较小者。\n4. 给出**时间复杂度分析**：解释为什么是 $O(n \\log n)$。\n\n例：`tri_fusion([5, 2, 8, 1, 9])` 应返回 `[1, 2, 5, 8, 9]`。",
       "answer": "分割→递归排序→两路归并;递归深度 $\\log_2 n$,每层 $O(n)$,共 $O(n \\log n)$",
-      "explanation_md": "完整实现:\n\n```python\ndef tri_fusion(L):\n    \"\"\" list -> list \"\"\"\n    # 基础情形\n    if len(L) <= 1:\n        return L\n    \n    # 分割(diviser)\n    n = len(L)\n    mid = n // 2\n    L1 = L[:mid]\n    L2 = L[mid:]\n    \n    # 征服(conquer):递归排序两个子列表\n    T1 = tri_fusion(L1)\n    T2 = tri_fusion(L2)\n    \n    # 合并(combiner):两路归并\n    i, j = 0, 0\n    T = []\n    while i < len(T1) and j < len(T2):\n        if T1[i] <= T2[j]:\n            T.append(T1[i])\n            i += 1\n        else:\n            T.append(T2[j])\n            j += 1\n    \n    # 加上剩余元素\n    T.extend(T1[i:])\n    T.extend(T2[j:])\n    \n    return T\n\n# 复杂度分析:\n# 递归树深度: log_2(n)\n# 每层(深度 k)有 2^k 个节点,总共 O(n) 工作量(归并)\n# 总复杂度: O(n) * log_2(n) = O(n log n)\n# 这比 quicksort 的最坏 O(n^2) 更稳定\n```\n\n关键点:\n- **分割**:按中点分成两半\n- **递归**:对两个子列表递归排序\n- **归并**:使用两个指针 `i`, `j` 依次比较两个已排序列表的元素,取较小者\n- **复杂度**:由递推关系 $T(n) = 2T(n/2) + O(n)$ 得 $O(n \\log n)$"
+      "explanation_md": "完整实现：\n\n```python\ndef tri_fusion(L):\n    \"\"\" list -> list \"\"\"\n    # 基础情形\n    if len(L) <= 1:\n        return L\n    \n    # 分割\n    n = len(L)\n    mid = n // 2\n    L1 = L[:mid]\n    L2 = L[mid:]\n    \n    # 递归排序两个子列表\n    T1 = tri_fusion(L1)\n    T2 = tri_fusion(L2)\n    \n    # 双路归并\n    i, j = 0, 0\n    T = []\n    while i < len(T1) and j < len(T2):\n        if T1[i] <= T2[j]:\n            T.append(T1[i])\n            i += 1\n        else:\n            T.append(T2[j])\n            j += 1\n    \n    # 追加剩余元素\n    T.extend(T1[i:])\n    T.extend(T2[j:])\n    \n    return T\n\n# 复杂度分析：\n# 递归树深度：log_2(n)\n# 每层（深度 k）有 2^k 个节点，但总工作量仍是 O(n)（归并）\n# 总复杂度：O(n) * log_2(n) = O(n log n)\n# 这比 quicksort 的最坏 O(n^2) 更稳定\n```\n\n关键点：\n- **分割**：按中点把列表切成两半\n- **递归**：分别排序两个子列表\n- **归并**：使用两个指针 `i`、`j` 比较两个已排序列表的元素，并取较小者\n- **复杂度**：由递推关系 $T(n) = 2T(n/2) + O(n)$ 得到 $O(n \\log n)$"
     },
     {
       "chapter": 2,
-      "topic": "recherche dichotomique + 不变量",
+      "topic": "二分查找与不变量",
       "difficulty": 5,
       "type": "code",
-      "statement_md": "写一个 Python 函数 `recherche_dicho_trace(L, x)`,在已排序列表 `L` 中用**二分查找**搜索 `x`。\n\n要求:\n1. **署名**:`recherche_dicho_trace: list × comparable -> int`。\n2. **不变量声明**:在代码注释中明确陈述循环不变量(loop invariant)。\n3. **完整实现**:使用迭代(不是递归);若找到返回下标,未找到返回 `-1`。\n4. **复杂度分析**:给出时间和空间复杂度。\n\n例: `recherche_dicho_trace([1, 3, 5, 7, 9], 7)` 应返回 `3`。",
+      "statement_md": "写一个 Python 函数 `recherche_dicho_trace(L, x)`，在已排序列表 `L` 中用**二分查找**搜索 `x`。\n\n要求：\n1. **函数签名**：`recherche_dicho_trace: list × comparable -> int`。\n2. **不变量声明**：在代码注释中明确写出循环不变量（loop invariant）。\n3. **完整实现**：使用迭代（不能递归）；若找到返回下标，找不到返回 `-1`。\n4. **复杂度分析**：说明时间复杂度和空间复杂度。\n\n例：`recherche_dicho_trace([1, 3, 5, 7, 9], 7)` 应返回 `3`。",
       "answer": "不变量:`L[gauche:droite]` 始终包含 `x` 的所有可能位置;每轮循环范围减半;$O(\\log n)$ 时间,$O(1)$ 空间",
       "explanation_md": "完整实现及分析:\n\n```python\ndef recherche_dicho_trace(L, x):\n    \"\"\" list × comparable -> int \"\"\"\n    gauche = 0\n    droite = len(L)\n    \n    # 循环不变量:\n    # - 若 x 在 L 中,则 x 必定在 L[gauche:droite] 范围内\n    # - L[0:gauche] 中所有元素 < x\n    # - L[droite:] 中所有元素 >= x\n    \n    while gauche < droite:\n        mid = (gauche + droite) // 2\n        if L[mid] == x:\n            return mid\n        elif L[mid] < x:\n            # x 只可能在右半部分\n            gauche = mid + 1\n        else:\n            # x 只可能在左半部分\n            droite = mid\n    \n    # 循环结束时 gauche == droite,搜索区间为空 → x 不存在\n    return -1\n\n# 复杂度分析:\n# - 时间复杂度: O(log n)\n#   原因:每轮循环搜索范围减半,最多 ceil(log_2 n) 轮\n# - 空间复杂度: O(1)\n#   原因:只使用了常数个辅助变量,无递归栈\n#\n# 与 quicksort 的对比:\n# - quicksort: 平均 O(n log n),最坏 O(n^2)\n# - 二分查找: 总是 O(log n),因为问题规模每轮减半\n```\n\n关键点:\n- **不变量清晰**:每轮循环后搜索范围 `[gauche, droite)` 严格缩小\n- **稳定性**:总复杂度 $O(\\log n)$,不受数据分布影响\n- **前置条件**:列表 `L` 必须已排序,否则结果错误\n- **与分治关系**:虽然是迭代,但思想仍是\"分割\"问题空间"
     },
     {
       "chapter": 4,
-      "topic": "__add__ et immutabilité",
+      "topic": "__add__ 与不可变性",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "On définit la classe `Fraction` ci-dessous (les fractions ne sont **pas** simplifiées automatiquement) :\n\n```python\nclass Fraction:\n    def __init__(self, n, d):\n        self.n, self.d = n, d\n    def __repr__(self):\n        return f'{self.n}/{self.d}'\n```\n\nÉcrire la méthode `__add__(self, other)` qui retourne une **nouvelle** `Fraction` égale à `self + other`, sans modifier `self` ni `other`. Donner aussi un exemple : que renvoie `Fraction(1, 6) + Fraction(1, 4)` (sans simplification) ?",
-      "answer": "nouvelle Fraction(self.n*other.d + other.n*self.d, self.d*other.d) ; ex 10/24",
+      "statement_md": "考虑下面这个类 `Fraction`（分数**不会自动约分**）：\n\n```python\nclass Fraction:\n    def __init__(self, n, d):\n        self.n, self.d = n, d\n    def __repr__(self):\n        return f'{self.n}/{self.d}'\n```\n\n请编写方法 `__add__(self, other)`，它要返回一个**新的** `Fraction` 对象，表示 `self + other`，并且不能修改 `self` 或 `other`。同时给出一个示例：`Fraction(1, 6) + Fraction(1, 4)`（不约分）的结果是什么？",
+      "answer": "返回新的 Fraction(self.n*other.d + other.n*self.d, self.d*other.d)；示例结果是 10/24",
       "explanation_md": "**思路**：分数加法 a/b + c/d = (a·d + c·b) / (b·d)，**不**要在原对象上修改属性，必须返回**新对象**（保持不可变行为）。\n\n```python\ndef __add__(self, other):\n    return Fraction(self.n * other.d + other.n * self.d,\n                    self.d * other.d)\n```\n\n例：`Fraction(1, 6) + Fraction(1, 4)` → `Fraction(1*4 + 1*6, 6*4)` = `10/24`（未化简）。\n\n⚠️ 若错误地写成 `self.n = ...` 会**改变左操作数**，破坏 `+` 运算符的纯函数性质。"
     }
   ]

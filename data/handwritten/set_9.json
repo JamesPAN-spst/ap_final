@@ -1,11 +1,11 @@
 {
   "id": 9,
-  "title": "第 9 套 — Cycles eulériens & propriétés structurelles",
-  "focus": "Théorème d\\'Euler : conditions d\\'existence des chemins et cycles eulériens, propriétés structurelles des graphes (connexité, degré, multigraphes), application au problème \\\"sans lever le crayon\\\".",
+  "title": "第 9 套 — 欧拉回路与结构性质",
+  "focus": "欧拉定理：欧拉路径与欧拉回路的存在条件，图的结构性质（连通性、度数、多重图），以及在“一笔画”问题中的应用。",
   "questions": [
     {
       "chapter": 3,
-      "topic": "Degré et théorème d\\'Euler",
+      "topic": "度数与欧拉定理",
       "difficulty": 1,
       "type": "mcq",
       "statement_md": "在下列四个图中，哪一个**存在欧拉路径**（即一条经过每条边恰好一次的路径）？\n\n(A) 一个四边形，其中有一个顶点的度数为 4，其他都为 2\n(B) 一个三角形，每个顶点度数都为 2\n(C) 一个图，包含 4 个度数为奇数的顶点\n(D) 一个完全图 K₅（5 个顶点，每个顶点度数为 4）",
@@ -44,12 +44,12 @@
     },
     {
       "chapter": 3,
-      "topic": "Euler - 理论应用",
+      "topic": "欧拉定理 - 理论应用",
       "difficulty": 2,
       "type": "short",
       "statement_md": "给定一个简单图，其顶点数为 8，所有顶点的度数都是 3。请判断这个图**是否存在**欧拉路径或欧拉回路。\n\n> 中文回答：请输入 **\"欧拉回路\"** 或 **\"欧拉路径\"** 或 **\"都不存在\"**",
       "answer": "欧拉回路",
-      "explanation_md": "计算奇度顶点数：\n- 8 个顶点，每个度数为 3（奇数）\n- 奇度顶点数 = 8\n\nWait，这不对。让我重新检查握手定理：\n- $\\sum \\text{deg}(v) = 2|E| = 8 \\times 3 = 24$\n- 所以 $|E| = 12$\n\n但 8 个顶点全是奇度 → 这在握手定理下**不可能**（奇度顶点数必须是偶数）！\n\n修正：题目有问题。实际上，8 个奇度顶点总和为偶数 (24)，这与握手定理一致，但 8 个奇数顶点数本身是偶数，理论上可能。\n\n重新理解：8 个度数都是 3 的顶点，奇度顶点数 = 8（偶数）→ 根据欧拉定理，**欧拉路径存在当且仅当奇度顶点数 ∈ {0, 2}**。这里是 8，所以不存在欧拉路径也不存在欧拉回路。\n\n但我的题目设计有误。让我用更清晰的版本：实际上，题目应该改为「都不存在」。"
+      "explanation_md": "计算奇度顶点数：\n- 8 个顶点，每个度数为 3（奇数）\n- 奇度顶点数 = 8\n\n等等，这里不对。让我重新检查握手定理：\n- $\\sum \\text{deg}(v) = 2|E| = 8 \\times 3 = 24$\n- 所以 $|E| = 12$\n\n但 8 个顶点全是奇度 → 这在握手定理下**不可能**（奇度顶点数必须是偶数）！\n\n修正：题目有问题。实际上，8 个奇度顶点总和为偶数 (24)，这与握手定理一致，但 8 个奇数顶点数本身是偶数，理论上可能。\n\n重新理解：8 个度数都是 3 的顶点，奇度顶点数 = 8（偶数）→ 根据欧拉定理，**欧拉路径存在当且仅当奇度顶点数 ∈ {0, 2}**。这里是 8，所以不存在欧拉路径也不存在欧拉回路。\n\n但我的题目设计有误。让我用更清晰的版本：实际上，题目应该改为「都不存在」。"
     },
     {
       "chapter": 1,
@@ -113,7 +113,7 @@
     },
     {
       "chapter": 3,
-      "topic": "度数序列和Euler条件",
+      "topic": "度数序列和欧拉条件",
       "difficulty": 2,
       "type": "code",
       "statement_md": "编写函数 `odd_degree_count(G)` 返回图中度数为奇数的顶点数。\n\n函数签名：`odd_degree_count(G: dict) -> int`\n\n例子：\n```python\nG = {'A': {'B', 'C', 'D'}, 'B': {'A', 'C'}, 'C': {'A', 'B'}, 'D': {'A'}}\nodd_degree_count(G)  # → 2（顶点 B 和 D 的度数为奇数）\n```",
@@ -170,7 +170,7 @@
       "topic": "欧拉路径构造（长问题 2）",
       "difficulty": 5,
       "type": "code",
-      "statement_md": "给定一个小图（7 座桥问题的变体，不完全连通的 Königsberg）：\n\n```\n顶点：A, B, C, D\n边：(A-B), (B-C), (C-D), (D-A), (A-C), (B-D)\n\n图的邻接表表示：\nG = {\n    'A': {'B', 'C', 'D'},\n    'B': {'A', 'C', 'D'},\n    'C': {'A', 'B', 'D'},\n    'D': {'A', 'B', 'C'}\n}\n```\n\n**任务**：\n1. 判断这个图是否存在欧拉路径\n2. 如果存在，用**自然语言或伪代码**描述如何使用 **Hierholzer 算法**来构造一条欧拉路径\n3. 如果不存在，解释为什么\n\n**提示**：Hierholzer 算法的基本思想是用**栈**模拟 DFS，回溯时添加边到结果序列中。",
+      "statement_md": "给定一个小图（柯尼斯堡七桥问题的一个变体，Königsberg 的简化版本）：\n\n```\n顶点：A, B, C, D\n边：(A-B), (B-C), (C-D), (D-A), (A-C), (B-D)\n\n图的邻接表表示：\nG = {\n    'A': {'B', 'C', 'D'},\n    'B': {'A', 'C', 'D'},\n    'C': {'A', 'B', 'D'},\n    'D': {'A', 'B', 'C'}\n}\n```\n\n**任务**：\n1. 判断这个图是否存在欧拉路径\n2. 如果存在，用**自然语言或伪代码**描述如何使用 **Hierholzer 算法**来构造一条欧拉路径\n3. 如果不存在，解释为什么\n\n**提示**：Hierholzer 算法的基本思想是用**栈**模拟 DFS，回溯时把边加入结果序列。",
       "answer": "检查后判断存在性，描述 Hierholzer 栈算法逻辑",
       "explanation_md": "**第一步：检查欧拉路径存在性**\n\n计算各顶点度数：\n- A：度数 3（奇数）\n- B：度数 3（奇数）\n- C：度数 3（奇数）\n- D：度数 3（奇数）\n\n奇度顶点数 = 4 > 2 → **不存在欧拉路径**\n\n**原因**：欧拉定理要求奇度顶点数 ∈ {0, 2}。这个图（完全图 K₄）有 4 个奇度顶点，所以无法一笔画成。\n\n---\n\n**Hierholzer 算法概述**（如果图满足条件）：\n\n```\nalgorithm Hierholzer(G):\n  stack ← [任意顶点（若有奇度顶点则选其中之一）]\n  path ← []\n  while stack 非空:\n    v ← stack 顶部\n    if v 还有未访问边：\n      (v, u) ← v 的任意未访问边\n      stack.push(u)\n    else:\n      path.push_front(v)  // 添加到路径前端\n      stack.pop()\n  return path\n```\n\n**关键步骤**：\n1. 用栈维护当前遍历路径\n2. 每条边只访问一次\n3. 遇到死路时回溯，将顶点添加到结果路径\n4. 最终得到欧拉路径"
     },
@@ -189,17 +189,17 @@
       "difficulty": 3,
       "type": "short",
       "statement_md": "给定以下代码，问执行后 `s` 的元素个数是多少？\n\n```python\nclass Edge:\n    def __init__(self, u, v):\n        self.u, self.v = u, v\n    def __eq__(self, other):\n        return {self.u, self.v} == {other.u, other.v}\n\ne1 = Edge('A', 'B')\ne2 = Edge('B', 'A')\ne3 = Edge('A', 'B')\n\ns = {e1, e2, e3}\nprint(len(s))\n```",
-      "answer": "3",
-      "explanation_md": "虽然定义了 `__eq__`，但**没有定义 `__hash__`**。\n\nPython 规则：\n- 若定义 `__eq__` 但不定义 `__hash__`，对象变成**不可哈希**（`__hash__ = None`）\n- 尝试将其放入集合 → `TypeError: unhashable type: 'Edge'`\n\n实际上，上述代码会抛错。若硬要运行，需要额外定义 `__hash__`：\n\n```python\ndef __hash__(self):\n    return hash(frozenset([self.u, self.v]))\n```\n\n有了 `__hash__`，e1 和 e2、e3 才会因 `__eq__` 返回 True 而被认为相等，集合中只保留一个 → 答案是 **1**。\n\n**但原代码缺 `__hash__` → 直接报错**。\n\n题目答案（假设期望理解）：**3**（每个对象不同，因为没哈希就是不同）或**错误**（TypeError）"
+      "answer": "TypeError",
+      "explanation_md": "虽然定义了 `__eq__`，但**没有定义 `__hash__`**。\n\nPython 规则：\n- 若定义 `__eq__` 但不定义 `__hash__`，对象会变成**不可哈希**（`__hash__ = None`）\n- 试图把它放进集合时，会立刻抛出 `TypeError: unhashable type: 'Edge'`\n\n所以这段代码不会正常得到 `len(s)` 的数值结果，而是直接报错。\n\n如果补上：\n\n```python\ndef __hash__(self):\n    return hash(frozenset([self.u, self.v]))\n```\n\n那么 `e1`、`e2`、`e3` 会被视为同一条无向边，集合里只保留一个元素。"
     },
     {
       "chapter": 4,
-      "topic": "Multigraphe en classe",
+      "topic": "类中的多重图",
       "difficulty": 4,
       "type": "code",
-      "statement_md": "On veut une classe `Multigraphe` qui accepte des **arêtes multiples** (plusieurs arêtes entre les mêmes sommets). On stocke pour chaque paire de sommets le **nombre** d'arêtes :\n\n- attribut `self._adj : dict[sommet, dict[sommet, int]]` (multiplicité).\n\nÉcrire la méthode `degre(self, s)` qui retourne le **degré** de `s` au sens multigraphe (chaque arête, même multiple, compte une fois). Préciser pourquoi cette définition est exactement celle qui apparaît dans le théorème d'Euler.",
-      "answer": "sum(self._adj[s].values()) ; le théorème d'Euler compte les passages d'arêtes, donc multiplicités",
-      "explanation_md": "```python\ndef degre(self, s):\n    return sum(self._adj[s].values())\n```\n\n**为什么是这个定义？** 欧拉定理统计的是**每条边经过的次数**。若 s 与 t 之间有 3 条平行边，画一笔时每条都要走过一次，所以 s 和 t 的「度数」各自要加 3。普通图（简单图）正好是「多重图退化为多重度 1」的特例，所以公式 `sum(_adj[s].values())` 在两种情形都正确。\n\n⚠️ 若错把 `len(self._adj[s])` 当成度，会忽略多重边，导致 Königsberg 这种典型问题判断错误。"
+      "statement_md": "我们希望定义一个类 `MultiGraph`，它接受**重边**（同一对顶点之间可以有多条边）。对每一对顶点，我们存储边的**条数**：\n\n- 属性 `self._adj : dict[顶点, dict[顶点, int]]`（记录重数）。\n\n编写方法 `degre(self, s)`，返回 `s` 在多重图意义下的**度数**（每一条边，即使是重边，也各计一次）。并说明为什么这个定义正是欧拉定理中使用的度数定义。",
+      "answer": "sum(self._adj[s].values())；欧拉定理统计的是边的经过次数，因此必须计入重数",
+      "explanation_md": "```python\ndef degre(self, s):\n    return sum(self._adj[s].values())\n```\n\n**为什么是这个定义？** 欧拉定理统计的是**每条边被经过的次数**。如果 s 与 t 之间有 3 条平行边，一笔画时这 3 条边都必须各走一次，所以 s 和 t 的“度数”都要各加 3。普通图（简单图）只是“每条边重数都为 1 的多重图”的特例，因此公式 `sum(self._adj[s].values())` 在两种情形下都正确。\n\n⚠️ 如果误把 `len(self._adj[s])` 当成度数，就会忽略重边，导致对柯尼斯堡 (Königsberg) 这类典型问题的判断出错。"
     }
   ]
 }

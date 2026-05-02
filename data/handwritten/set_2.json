@@ -1,14 +1,14 @@
 {
   "id": 2,
-  "title": "第 2 套 — Conteneurs Python : list / tuple / set / dict, hashabilité, copies",
-  "focus": "Maîtrise des conteneurs mutables vs immuables, distinction alias/copy/deepcopy, notion de hashabilité et ses applications pratiques.",
+  "title": "第 2 套 — Python 容器：list / tuple / set / dict、可哈希性与拷贝",
+  "focus": "掌握可变与不可变容器、alias/copy/deepcopy 的区别，以及可哈希性的概念和实际应用。",
   "questions": [
     {
       "chapter": 1,
-      "topic": "list / slicing",
+      "topic": "list / 切片",
       "difficulty": 1,
       "type": "mcq",
-      "statement_md": "Que retourne l'expression suivante ?\n```python\nL = [10, 20, 30, 40, 50]\nL[1:4]\n```\n> 提示：注意切片的左闭右开区间",
+      "statement_md": "下面表达式返回什么？\n```python\nL = [10, 20, 30, 40, 50]\nL[1:4]\n```\n> 提示：注意切片的左闭右开区间",
       "choices": [
         "[10, 20, 30]",
         "[20, 30, 40]",
@@ -16,29 +16,29 @@
         "[10, 20, 30, 40]"
       ],
       "answer": "B",
-      "explanation_md": "切片 `L[1:4]` 返回从索引 1（含）到 4（不含）的元素，即 `[20, 30, 40]`。切片的规则是左闭右开：`[start, stop)` 和步长 `step`。"
+      "explanation_md": "切片 `L[1:4]` 返回从索引 1（含）到 4（不含）的元素，即 `[20, 30, 40]`。切片的规则是左闭右开：`[start, stop)`，步长为 `step`。"
     },
     {
       "chapter": 1,
-      "topic": "tuple / hashabilité",
+      "topic": "tuple / 可哈希性",
       "difficulty": 1,
       "type": "mcq",
-      "statement_md": "Laquelle de ces affirmations est **fausse** ?\n\n> 提示：考虑不同容器类型的可哈希性",
+      "statement_md": "下面哪一项说法是**错误的**？\n\n> 提示：考虑不同容器类型的可哈希性",
       "choices": [
-        "Un tuple contenant uniquement des entiers peut être une clé de dictionnaire",
-        "Un tuple contenant une liste ne peut pas être une clé de dictionnaire",
-        "Un set peut être utilisé comme valeur dans un dictionnaire",
-        "Un frozenset peut être un élément d'un set"
+        "只包含整数的 tuple 可以作为字典键",
+        "包含 list 的 tuple 不能作为字典键",
+        "set 可以作为字典中的值使用",
+        "frozenset 可以作为 set 的元素"
       ],
       "answer": "C",
-      "explanation_md": "一个 `set` 不可哈希，因此不能作为字典的键或集合的元素。只有可哈希类型（不可变）才能作为字典键或集合成员。`frozenset` 是可哈希的，可以被放入 set 中，`tuple` 如果所有元素可哈希也可以。但 `set` 本身不可哈希。"
+      "explanation_md": "一个 `set` 不可哈希，因此不能作为字典的键或集合的元素。只有可哈希类型（通常是不可变对象）才能作为字典键或集合成员。`frozenset` 是可哈希的，可以放入 set 中；`tuple` 如果所有元素都可哈希，也可以。"
     },
     {
       "chapter": 1,
-      "topic": "set / littéraux",
+      "topic": "set / 字面量",
       "difficulty": 1,
       "type": "mcq",
-      "statement_md": "Quel est le type de l'objet `x` après cette instruction ?\n```python\nx = {}\n```\n> 提示：空集合用什么符号表示？",
+      "statement_md": "执行下面这条语句后，对象 `x` 的类型是什么？\n```python\nx = {}\n```\n> 提示：空集合用什么符号表示？",
       "choices": [
         "set",
         "dict",
@@ -46,160 +46,160 @@
         "list"
       ],
       "answer": "B",
-      "explanation_md": "空的 `{}` 被解析为空字典 `dict`，而非空集合。要创建空集合，必须使用 `set()` 函数。这是 Python 中一个常见的易错点。"
+      "explanation_md": "空的 `{}` 会被解析为空字典 `dict`，而不是空集合。要创建空集合，必须使用 `set()`。这是 Python 里很常见的易错点。"
     },
     {
       "chapter": 1,
-      "topic": "dict / clés hashables",
+      "topic": "dict / 可哈希键",
       "difficulty": 1,
       "type": "short",
-      "statement_md": "Quel résultat retourne l'exécution du code suivant ?\n```python\nd = {(1, 2): 'point'}\nprint(d[(1, 2)])\n```",
+      "statement_md": "下面代码执行后会返回什么结果？\n```python\nd = {(1, 2): 'point'}\nprint(d[(1, 2)])\n```",
       "answer": "point",
-      "explanation_md": "Tuple `(1, 2)` 是可哈希的（因为元素都是整数），所以可以作为字典键。这段代码正常运行，返回 `'point'`。"
+      "explanation_md": "tuple `(1, 2)` 是可哈希的（因为元素都是整数），所以可以作为字典键。这段代码会正常运行，并返回 `'point'`。"
     },
     {
       "chapter": 1,
-      "topic": "alias / shallow copy",
+      "topic": "alias / 浅拷贝",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "Tracez l'exécution suivante et indiquez la valeur de `B[0][0]` :\n```python\nA = [[1, 2], [3, 4]]\nB = A[:]\nA[0][0] = 99\nprint(B[0][0])\n```\n> 提示：`A[:]` 是浅拷贝还是别名？",
+      "statement_md": "跟踪下面的执行过程，并给出 `B[0][0]` 的值：\n```python\nA = [[1, 2], [3, 4]]\nB = A[:]\nA[0][0] = 99\nprint(B[0][0])\n```\n> 提示：`A[:]` 是浅拷贝还是别名？",
       "answer": "99",
-      "explanation_md": "`A[:]` 是 `A` 的浅拷贝，外层列表是独立的，但内层列表 `[1,2]` 和 `[3,4]` 仍然被共享。修改 `A[0][0]` 实际上修改了共享的内层列表，所以 `B[0][0]` 也变成 99。"
+      "explanation_md": "`A[:]` 是 `A` 的浅拷贝，外层列表是独立的，但内层列表 `[1,2]` 和 `[3,4]` 仍然共享。修改 `A[0][0]` 实际上改的是共享的内层列表，所以 `B[0][0]` 也会变成 99。"
     },
     {
       "chapter": 1,
-      "topic": "list comp / set comp",
+      "topic": "列表推导 / 集合推导",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "Quel résultat produit cette expression ?\n```python\n{x**2 for x in [3, -3, 1, 1]}\n```",
+      "statement_md": "这个表达式的结果是什么？\n```python\n{x**2 for x in [3, -3, 1, 1]}\n```",
       "answer": "{1,9}",
-      "explanation_md": "Set 推导式生成集合，自动去重并不排序。`3**2 = 9`, `(-3)**2 = 9`, `1**2 = 1`，所以结果是 `{1, 9}`。注意集合用花括号和无序的特性。"
+      "explanation_md": "集合推导式会生成 set，自动去重且不保证顺序。`3**2 = 9`，`(-3)**2 = 9`，`1**2 = 1`，所以结果是 `{1, 9}`。要注意集合使用花括号且本身无序。"
     },
     {
       "chapter": 1,
       "topic": "copy / copy.deepcopy",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "Tracez :\n```python\nimport copy\nA = [[1], [2]]\nB = copy.deepcopy(A)\nA[0][0] = 999\nprint(B[0][0])\n```",
+      "statement_md": "跟踪：\n```python\nimport copy\nA = [[1], [2]]\nB = copy.deepcopy(A)\nA[0][0] = 999\nprint(B[0][0])\n```",
       "answer": "1",
-      "explanation_md": "`copy.deepcopy(A)` 创建深拷贝，内层列表 `[1]` 和 `[2]` 都被完全复制，所以修改 `A[0][0]` 不影响 `B[0][0]`，返回原值 `1`。"
+      "explanation_md": "`copy.deepcopy(A)` 创建的是深拷贝，内层列表 `[1]` 和 `[2]` 都被完整复制，所以修改 `A[0][0]` 不会影响 `B[0][0]`，结果仍是 `1`。"
     },
     {
       "chapter": 1,
-      "topic": "tuple / fonction",
+      "topic": "tuple / 函数",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Implémenter la fonction `compte_paires(s)` qui reçoit une chaîne et retourne le tuple `(nb_voyelles, nb_consonnes)` (ignore les caractères non-lettriques).\n\n> **Signature** : `compte_paires : str → tuple[int, int]`\n\n**Exemples :**\n- `compte_paires('hello')` → `(2, 3)`\n- `compte_paires('aaa')` → `(3, 0)`",
-      "answer": "Itérer sur chaque caractère de la chaîne, compter les voyelles (a,e,i,o,u) et consonnes, retourner tuple",
-      "explanation_md": "```python\ndef compte_paires(s):\n    voyelles = 'aeiouAEIOU'\n    nb_voyelles = 0\n    nb_consonnes = 0\n    for c in s:\n        if c.isalpha():\n            if c in voyelles:\n                nb_voyelles += 1\n            else:\n                nb_consonnes += 1\n    return (nb_voyelles, nb_consonnes)\n```\n\n**Complexité** : O(n) où n est la longueur de s.\n\n**Notes** : Utiliser `tuple` pour empaqueter deux résultats et les retourner ensemble. Les tuples sont immuables mais parfaits pour grouper des valeurs liées."
+      "statement_md": "实现函数 `compte_paires(s)`，它接收一个字符串并返回元组 `(nb_voyelles, nb_consonnes)`（忽略非字母字符）。\n\n> **函数签名**：`compte_paires : str → tuple[int, int]`\n\n**示例：**\n- `compte_paires('hello')` → `(2, 3)`\n- `compte_paires('aaa')` → `(3, 0)`",
+      "answer": "遍历字符串中的每个字符，统计元音 (a,e,i,o,u) 和辅音，并返回 tuple",
+      "explanation_md": "```python\ndef compte_paires(s):\n    voyelles = 'aeiouAEIOU'\n    nb_voyelles = 0\n    nb_consonnes = 0\n    for c in s:\n        if c.isalpha():\n            if c in voyelles:\n                nb_voyelles += 1\n            else:\n                nb_consonnes += 1\n    return (nb_voyelles, nb_consonnes)\n```\n\n**复杂度**：O(n)，其中 n 是 `s` 的长度。\n\n**说明**：使用 `tuple` 可以把两个结果打包后一起返回。tuple 是不可变的，但非常适合组合彼此相关的值。"
     },
     {
       "chapter": 1,
-      "topic": "frozenset / ensemble",
+      "topic": "frozenset / 集合",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Implémenter la fonction `ensembles_disjoints(E1, E2)` qui retourne `True` si les deux ensembles sont disjoints (aucun élément commun), `False` sinon. **E1 et E2 peuvent contenir des tuples, donc utiliser `frozenset` pour en faire des éléments d'ensemble.**\n\n> **Signature** : `ensembles_disjoints : set → set → bool`",
-      "answer": "Vérifier si l'intersection E1 ∩ E2 est vide",
-      "explanation_md": "```python\ndef ensembles_disjoints(E1, E2):\n    return (E1 & E2) == set()\n    # Ou : return len(E1 & E2) == 0\n```\n\n**Complexité** : O(min(|E1|, |E2|)) pour l'intersection.\n\n**Points-clés** : L'opérateur `&` calcule l'intersection. Deux ensembles sont disjoints ssi leur intersection est vide. Pour des ensembles de tuples, on peut aussi utiliser `frozenset({(1,2), (3,4)})` si on veut nester un set d'ensembles."
+      "statement_md": "实现函数 `ensembles_disjoints(E1, E2)`，若两个集合不相交（没有公共元素）则返回 `True`，否则返回 `False`。**E1 和 E2 可能包含 tuple，因此如果要把它们嵌套为集合元素，可使用 `frozenset`。**\n\n> **函数签名**：`ensembles_disjoints : set → set → bool`",
+      "answer": "检查 E1 ∩ E2 是否为空",
+      "explanation_md": "```python\ndef ensembles_disjoints(E1, E2):\n    return (E1 & E2) == set()\n    # 或：return len(E1 & E2) == 0\n```\n\n**复杂度**：求交集时为 O(min(|E1|, |E2|))。\n\n**关键点**：运算符 `&` 用来计算交集。两个集合当且仅当交集为空时才是不相交的。若要做“集合中的集合”，可以使用 `frozenset({(1,2), (3,4)})` 这种可哈希结构。"
     },
     {
       "chapter": 1,
       "topic": "zip / enumerate",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Implémenter la fonction `couplage_indices(L)` qui retourne une liste de tuples `(indice, valeur, valeur_suivante)` pour chaque élément (sauf le dernier) de L.\n\n> **Signature** : `couplage_indices : list → list[tuple[int, Any, Any]]`\n\n**Exemple :**\n- `couplage_indices([10, 20, 30])` → `[(0, 10, 20), (1, 20, 30)]`",
-      "answer": "Utiliser enumerate et zip sur L et L[1:], accumuler (i, v1, v2)",
-      "explanation_md": "```python\ndef couplage_indices(L):\n    result = []\n    for i, (v1, v2) in enumerate(zip(L, L[1:])):\n        result.append((i, v1, v2))\n    return result\n    # Ou en list comprehension :\n    # return [(i, v1, v2) for i, (v1, v2) in enumerate(zip(L, L[1:]))]\n```\n\n**Complexité** : O(n) où n est len(L).\n\n**Points-clés** : `zip(L, L[1:])` apparie chaque élément avec le suivant, et `enumerate` ajoute l'indice. Les itérateurs sont consommés une seule fois."
+      "statement_md": "实现函数 `couplage_indices(L)`，返回一个由元组 `(索引, 值, 下一个值)` 组成的列表，对应 L 中每个元素（最后一个除外）。\n\n> **函数签名**：`couplage_indices : list → list[tuple[int, Any, Any]]`\n\n**示例：**\n- `couplage_indices([10, 20, 30])` → `[(0, 10, 20), (1, 20, 30)]`",
+      "answer": "对 L 与 L[1:] 使用 enumerate 和 zip，累计 `(i, v1, v2)`",
+      "explanation_md": "```python\ndef couplage_indices(L):\n    result = []\n    for i, (v1, v2) in enumerate(zip(L, L[1:])):\n        result.append((i, v1, v2))\n    return result\n    # 或用列表推导：\n    # return [(i, v1, v2) for i, (v1, v2) in enumerate(zip(L, L[1:]))]\n```\n\n**复杂度**：O(n)，其中 n = `len(L)`。\n\n**关键点**：`zip(L, L[1:])` 会把每个元素和它的后继配对，`enumerate` 再补上索引。迭代器只会被消费一次。"
     },
     {
       "chapter": 1,
-      "topic": "dict / iteration",
+      "topic": "dict / 遍历",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "Implémenter la fonction `combien_par_valeur(D)` qui reçoit un dictionnaire `D` et retourne un nouveau dictionnaire où les **clés sont les valeurs uniques** de D et les **valeurs sont les listes des clés** originales qui avaient cette valeur.\n\n> **Signature** : `combien_par_valeur : dict → dict`\n\n**Exemple :**\n```\nD = {'Alice': 'FR', 'Bob': 'EN', 'Claire': 'FR', 'David': 'EN'}\ncombien_par_valeur(D) →\n{'FR': ['Alice', 'Claire'], 'EN': ['Bob', 'David']}\n```",
-      "answer": "Inverser dict : parcourir (k, v), ajouter k à D_inv[v]",
-      "explanation_md": "```python\ndef combien_par_valeur(D):\n    result = {}\n    for k, v in D.items():\n        if v not in result:\n            result[v] = []\n        result[v].append(k)\n    return result\n    # Ou plus compact avec setdefault :\n    # result = {}\n    # for k, v in D.items():\n    #     result.setdefault(v, []).append(k)\n    # return result\n```\n\n**Complexité** : O(n) où n est le nombre de paires clé-valeur.\n\n**Notes** : C'est un dict « inversé » où les valeurs deviennent clés. Utiliser `result.setdefault(v, [])` évite de vérifier avant d'ajouter."
+      "statement_md": "实现函数 `combien_par_valeur(D)`，它接收一个字典 `D`，并返回一个新字典，其中 **键是 D 中所有不同的值**，**值是原来拥有该值的键所组成的列表**。\n\n> **函数签名**：`combien_par_valeur : dict → dict`\n\n**示例：**\n```\nD = {'Alice': 'FR', 'Bob': 'EN', 'Claire': 'FR', 'David': 'EN'}\ncombien_par_valeur(D) →\n{'FR': ['Alice', 'Claire'], 'EN': ['Bob', 'David']}\n```",
+      "answer": "倒置 dict：遍历 `(k, v)`，把 k 加到 `D_inv[v]` 中",
+      "explanation_md": "```python\ndef combien_par_valeur(D):\n    result = {}\n    for k, v in D.items():\n        if v not in result:\n            result[v] = []\n        result[v].append(k)\n    return result\n    # 也可更紧凑地写成 setdefault：\n    # result = {}\n    # for k, v in D.items():\n    #     result.setdefault(v, []).append(k)\n    # return result\n```\n\n**复杂度**：O(n)，其中 n 是键值对数量。\n\n**说明**：这是一个“倒置”的 dict，原来的值变成新字典的键。使用 `result.setdefault(v, [])` 可以省掉先判断再追加的步骤。"
     },
     {
       "chapter": 1,
-      "topic": "copy / nested structure",
+      "topic": "copy / 嵌套结构",
       "difficulty": 3,
       "type": "short",
-      "statement_md": "Considérez le code :\n```python\nimport copy\nA = {'x': [1, 2], 'y': (3, 4)}\nB = copy.copy(A)  # shallow copy\nA['x'][0] = 999\nprint(B['x'][0])\n```\nQue s'affiche ?",
+      "statement_md": "观察下面代码：\n```python\nimport copy\nA = {'x': [1, 2], 'y': (3, 4)}\nB = copy.copy(A)  # shallow copy\nA['x'][0] = 999\nprint(B['x'][0])\n```\n会输出什么？",
       "answer": "999",
-      "explanation_md": "`copy.copy()` 创建浅拷贝，新字典 `B` 的键被独立复制，但值（如 `[1,2]` 这个列表）仍然被共享。修改 `A['x'][0]` 也修改了 `B['x'][0]`，因为两者指向同一个列表对象。"
+      "explanation_md": "`copy.copy()` 创建的是浅拷贝。新字典 `B` 的键独立存在，但值（例如 `[1,2]` 这个列表）仍然共享。修改 `A['x'][0]` 也会影响 `B['x'][0]`，因为它们都指向同一个列表对象。"
     },
     {
       "chapter": 2,
       "topic": "lambda / sorted",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "Quel résultat produit ce code ?\n```python\nL = [('Bob', 25), ('Alice', 30), ('Alice', 20)]\nresult = sorted(L, key=lambda p: p[1])\nprint(result)\n```",
+      "statement_md": "下面代码会得到什么结果？\n```python\nL = [('Bob', 25), ('Alice', 30), ('Alice', 20)]\nresult = sorted(L, key=lambda p: p[1])\nprint(result)\n```",
       "answer": "[('Alice', 20), ('Bob', 25), ('Alice', 30)]",
-      "explanation_md": "`sorted()` 按 key 函数指定的值排序。`lambda p: p[1]` 提取每个元组的第二个元素（年龄），所以按年龄升序排序。稳定排序保留相同键的元素顺序。"
+      "explanation_md": "`sorted()` 会按照 key 函数给出的值排序。`lambda p: p[1]` 取出每个元组的第二个元素（年龄），因此结果按年龄升序排列。稳定排序会保留相同键对应元素的原始相对顺序。"
     },
     {
       "chapter": 2,
-      "topic": "récursion / terminaison",
+      "topic": "递归 / 终止",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Implémenter la fonction récursive `somme_chiffres(n)` qui retourne la somme des chiffres d'un entier positif n.\n\n> **Signature** : `somme_chiffres : int → int`\n\n**Exemples :**\n- `somme_chiffres(0)` → `0`\n- `somme_chiffres(123)` → `6`\n- `somme_chiffres(999)` → `27`",
-      "answer": "Cas base n=0 → 0, sinon (n%10) + somme_chiffres(n//10)",
-      "explanation_md": "```python\ndef somme_chiffres(n):\n    if n == 0:\n        return 0\n    return (n % 10) + somme_chiffres(n // 10)\n```\n\n**Complexité** : O(log₁₀ n) c'est-à-dire O(nombre de chiffres).\n\n**终止条件** : `n == 0` → 递归停止。每一步 n 被 10 整除，最终变成 0。**注意** : 对负数，这个实现可能无限循环，需要先处理符号。"
+      "statement_md": "实现递归函数 `somme_chiffres(n)`，返回正整数 `n` 的各位数字之和。\n\n> **函数签名**：`somme_chiffres : int → int`\n\n**示例：**\n- `somme_chiffres(0)` → `0`\n- `somme_chiffres(123)` → `6`\n- `somme_chiffres(999)` → `27`",
+      "answer": "基础情形是 n=0 → 0，否则返回 `(n%10) + somme_chiffres(n//10)`",
+      "explanation_md": "```python\ndef somme_chiffres(n):\n    if n == 0:\n        return 0\n    return (n % 10) + somme_chiffres(n // 10)\n```\n\n**复杂度**：O(log₁₀ n)，也就是 O(数字位数)。\n\n**终止条件**：`n == 0` 时递归停止。每一步都会把 n 整除 10，因此最终一定会变成 0。**注意**：若输入负数，这个实现可能无限循环，需要先处理符号。"
     },
     {
       "chapter": 2,
-      "topic": "yield / générateur",
+      "topic": "yield / 生成器",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Implémenter une fonction générateur `nombres_pairs(debut, fin)` qui produit tous les nombres pairs dans la plage `[debut, fin[` (debut inclus, fin exclus).\n\n> **Signature** : `nombres_pairs : int × int → iterable[int]`\n\n**Exemple :**\n```\nlist(nombres_pairs(1, 10)) → [2, 4, 6, 8]\n```",
-      "answer": "Boucle for sur range(debut, fin), yield les pairs",
-      "explanation_md": "```python\ndef nombres_pairs(debut, fin):\n    for i in range(debut, fin):\n        if i % 2 == 0:\n            yield i\n```\n\n**Complexité** : O(1) par élément (yield est O(1)).\n\n**Points-clés** : Utiliser `yield` au lieu de retourner une liste entière. La fonction retourne un objet générateur qui produit des valeurs à la demande. Cela économise la mémoire si la plage est grande."
+      "statement_md": "实现生成器函数 `nombres_pairs(debut, fin)`，生成区间 `[debut, fin[` 中所有偶数（包含 debut，不包含 fin）。\n\n> **函数签名**：`nombres_pairs : int × int → iterable[int]`\n\n**示例：**\n```\nlist(nombres_pairs(1, 10)) → [2, 4, 6, 8]\n```",
+      "answer": "在 `range(debut, fin)` 上用 for 循环，遇到偶数就 `yield`",
+      "explanation_md": "```python\ndef nombres_pairs(debut, fin):\n    for i in range(debut, fin):\n        if i % 2 == 0:\n            yield i\n```\n\n**复杂度**：每个产生的元素为 O(1)（`yield` 本身是 O(1)）。\n\n**关键点**：使用 `yield`，而不是直接返回完整列表。这样函数返回的是生成器对象，会按需产生值；当区间很大时，更节省内存。"
     },
     {
       "chapter": 3,
-      "topic": "file / FIFO",
+      "topic": "队列 / FIFO",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "Implémenter la fonction `executer_file(operations)` où `operations` est une liste de tuples `(action, valeur)`. Les actions sont `'ajouter'` (ajouter valeur à la file) ou `'extraire'` (extraire et retourner l'élément du début).\n\nLa fonction retourne la liste des éléments extraits, dans l'ordre.\n\n> **Signature** : `executer_file : list[tuple[str, Any]] → list`\n\n**Exemple :**\n```\noperations = [('ajouter', 1), ('ajouter', 2), ('extraire', None), ('ajouter', 3), ('extraire', None)]\nexecuter_file(operations) → [1, 3]\n```\n> 提示：文件是 FIFO，队首进队尾出",
-      "answer": "Maintenir une list comme file, append pour ajouter, pop(0) pour extraire",
-      "explanation_md": "```python\ndef executer_file(operations):\n    file = []\n    resultats = []\n    for action, val in operations:\n        if action == 'ajouter':\n            file.append(val)\n        elif action == 'extraire':\n            if file:\n                resultats.append(file.pop(0))\n    return resultats\n```\n\n**Complexité** : O(n²) au pire cas (pop(0) est O(n)). En pratique, pour de vraies files, utiliser `collections.deque`.\n\n**FIFO** : First In First Out. Ajouter à la fin, extraire du début."
+      "statement_md": "实现函数 `executer_file(operations)`，其中 `operations` 是一个由元组 `(动作, 值)` 组成的列表。动作有 `'ajouter'`（把值加入队列）或 `'extraire'`（取出并返回队首元素）。\n\n函数返回按顺序取出的元素列表。\n\n> **函数签名**：`executer_file : list[tuple[str, Any]] → list`\n\n**示例：**\n```\noperations = [('ajouter', 1), ('ajouter', 2), ('extraire', None), ('ajouter', 3), ('extraire', None)]\nexecuter_file(operations) → [1, 3]\n```\n> 提示：队列是 FIFO，也就是先入先出",
+      "answer": "用一个 list 维护队列；加入时 `append`，取出时 `pop(0)`",
+      "explanation_md": "```python\ndef executer_file(operations):\n    file = []\n    resultats = []\n    for action, val in operations:\n        if action == 'ajouter':\n            file.append(val)\n        elif action == 'extraire':\n            if file:\n                resultats.append(file.pop(0))\n    return resultats\n```\n\n**复杂度**：最坏是 O(n²)（因为 `pop(0)` 是 O(n)）。实际工程里若真要实现队列，更适合用 `collections.deque`。\n\n**FIFO**：First In First Out，也就是从尾部加入、从头部取出。"
     },
     {
       "chapter": 3,
-      "topic": "arbre / hauteur",
+      "topic": "树 / 高度",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "Implémenter la fonction `hauteur_arbre(A)` qui calcule la hauteur d'un arbre **représenté comme liste imbriquée** : `[étiquette, enfant1, enfant2, ...]`.\n\nLa hauteur d'une feuille est 1 ; celle d'un nœud interne est 1 + hauteur maximale de ses enfants.\n\n> **Signature** : `hauteur_arbre : list → int`\n\n**Exemple :**\n```\nA = ['a', ['b'], ['c', ['d']]]\nhautteur_arbre(A) → 3\n```\n(feuilles 'b', 'd' à hauteur 1; 'c' à hauteur 2; racine 'a' à hauteur 3)",
-      "answer": "Récursion : 1 si pas d'enfants, sinon 1 + max(hauteur enfants)",
-      "explanation_md": "```python\ndef hauteur_arbre(A):\n    if len(A) == 1:  # Pas d'enfants, feuille\n        return 1\n    else:\n        max_hauteur_enfants = max(hauteur_arbre(enfant) for enfant in A[1:])\n        return 1 + max_hauteur_enfants\n```\n\n**Complexité** : O(n) où n est le nombre de nœuds (chaque nœud visité une fois).\n\n**定义注意** : 高度约定：叶子 = 1，不是 0。按课程 Moisan 的定义。"
+      "statement_md": "实现函数 `hauteur_arbre(A)`，计算一棵**用嵌套列表表示**的树的高度：`[标签, 子节点1, 子节点2, ...]`。\n\n叶子的高度是 1；内部节点的高度是 1 + 其所有孩子高度的最大值。\n\n> **函数签名**：`hauteur_arbre : list → int`\n\n**示例：**\n```\nA = ['a', ['b'], ['c', ['d']]]\nhautteur_arbre(A) → 3\n```\n（叶子 'b'、'd' 的高度为 1；'c' 的高度为 2；根 'a' 的高度为 3）",
+      "answer": "递归：没有孩子时返回 1，否则返回 `1 + max(各孩子高度)`",
+      "explanation_md": "```python\ndef hauteur_arbre(A):\n    if len(A) == 1:  # 没有孩子，说明是叶子\n        return 1\n    else:\n        max_hauteur_enfants = max(hauteur_arbre(enfant) for enfant in A[1:])\n        return 1 + max_hauteur_enfants\n```\n\n**复杂度**：O(n)，其中 n 是节点总数（每个节点恰好访问一次）。\n\n**定义注意**：本题约定叶子的高度是 1，而不是 0，遵循课程中的定义。"
     },
     {
       "chapter": 3,
-      "topic": "graphe / connexité",
+      "topic": "图 / 连通性",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "Implémenter la fonction `est_connexe(G)` qui retourne `True` si le graphe G (représenté par dict de set : `{sommet: {voisins}}`) est connexe, `False` sinon.\n\n**Un graphe est connexe** s'il existe un chemin entre deux sommets quelconques.\n\n> **Signature** : `est_connexe : dict[str, set] → bool`",
-      "answer": "DFS/BFS depuis un sommet quelconque, vérifier que tous les sommets sont visités",
-      "explanation_md": "```python\ndef est_connexe(G):\n    if not G:\n        return True\n    \n    # Choisir un sommet de départ\n    depart = next(iter(G))\n    visites = set()\n    pile = [depart]\n    \n    while pile:\n        sommet = pile.pop()\n        if sommet not in visites:\n            visites.add(sommet)\n            for voisin in G[sommet]:\n                if voisin not in visites:\n                    pile.append(voisin)\n    \n    # Vérifier que tous les sommets ont été visités\n    return len(visites) == len(G)\n```\n\n**Complexité** : O(V + E) où V = nombre de sommets, E = nombre d'arêtes.\n\n**算法** : DFS 从一个顶点开始，标记所有可达的顶点。如果最后所有顶点都被访问，则图是连通的。"
+      "statement_md": "实现函数 `est_connexe(G)`，若图 `G`（用 dict of set 表示：`{顶点: {邻居}}`）是连通的，则返回 `True`，否则返回 `False`。\n\n**连通图**指的是任意两个顶点之间都存在一条路径。\n\n> **函数签名**：`est_connexe : dict[str, set] → bool`",
+      "answer": "从任意一个顶点做 DFS/BFS，检查是否所有顶点都被访问到",
+      "explanation_md": "```python\ndef est_connexe(G):\n    if not G:\n        return True\n    \n    # 选择一个起始顶点\n    depart = next(iter(G))\n    visites = set()\n    pile = [depart]\n    \n    while pile:\n        sommet = pile.pop()\n        if sommet not in visites:\n            visites.add(sommet)\n            for voisin in G[sommet]:\n                if voisin not in visites:\n                    pile.append(voisin)\n    \n    # 检查是否所有顶点都访问到了\n    return len(visites) == len(G)\n```\n\n**复杂度**：O(V + E)，其中 V 是顶点数，E 是边数。\n\n**算法思路**：从某个顶点出发做 DFS，标记所有可达顶点。如果最后所有顶点都被访问到了，那么这张图就是连通图。"
     },
     {
       "chapter": 4,
-      "topic": "dict / inversion avancée",
+      "topic": "dict / 高级倒置",
       "difficulty": 4,
       "type": "code",
-      "statement_md": "Implémenter la fonction `inverser_dict(D)` qui reçoit un dictionnaire D (clés quelconques, valeurs quelconques) et retourne un nouveau dictionnaire où :\n- Les **clés sont les valeurs uniques** de D\n- Les **valeurs sont les listes des clés originales** qui avaient cette valeur\n\nSi une valeur contient des éléments non-hashables, la fonction doit les convertir en `frozenset` ou tuple pour que la nouvelle clé soit hashable.\n\n> **Signature** : `inverser_dict : dict → dict`\n\n**Exemple 1 (simple):**\n```\nD = {'Pierre': 'Paris', 'Jean': 'Paris', 'Marie': 'Lyon'}\ninverser_dict(D) →\n{'Paris': ['Pierre', 'Jean'], 'Lyon': ['Marie']}\n```\n\n**Exemple 2 (valeurs non-hashables) :**\n```\nD = {'x': [1, 2], 'y': [3, 4], 'z': [1, 2]}\ninverser_dict(D) →\n{(1, 2): ['x', 'z'], (3, 4): ['y']}\n# ou {frozenset([1, 2]): ['x', 'z'], ...}\n```",
-      "answer": "Boucler sur items, adapter valeur en type hashable si besoin, grouper par valeur inverse",
-      "explanation_md": "```python\ndef inverser_dict(D):\n    result = {}\n    for k, v in D.items():\n        # Adapter v en type hashable\n        if isinstance(v, list):\n            v_hashable = tuple(v)\n        elif isinstance(v, dict):\n            v_hashable = frozenset(v.items())\n        elif isinstance(v, set):\n            v_hashable = frozenset(v)\n        else:\n            v_hashable = v  # Déjà hashable\n        \n        # Grouper par valeur inverse\n        if v_hashable not in result:\n            result[v_hashable] = []\n        result[v_hashable].append(k)\n    \n    return result\n```\n\n**Complexité** : O(n) où n est le nombre de paires clé-valeur (conversion de chaque valeur est O(1) en moyenne).\n\n**注意** : 如果原始值包含不可哈希的元素（如列表），必须转换为 `tuple`、`frozenset` 等。这样新字典的键才能被哈希。"
+      "statement_md": "实现函数 `inverser_dict(D)`，它接收一个字典 `D`（键和值都可以是任意类型），并返回一个新字典，其中：\n- **键**是 `D` 中所有不同的值\n- **值**是原来拥有该值的键所组成的列表\n\n如果某个值本身包含不可哈希元素，函数必须先把它转换成 `frozenset` 或 tuple，使新的键可哈希。\n\n> **函数签名**：`inverser_dict : dict → dict`\n\n**示例 1（简单）:**\n```\nD = {'Pierre': 'Paris', 'Jean': 'Paris', 'Marie': 'Lyon'}\ninverser_dict(D) →\n{'Paris': ['Pierre', 'Jean'], 'Lyon': ['Marie']}\n```\n\n**示例 2（值不可哈希）:**\n```\nD = {'x': [1, 2], 'y': [3, 4], 'z': [1, 2]}\ninverser_dict(D) →\n{(1, 2): ['x', 'z'], (3, 4): ['y']}\n# 或 {frozenset([1, 2]): ['x', 'z'], ...}\n```",
+      "answer": "遍历 items；必要时先把值转成可哈希类型；再按“倒置后的值”分组",
+      "explanation_md": "```python\ndef inverser_dict(D):\n    result = {}\n    for k, v in D.items():\n        # 把 v 转成可哈希类型\n        if isinstance(v, list):\n            v_hashable = tuple(v)\n        elif isinstance(v, dict):\n            v_hashable = frozenset(v.items())\n        elif isinstance(v, set):\n            v_hashable = frozenset(v)\n        else:\n            v_hashable = v  # 已经可哈希\n        \n        # 按倒置后的值分组\n        if v_hashable not in result:\n            result[v_hashable] = []\n        result[v_hashable].append(k)\n    \n    return result\n```\n\n**复杂度**：O(n)，其中 n 是键值对数量（每个值的转换平均看作 O(1)）。\n\n**注意**：如果原始值里包含不可哈希对象（例如 list），就必须先转换成 `tuple`、`frozenset` 等不可变类型，否则它不能作为新字典的键。"
     },
     {
       "chapter": 4,
-      "topic": "alias / deepcopy / hashable",
+      "topic": "alias / deepcopy / 可哈希性",
       "difficulty": 4,
       "type": "code",
-      "statement_md": "Exécutez la trace suivante et répondez aux questions :\n\n```python\nimport copy\nM = [[1, 2], [3, 4]]\nM1 = M          # alias\nM2 = M[:]       # shallow copy\nM3 = copy.deepcopy(M)\n\nM[0][0] = 100\n\nprint(f\"M1[0][0] = {M1[0][0]}\")\nprint(f\"M2[0][0] = {M2[0][0]}\")\nprint(f\"M3[0][0] = {M3[0][0]}\")\n```\n\n**Questions :**\n1. Tracez les trois valeurs affichées (liste des trois résultats séparés par virgule)\n2. Pourquoi M1 et M2 affichent la même valeur alors qu'ils sont censés être \"différents\" ?",
+      "statement_md": "执行下面的跟踪，并回答问题：\n\n```python\nimport copy\nM = [[1, 2], [3, 4]]\nM1 = M          # alias\nM2 = M[:]       # shallow copy\nM3 = copy.deepcopy(M)\n\nM[0][0] = 100\n\nprint(f\"M1[0][0] = {M1[0][0]}\")\nprint(f\"M2[0][0] = {M2[0][0]}\")\nprint(f\"M3[0][0] = {M3[0][0]}\")\n```\n\n**问题：**\n1. 写出显示的三个值（用逗号分隔）\n2. 为什么 M1 和 M2 明明“不同”，却显示出同样的值？",
       "answer": "100,100,1",
-      "explanation_md": "```\nM1[0][0] = 100\nM2[0][0] = 100\nM3[0][0] = 1\n```\n\n**解释** :\n- `M1 = M` : 别名，两个名称指向同一对象\n- `M2 = M[:]` : 浅拷贝，外层列表被复制，但内层列表 `[1,2]` 和 `[3,4]` 仍被共享\n- `M3 = copy.deepcopy(M)` : 深拷贝，所有嵌套的列表都被递归复制\n\n修改 `M[0][0] = 100` 影响了所有层的共享结构。`M1` 和 `M2` 都看到这个变化，因为它们都指向内层的 `[1,2]` 列表。`M3` 不受影响，因为它是完全独立的副本。\n\n**可哈希性补充** : 如果需要将这样的二维列表作为集合元素或字典键，必须用 `tuple` 或 `frozenset` 之类的不可变类型，因为 `list` 本身是不可哈希的。"
+      "explanation_md": "```\nM1[0][0] = 100\nM2[0][0] = 100\nM3[0][0] = 1\n```\n\n**解释**：\n- `M1 = M`：别名，两个名字指向同一个对象\n- `M2 = M[:]`：浅拷贝，外层列表被复制，但内层列表 `[1,2]` 和 `[3,4]` 仍然共享\n- `M3 = copy.deepcopy(M)`：深拷贝，所有嵌套列表都被递归复制\n\n修改 `M[0][0] = 100` 会影响所有共享层。`M1` 和 `M2` 都能看到这个变化，因为它们都指向内层的 `[1,2]` 列表。`M3` 不受影响，因为它是完全独立的副本。\n\n**可哈希性补充**：如果要把这样的二维列表放进集合或当作字典键，必须先转换成 `tuple` 或 `frozenset` 之类的不可变类型，因为 `list` 本身不可哈希。"
     }
   ]
 }

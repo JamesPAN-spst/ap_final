@@ -1,29 +1,29 @@
 {
   "id": 1,
-  "title": "第 1 套 — Pièges arithmétiques & types numériques",
-  "focus": "Maîtrise des types numériques (int illimité, float IEEE 754, complex), round/floor/ceil, copies de listes, hachabilité et dictionnaires",
+  "title": "第 1 套 — 算术陷阱与数值类型",
+  "focus": "掌握数值类型（无界 int、IEEE 754 float、complex）、round/floor/ceil、列表拷贝、可哈希性与字典。",
   "questions": [
     {
       "chapter": 1,
       "topic": "int 任意精度",
       "difficulty": 1,
       "type": "mcq",
-      "statement_md": "En Python, quel résultat donne `3**500` ?\n\nA) La valeur exacte (plusieurs centaines de chiffres)\nB) Une approximation `float`\nC) Un débordement `OverflowError`\nD) Une troncature à 64 bits",
+      "statement_md": "在 Python 中，`3**500` 的结果是什么？\n\nA) 精确值（几百位数字）\nB) 一个 `float` 近似值\nC) 发生 `OverflowError` 溢出\nD) 被截断为 64 位",
       "choices": [
-        "La valeur exacte (plusieurs centaines de chiffres)",
-        "Une approximation `float`",
-        "Un débordement `OverflowError`",
-        "Une troncature à 64 bits"
+        "精确值（几百位数字）",
+        "一个 `float` 近似值",
+        "发生 `OverflowError` 溢出",
+        "被截断为 64 位"
       ],
       "answer": "A",
-      "explanation_md": "Python 的 `int` 没有位数限制（只受可用内存限制）。`3**500` 会精确计算并返回一个 ~239 位的整数。\n\n常见陷阱：\n- 若执行 `float(3**500)` 才会抛 `OverflowError`（值太大无法用 IEEE 754 表示）\n- 其他语言（C、Java）有 32/64 位限制，Python 没有"
+      "explanation_md": "Python 的 `int` 没有位数限制（只受可用内存限制）。`3**500` 会精确计算并返回一个约 239 位的整数。\n\n常见陷阱：\n- 若执行 `float(3**500)` 才会抛 `OverflowError`（值太大无法用 IEEE 754 表示）\n- 其他语言（C、Java）有 32/64 位限制，Python 没有"
     },
     {
       "chapter": 1,
       "topic": "round/floor/ceil 负数",
       "difficulty": 2,
       "type": "mcq",
-      "statement_md": "Soit `x = -2.3`. Quels sont les résultats de `int(x)`, `round(x)`, `math.floor(x)`, `math.ceil(x)` respectivement ?\n\nA) `-2, -2, -3, -2`\nB) `-3, -2, -3, -3`\nC) `-2, -3, -2, -2`\nD) `-2, -3, -3, -2`",
+      "statement_md": "设 `x = -2.3`。`int(x)`、`round(x)`、`math.floor(x)`、`math.ceil(x)` 的结果依次是什么？\n\nA) `-2, -2, -3, -2`\nB) `-3, -2, -3, -3`\nC) `-2, -3, -2, -2`\nD) `-2, -3, -3, -2`",
       "choices": [
         "`-2, -2, -3, -2`",
         "`-3, -2, -3, -3`",
@@ -35,152 +35,152 @@
     },
     {
       "chapter": 1,
-      "topic": "Bases numériques",
+      "topic": "进制换算",
       "difficulty": 1,
       "type": "short",
-      "statement_md": "Quel est le résultat de :\n```python\nint('101', 2) + int('10', 16)\n```",
+      "statement_md": "下面表达式的结果是什么：\n```python\nint('101', 2) + int('10', 16)\n```",
       "answer": "21",
       "explanation_md": "`int('101', 2)` = 1×4 + 0×2 + 1×1 = 5（二进制转十进制）\n\n`int('10', 16)` = 1×16 + 0×1 = 16（十六进制转十进制）\n\n总和 = 5 + 16 = 21"
     },
     {
       "chapter": 1,
-      "topic": "Précision float IEEE 754",
+      "topic": "IEEE 754 浮点精度",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "Quel est le résultat exact de :\n```python\n1 + 1e-16 - 1\n```\n（注：在 IEEE 754 中约有 16 位有效数字）",
+      "statement_md": "下面表达式的精确结果是什么：\n```python\n1 + 1e-16 - 1\n```\n（注：在 IEEE 754 中约有 16 位有效数字）",
       "answer": "0.0",
       "explanation_md": "IEEE 754 64-bit float 约有 16 位有效数字。\n\n执行顺序：\n- `1 + 1e-16` = `1.0000000000000001...`（但 1e-16 太小，在 float 精度下被吸收）\n- 结果仍是 `1.0`（因为 1 + 1e-16 无法精确表示，四舍五入回到 1.0）\n- `1.0 - 1` = `0.0`\n\n这说明浮点加法**不满足结合律**。有时候浮点运算会因精度限制而丧失数学性质。"
     },
     {
       "chapter": 1,
-      "topic": "Nombres complexes",
+      "topic": "复数",
       "difficulty": 2,
       "type": "mcq",
-      "statement_md": "Parmi les propositions suivantes, laquelle est FAUSSE concernant les nombres complexes en Python ?\n\nA) `1j` est un nombre complexe valide\nB) On peut utiliser `>` pour comparer deux complexes\nC) `abs(3+4j)` retourne le module (ici 5)\nD) `(3+4j).real` retourne 3.0",
+      "statement_md": "关于 Python 中的复数，下列哪项是错误的？\n\nA) `1j` 是合法的复数\nB) 可以用 `>` 比较两个复数\nC) `abs(3+4j)` 返回模（这里是 5）\nD) `(3+4j).real` 返回 3.0",
       "choices": [
-        "`1j` est un nombre complexe valide",
-        "On peut utiliser `>` pour comparer deux complexes",
-        "`abs(3+4j)` retourne le module (ici 5)",
-        "`(3+4j).real` retourne 3.0"
+        "`1j` 是合法的复数",
+        "可以用 `>` 比较两个复数",
+        "`abs(3+4j)` 返回模（这里是 5）",
+        "`(3+4j).real` 返回 3.0"
       ],
       "answer": "B",
       "explanation_md": "Python 的复数不支持 `<`, `>`, `<=`, `>=` 比较，否则抛 `TypeError`。\n\n原因：复数在复平面上没有自然的顺序定义（与实数不同）。\n\n其他选项正确：\n- A 正确：`1j` 和 `j` 不同，后者是未定义变量\n- C 正确：模 = √(3² + 4²) = 5\n- D 正确：属性 `.real` 和 `.imag` 返回 float"
     },
     {
       "chapter": 1,
-      "topic": "Calcul sur complexes",
+      "topic": "复数运算",
       "difficulty": 1,
       "type": "short",
-      "statement_md": "Quel est le module de `(1+1j)**2` ?",
+      "statement_md": "`(1+1j)**2` 的模是多少？",
       "answer": "2.0",
-      "explanation_md": "`(1+1j)**2` = 1 + 2j + (1j)² = 1 + 2j - 1 = 2j\n\nModule = |2j| = √(0² + 2²) = 2.0"
+      "explanation_md": "`(1+1j)**2` = 1 + 2j + (1j)² = 1 + 2j - 1 = 2j\n\n模 = |2j| = √(0² + 2²) = 2.0"
     },
     {
       "chapter": 1,
-      "topic": "Copie de listes",
+      "topic": "列表拷贝",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Que fait ce code ?\n```python\nA = [[1,2], [3,4]]\nB = A[:]         # copie superficielle\nB[0][0] = 99\nprint(A[0][0])\n```\n\nRéponse attendue : une seule expression (`int` ou `bool`)",
-      "answer": "Affiche 99 (pas 1)",
+      "statement_md": "下面代码会做什么？\n```python\nA = [[1,2], [3,4]]\nB = A[:]         # 浅拷贝\nB[0][0] = 99\nprint(A[0][0])\n```\n\n期望回答：只写一个表达式（`int` 或 `bool`）",
+      "answer": "输出 99（不是 1）",
       "explanation_md": "`A[:]` 创建**浅拷贝**：外层列表独立，但内层子列表仍共享。\n\n执行：\n```python\nA = [[1,2], [3,4]]\nB = A[:]         # B 是新列表，但 B[0] 和 A[0] 指向同一个 [1,2]\nB[0][0] = 99     # 修改的是共享的内层列表\nprint(A[0][0])   # 输出 99\n```\n\n**深拷贝解决方案**：\n```python\nimport copy\nB = copy.deepcopy(A)     # 完全独立\n# 或\nB = [L[:] for L in A]    # 二维列表专用\n```"
     },
     {
       "chapter": 1,
-      "topic": "Tuples",
+      "topic": "元组（tuple）",
       "difficulty": 1,
       "type": "short",
-      "statement_md": "Quel est le type de `(1)` ? Et celui de `(1,)` ?",
-      "answer": "(1) est int, (1,) est tuple",
+      "statement_md": "`(1)` 的类型是什么？`(1,)` 的类型又是什么？",
+      "answer": "（1）的类型是 int，(1,) 的类型是 tuple",
       "explanation_md": "- `(1)` 只是整数 `1` 被括号包围，括号是分组符号，类型是 `int`\n- `(1,)` 末尾的逗号定义了单元素元组，类型是 `tuple`\n\n一般规则：\n- 多元素：`(1, 2, 3)` 总是 tuple\n- 单元素：**必须加逗号** `(1,)` 才是 tuple，否则 `(1)` 只是 `1`\n- 零元素：`()` 是空 tuple\n\n这是 Python 的语法特殊性，经常在考试中出现。"
     },
     {
       "chapter": 1,
-      "topic": "set et frozenset",
+      "topic": "set 与 frozenset",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Quel est le résultat de ce code ?\n```python\nS = {frozenset({1,2}), frozenset({3,4})}\nprint(len(S))\n```",
+      "statement_md": "下面代码的结果是什么？\n```python\nS = {frozenset({1,2}), frozenset({3,4})}\nprint(len(S))\n```",
       "answer": "2",
       "explanation_md": "`set` 的元素必须是可哈希的。普通 `set` 不可哈希，但 `frozenset` 可以。\n\n执行：\n- `frozenset({1,2})` 是一个不可变的集合，可哈希\n- `frozenset({3,4})` 也是可哈希的\n- 因此可以将两个 frozenset 放入一个 set\n- 结果集合有 2 个元素\n\n如果改成 `S = {{1,2}, {3,4}}`（普通 set），会抛 `TypeError: unhashable type: 'set'`。"
     },
     {
       "chapter": 1,
-      "topic": "Dictionnaires et hashabilité",
+      "topic": "字典与可哈希性",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Quel est le résultat de ce code ?\n```python\nD = {'a': 1, 'b': 2, 'c': 3}\nresult = {v: k for k, v in D.items()}\nprint(result)\n```\nDonner la réponse sous forme de dict.",
+      "statement_md": "下面代码的结果是什么？\n```python\nD = {'a': 1, 'b': 2, 'c': 3}\nresult = {v: k for k, v in D.items()}\nprint(result)\n```\n请用 dict 形式作答。",
       "answer": "{1: 'a', 2: 'b', 3: 'c'}",
       "explanation_md": "字典推导式交换键值（假设原字典的值唯一）。\n\n执行：\n```python\nD = {'a': 1, 'b': 2, 'c': 3}\n# 推导遍历 D.items() → ('a', 1), ('b', 2), ('c', 3)\n# 每对 (k, v) → 新对 (v, k)：(1, 'a'), (2, 'b'), (3, 'c')\nresult = {1: 'a', 2: 'b', 3: 'c'}\n```\n\n**注意**：只有当原字典的**所有值互不相同**时，倒置才能成功。如果有重复值，后面的键值会覆盖前面的。"
     },
     {
       "chapter": 2,
-      "topic": "Récursion simple",
+      "topic": "简单递归",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Implémentez une fonction récursive `somme_chiffres(n)` qui retourne la somme des chiffres d'un entier non-négatif.\n\nExemples :\n- `somme_chiffres(0)` → `0`\n- `somme_chiffres(123)` → `6`\n- `somme_chiffres(9999)` → `36`",
-      "answer": "Récursion sur n % 10 et n // 10",
+      "statement_md": "实现递归函数 `somme_chiffres(n)`，返回一个非负整数各位数字之和。\n\n示例：\n- `somme_chiffres(0)` → `0`\n- `somme_chiffres(123)` → `6`\n- `somme_chiffres(9999)` → `36`",
+      "answer": "对 n % 10 和 n // 10 做递归",
       "explanation_md": "解决方案：\n```python\ndef somme_chiffres(n):\n    if n == 0:\n        return 0\n    return (n % 10) + somme_chiffres(n // 10)\n```\n\n逻辑：\n- 终止条件：`n == 0` 返回 0\n- 递归：提取最后一位 `n % 10`，加上 `somme_chiffres(n // 10)`\n- 复杂度：O(log₁₀ n)（数字位数）\n\n也可迭代实现：\n```python\ndef somme_chiffres(n):\n    return sum(int(d) for d in str(n))\n```"
     },
     {
       "chapter": 2,
-      "topic": "Fonctions comme objets",
+      "topic": "函数作为对象",
       "difficulty": 1,
       "type": "short",
-      "statement_md": "Quel est le résultat de :\n```python\nf = lambda x, y: x * y if x > 0 else y\nprint(f(2, 5))\n```",
+      "statement_md": "下面代码的结果是什么：\n```python\nf = lambda x, y: x * y if x > 0 else y\nprint(f(2, 5))\n```",
       "answer": "10",
       "explanation_md": "`lambda x, y: x * y if x > 0 else y` 定义一个匿名函数。\n\n调用 `f(2, 5)`：\n- `x = 2, y = 5`\n- `x > 0` 为真\n- 返回 `x * y = 2 * 5 = 10`"
     },
     {
       "chapter": 2,
-      "topic": "Générateurs récursifs",
+      "topic": "递归生成器",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "Écrivez un générateur `sous_ensembles(E)` qui énumère tous les sous-ensembles d'une liste `E`.\n\nExemple :\n- `list(sous_ensembles([1,2]))` → `[[], [1], [2], [1,2]]`（ordre peut varier)",
-      "answer": "Récursion avec yield et boucle imbriquée",
+      "statement_md": "编写生成器 `sous_ensembles(E)`，枚举列表 `E` 的所有子集。\n\n示例：\n- `list(sous_ensembles([1,2]))` → `[[], [1], [2], [1,2]]`（顺序可以不同）",
+      "answer": "用 yield 配合递归与嵌套循环",
       "explanation_md": "解决方案：\n```python\ndef sous_ensembles(E):\n    if not E:\n        yield []\n    else:\n        x = E[0]\n        for S in sous_ensembles(E[1:]):\n            yield S\n            yield [x] + S\n```\n\n逻辑：\n- 基础情况：`E` 为空时，产生空集 `[]`\n- 递归：取第一个元素 `x`，对剩余元素递归产生所有子集\n- 对每个子集 `S`，既产生 `S` 本身，也产生 `[x] + S`（包含 x 的版本）\n\n复杂度：生成 2ⁿ 个子集，总时间 O(n·2ⁿ)（包括拷贝）。"
     },
     {
       "chapter": 2,
-      "topic": "Multi-return et déballage",
+      "topic": "多返回值与解包",
       "difficulty": 2,
       "type": "short",
-      "statement_md": "Quel est le résultat de :\n```python\ndef mv(L):\n    m = sum(L) / len(L)\n    v = sum(x**2 for x in L) / len(L) - m**2\n    return m, v\n\nmoy, var = mv([1, 2, 3])\nprint(moy)\n```",
+      "statement_md": "下面代码的结果是什么：\n```python\ndef mv(L):\n    m = sum(L) / len(L)\n    v = sum(x**2 for x in L) / len(L) - m**2\n    return m, v\n\nmoy, var = mv([1, 2, 3])\nprint(moy)\n```",
       "answer": "2.0",
       "explanation_md": "`mv([1, 2, 3])` 计算均值和方差：\n- `m = (1+2+3)/3 = 2.0`\n- `v = (1+4+9)/3 - 4 = 14/3 - 4 ≈ 1.333`\n- 返回元组 `(2.0, 1.333...)`\n\n解包：`moy, var = (2.0, 1.333...)`\n- `moy = 2.0`\n- `var ≈ 1.333`\n\n输出：`2.0`"
     },
     {
       "chapter": 3,
-      "topic": "Pile et parenthèses",
+      "topic": "栈与括号匹配",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Écrivez une fonction `bien_parenthesee(s)` qui retourne `True` si la chaîne `s` a des parenthèses et crochets bien fermés, `False` sinon.\n\nExemples :\n- `bien_parenthesee('()')` → `True`\n- `bien_parenthesee('([)]')` → `False`\n- `bien_parenthesee('([])')` → `True`\n- `bien_parenthesee(')')` → `False`",
-      "answer": "Utiliser une pile pour matcher parenthèses/crochets",
-      "explanation_md": "解决方案：\n```python\ndef bien_parenthesee(s):\n    P = []  # pile\n    pairs = {'(': ')', '[': ']'}\n    for c in s:\n        if c in pairs:\n            P.append(c)\n        elif c in pairs.values():\n            if not P or pairs[P[-1]] != c:\n                return False\n            P.pop()\n    return len(P) == 0\n```\n\n逻辑：\n- 遇到开括号 `(` 或 `[` → 入栈\n- 遇到闭括号 `)` 或 `]` → 检查栈顶是否匹配\n  - 栈为空或不匹配 → 返回 False\n  - 匹配 → 弹出\n- 遍历完毕，栈必须为空\n\n复杂度：O(n) 扫描 + O(1) 每个字符操作。"
+      "statement_md": "编写函数 `bien_parenthesee(s)`，若字符串 `s` 中的圆括号和方括号都正确闭合，则返回 `True`，否则返回 `False`。\n\n示例：\n- `bien_parenthesee('()')` → `True`\n- `bien_parenthesee('([)]')` → `False`\n- `bien_parenthesee('([])')` → `True`\n- `bien_parenthesee(')')` → `False`",
+      "answer": "用栈匹配圆括号和方括号",
+      "explanation_md": "解决方案：\n```python\ndef bien_parenthesee(s):\n    P = []  # 栈\n    pairs = {'(': ')', '[': ']'}\n    for c in s:\n        if c in pairs:\n            P.append(c)\n        elif c in pairs.values():\n            if not P or pairs[P[-1]] != c:\n                return False\n            P.pop()\n    return len(P) == 0\n```\n\n逻辑：\n- 遇到开括号 `(` 或 `[` → 入栈\n- 遇到闭括号 `)` 或 `]` → 检查栈顶是否匹配\n  - 栈为空或不匹配 → 返回 False\n  - 匹配 → 弹出\n- 遍历完毕，栈必须为空\n\n复杂度：O(n) 扫描 + O(1) 每个字符操作。"
     },
     {
       "chapter": 3,
-      "topic": "Graphe et BFS",
+      "topic": "图与 BFS",
       "difficulty": 3,
       "type": "code",
-      "statement_md": "Écrivez une fonction `distance(G, x, y)` qui retourne la distance (nombre d'arêtes) entre deux sommets `x` et `y` dans un graphe non orienté `G` représenté par un dictionnaire d'ensembles.\n\n```python\nG = {'a': {'b', 'c'}, 'b': {'a'}, 'c': {'a', 'd'}, 'd': {'c'}}\n```\n\nExemples :\n- `distance(G, 'a', 'b')` → `1`\n- `distance(G, 'b', 'd')` → `3`\n- `distance(G, 'a', 'x')` → `None` (sommet inexistant)",
-      "answer": "BFS avec file et dict de distances",
+      "statement_md": "编写函数 `distance(G, x, y)`，在由“字典 + 集合”表示的无向图 `G` 中，返回顶点 `x` 与 `y` 之间的距离（边数）。\n\n```python\nG = {'a': {'b', 'c'}, 'b': {'a'}, 'c': {'a', 'd'}, 'd': {'c'}}\n```\n\n示例：\n- `distance(G, 'a', 'b')` → `1`\n- `distance(G, 'b', 'd')` → `3`\n- `distance(G, 'a', 'x')` → `None`（顶点不存在）",
+      "answer": "用 BFS、队列和距离字典",
       "explanation_md": "解决方案（BFS）：\n```python\ndef distance(G, x, y):\n    if x == y:\n        return 0\n    F = [x]  # 队列\n    M = {x}  # 已访问\n    dist = {x: 0}  # 距离\n    while F:\n        u = F.pop(0)\n        for v in G.get(u, set()):\n            if v == y:\n                return dist[u] + 1\n            if v not in M:\n                M.add(v)\n                dist[v] = dist[u] + 1\n                F.append(v)\n    return None  # 不连通\n```\n\n逻辑：\n- BFS 从 x 开始，逐层扩展\n- 记录每个顶点的最短距离\n- 找到 y 时立即返回距离\n- 如果 BFS 完成未找到，返回 None\n\n复杂度：O(V + E)（最坏遍历全图）。"
     },
     {
       "chapter": 4,
-      "topic": "Classe simple",
+      "topic": "简单类",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Définissez une classe `Fraction` représentant une fraction `p/q`. Elle doit avoir :\n- Un constructeur `__init__(self, p, q)` (avec `q > 0`)\n- Une méthode `__repr__` qui retourne une chaîne du format `'p/q'`\n- Une méthode `reduire(self)` qui retourne une nouvelle fraction réduite (en utilisant `gcd`)\n\nExemple :\n```python\nf = Fraction(6, 8)\nprint(f)              # '6/8'\nprint(f.reduire())    # '3/4'\n```",
-      "answer": "Classe avec __init__, __repr__, reduire et import gcd",
-      "explanation_md": "解决方案：\n```python\nfrom math import gcd\n\nclass Fraction:\n    def __init__(self, p, q):\n        assert q != 0, \"dénominateur non nul\"\n        self.p = p\n        self.q = q\n    \n    def __repr__(self):\n        return f'{self.p}/{self.q}'\n    \n    def reduire(self):\n        g = gcd(abs(self.p), abs(self.q))\n        return Fraction(self.p // g, self.q // g)\n```\n\n关键点：\n- `__init__` 赋值实例属性\n- `__repr__` 提供字符串表示（交互式回显和 print 时调用）\n- `reduire()` 计算 gcd，返回新的 Fraction 对象\n- 处理负数时用 `abs()` 求 gcd\n\n复杂度：gcd 是 O(log min(|p|, |q|))"
+      "statement_md": "定义类 `Fraction` 表示分数 `p/q`。它需要具备：\n- 构造函数 `__init__(self, p, q)`（其中 `q > 0`）\n- 方法 `__repr__`，返回格式为 `'p/q'` 的字符串\n- 方法 `reduire(self)`，返回一个约分后的新分数（使用 `gcd`）\n\n示例：\n```python\nf = Fraction(6, 8)\nprint(f)              # '6/8'\nprint(f.reduire())    # '3/4'\n```",
+      "answer": "包含 __init__、__repr__、reduire，并导入 gcd 的类",
+      "explanation_md": "解决方案：\n```python\nfrom math import gcd\n\nclass Fraction:\n    def __init__(self, p, q):\n        assert q != 0, \"分母必须非零\"\n        self.p = p\n        self.q = q\n    \n    def __repr__(self):\n        return f'{self.p}/{self.q}'\n    \n    def reduire(self):\n        g = gcd(abs(self.p), abs(self.q))\n        return Fraction(self.p // g, self.q // g)\n```\n\n关键点：\n- `__init__` 赋值实例属性\n- `__repr__` 提供字符串表示（交互式回显和 print 时调用）\n- `reduire()` 计算 gcd，返回新的 Fraction 对象\n- 处理负数时用 `abs()` 求 gcd\n\n复杂度：gcd 是 O(log min(|p|, |q|))"
     },
     {
       "chapter": 4,
-      "topic": "Classe et opérateurs",
+      "topic": "类与运算符",
       "difficulty": 2,
       "type": "code",
-      "statement_md": "Définissez une classe `Point` représentant un point en 2D avec :\n- Attributs `x` et `y` (floats)\n- Méthode `__add__` pour additionner deux points (retourne un nouveau point)\n- Méthode `__eq__` pour tester l'égalité (deux points égaux si x et y identiques)\n\nExemple :\n```python\np1 = Point(1, 2)\np2 = Point(3, 4)\np3 = p1 + p2         # Point(4, 6)\nprint(p1 == p2)      # False\nprint(p3 == Point(4, 6))  # True\n```",
-      "answer": "Classe avec __init__, __add__, __eq__",
+      "statement_md": "定义类 `Point` 表示二维点，要求：\n- 属性 `x` 和 `y`（float）\n- 方法 `__add__` 用于两点相加（返回一个新点）\n- 方法 `__eq__` 用于判断相等（若 x 和 y 都相同则两点相等）\n\n示例：\n```python\np1 = Point(1, 2)\np2 = Point(3, 4)\np3 = p1 + p2         # Point(4, 6)\nprint(p1 == p2)      # False\nprint(p3 == Point(4, 6))  # True\n```",
+      "answer": "包含 __init__、__add__、__eq__ 的类",
       "explanation_md": "解决方案：\n```python\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n    \n    def __eq__(self, other):\n        if not isinstance(other, Point):\n            return False\n        return self.x == other.x and self.y == other.y\n```\n\n关键点：\n- `__add__(self, other)` → `self + other`\n- `__eq__(self, other)` → `self == other`\n- `isinstance()` 检查类型安全\n- 浮点相等比较可能需要容差（本题简化为精确比较）\n\n**注意**：若定义 `__eq__` 应同时定义 `__hash__`（或明确设为 None），否则实例变不可哈希。"
     },
     {
@@ -188,16 +188,16 @@
       "topic": "round/floor/ceil/int 负数",
       "difficulty": 4,
       "type": "code",
-      "statement_md": "Complétez la trace d'exécution :\n\n```python\nfrom math import floor, ceil\nvaleurs = [-3.7, -2.5, -1.2, -0.8, -0.1, 0.0]\nfor x in valeurs:\n    print(f'{x} → int: {int(x)}, round: {round(x)}, floor: {floor(x)}, ceil: {ceil(x)}')\n```\n\nDonner la sortie exacte (6 lignes).",
-      "answer": "Voir explication pour 6 lignes complètes",
+      "statement_md": "补全执行轨迹：\n\n```python\nfrom math import floor, ceil\nvaleurs = [-3.7, -2.5, -1.2, -0.8, -0.1, 0.0]\nfor x in valeurs:\n    print(f'{x} → int: {int(x)}, round: {round(x)}, floor: {floor(x)}, ceil: {ceil(x)}')\n```\n\n给出精确输出（6 行）。",
+      "answer": "完整 6 行输出见解析",
       "explanation_md": "执行跟踪（负数情形）：\n\n```\n-3.7 → int: -3, round: -4, floor: -4, ceil: -3\n-2.5 → int: -2, round: -2, floor: -3, ceil: -2\n-1.2 → int: -1, round: -1, floor: -2, ceil: -1\n-0.8 → int: 0, round: -1, floor: -1, ceil: 0\n-0.1 → int: 0, round: 0, floor: -1, ceil: 0\n0.0 → int: 0, round: 0, floor: 0, ceil: 0\n```\n\n关键观察：\n1. **`int()`**：总是**向 0 截断**（对负数向上取整，对正数向下取整）\n2. **`round()`**：四舍五入（银行家舍入，0.5 时偶数化，但 -2.5 → -2，-3.5 → -4，遵循 round-half-to-even）\n3. **`floor()`**：向 **-∞**（即使是 -0.1 也变 -1）\n4. **`ceil()`**：向 **+∞**（即使是 -0.1 也变 0）\n\n常见陷阱：\n- `-2.5` 的 round 是 `-2`（不是 -3），因为银行家舍入\n- `floor()` 和 `ceil()` 对负数的行为与 int 完全不同"
     },
     {
       "chapter": 1,
-      "topic": "IEEE 754 & presque_egal",
+      "topic": "IEEE 754 与 presque_egal",
       "difficulty": 4,
       "type": "code",
-      "statement_md": "Implémentez une fonction `presque_egal(x, y, eps=1e-9)` qui teste si deux floats `x` et `y` sont « presque égaux » à une tolérance `eps` près (absolu).\n\nDécrivez en commentaire :\n1. Pourquoi la comparaison exacte `x == y` est **insuffisante** pour les floats\n2. Comment votre implémentation gère les cas limites (zéro, négatifs, `inf`, `nan`)\n\nExemples :\n- `presque_egal(1.0, 1.0)` → `True`\n- `presque_egal(1.0 + 1e-10, 1.0)` → `True` (< eps)\n- `presque_egal(1.0 + 1e-8, 1.0)` → `False` (> eps)\n- `presque_egal(1e-20, 0.0)` → `True`\n- `presque_egal(float('nan'), float('nan'))` → `False`",
+      "statement_md": "实现函数 `presque_egal(x, y, eps=1e-9)`，用于测试两个 float `x` 和 `y` 在绝对误差 `eps` 范围内是否“几乎相等”。\n\n请在注释中说明：\n1. 为什么对 float 来说，精确比较 `x == y` 是**不够的**\n2. 你的实现如何处理边界情况（零、负数、`inf`、`nan`）\n\n示例：\n- `presque_egal(1.0, 1.0)` → `True`\n- `presque_egal(1.0 + 1e-10, 1.0)` → `True` (< eps)\n- `presque_egal(1.0 + 1e-8, 1.0)` → `False` (> eps)\n- `presque_egal(1e-20, 0.0)` → `True`\n- `presque_egal(float('nan'), float('nan'))` → `False`",
       "answer": "def presque_egal(x, y, eps=1e-9): return abs(x - y) < eps",
       "explanation_md": "解决方案（带深入说明）：\n\n```python\ndef presque_egal(x, y, eps=1e-9):\n    # 关键：IEEE 754 float 约 16 位有效数字\n    # x == y 比较会因舍入误差失败\n    # 例：1 + 1e-16 - 1 = 0.0（非 1e-16）\n    return abs(x - y) < eps\n```\n\n为什么绝对值误差就够了：\n1. **舍入误差**：浮点运算产生微小偏差，使得逻辑上相等的值在机器上不等\n   ```python\n   >>> 0.1 + 0.2 == 0.3\n   False  # 实际上 0.1 + 0.2 ≈ 0.30000000000000004\n   ```\n2. **IEEE 754**：每个数用有限位表示，某些十进制分数无法精确表示\n\n处理特殊情况：\n```python\n# 零值\npresque_egal(1e-20, 0.0)  # True (|1e-20 - 0| = 1e-20 < 1e-9)\n\n# NaN（特殊）\npresque_egal(float('nan'), float('nan'))  # False\n# 因为 NaN 不等于任何东西，包括自己\n# abs(NaN - NaN) 返回 NaN，NaN < eps 返回 False\n\n# 无穷大\npresque_egal(float('inf'), float('inf'))  # True\n# |inf - inf| = NaN，但实际上我们可能需要特殊处理\n```\n\n高级版本（相对容差 + 绝对容差）：\n```python\ndef presque_egal_robuste(x, y, rel_eps=1e-9, abs_eps=1e-12):\n    # 相对容差：|x - y| < rel_eps * max(|x|, |y|)\n    # 绝对容差：|x - y| < abs_eps\n    return abs(x - y) <= max(rel_eps * max(abs(x), abs(y)), abs_eps)\n```\n\n复杂度：O(1) 浮点操作。"
     }

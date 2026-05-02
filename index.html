@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AP2 期末模拟 — 10 套手写卷</title>
 <link rel="stylesheet" href="style.css">
-<!-- Markdown rendering (CDN, optionnel : si offline, fallback texte brut) -->
+<!-- Markdown 渲染（CDN；离线时回退为纯文本） -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 <header>
-  <h1>AP2 — 模拟卷训练 <span class="sub">Algorithmique et Programmation 2</span></h1>
-  <nav id="set-picker"><!-- boutons 1..N injectés en JS --></nav>
+  <h1>AP2 — 模拟卷训练 <span class="sub">算法与程序设计 2</span></h1>
+  <nav id="set-picker"><!-- 第 1 套到第 N 套按钮由 JS 注入 --></nav>
   <p style="margin-top:10px">
-    <a href="fascicule.html" target="_blank" style="color:#ffd54f; font-weight:600;">📖 打开复习册(可打印 PDF)</a>
+    <a href="fascicule.html" target="_blank" style="color:#ffd54f; font-weight:600;">📖 打开复习册（可打印为 PDF）</a>
     <span style="opacity:.6; margin:0 8px;">|</span>
     <a href="recursion-training.html" target="_blank" style="color:#ffd54f; font-weight:600;">图 / 树递归特训</a>
   </p>
@@ -22,22 +22,22 @@
 <main id="app">
   <section id="welcome">
     <h2>欢迎</h2>
-    <p>上方可选择 <strong>10 套手写模拟卷</strong>(每套约 18–20 道题)。<br>这些题目是<strong>逐道手工编写</strong>的,不再来自模板生成器,每套围绕一条不同的主线展开,题型与场景互不重复。</p>
+    <p>上方可选择 <strong>10 套手写模拟卷</strong>（每套约 18–22 道题）。<br>这些题目都是<strong>逐道手工编写</strong>的，不再来自模板生成器；每套围绕一条不同主线展开，题型与场景尽量避免重复。</p>
     <ol>
-      <li>第 1 套 — <em>Pièges arithmétiques & types numériques</em>(数值类型与精度)</li>
-      <li>第 2 套 — <em>Conteneurs Python : list / tuple / set / dict</em>(容器与可哈希性)</li>
-      <li>第 3 套 — <em>Récursion classique & complexité</em>(经典递归与复杂度)</li>
-      <li>第 4 套 — <em>Diviser pour régner & tris</em>(分治与排序)</li>
-      <li>第 5 套 — <em>Itérateurs & générateurs</em>(迭代器与生成器)</li>
-      <li>第 6 套 — <em>Piles & Files</em>(栈与队列及其应用)</li>
-      <li>第 7 套 — <em>Arbres ordonnés étiquetés</em>(有序带标号的树)</li>
-      <li>第 8 套 — <em>Graphes — exploration & connexité</em>(图的遍历与连通性)</li>
-      <li>第 9 套 — <em>Cycles eulériens & propriétés structurelles</em>(欧拉路径与结构性质)</li>
-      <li>第 10 套 — <em>Classes & objets — synthèse type partiel</em>(类与对象综合卷)</li>
+      <li>第 1 套 — 数值类型与精度陷阱</li>
+      <li>第 2 套 — Python 容器、拷贝与可哈希性</li>
+      <li>第 3 套 — 经典递归与复杂度</li>
+      <li>第 4 套 — 分治与排序</li>
+      <li>第 5 套 — 迭代器与生成器</li>
+      <li>第 6 套 — 栈、队列与应用</li>
+      <li>第 7 套 — 有序带标号的树</li>
+      <li>第 8 套 — 图的遍历与连通性</li>
+      <li>第 9 套 — 欧拉路径与图的结构性质</li>
+      <li>第 10 套 — 类与对象综合卷</li>
     </ol>
     <p>每套都覆盖全部 4 章,但有一条主线占多数题量。</p>
     <p><strong>题型</strong>:选择题(自动批改)、简答题(自动批改,会忽略大部分空格差异)、代码题(提交后手动自评)。</p>
-    <p>每套卷底部都可以点 <button class="ghost" disabled>打印题目</button> 或 <button class="ghost" disabled>打印答案</button>,使用浏览器打印功能导出 PDF。</p>
+    <p>每套卷底部都可以点 <button class="ghost" disabled>打印题目</button> 或 <button class="ghost" disabled>打印答案</button>，使用浏览器打印功能导出 PDF。</p>
   </section>
 </main>
 

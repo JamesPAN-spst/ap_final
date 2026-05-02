@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>AP2 复习册 — Algorithmique et Programmation 2</title>
+<title>AP2 复习册 — 算法与程序设计 2</title>
 <style>
 /* ============================================================
    Print-first stylesheet (A4, 复习册)
@@ -81,8 +81,8 @@ hr { border: none; border-top: 0.5pt dashed #aaa; margin: 4mm 0; }
 
 <!-- ================== 封面 ================== -->
 <div class="cover page-break">
-  <div class="title">AP2<br>复习册<br><span style="font-size:18pt; color:#666">Fascicule de révision</span></div>
-  <div class="sub">算法与程序设计 2<br><span class="fr">Algorithmique et Programmation 2</span><br>L. Moisan · Université Paris Cité</div>
+  <div class="title">AP2<br>复习册<br><span style="font-size:18pt; color:#666">期末复习手册</span></div>
+  <div class="sub">算法与程序设计 2<br>L. Moisan · 巴黎西岱大学</div>
   <div class="meta">
     4 章 · 150+ 个要点 · 30 个经典坑<br>
     期末考试冲刺
@@ -92,20 +92,20 @@ hr { border: none; border-top: 0.5pt dashed #aaa; margin: 4mm 0; }
 <!-- ================== 目录 ================== -->
 <h1>目录</h1>
 <ol class="toc">
-  <li><strong>速查卡</strong> <span class="fr">(Antisèche express)</span> — 考前 30 分钟过一遍</li>
-  <li><strong>30 大经典坑</strong> <span class="fr">(Top 30 pièges)</span> — 按出题频率排序</li>
-  <li><strong>第 1 章</strong> — Python 类型补充 <span class="fr">(Compléments types)</span></li>
-  <li><strong>第 2 章</strong> — 函数、递归、生成器 <span class="fr">(Fonctions, récursivité, générateurs)</span></li>
-  <li><strong>第 3 章</strong> — 抽象数据类型 <span class="fr">(Types abstraits)</span>:队列、栈、树、图、欧拉</li>
-  <li><strong>第 4 章</strong> — 类与对象 <span class="fr">(Classes &amp; objets)</span></li>
-  <li><strong>考试套路</strong> <span class="fr">(Recettes anti-examen)</span> — 高频题型与答题模板</li>
-  <li><strong>复杂度速查表</strong> <span class="fr">(Tableau des complexités)</span></li>
+  <li><strong>速查卡</strong> — 考前 30 分钟过一遍</li>
+  <li><strong>30 大经典坑</strong> — 按出题频率排序</li>
+  <li><strong>第 1 章</strong> — Python 类型补充</li>
+  <li><strong>第 2 章</strong> — 函数、递归、生成器</li>
+  <li><strong>第 3 章</strong> — 抽象数据类型：队列、栈、树、图、欧拉</li>
+  <li><strong>第 4 章</strong> — 类与对象</li>
+  <li><strong>考试套路</strong> — 高频题型与答题模板</li>
+  <li><strong>复杂度速查表</strong></li>
 </ol>
 
 <div class="page-break"></div>
 
 <!-- ================== 1. 速查卡 ================== -->
-<h1>1. 速查卡 <span style="font-size:14pt;color:#666">Antisèche express</span></h1>
+<h1>1. 速查卡 <span style="font-size:14pt;color:#666">考前小抄</span></h1>
 <p style="color:#666"><em>考前一晚 + 入场前 30 分钟各看一遍。</em></p>
 
 <div class="cols-2">
@@ -166,27 +166,27 @@ hr { border: none; border-top: 0.5pt dashed #aaa; margin: 4mm 0; }
 </div>
 
 <div class="box tip">
-  <div class="title">生成器 <span class="fr">(générateur)</span></div>
+  <div class="title">生成器</div>
   函数体里写 <code>yield x</code> 即是生成器<br>
   <strong>只能遍历一次</strong>,内存 O(1)<br>
   转列表:<code>list(g)</code>
 </div>
 
 <div class="box warn">
-  <div class="title">队列 (FIFO,<span class="fr">file</span>) — 用 list</div>
+  <div class="title">队列（FIFO）— 用 list</div>
   入队尾:<code>F.append(x)</code><br>
   出队头:<code>F.pop(0)</code> ⚠️ O(n)
 </div>
 
 <div class="box tip">
-  <div class="title">栈 (LIFO,<span class="fr">pile</span>) — 用 list</div>
+  <div class="title">栈（LIFO）— 用 list</div>
   入栈:<code>P.append(x)</code><br>
   出栈:<code>P.pop()</code>(都是 O(1))<br>
   栈顶:<code>P[-1]</code>
 </div>
 
 <div class="box warn">
-  <div class="title">欧拉定理 <span class="fr">(Théorème d'Euler)</span></div>
+  <div class="title">欧拉定理</div>
   连通图 + 奇度数顶点为 <strong>0 或 2 个</strong> ⇔ 存在欧拉通路。<br>
   0 个 → 欧拉<strong>回路</strong>;2 个 → 路径起止于这 2 点。
 </div>
@@ -204,16 +204,16 @@ hr { border: none; border-top: 0.5pt dashed #aaa; margin: 4mm 0; }
 </div>
 
 <div class="box tip">
-  <div class="title">运算符重载 <span class="fr">(surcharge)</span></div>
+  <div class="title">运算符重载</div>
   <code>+</code> = <code>__add__</code> · <code>*</code> = <code>__mul__</code><br>
   <code>repr()</code> = <code>__repr__</code> · <code>x[k]</code> = <code>__getitem__</code><br>
   <code>len()</code> = <code>__len__</code> · <code>==</code> = <code>__eq__</code>
 </div>
 
 <div class="box warn">
-  <div class="title">伪代码 <span class="fr">(pseudo-code)</span> 必须写签名!</div>
-  示例:<code>fonction f(A, n) // arbre × entier → entier</code><br>
-  伪代码里禁止用 Python 语法,要用 <code>←</code>、<code>pour tout</code>、<code>tant que</code>。
+  <div class="title">伪代码必须写函数签名!</div>
+  示例:<code>函数 f(A, n) // 树 × 整数 → 整数</code><br>
+  伪代码里禁止用 Python 语法,要用 <code>←</code>、<code>对所有</code>、<code>当</code>、<code>如果 … 否则</code>。
 </div>
 
 </div>
@@ -221,7 +221,7 @@ hr { border: none; border-top: 0.5pt dashed #aaa; margin: 4mm 0; }
 <div class="page-break"></div>
 
 <!-- ================== 2. TOP 30 ================== -->
-<h1>2. 30 大经典坑 <span style="font-size:14pt;color:#666">Top 30 pièges</span></h1>
+<h1>2. 30 大经典坑 <span style="font-size:14pt;color:#666">30 大易错坑</span></h1>
 <p style="color:#666"><em>按"踩了就丢分"严重程度排序。考前重点过一遍。</em></p>
 
 <table>
@@ -232,8 +232,8 @@ hr { border: none; border-top: 0.5pt dashed #aaa; margin: 4mm 0; }
 <tr><td>4</td><td><code>(7)</code> 不是元组,只是带括号的整数</td><td>单元素元组写 <code>(7,)</code></td></tr>
 <tr><td>5</td><td><code>L.sort()</code> 返回 <code>None</code></td><td><code>sorted(L)</code> 返回新列表</td></tr>
 <tr><td>6</td><td><code>L.append(x)</code> 返回 <code>None</code></td><td>不要写 <code>L = L.append(x)</code></td></tr>
-<tr><td>7</td><td>双递归 Fibonacci 是 O(φⁿ),会超时</td><td>记忆化(<span class="fr">mémoïsation</span>)或迭代</td></tr>
-<tr><td>8</td><td>递归没写"基准情形"<span class="fr">(cas de base)</span> → <code>RecursionError</code></td><td>先写基准情形,加 <code>assert</code> 防御</td></tr>
+<tr><td>7</td><td>双递归 Fibonacci 是 O(φⁿ),会超时</td><td>记忆化或迭代</td></tr>
+<tr><td>8</td><td>递归没写"基准情形" → <code>RecursionError</code></td><td>先写基准情形,加 <code>assert</code> 防御</td></tr>
 <tr><td>9</td><td><code>set</code> 中放入 <code>list</code> → <code>TypeError</code></td><td>改成 <code>tuple</code> 或 <code>frozenset</code></td></tr>
 <tr><td>10</td><td><code>set + set</code> 没有定义</td><td>并集 <code>|</code>;交集 <code>&amp;</code>;差集 <code>-</code>;对称差 <code>^</code></td></tr>
 <tr><td>11</td><td><code>set - list</code> 没有定义</td><td>先转:<code>S - set(L)</code></td></tr>
@@ -253,8 +253,8 @@ hr { border: none; border-top: 0.5pt dashed #aaa; margin: 4mm 0; }
 <tr><td>25</td><td><code>list.pop(0)</code> 是 O(n) 不是 O(1)</td><td>对队列大数据量改用 <code>collections.deque</code></td></tr>
 <tr><td>26</td><td>lambda 里写 <code>if/for</code> 语句块</td><td>只能写表达式;条件用三元 <code>a if c else b</code></td></tr>
 <tr><td>27</td><td><code>complex</code> 不支持 <code>&lt;</code>、<code>&gt;</code> 比较</td><td>比较模长 <code>abs(z)</code></td></tr>
-<tr><td>28</td><td>伪代码题写成 Python 语法 → 扣分</td><td>用 <code>←</code>、<code>pour tout</code>、<code>tant que</code>、<code>si … sinon</code></td></tr>
-<tr><td>29</td><td>伪代码题忘写"签名"<span class="fr">(signature)</span> → 整体扣 1 分</td><td><code>fonction f(args) // type1 × type2 → type</code></td></tr>
+<tr><td>28</td><td>伪代码题写成 Python 语法 → 扣分</td><td>用 <code>←</code>、<code>对所有</code>、<code>当</code>、<code>如果 … 否则</code></td></tr>
+<tr><td>29</td><td>伪代码题忘写"函数签名"<span class="fr">(signature)</span> → 整体扣 1 分</td><td><code>函数 f(args) // 类型1 × 类型2 → 类型</code></td></tr>
 <tr><td>30</td><td>对树/列表递归忘写"空"基准情形</td><td>判 <code>len(L)==0</code> 或 <code>len(N)==1</code>(叶子)</td></tr>
 </table>
 
@@ -312,9 +312,9 @@ cmath.phase(z)                 # 辐角 = arctan(2)</pre>
 </table>
 
 <div class="box recipe">
-  <div class="title">🍳 反转字典 <span class="fr">(inverse d'un dict)</span> — 高频考点</div>
+  <div class="title">🍳 反转字典 <span class="fr">(字典反向映射，inverse d'un dict)</span> — 高频考点</div>
   原字典 <code>D : A → B</code>,要返回 <code>B → list(A)</code>(因为多个键可能映射到同一个值):
-<pre>def inverse(D):
+<pre>def 反转字典(D):
     R = {}
     for k, v in D.items():
         R.setdefault(v, []).append(k)
@@ -346,11 +346,11 @@ sorted(L, key=lambda p: p[1])       # 按二元组的第二项排序</pre>
 <h3>4.3 递归通用模板</h3>
 <pre>def f(n):
     assert n &gt;= 0          # 防御性断言
-    if n == 0:              # 基准情形 (cas de base)
+  if n == 0:              # 基准情形（cas de base）
         return ...
     return ... f(n-1) ...   # 递推</pre>
 
-<h3>4.4 记忆化 <span class="fr">(mémoïsation)</span></h3>
+<h3>4.4 记忆化</h3>
 <pre>D = {0: 0, 1: 1}
 def fib(n):
     if n not in D:
@@ -359,23 +359,23 @@ def fib(n):
 # 由 O(φⁿ) 优化到 O(n)</pre>
 也可以用 <code>functools.lru_cache</code> 装饰器。
 
-<h3>4.5 分治 <span class="fr">(diviser pour régner)</span> 三大经典</h3>
+<h3>4.5 分治三大经典</h3>
 <table>
 <tr><th>算法</th><th>核心思想</th><th>复杂度</th></tr>
-<tr><td>快速排序 <span class="fr">(Quicksort)</span></td><td>选枢轴,分成 &lt; 与 ≥ 两段递归</td><td>平均 O(n log n),最坏 O(n²)</td></tr>
-<tr><td>归并排序 <span class="fr">(Tri fusion)</span></td><td>对半切,递归排,再合并</td><td>O(n log n)(最坏)</td></tr>
-<tr><td>快速幂 <span class="fr">(Exponentiation rapide)</span></td><td>n 偶 → 平方;n 奇 → ×底数</td><td>O(log n) 次乘法</td></tr>
+<tr><td>快速排序</td><td>选枢轴,分成 &lt; 与 ≥ 两段递归</td><td>平均 O(n log n),最坏 O(n²)</td></tr>
+<tr><td>归并排序</td><td>对半切,递归排,再合并</td><td>O(n log n)(最坏)</td></tr>
+<tr><td>快速幂</td><td>n 偶 → 平方;n 奇 → ×底数</td><td>O(log n) 次乘法</td></tr>
 </table>
 
 <div class="box recipe">
   <div class="title">🍳 快速排序短版(必背)</div>
-<pre>def tri(L):
+<pre>def 快速排序(L):
     if not L:
         return []
     x = L[0]                                  # 枢轴
     L1 = [a for a in L[1:] if a &lt;  x]
     L2 = [a for a in L[1:] if a &gt;= x]
-    return tri(L1) + [x] + tri(L2)</pre>
+  return 快速排序(L1) + [x] + 快速排序(L2)</pre>
 </div>
 
 <div class="box recipe">
@@ -389,7 +389,7 @@ def fib(n):
   <strong>例:</strong> 算 A⁴⁵,递归路径 45→44→22→11→10→5→4→2 ⇒ <strong>共 8 次乘法</strong>。
 </div>
 
-<h3>4.6 生成器 <span class="fr">(générateur, <code>yield</code>)</span></h3>
+<h3>4.6 生成器（<code>yield</code>）</h3>
 <pre>def pairs(L):                # 输入 list,产出偶数
     for x in L:
         if x % 2 == 0:
@@ -405,15 +405,15 @@ sum(x*x for x in range(10**7) if x % 2 == 0)       # 内存友好</pre>
 </ul>
 
 <div class="box recipe">
-  <div class="title">🍳 用生成器枚举所有子集 <span class="fr">(parties d'un ensemble)</span></div>
-<pre>def parties(E):
+  <div class="title">🍳 用生成器枚举所有子集</div>
+<pre>def 所有子集(E):
     E = list(E)
     if not E:
         yield set()
     else:
         x = E[0]
-        reste = set(E[1:])
-        for S in parties(reste):
+    剩余 = set(E[1:])
+    for S in 所有子集(剩余):
             yield S            # 不含 x 的子集
             yield S | {x}      # 含 x 的子集</pre>
 </div>
@@ -423,33 +423,33 @@ sum(x*x for x in range(10**7) if x % 2 == 0)       # 内存友好</pre>
 <!-- ================== 5. CH3 ================== -->
 <h1>5. 第 3 章 — 抽象数据类型</h1>
 
-<h3>5.1 伪代码 <span class="fr">(pseudo-code)</span> 书写规范</h3>
+<h3>5.1 伪代码书写规范</h3>
 <ul>
   <li>赋值用 <code>←</code>,注释用 <code>//</code>。</li>
-  <li>循环:<code>pour tout x dans E</code>(对所有)、<code>tant que cond</code>(当)、<code>si … sinon</code>(如果…否则)。</li>
+  <li>循环与分支关键词写成:<code>对所有 x 属于 E</code>、<code>当 cond 时</code>、<code>如果 … 否则</code>。</li>
   <li><strong>必须写签名</strong>(每题失分点!),格式:<br>
-      <code>fonction f(A, n) // arbre × entier → entier</code></li>
-  <li>禁止用 Python 语法(伪代码不是 Python!)。<code>len(L)</code> 应写 <code>cardinal(L)</code> 或 <code>longueur(L)</code>。</li>
+      <code>函数 f(A, n) // 树 × 整数 → 整数</code></li>
+  <li>禁止用 Python 语法(伪代码不是 Python!)。<code>len(L)</code> 应写 <code>元素个数(L)</code> 或 <code>长度(L)</code>，课上原文常记作 <span class="fr">cardinal(L)</span> / <span class="fr">longueur(L)</span>。</li>
 </ul>
 
-<h3>5.2 队列 (FIFO,<span class="fr">file</span>)</h3>
-<pre>def file_vide():            return []
-def ajouter_element(x, F):  F.append(x)         # 入队尾
-def extraire_element(F):    return F.pop(0)     # 出队头  ⚠️ O(n)
-def premier_element(F):     return F[0]
-def est_vide(F):            return len(F) == 0</pre>
+<h3>5.2 队列（FIFO）</h3>
+<pre>def 空队列():                return []
+def 入队(x, F):             F.append(x)         # 入队尾
+def 出队(F):                return F.pop(0)     # 出队头  ⚠️ O(n)
+def 队首(F):                return F[0]
+def 是否为空(F):            return len(F) == 0</pre>
 <strong>典型用途:</strong> BFS(广度优先)、排队系统、按层遍历树。
 
-<h3>5.3 栈 (LIFO,<span class="fr">pile</span>)</h3>
-<pre>def pile_vide():    return []
-def empiler(P, x):  P.append(x)
-def depiler(P):     return P.pop()              # O(1)
-def sommet(P):      return P[-1]</pre>
+<h3>5.3 栈（LIFO）</h3>
+<pre>def 空栈():      return []
+def 入栈(P, x):  P.append(x)
+def 出栈(P):     return P.pop()              # O(1)
+def 栈顶(P):     return P[-1]</pre>
 <strong>典型用途:</strong> 括号匹配、表达式求值、DFS(深度优先)、撤销操作。
 
 <div class="box recipe">
-  <div class="title">🍳 括号匹配 <span class="fr">(bien parenthésé)</span> — 用栈</div>
-<pre>def bien_parenthese(s):
+  <div class="title">🍳 括号匹配 — 用栈</div>
+<pre>def 括号匹配(s):
     P = []
     pairs = {')': '(', ']': '['}
     for c in s:
@@ -462,15 +462,15 @@ def sommet(P):      return P[-1]</pre>
   思路:左括号入栈;遇右括号弹栈检查是否匹配;最后栈空才合法。
 </div>
 
-<h3>5.4 树 <span class="fr">(arbre)</span> — 用嵌套列表表示</h3>
+<h3>5.4 树 — 用嵌套列表表示</h3>
 <pre>A = ['x', ['a'], ['b', ['c'], ['d']]]   # 根 'x',下挂 2 棵子树
 
-def etiquette(N): return N[0]            # 节点标签
-def enfants(N):   return N[1:]           # 子树列表
-def taille(N):    return 1 + sum(taille(E) for E in N[1:])
-def hauteur(N):
+def 标签(N):      return N[0]            # 节点标签
+def 子树(N):      return N[1:]           # 子树列表
+def 节点数(N):    return 1 + sum(节点数(E) for E in N[1:])
+def 高度(N):
     if len(N) == 1: return 1             # 叶子高度 = 1(本课程约定)
-    return 1 + max(hauteur(E) for E in N[1:])</pre>
+  return 1 + max(高度(E) for E in N[1:])</pre>
 
 <div class="box tip">
   <div class="title">💡 树上递归的通用骨架</div>
@@ -478,7 +478,7 @@ def hauteur(N):
     # 1) 基准情形:叶子 (len(N) == 1)
     # 2) 递归处理每棵子树
     # 3) 合并子树的结果,再结合当前节点
-    return combine([f(E) for E in N[1:]], etiquette(N))</pre>
+    return combine([f(E) for E in 子树(N)], 标签(N))</pre>
   <strong>常见考题变种:</strong>
   <ul>
     <li>统计有 2 个孩子的节点数</li>
@@ -488,14 +488,14 @@ def hauteur(N):
   </ul>
 </div>
 
-<h3>5.5 图 <span class="fr">(graphe)</span> — 用 dict 套 set</h3>
+<h3>5.5 图 — 用 dict 套 set</h3>
 <pre>G = {'A': {'B','C'}, 'B': {'A','D'}, ...}    # 无向图 = 对称邻接
 
-def voisins(G, s):  return G[s]
-def sommets(G):     return list(G.keys())
-def ajouter_arete(G, s, t):
+def 邻居(G, s):      return G[s]
+def 顶点(G):         return list(G.keys())
+def 添加边(G, s, t):
     G[s].add(t); G[t].add(s)
-def supprimer_arete(G, s, t):
+def 删除边(G, s, t):
     G[s].discard(t); G[t].discard(s)</pre>
 
 <h3>5.6 图的两种遍历</h3>
@@ -522,16 +522,16 @@ def distance(G, x, y):
         F = suiv
     return None</pre>
 
-<h3>5.7 欧拉定理 <span class="fr">(Théorème d'Euler)</span> ⭐</h3>
+<h3>5.7 欧拉定理 ⭐</h3>
 <div class="box success">
   连通图存在<strong>欧拉通路</strong>(每条边恰好走一次)
   ⇔ <strong>奇度数顶点</strong>个数为 <strong>0</strong>(欧拉回路)或 <strong>2</strong>(开放路径,起止于这两点)。
 </div>
-<pre>def chemin_eulerien_existe(G):
-    if not est_connexe(G):
+<pre>def 存在欧拉通路(G):
+  if not 连通(G):
         return False
-    impairs = sum(1 for s in G if len(G[s]) % 2 == 1)
-    return impairs in (0, 2)</pre>
+  奇度点数 = sum(1 for s in G if len(G[s]) % 2 == 1)
+  return 奇度点数 in (0, 2)</pre>
 
 <div class="page-break"></div>
 
@@ -540,7 +540,7 @@ def distance(G, x, y):
 
 <h3>6.1 类的解剖图</h3>
 <pre>class Vecteur2d():
-    def __init__(self, x, y):     # 构造器 (constructeur)
+    def __init__(self, x, y):     # 构造器（constructeur）
         self.x = x
         self.y = y
     def norme(self):              # 普通方法
@@ -572,15 +572,15 @@ print(u + Vecteur2d(3, 4))        # 调用 __add__,再调用 __repr__</pre>
 <h3>6.3 真题模板</h3>
 
 <div class="box recipe">
-  <div class="title">🍳 二次三项式 Trinome(2024 年期末)</div>
+  <div class="title">🍳 二次三项式类（Trinome，2024 年期末）</div>
   原题:实现 <code>aX² + bX + c</code> 形式的多项式类,支持加法、求导、打印。
-<pre>class Trinome():
+<pre>class 二次三项式():
     def __init__(self, a, b, c):
         self.a, self.b, self.c = a, b, c
     def __add__(P, Q):
-        return Trinome(P.a + Q.a, P.b + Q.b, P.c + Q.c)
-    def derive(self):
-        return Trinome(0, 2*self.a, self.b)        # 求导
+    return 二次三项式(P.a + Q.a, P.b + Q.b, P.c + Q.c)
+  def 求导(self):
+    return 二次三项式(0, 2*self.a, self.b)     # 求导
     def __repr__(self):
         return f'{self.a}X² + {self.b}X + {self.c}'</pre>
 </div>
@@ -606,11 +606,11 @@ print(u + Vecteur2d(3, 4))        # 调用 __add__,再调用 __repr__</pre>
 <h3>6.4 类的常见坑</h3>
 <ul>
   <li><strong>类体里直接写可变属性 → 所有实例共享</strong>:
-<pre>class Mauvais:
-    enfants = []          # ⚠️ 所有实例共用同一个列表!
-class Bon:
+<pre>class 错误示例:
+  子节点 = []          # ⚠️ 所有实例共用同一个列表!
+class 正确示例:
     def __init__(self):
-        self.enfants = [] # ✅ 每个实例自己的</pre></li>
+    self.子节点 = [] # ✅ 每个实例自己的</pre></li>
   <li><strong>构造器默认参数用可变对象</strong>:跟普通函数一样会共享,要写 <code>=None</code> 模式。</li>
   <li><strong>"私有"属性约定</strong>:<code>self._x</code> 是软约定(请勿直接访问);<code>self.__x</code> 会触发名称改写 <span class="fr">(name mangling)</span> 变成 <code>_Cls__x</code>。</li>
   <li><strong><code>__eq__</code> 与 <code>__hash__</code> 配套</strong>:重写了 <code>__eq__</code> 但没写 <code>__hash__</code>,对象就会变成不可哈希,放不进 <code>set</code>。</li>
@@ -619,7 +619,7 @@ class Bon:
 <div class="page-break"></div>
 
 <!-- ================== 7. 考试套路 ================== -->
-<h1>7. 考试套路 <span style="font-size:14pt;color:#666">Recettes anti-examen</span></h1>
+<h1>7. 考试套路 <span style="font-size:14pt;color:#666">考试应对套路</span></h1>
 <p style="color:#666"><em>过去几年期末高频题型 + 答题模板。每种"套路"都对照一道实际题。</em></p>
 
 <h3>R1. 表达式追踪题(set / dict 求值)</h3>
@@ -635,36 +635,36 @@ class Bon:
 </div>
 
 <h3>R2. 树上"数一数"类(伪代码)</h3>
-<pre>fonction f(N) // arbre × … → entier
-  si N est une feuille:
-    retourner cas_base
+<pre>函数 f(N) // 树 × … → 整数
+  如果 N 是叶子:
+    返回 基准值
   c ← 0
-  pour tout E dans enfants(N):
+  对所有 E 属于 子树(N):
     c ← c + f(E)
-    si condition(E, N):     // 例:E 与 N 同标签
+    如果 condition(E, N):   // 例：E 与 N 标签相同
       c ← c + 1
-  retourner c</pre>
+  返回 c</pre>
 <div class="box tip">
   <strong>诀窍:</strong>如果判断条件依赖父节点,把父节点作为额外参数传入,签名写成 <code>f(N, parent)</code>。
 </div>
 
 <h3>R3. 图上"找结构"类(伪代码)</h3>
-<pre>fonction triangle(G) // graphe → booléen
-  pour tout s dans sommets(G):
-    pour tout t dans voisins(G, s):
-      pour tout u dans voisins(G, t):
-        si u ≠ s et s ∈ voisins(G, u):
-          retourner Vrai
-  retourner Faux</pre>
-<strong>变种:</strong>4-环、星形、团 <span class="fr">(clique)</span>。复杂度通常 O(V × deg²)。
+<pre>函数 存在三角形(G) // 图 → 布尔值
+  对所有 s 属于 顶点(G):
+    对所有 t 属于 邻居(G, s):
+      对所有 u 属于 邻居(G, t):
+        如果 u ≠ s 且 s ∈ 邻居(G, u):
+          返回 真
+  返回 假</pre>
+<strong>变种:</strong>4-环、星形、团 <span class="fr">(团，clique)</span>。复杂度通常 O(V × deg²)。
 
 <h3>R4. 把伪代码翻译成 Python</h3>
 <div class="box tip">
   <strong>翻译纪律:</strong>
   <ol>
     <li>把签名抄成 docstring:<code>''' str -&gt; int '''</code></li>
-    <li><code>← </code> → <code>=</code>;<code>tant que</code> → <code>while</code>;<code>si … sinon</code> → <code>if/else</code></li>
-    <li><code>cardinal(E)</code> → <code>len(E)</code>;<code>longueur(s)</code> → <code>len(s)</code></li>
+    <li><code>← </code> → <code>=</code>;<code>当</code> → <code>while</code>;<code>如果 … 否则</code> → <code>if/else</code></li>
+    <li><code>元素个数(E)</code> → <code>len(E)</code>;<code>长度(s)</code> → <code>len(s)</code></li>
     <li>别忘了<strong>最后的 <code>return</code></strong>。</li>
   </ol>
 </div>
@@ -707,17 +707,17 @@ class Bon:
 
 <h3>R8. 欧拉判定题</h3>
 <pre>def euler(G):
-    if not est_connexe(G): return None        # 不连通 → 不存在
-    impairs = [s for s in G if len(G[s]) % 2 == 1]
-    if len(impairs) == 0: return 'cycle'      # 欧拉回路
-    if len(impairs) == 2: return 'chemin'     # 欧拉通路
+  if not 连通(G): return None              # 不连通 → 不存在
+  奇度点 = [s for s in G if len(G[s]) % 2 == 1]
+  if len(奇度点) == 0: return '回路'       # 欧拉回路
+  if len(奇度点) == 2: return '通路'       # 欧拉通路
     return None                               # 都不是</pre>
 <strong>口诀:</strong>"先看连通,再数奇度数,0 或 2 才行"。
 
 <div class="page-break"></div>
 
 <!-- ================== 8. 复杂度速查 ================== -->
-<h1>8. 复杂度速查表 <span style="font-size:14pt;color:#666">Tableau des complexités</span></h1>
+<h1>8. 复杂度速查表 <span style="font-size:14pt;color:#666">复杂度总表</span></h1>
 
 <table>
 <tr><th>操作</th><th>复杂度</th><th>备注</th></tr>
@@ -756,8 +756,8 @@ A⁴⁵  = A   × A⁴⁴
 
 <hr>
 <p style="text-align:center; color:#888; margin-top: 12mm;">
-  <em>祝复习顺利,加油!Bonne révision !</em><br>
-  <small>AP2 复习册 · L. Moisan · Université Paris Cité</small>
+  <em>祝复习顺利,加油！</em><br>
+  <small>AP2 复习册 · L. Moisan · 巴黎西岱大学</small>
 </p>
 
 </body>

@@ -124,14 +124,14 @@ function answerDisplay(q) {
     const idx = q.answer.charCodeAt(0) - 65;
     return `<code>${escapeHtml(q.answer)}.</code> ${escapeHtml(q.choices[idx] || '')}`;
   }
-  return `<code>${escapeHtml(q.answer || '(voir explication)')}</code>`;
+  return `<code>${escapeHtml(q.answer || '见解析')}</code>`;
 }
 
 function renderQuestion(q, num) {
   const div = document.createElement('div');
   div.className = 'q-card';
   div.id = `q-${q.id}`;
-  const chapNames = { 1: 'CH1 类型', 2: 'CH2 函数', 3: 'CH3 抽象类型', 4: 'CH4 类与对象' };
+  const chapNames = { 1: '第 1 章 数值与类型', 2: '第 2 章 函数与递归', 3: '第 3 章 抽象类型', 4: '第 4 章 类与对象' };
 
   let inputHTML = '';
   if (q.type === 'mcq') {
@@ -155,7 +155,7 @@ function renderQuestion(q, num) {
         <span class="q-tag">${q.topic}</span>
         <span class="q-tag">难度 ${q.difficulty}</span>
       </span>
-      <span style="color:#aaa">id ${q.id}</span>
+      <span style="color:#aaa">题号 ${q.id}</span>
     </div>
     <div class="q-body">${md(q.statement_md)}</div>
     ${inputHTML}
@@ -290,7 +290,7 @@ function updateScore() {
 function renderScore(correct, total, manualPending, byChapter) {
   const zone = $('#score-zone');
   const pct = total ? Math.round(100 * correct / total) : 0;
-  const chapNames = { 1: 'CH1 类型', 2: 'CH2 函数', 3: 'CH3 抽象类型', 4: 'CH4 类与对象' };
+  const chapNames = { 1: '第 1 章 数值与类型', 2: '第 2 章 函数与递归', 3: '第 3 章 抽象类型', 4: '第 4 章 类与对象' };
   zone.innerHTML = `
     <div class="score-card">
       <div>得分</div>
