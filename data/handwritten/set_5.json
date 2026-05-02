@@ -1,0 +1,205 @@
+{
+  "id": 5,
+  "title": "第 5 套 — Itérateurs & générateurs",
+  "focus": "Étude approfondie des itérables, itérateurs, générateurs avec yield, et générateurs récursifs (sous-ensembles et partitions). Accent sur la différence list-comprehension vs genexp, la consommation unique des itérateurs, et yield from.",
+  "questions": [
+    {
+      "chapter": 1,
+      "topic": "range et mémoire",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "On exécute le code suivant :\n```python\nR = range(10**9)\nprint(type(R))\n```\nQuel type s'affiche ?",
+      "choices": [
+        "<class 'list'>",
+        "<class 'range'>",
+        "<class 'generator'>",
+        "<class 'tuple'>"
+      ],
+      "answer": "B",
+      "explanation_md": "`range` 不是列表，而是一个 `range` 对象。这个对象是**可迭代的** (iterable)，但**不是列表**。重点：`range` 是**惰性的**（lazy），不预先生成所有元素。\n\n> 提示：`range(10**9)` 只占用 O(1) 内存，而 `list(range(10**9))` 会直接 OOM。"
+    },
+    {
+      "chapter": 1,
+      "topic": "set和frozenset",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Quel est le résultat de l'expression Python suivante ?\n```python\nS = frozenset({1, 2, 3})\nS = S | {4, 5}\nlen(S)\n```",
+      "answer": "5",
+      "explanation_md": "`frozenset` 是不可变的 set。操作 `S | {4, 5}` 返回一个新的 `frozenset`，包含原来的元素加上新的元素。最终 `S` 的长度是 5。\n\n重点区别：\n- `set` 用 `.add(x)` 就地修改\n- `frozenset` 必须用 `|` 等操作符创建新对象\n\n> 完整运行结果：`len({1,2,3} | {4,5})` = 5"
+    },
+    {
+      "chapter": 2,
+      "topic": "list-comp vs genexp",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Comparez ces deux expressions :\n```python\nA = [x**2 for x in range(5)]  # list-comprehension\nB = (x**2 for x in range(5))  # generator expression\nprint(type(A), type(B))\n```\nQuel est le type de `B` ?",
+      "answer": "generator",
+      "explanation_md": "`A` 是 `list`，立刻生成所有 25 个元素。\n`B` 是 `generator`，**延迟生成**元素。\n\n关键区别：\n- **圆括号** `(...)` 生成器表达式 → genexp（一次性消费）\n- **方括号** `[...]` 列表推导 → list（可重复迭代）\n\n> 提示：`sum(range(10**9))` 很快；`sum([x for x in range(10**9)])` 会 OOM。"
+    },
+    {
+      "chapter": 2,
+      "topic": "yield基础",
+      "difficulty": 2,
+      "type": "mcq",
+      "statement_md": "Considérez cette fonction :\n```python\ndef simple_gen():\n    yield 1\n    yield 2\n    yield 3\n\ng = simple_gen()\nprint(type(g))\n```\nQue s'affiche ?",
+      "choices": [
+        "<class 'int'>",
+        "<class 'generator'>",
+        "<class 'NoneType'>",
+        "<class 'list'>"
+      ],
+      "answer": "B",
+      "explanation_md": "任何含有 `yield` 的函数，当被**调用**时（`g = simple_gen()`），不执行函数体，而是立刻返回一个 `generator` 对象。\n\n> 重点：`yield` 函数体不会立刻运行，只有在你迭代 (iterate) 时才会逐步执行。"
+    },
+    {
+      "chapter": 1,
+      "topic": "slicing和索引",
+      "difficulty": 1,
+      "type": "code",
+      "statement_md": "Écrivez une fonction `premier_impair(L)` qui retourne le **premier élément impair** de la liste `L`. Si aucun élément impair n'existe, retourner `None`.\n\n```python\n>>> premier_impair([2, 4, 5, 8])\n5\n>>> premier_impair([2, 4, 6])\nNone\n```",
+      "answer": "Boucler sur L, vérifier x % 2 == 1",
+      "explanation_md": "```python\ndef premier_impair(L):\n    for x in L:\n        if x % 2 == 1:\n            return x\n    return None\n```\n\nOu avec une approche genexp + `next()`：\n```python\ndef premier_impair(L):\n    return next((x for x in L if x % 2 == 1), None)\n```\n\n第二种用法展示了 `next()` 的第二个参数（默认值）。生成器消费一个元素即停止，比循环更高效。"
+    },
+    {
+      "chapter": 2,
+      "topic": "genexp消费",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Écrivez une fonction `somme_pairs(n)` qui retourne la **somme de tous les entiers pairs** de 0 à n-1.\n\nUtilisez une **generator expression** et la fonction `sum()`.\n\n```python\n>>> somme_pairs(10)\n20\n```\n(Explication : 0+2+4+6+8 = 20)",
+      "answer": "sum() appliqué à genexp de condition x % 2 == 0",
+      "explanation_md": "```python\ndef somme_pairs(n):\n    return sum(x for x in range(n) if x % 2 == 0)\n```\n\n注意：genexp 不需要外层括号（当它是函数的唯一参数时）。\n\n与列表推导比较：\n```python\n# 低效（分配完整列表）\nreturn sum([x for x in range(n) if x % 2 == 0])\n```\n\ngenexp 只在计算时才生成值，是**流式计算**。"
+    },
+    {
+      "chapter": 2,
+      "topic": "yield from",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Complétez ce générateur pour qu'il yield tous les éléments de L1 puis L2 :\n```python\ndef concatener_gen(L1, L2):\n    yield from L1\n    yield from L2\n\nlist(concatener_gen([1, 2], [3, 4]))\n```\nQuel résultat s'affiche ?",
+      "answer": "[1, 2, 3, 4]",
+      "explanation_md": "`yield from iterable` 等价于 `for x in iterable: yield x`，但更简洁且转发 `send()` 和 `throw()` 调用（高级用法）。\n\n> 提示：`yield from` 就是\"委托给另一个生成器或可迭代对象\"的意思。"
+    },
+    {
+      "chapter": 2,
+      "topic": "生成器函数执行",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Écrivez une fonction générateur `paires_croissantes(n)` qui yield tous les couples `(i, j)` avec `0 <= i < j < n`.\n\n```python\n>>> list(paires_croissantes(3))\n[(0, 1), (0, 2), (1, 2)]\n```",
+      "answer": "Boucles imbriquées avec yield (i, j)",
+      "explanation_md": "```python\ndef paires_croissantes(n):\n    for i in range(n):\n        for j in range(i + 1, n):\n            yield (i, j)\n```\n\n或者用 `yield from` 优化（但较复杂）：\n```python\ndef paires_croissantes(n):\n    for i in range(n):\n        yield from ((i, j) for j in range(i + 1, n))\n```\n\n第二种方式展示了如何 `yield from` 一个 genexp。"
+    },
+    {
+      "chapter": 2,
+      "topic": "生成器不能重置",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Que se passe-t-il si on essaie de réutiliser un générateur ?\n\n```python\ndef gen():\n    yield 1\n    yield 2\n\ng = gen()\nlist(g)      # [1, 2]\nlist(g)      # ???\n```\n\nQue retourne le deuxième appel à `list(g)` ?",
+      "answer": "[]",
+      "explanation_md": "生成器一旦**消费完毕**，就**无法重置**。第二次迭代返回空列表 `[]`。\n\n这是迭代器的关键特性：**一次性消费** (one-time only)。\n\n> 若要重新迭代，必须重新调用生成器函数：`g = gen()` 创建**新**的生成器对象。\n\n对比：\n```python\nL = [1, 2]\nlist(L)  # [1, 2]\nlist(L)  # [1, 2]  仍然有值！（列表可重复迭代）\n```"
+    },
+    {
+      "chapter": 2,
+      "topic": "next和StopIteration",
+      "difficulty": 2,
+      "type": "mcq",
+      "statement_md": "Quel est le résultat du code suivant ?\n```python\ng = (x**2 for x in [1, 2, 3])\nnext(g)  # premier appel\nnext(g)  # deuxième appel\nnext(g)  # troisième appel\nnext(g)  # quatrième appel\n```\n\nQue se passe-t-il au quatrième appel ?",
+      "choices": [
+        "Retourne 9",
+        "Lève StopIteration",
+        "Retourne None",
+        "Retourne 0"
+      ],
+      "answer": "B",
+      "explanation_md": "前三个 `next()` 返回 1, 4, 9。第四次调用时，生成器已耗尽，抛出 `StopIteration` 异常。\n\n> 这是迭代器协议 (iterator protocol) 的核心：\n> - 有值时，`next()` 返回值\n> - 耗尽时，抛 `StopIteration`\n\n在 `for` 循环中，Python 自动捕获 `StopIteration` 并停止迭代。在手动 `next()` 时需要自己处理。"
+    },
+    {
+      "chapter": 2,
+      "topic": "生成器过滤",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une fonction générateur `divisibles_par_k(N, k)` qui yield tous les entiers de 1 à N divisibles par k.\n\n```python\n>>> list(divisibles_par_k(20, 3))\n[3, 6, 9, 12, 15, 18]\n```",
+      "answer": "Yield x si x % k == 0 dans range(1, N+1)",
+      "explanation_md": "```python\ndef divisibles_par_k(N, k):\n    for x in range(1, N + 1):\n        if x % k == 0:\n            yield x\n```\n\n或更简洁用 genexp：\n```python\ndef divisibles_par_k(N, k):\n    yield from (x for x in range(1, N + 1) if x % k == 0)\n```\n\n复杂度：O(N)，内存 O(1)（只存储当前值）。如果用列表推导，内存 O(N)。"
+    },
+    {
+      "chapter": 2,
+      "topic": "生成器映射",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une fonction générateur `puissances(base, max_exp)` qui yield toutes les puissances `base**0, base**1, ..., base**max_exp`.\n\n```python\n>>> list(puissances(2, 5))\n[1, 2, 4, 8, 16, 32]\n```",
+      "answer": "Yield base**i pour i dans range(max_exp+1)",
+      "explanation_md": "```python\ndef puissances(base, max_exp):\n    for i in range(max_exp + 1):\n        yield base ** i\n```\n\n或用 genexp + `yield from`：\n```python\ndef puissances(base, max_exp):\n    yield from (base ** i for i in range(max_exp + 1))\n```\n\n应用：用于快速幂算法 (exponentiation rapide) 的数据流。"
+    },
+    {
+      "chapter": 2,
+      "topic": "yield和return共存",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Qu'affiche ce code ?\n```python\ndef gen_avec_retour():\n    yield 1\n    yield 2\n    return 42\n\ntry:\n    g = gen_avec_retour()\n    print(next(g))  # ???\n    print(next(g))  # ???\n    print(next(g))  # ???\nexcept StopIteration as e:\n    print(f\"Valeur de retour: {e.value}\")\n```",
+      "answer": "Affiche 1, 2, puis 'Valeur de retour: 42'",
+      "explanation_md": "在生成器中，`return VALUE` 等价于抛 `StopIteration(VALUE)`。异常的 `.value` 属性包含返回值。\n\n```python\ndef gen_avec_retour():\n    yield 1\n    yield 2\n    return 42\n\ng = gen_avec_retour()\nprint(next(g))  # 输出 1\nprint(next(g))  # 输出 2\ntry:\n    print(next(g))\nexcept StopIteration as e:\n    print(e.value)  # 输出 42\n```\n\n> 注意：普通 `for` 循环会忽略 `StopIteration.value`，只有手动 `next()` 才能访问它。"
+    },
+    {
+      "chapter": 3,
+      "topic": "set运算深度",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Quel est le résultat de :\n```python\nA = {1, 2, 3}\nB = {2, 3, 4}\nC = A - (B & {3, 4})\nC\n```",
+      "answer": "{1, 2}",
+      "explanation_md": "逐步求值：\n1. `B & {3, 4}` = `{2, 3, 4} & {3, 4}` = `{3, 4}`（交集）\n2. `A - {3, 4}` = `{1, 2, 3} - {3, 4}` = `{1, 2}`（差集）\n\n`&` 是交集，`-` 是差集。\n\n记住 set 操作的符号：\n- `|` 并集 (union)\n- `&` 交集 (intersection)\n- `-` 差集 (difference)\n- `^` 对称差"
+    },
+    {
+      "chapter": 3,
+      "topic": "dict和set组合",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une fonction `invert_dict(D)` qui prend un dictionnaire D (clés et valeurs sont des entiers) et retourne un nouveau dictionnaire où les **valeurs deviennent clés** et les clés deviennent valeurs.\n\n```python\n>>> invert_dict({'a': 1, 'b': 2, 'c': 1})\n{1: 'a', 2: 'b'}  # ou {1: 'c', 2: 'b'} selon les collisions\n```\n\nNote : s'il y a plusieurs clés avec la même valeur, on garde la dernière.",
+      "answer": "dict(zip(D.values(), D.keys()))",
+      "explanation_md": "```python\ndef invert_dict(D):\n    return {v: k for k, v in D.items()}\n```\n\n或：\n```python\ndef invert_dict(D):\n    return dict(zip(D.values(), D.keys()))\n```\n\n**关键点**：如果原字典有重复值（如例子中两个键都映射到 1），反转后只保留**最后一个**键。这是因为在 dict 推导中，后来的赋值覆盖前面的。\n\n复杂度：O(n)，内存 O(n)。"
+    },
+    {
+      "chapter": 4,
+      "topic": "类的__init__和__repr__",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Complétez la classe `Point` :\n```python\nclass Point:\n    def __init__(self, x, y):\n        # À compléter\n        pass\n    \n    def __repr__(self):\n        # À compléter\n        pass\n\np = Point(3, 4)\nprint(repr(p))  # Affichera: Point(3, 4)\nprint(p.x)      # Affichera: 3\n```",
+      "answer": "self.x = x; self.y = y et return f'Point({self.x}, {self.y})'",
+      "explanation_md": "```python\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def __repr__(self):\n        return f'Point({self.x}, {self.y})'\n```\n\n或者用 `format` 而不是 f-string：\n```python\ndef __repr__(self):\n    return 'Point({}, {})'.format(self.x, self.y)\n```\n\n> `__repr__` 是 Python 的「特殊方法」（dunder method），定义对象的官方字符串表示。"
+    },
+    {
+      "chapter": 3,
+      "topic": "树的遍历",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une fonction générateur `feuilles(A)` qui yield toutes les **feuilles** d'un arbre A. L'arbre est représenté comme une liste imbriquée où `A[0]` est l'étiquette et `A[1:]` sont les enfants.\n\nExemple : `A = [1, [2, [3], [4]], [5]]` représente l'arbre avec racine 1, enfants 2 et 5, et 2 a deux enfants 3 et 4.\n\n```python\n>>> sorted(list(feuilles(A)))\n[3, 4, 5]\n```",
+      "answer": "if no children, yield étiquette; else yield from each subtree",
+      "explanation_md": "```python\ndef feuilles(A):\n    if len(A) == 1:  # Pas d'enfants → c'est une feuille\n        yield A[0]\n    else:  # A[0] est l'étiquette, A[1:] sont les enfants\n        for enfant in A[1:]:\n            yield from feuilles(enfant)\n```\n\nAlternativement :\n```python\ndef feuilles(A):\n    étiquette, *enfants = A\n    if not enfants:\n        yield étiquette\n    else:\n        for enfant in enfants:\n            yield from feuilles(enfant)\n```\n\n这个例子结合了**递归**和**生成器**：`yield from` 委托给子树的生成器。"
+    },
+    {
+      "chapter": 4,
+      "topic": "类的__add__方法",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Implémentez une classe simple `Vecteur2D` avec la méthode `__add__` pour additionner deux vecteurs.\n\n```python\nclass Vecteur2D:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n    \n    def __add__(self, other):\n        # À compléter\n        pass\n\nv1 = Vecteur2D(1, 2)\nv2 = Vecteur2D(3, 4)\nv3 = v1 + v2\nprint(v3.x, v3.y)  # Affichera: 4 6\n```",
+      "answer": "return Vecteur2D(self.x + other.x, self.y + other.y)",
+      "explanation_md": "```python\nclass Vecteur2D:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n    \n    def __add__(self, other):\n        return Vecteur2D(self.x + other.x, self.y + other.y)\n```\n\n`__add__` 定义了 `+` 运算符的行为。类似的特殊方法：\n- `__sub__` → `-`\n- `__mul__` → `*`\n- `__eq__` → `==`\n- `__lt__` → `<`\n\n每一个都允许对象参与相应的运算。"
+    },
+    {
+      "chapter": 2,
+      "topic": "递归生成器：子集",
+      "difficulty": 5,
+      "type": "code",
+      "statement_md": "Écrivez une fonction générateur récursive `sous_ensembles(E)` qui yield tous les **sous-ensembles** (power set) d'un ensemble E.\n\nL'ensemble E est donné sous forme de set ou frozenset.\n\n```python\n>>> sorted([tuple(sorted(s)) for s in sous_ensembles({1, 2})])\n[(), (1,), (1, 2), (2,)]\n```\n\nLa fonction doit yield chaque sous-ensemble sous forme de set ou frozenset.",
+      "answer": "Pour chaque élément x, générer sous_ensembles(E-{x}) puis yield avec/sans x",
+      "explanation_md": "```python\ndef sous_ensembles(E):\n    if not E:\n        yield frozenset()\n    else:\n        x = next(iter(E))  # Prendre un élément arbitraire\n        reste = E - {x}\n        for S in sous_ensembles(reste):\n            yield S          # Sans x\n            yield S | {x}    # Avec x\n```\n\n或者用 set（可变版本）：\n```python\ndef sous_ensembles(E):\n    if len(E) == 0:\n        yield set()\n    else:\n        x = E.pop()  # 移除一个元素\n        for S in sous_ensembles(E):\n            yield S.copy()         # 不含 x 的子集\n            yield S | {x}          # 含 x 的子集\n        E.add(x)  # 恢复原集合（可选，如果需要重用）\n```\n\n**递归逻辑**：\n1. 基础情况：空集 → yield 空集\n2. 递归情况：取一个元素 x，递归生成 E\\{x} 的所有子集，对每个子集 S：\n   - yield S（不含 x）\n   - yield S∪{x}（含 x）\n\n**复杂度**：生成 2^|E| 个子集，无法避免，但流式生成比列表版本内存更高效。"
+    },
+    {
+      "chapter": 2,
+      "topic": "递归生成器：分数递减",
+      "difficulty": 5,
+      "type": "code",
+      "statement_md": "Écrivez une fonction générateur récursive `partitions_decroissantes(n)` qui yield toutes les **partitions de n en parts décroissantes**.\n\nUne partition de n est une façon de l'écrire comme somme d'entiers positifs, sans considérer l'ordre (on représente chaque partition comme une liste triée en ordre décroissant).\n\n```python\n>>> sorted(list(partitions_decroissantes(5)))\n[[5], [4, 1], [3, 2], [3, 1, 1], [2, 2, 1], [2, 1, 1, 1], [1, 1, 1, 1, 1]]\n```\n\nNote : les parts doivent être en ordre décroissant (strictement ou non), par exemple `[3, 1, 1]` mais pas `[1, 1, 3]`.",
+      "answer": "Récursion: pour chaque première part k, générer partitions(n-k) avec parts ≤ k",
+      "explanation_md": "```python\ndef partitions_decroissantes(n, max_part=None):\n    if max_part is None:\n        max_part = n\n    \n    if n == 0:\n        yield []\n    else:\n        # Essayer chaque valeur possible pour la première part\n        for k in range(min(n, max_part), 0, -1):\n            # k est la première (plus grande) part\n            for p in partitions_decroissantes(n - k, k):\n                yield [k] + p\n```\n\nOu sans paramètre max_part (moins efficace mais correct) :\n```python\ndef partitions_decroissantes(n):\n    if n == 0:\n        yield []\n    else:\n        for k in range(n, 0, -1):\n            for p in partitions_decroissantes(n - k):\n                if not p or k >= p[0]:  # Assurer l'ordre décroissant\n                    yield [k] + p\n```\n\n**Logique de récursion** :\n1. Si n = 0 → partition vide\n2. Sinon, essayer chaque première part k ∈ [1, n]\n3. Pour chaque k, récursivement partitionner n-k avec constraint que les parts suivantes ≤ k (ordre décroissant)\n\n**Exemple pour n=5** :\n- k=5 : [5] + partitions(0) = [5]\n- k=4 : [4] + partitions(1, max=4) = [4, 1]\n- k=3 : [3] + partitions(2, max=3) = [3, 2], [3, 1, 1]\n- k=2 : [2] + partitions(3, max=2) = [2, 2, 1], [2, 1, 1, 1]\n- k=1 : [1] + partitions(4, max=1) = [1, 1, 1, 1, 1]\n\n**Complexité** : génère p(n) partitions, où p(n) croît exponentiellement mais lentement."
+    }
+  ]
+}

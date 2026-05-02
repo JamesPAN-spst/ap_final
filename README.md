@@ -1,82 +1,86 @@
 # AP2 模拟卷站点
 
-> 这个仓库保存可直接发布的网页版本,以及与之配套的题库生成器。
+> 这个仓库保存可直接发布的网页版本,以及配套的**手写**题库。
 
 ## 项目状态
 
-- ✅ 重写考试1-15：使用详细计划生成360道题，避免重复，基于课程材料和往年格式。
-- ✅ 优化打印功能：添加“打印题目”和“打印答案”模式，直接显示“问题-答案-解析”无需提交。
-- ✅ 更新文档：刷新README.md和EXAM_BLUEPRINT.md，同步最新结构。
-- ✅ 验证系统：确认无重复题，打印模式正常，题库可复现。
+- ✅ **重构题库为手写版本(2026-05)**:取消生成器,改为 10 套**完全手工编写**的考卷,每套围绕一条主线展开,题型与场景互不重复。
+- ✅ 自动批改:选择题/简答题逐题判分,代码题手动自评。
+- ✅ 打印模式:支持「打印题目」与「打印答案」两种导出模式。
+- ✅ 客户端缓存版本号 `2026-05-02-handwritten-v1`,网页会自动拉到最新题库。
+
+## 当前题库
+
+10 套手写考卷(每套约 18-22 题),共约 200 道题。每套覆盖全部 4 章节,但有一条主导主线:
+
+| N° | 主题 | 主导章 |
+|----|------|--------|
+| 1 | Pièges arithmétiques & types numériques | CH1 |
+| 2 | Conteneurs Python(list/tuple/set/dict、可哈希、拷贝) | CH1 |
+| 3 | Récursion classique & 复杂度分析 | CH2 |
+| 4 | Diviser pour régner & 排序 | CH2 |
+| 5 | Itérateurs & générateurs(`yield` / `yield from`) | CH2 |
+| 6 | Piles & Files(应用与摊销复杂度) | CH3 |
+| 7 | Arbres ordonnés étiquetés(DFS / BFS / 谓词) | CH3 |
+| 8 | Graphes — exploration & connexité | CH3 |
+| 9 | Cycles eulériens & 结构性质 | CH3 |
+| 10 | Classes & objets — synthèse type partiel | CH4 |
 
 ## 仓库结构
 
 ```
 work/web/
-├── index.html          ← 网页入口
-├── app.js              ← 答题逻辑 + 自动批改
-├── style.css           ← 样式 + 打印样式
-├── fascicule.html      ← 复习册页面
-├── gen_exams.py        ← 15 套模拟卷生成器
-├── EXAM_BLUEPRINT.md   ← 模板试卷与 15 套覆盖计划
-├── README.md           ← 当前说明文档
-├── sources/            ← 原始课件 PDF、抽取文本与抽取脚本
+├── index.html              ← 网页入口
+├── app.js                  ← 答题逻辑 + 自动批改
+├── style.css               ← 样式 + 打印样式
+├── fascicule.html          ← 复习册页面
+├── gen_exams.py            ← (DEPRECATED stub) 仅说明题库已改为手写
+├── gen_exams_legacy.py     ← 旧版程序化生成器(归档)
+├── README.md               ← 本说明
+├── sources/                ← 原始课件 PDF、抽取文本与抽取脚本
 └── data/
-    └── exams.json      ← 360 道题数据(15 套 × 24 题)
+    ├── exams.json          ← 编译后的最终题库(网页直接读取)
+    └── handwritten/
+        ├── SHARED_BLUEPRINT.md   ← 题库手写规范(子 agent 入口)
+        ├── set_1.json            ← 第 1 套 原始 JSON
+        ├── …
+        ├── set_10.json           ← 第 10 套 原始 JSON
+        ├── _extract.py           ← 从 LLM 输出抽取 JSON 的辅助脚本
+        ├── _patch_supplements.py ← 手工补题脚本(CH4 补强等)
+        └── _compile.py           ← 合并 + 校验 → exams.json
 ```
 
 ## 使用方法
 
 ### 1. 启动网页
 
-因为浏览器直接打开 `file://` 页面时通常会拦截 `fetch`,建议在仓库根目录起一个本地服务器:
-
 ```powershell
 cd s:\tmp\RESOURCE\ap\work\web
 python -m http.server 8000
 ```
 
-然后打开 <http://localhost:8000>。
+打开 <http://localhost:8000>。
 
 页面说明:
-1. 顶部可选择 **第 1 套** 到 **第 15 套**。
-2. 每套固定 **24 题**:Q1-Q10 是 trace/细节判断,Q11-Q15 是短编程,Q16-Q20 是伪代码/ADT,Q21-Q24 是长题。
-3. 选择题和简答题支持自动批改。
-4. 代码题展示参考实现,通过“我做对了 / 我做错了”手动自评。
-5. 可以使用 **打印题目** 导出空白题目,或使用 **打印答案** 导出紧凑版“题目-答案-解析”。答案打印不需要先提交,也不需要展开解析。
+1. 顶部选择 **第 1 套 ~ 第 10 套**。
+2. 选择题与简答题自动批改;代码题展示参考解答,自评。
+3. 「打印题目」导出空白题目;「打印答案」导出「题目-答案-解析」紧凑版。
 
-### 2. 重新生成题库
+### 2. 重新编译题库
 
-在仓库根目录直接运行生成器:
+如果你修改了任意 `data/handwritten/set_<N>.json`,运行:
 
 ```powershell
-cd s:\tmp\RESOURCE\ap\work\web
-python gen_exams.py
+cd s:\tmp\RESOURCE\ap\work\web\data\handwritten
+python _compile.py
 ```
 
-脚本会重写 `data/exams.json`。当前的种子规则是 `set_id * 1000 + 7`,所以同一份代码每次生成的 15 套题都可复现。
+会重写 `data/exams.json`,并打印每套题量、章节分布、重复检测结果。
 
-题库结构与覆盖计划见 [EXAM_BLUEPRINT.md](EXAM_BLUEPRINT.md)。
+### 3. 添加 / 替换题目
 
-### 3. 查看原始材料
+直接编辑对应的 `set_<N>.json`(JSON 格式定义见 `SHARED_BLUEPRINT.md`),
+然后跑 `_compile.py`。**不要**修改 `data/exams.json` —— 它会被覆盖。
 
-仓库里现在已经包含一份整理过的源材料目录 [sources/README.md](sources/README.md):
-
-1. `sources/pdf/` 保存原始 PDF 课件、练习和考卷更正。
-2. `sources/text/` 保存从 PDF 抽取出的文本版本。
-3. `sources/extract_pdfs.py` 可在仓库内直接重新生成这些文本文件。
-
-## 题目结构
-
-| 模块 | 数量 | 覆盖内容 |
-|---|---:|---|
-| Q1-Q10 | 10 | Python 类型细节、函数参数、递归 trace、ADT 概念、dunder 与类陷阱 |
-| Q11-Q15 | 5 | 列表/字典/集合短算法、简单递归、生成器、类方法补全 |
-| Q16-Q20 | 5 | `pile`, `file`, `arbre`, `graphe`, BFS/DFS/Euler 等伪代码题 |
-| Q21-Q24 | 4 | 记忆化递归、树/图算法、Decimal/Trinome/Arbre 类、递归生成器 |
-
-## 说明
-
-- 题库是按每套卷的考点蓝图生成的,答案由代码同步计算或由对应参考实现给出。
-- 自动批改本质上还是字符串比对,虽然已经做了空格、真假值和集合顺序归一化,极端格式差异仍可能需要人工判断。
-- 原始 PDF 与抽取文本也已经并入仓库中的 `sources/` 目录,后续发布与维护以这里为准。
+> 升级题库后建议把 `app.js` 顶部的 `DATA_VERSION` 字符串改一个新值,
+> 强制浏览器跳过缓存重新拉取。

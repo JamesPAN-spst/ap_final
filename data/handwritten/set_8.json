@@ -1,0 +1,211 @@
+{
+  "id": 8,
+  "title": "第 8 套 — Graphes & exploration",
+  "focus": "实现与分析图的遍历（DFS/BFS）、连通分量与最短路径问题",
+  "questions": [
+    {
+      "chapter": 1,
+      "topic": "Dict de set — notation",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "Soit le graphe\n```python\nG = {'a': {'b', 'c'}, 'b': {'a'}, 'c': {'a', 'd'}, 'd': {'c'}}\n```\nCombien de sommets et d'arêtes possède G ?",
+      "choices": [
+        "4 sommets, 3 arêtes",
+        "4 sommets, 6 arêtes",
+        "4 sommets, 4 arêtes",
+        "3 sommets, 3 arêtes"
+      ],
+      "answer": "A",
+      "explanation_md": "G 有 4 个顶点：a, b, c, d。边是无向的，所以计数时：(a,b), (a,c), (c,d) = 3 条边（每条边在字典中的两个方向都记录，但物理上只是一条）。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Voisins — lecture simple",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "Avec le graphe ci-dessus, que retourne `voisins(G, 'c')` ?",
+      "answer": "{a, d}",
+      "explanation_md": "`voisins(G, 'c')` 返回 G['c']，即 {'a', 'd'}。"
+    },
+    {
+      "chapter": 2,
+      "topic": "Boucle for — itération sur set",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "Quel est le nombre d'itérations de cette boucle ?\n```python\nG = {'a': {1, 2, 3}, 'b': {1}, 'c': set()}\ncount = 0\nfor v in G['a']:\n    count += 1\n```",
+      "answer": "3",
+      "explanation_md": "G['a'] = {1, 2, 3} 是一个有 3 个元素的集合，for 循环遍历 3 次。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Sommet isolé",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "Un sommet **isolé** est un sommet sans voisin. Dans le graphe\n```python\nG = {'a': {'b'}, 'b': {'a'}, 'c': set()}\n```\ncomment appelle-t-on le sommet 'c' ?",
+      "answer": "isolé",
+      "explanation_md": "顶点 'c' 的邻居集合为空集合（set()），因此它是隔离的（isolé）。"
+    },
+    {
+      "chapter": 1,
+      "topic": "Comprehension — construction dict",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "Quelle est la taille (longueur) du graphe\n```python\nG = {i: set() for i in range(4)}\n```",
+      "answer": "4",
+      "explanation_md": "Graphe 有 4 个顶点（0, 1, 2, 3），每个顶点的邻接集合为空。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Degré d'un sommet",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Soit `G = {'x': {'y', 'z'}, 'y': {'x'}, 'z': {'x', 'w'}, 'w': {'z'}}`.\nLe degré du sommet 'z' est ?",
+      "answer": "2",
+      "explanation_md": "顶点 'z' 的邻接集合是 {'x', 'w'}，有 2 个元素，所以度数为 2。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Arête — existence",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Donnez une condition Python pour vérifier qu'il existe une arête entre deux sommets `s` et `t` dans le graphe `G` (dict de set).",
+      "answer": "t in G[s]",
+      "explanation_md": "在字典 dict of set 表示中，检查 t 是否在 G[s] 的邻接集合中：`t in G[s]`（假设 s 存在）。"
+    },
+    {
+      "chapter": 2,
+      "topic": "Récursion — appel simple",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "La fonction `explore(G, s, M)` marque `s` dans `M`, puis explore récursivement tous les voisins non marqués. Si on appelle `explore(G, 'a', M)` sur le graphe `G = {'a': {'b'}, 'b': {'a'}}` avec `M = set()`, combien d'appels récursifs seront effectués au total (y compris l'appel initial) ?",
+      "answer": "2",
+      "explanation_md": "初始调用 explore(G, 'a', M)：标记 'a'，探索邻接集 {'b'}。递归调用 explore(G, 'b', M)：标记 'b'，探索邻接集 {'a'}，但 'a' 已标记，不再递归。总计 2 个调用。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Parcours DFS — ordre",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Avec le graphe linéaire `G = {'a': {'b'}, 'b': {'a', 'c'}, 'c': {'b', 'd'}, 'd': {'c'}}`, un parcours DFS commençant par 'a' visite les sommets dans quel ordre (l'un des possibles) ?",
+      "answer": "a b c d",
+      "explanation_md": "从 'a' 开始 DFS：访问 'a' → 邻接 {'b'} → 访问 'b' → 邻接 {'a', 'c'}，'a' 已标记，探索 'c' → 访问 'c' → 邻接 {'b', 'd'}，'b' 已标记，探索 'd' → 访问 'd' → 结束。顺序：a, b, c, d（或其他有效 DFS 顺序）。"
+    },
+    {
+      "chapter": 3,
+      "topic": "BFS — file et couches",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Avec le graphe `G = {'a': {'b', 'c'}, 'b': {'a'}, 'c': {'a', 'd'}, 'd': {'c'}}`, un BFS commençant par 'a' crée des couches. Quels sommets sont à distance 2 de 'a' ?",
+      "answer": "{d}",
+      "explanation_md": "BFS 从 'a' 开始。第 0 层：{a}。第 1 层（'a' 的邻接）：{b, c}。第 2 层（'b', 'c' 的未访问邻接）：'d' 是 'c' 的邻接且未访问。距离为 2 的顶点：{d}。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Graphe connexe — définition",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Un graphe est **connexe** si et seulement si... (complétez)",
+      "answer": "tout sommet est accessible depuis tout autre sommet",
+      "explanation_md": "图是连通的当且仅当任意两个顶点之间都存在路径（即从任一顶点都可以到达其他任一顶点）。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Composantes connexes — départ",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une fonction `est_connexe(G)` qui retourne `True` si le graphe est connexe, `False` sinon.\n\nExemples :\n```\n>>> est_connexe({'a': {'b'}, 'b': {'a'}})\nTrue\n>>> est_connexe({'a': {'b'}, 'b': {'a'}, 'c': set()})\nFalse\n```\n\n(Vous pouvez supposer qu'une fonction `explore(G, s, M)` existe.)",
+      "answer": "Utiliser explore() depuis un sommet, vérifier |M| == nombre de sommets",
+      "explanation_md": "```python\ndef est_connexe(G):\n    if not G:\n        return True\n    s = next(iter(G))\n    M = set()\n    explore(G, s, M)\n    return len(M) == len(G)\n```\n选择任一顶点 s，从 s 开始 DFS 标记所有可达顶点。如果标记的顶点数等于图的顶点数，则图连通；否则不连通。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Matrice d'adjacence — lecture",
+      "difficulty": 3,
+      "type": "short",
+      "statement_md": "Soit la matrice d'adjacence\n```\nM = [[0, 1, 0, 1],\n     [1, 0, 1, 0],\n     [0, 1, 0, 1],\n     [1, 0, 1, 0]]\n```\nOù les sommets sont 0, 1, 2, 3. Convertissez M en un graphe `G` (dict de set) sur la diagonale (une liste ou tuple de noms).",
+      "answer": "{0: {1, 3}, 1: {0, 2}, 2: {1, 3}, 3: {0, 2}}",
+      "explanation_md": "矩阵的第 i 行第 j 列为 1 表示有边 (i, j)。遍历矩阵：行 0 列 1 和 3 为 1 → 顶点 0 的邻接为 {1, 3}。依此类推。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Distance — BFS par couches",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une fonction `distance(G, x, y)` qui retourne la longueur du plus court chemin entre x et y dans G (dict de set), ou `None` s'ils ne sont pas connectés. Utilisez BFS par couches.\n\nExemples :\n```\n>>> G = {'a': {'b'}, 'b': {'a', 'c'}, 'c': {'b', 'd'}, 'd': {'c'}}\n>>> distance(G, 'a', 'd')\n3\n>>> distance(G, 'a', 'e')\nNone\n```",
+      "answer": "Mettre en file les couches successives, compter les couches",
+      "explanation_md": "```python\ndef distance(G, x, y):\n    if x == y:\n        return 0\n    F = [x]\n    M = {x}\n    d = 0\n    while F:\n        C = []\n        while F:\n            s = F.pop(0)\n            if s == y:\n                return d\n            for t in G.get(s, set()):\n                if t not in M:\n                    M.add(t)\n                    C.append(t)\n        d += 1\n        F = C\n    return None\n```\nBFS 按层处理：每层对应距离 d。返回找到目标时的距离，或无路径时返回 None。O(V+E) 时间。"
+    },
+    {
+      "chapter": 2,
+      "topic": "Complexité récursive — appels",
+      "difficulty": 3,
+      "type": "short",
+      "statement_md": "La fonction `explore(G, s, M)` effectue un appel récursif pour chaque arête incidente à un sommet (non marqué). Quel est le nombre total d'appels à `explore` pour parcourir un graphe connexe de V sommets et E arêtes ?",
+      "answer": "V + E",
+      "explanation_md": "每个顶点被标记一次，产生 1 个初始调用或递归调用 = V 个调用。每条边 (u, v) 被检查最多两次（从 u 到 v，从 v 到 u），每次可能产生一个递归调用 = 最多 2E 个递归。但由于标记机制，总调用数为 V + E。详细：V 个顶点调用 + E 条边遍历。"
+    },
+    {
+      "chapter": 4,
+      "topic": "Classe graphe — __init__ et méthode",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une classe `Graphe` qui encapsule un dict de set `_adj` et fournit les méthodes `ajouter_arete(s, t)`, `voisins(s)` et `nb_sommets()`. Le graphe est non orienté.\n\nExemple d'utilisation :\n```python\ng = Graphe()\ng.ajouter_arete('a', 'b')\ng.ajouter_arete('b', 'c')\nassert g.nb_sommets() == 3\nassert g.voisins('b') == {'a', 'c'}\n```",
+      "answer": "Initialiser _adj, ajouter sommets automatiquement, bidirectionnalité",
+      "explanation_md": "```python\nclass Graphe:\n    def __init__(self):\n        self._adj = {}\n    \n    def ajouter_arete(self, s, t):\n        if s not in self._adj:\n            self._adj[s] = set()\n        if t not in self._adj:\n            self._adj[t] = set()\n        self._adj[s].add(t)\n        self._adj[t].add(s)\n    \n    def voisins(self, s):\n        return self._adj.get(s, set())\n    \n    def nb_sommets(self):\n        return len(self._adj)\n```\n使用私有属性 _adj 存储字典。ajouter_arete 自动创建顶点并添加双向边。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Graphe régulier",
+      "difficulty": 3,
+      "type": "short",
+      "statement_md": "Un graphe est **régulier** si tous les sommets ont le même degré. Écrivez une expression booléenne pour tester si `G` (dict de set) est régulier.",
+      "answer": "len(set(len(G[s]) for s in G)) <= 1",
+      "explanation_md": "计算所有顶点的度数（邻接集合大小），将结果放入集合。如果所有度数相同，该集合的大小为 1；如果没有顶点（空图），为 0。条件 `<= 1` 覆盖两种情况。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Chemin — longeur et existence",
+      "difficulty": 3,
+      "type": "short",
+      "statement_md": "Dans un graphe non orienté connexe, la **longueur** d'un chemin entre deux sommets est définie comme... ?",
+      "answer": "le nombre d'arêtes du chemin",
+      "explanation_md": "路径的长度是路径中的边数。例如，路径 a → b → c 有 2 条边，长度为 2。"
+    },
+    {
+      "chapter": 1,
+      "topic": "Set vide — initialisation",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Créez un graphe `G` avec deux sommets 'u' et 'v' sans arêtes entre eux (chacun isolé). Écrivez le dict correspondant.",
+      "answer": "{'u': set(), 'v': set()}",
+      "explanation_md": "两个顶点 'u' 和 'v' 都没有邻接顶点，所以各自的邻接集为空集 set()。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Graphe complet — arêtes",
+      "difficulty": 3,
+      "type": "short",
+      "statement_md": "Un graphe **complet** K_n a n sommets. Combien d'arêtes a K_5 ?",
+      "answer": "10",
+      "explanation_md": "完全图 K_n 的边数为 n(n-1)/2。对于 K_5：5×4/2 = 10。"
+    },
+    {
+      "chapter": 4,
+      "topic": "Graphe en classe",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Définir une classe `Graphe` (non orienté simple) ayant l'attribut interne `self._adj : dict[sommet, set[sommet]]`. Implémenter au moins :\n- `__init__()`\n- `ajouter_sommet(s)`\n- `ajouter_arete(s, t)` (ajoute aussi les sommets si nécessaire)\n- `voisins(s) -> set`\n- `__len__()` (renvoie l'ordre = nombre de sommets)\n\nIndiquer la complexité de chaque opération.",
+      "answer": "self._adj = {} ; ajouter_arete vérifie/insère, set.add(t) et set.add(s) ; toutes O(1) amorti",
+      "explanation_md": "```python\nclass Graphe:\n    def __init__(self):\n        self._adj = {}\n    def ajouter_sommet(self, s):\n        if s not in self._adj:\n            self._adj[s] = set()\n    def ajouter_arete(self, s, t):\n        self.ajouter_sommet(s)\n        self.ajouter_sommet(t)\n        self._adj[s].add(t)\n        self._adj[t].add(s)\n    def voisins(self, s):\n        return self._adj[s]\n    def __len__(self):\n        return len(self._adj)\n```\n\n**复杂度**：所有操作均为 `O(1)` 摊销（`dict` 查找/插入和 `set.add` 都是 O(1)）。\n\n⚠️ 注意 `voisins(s)` 返回的是**内部 set 的引用**——外部如果修改它会破坏图结构。生产代码可考虑返回 `frozenset(self._adj[s])` 拷贝。"
+    },
+    {
+      "chapter": 2,
+      "topic": "Itération vs récursion — parcours",
+      "difficulty": 3,
+      "type": "short",
+      "statement_md": "Quel est l'avantage principal d'un parcours BFS (itératif, file) par rapport à un parcours DFS (récursif, pile) en termes de risque algorithme ?",
+      "answer": "BFS ne risque pas de débordement de pile",
+      "explanation_md": "DFS 使用递归栈，对于深度很大的图可能导致栈溢出（stack overflow）。BFS 使用队列（内存中），避免了这个问题。"
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "id": 7,
+  "title": "第 7 套 — Arbres ordonnés étiquetés",
+  "focus": "Implémentation et manipulation d'arbres ordonnés (représentation liste imbriquée), parcours, taille / hauteur, prédicats sur structure et étiquettes.",
+  "questions": [
+    {
+      "chapter": 3,
+      "topic": "Représentation liste imbriquée",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "Dans la représentation liste imbriquée `[étiquette, enfant1, enfant2, ...]`, que représente l'indice 0 d'une liste `N` ?",
+      "choices": [
+        "L'étiquette du nœud",
+        "Le nombre d'enfants",
+        "Le premier enfant",
+        "La profondeur du nœud"
+      ],
+      "answer": "A",
+      "explanation_md": "在嵌套列表表示法中，位置 0 存储该节点的标签（标记），剩余位置 1 到末尾为子树列表。这是课程中定义的标准表示。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Feuilles et nœuds internes",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "在树 `['a', ['b'], ['c', ['d']]]` 中，有多少个叶子？",
+      "answer": "2",
+      "explanation_md": "叶子是没有子节点的节点。在此树中：\n- 'b' 没有子节点 → 叶子\n- 'd' 没有子节点 → 叶子\n- 'a' 和 'c' 各有子节点 → 非叶子\n总共 2 个叶子。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Nœud racine et profondeur",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "La profondeur de la racine d'un arbre est :",
+      "choices": [
+        "0",
+        "1",
+        "La hauteur de l'arbre",
+        "Indéfinie"
+      ],
+      "answer": "A",
+      "explanation_md": "按课程约定，树的根节点的深度为 0。子节点的深度 = 父节点深度 + 1。这是递归定义深度的标准基础情况。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Taille d'un arbre",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "计算树 `['root', ['a', ['x'], ['y']], ['b']]` 的大小（节点总数）。",
+      "answer": "5",
+      "explanation_md": "大小 = 所有节点计数。此树包含：\n1. root\n2. a\n3. x\n4. y\n5. b\n总共 5 个节点。递归：taille(N) = 1 + sum(taille(E) for E in 子节点)。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Identification d'étiquettes",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "树 `['P', ['Q', ['S']], ['R', ['T', ['U']], ['V']]]` 中有多少个节点的深度为 2？",
+      "answer": "3",
+      "explanation_md": "深度 2 的节点：\n- S（P → Q → S）\n- T（P → R → T）\n- V（P → R → V）\n总共 3 个节点。使用递归追踪，每层深度增加 1。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Hauteur d'un arbre",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "在表示 `[étiquette, enfant1, ...]` 中，实现计算树的**高度**（定义为最深叶子的深度，如果是单个节点则高度为 0）的函数。\n\n```python\ndef hauteur(N):\n    # N = [étiquette, enfant1, enfant2, ...]\n    # 返回 N 的高度\n    pass\n```\n\nExemple : `hauteur(['a', ['b'], ['c', ['d']]])` → `2`",
+      "answer": "递归遍历子节点，返回 1 + max 子高度（无子节点返回 0）",
+      "explanation_md": "```python\ndef hauteur(N):\n    if len(N) == 1:\n        return 0  # 无子节点的叶子\n    else:\n        return 1 + max(hauteur(enfant) for enfant in N[1:])\n```\n\n复杂度：O(n)，其中 n 是树的节点数，因为每个节点恰好访问一次。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Parcours DFS et collection",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "实现一个函数 `etiquettes_dfs(N)` 返回树中所有节点标签按 DFS 顺序（深度优先）的列表。\n\n```python\ndef etiquettes_dfs(N):\n    pass\n```\n\nExemple : `etiquettes_dfs(['root', ['a'], ['b', ['c']]])` → `['root', 'a', 'b', 'c']`",
+      "answer": "先序遍历，递归处理每个子节点",
+      "explanation_md": "```python\ndef etiquettes_dfs(N):\n    result = [N[0]]  # 先加当前节点标签\n    for enfant in N[1:]:\n        result.extend(etiquettes_dfs(enfant))\n    return result\n```\n\n复杂度：O(n)。这是树的前序遍历（pre-order），先访问父亲再递归访问子树。"
+    },
+    {
+      "chapter": 1,
+      "topic": "Propriétés des entiers illimités",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "比较 Python 中 `2**100` 的行为与 C 语言中 32 位整数对于等价操作的区别是什么？",
+      "choices": [
+        "Python 计算完整结果，C 会溢出或给出截断值",
+        "两者都会溢出到负数",
+        "Python 会抛异常，C 静默执行",
+        "它们的结果完全相同"
+      ],
+      "answer": "A",
+      "explanation_md": "Python 的 `int` 有任意精度，可以精确表示任意大的整数（仅受内存限制）。相比之下，C 的 32 位 `int` 只能表示 -2^31 到 2^31-1，超出范围会溢出。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Nœuds avec k enfants",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "在树 `['1', ['2', ['4'], ['5'], ['6']], ['3', ['7']]]` 中，有多少个节点恰好有 2 个子节点？",
+      "answer": "1",
+      "explanation_md": "检查每个节点的子节点个数（len(N)-1）：\n- '1'：2 个子节点 → 计数\n- '2'：3 个子节点 → 不计\n- '3'：1 个子节点 → 不计\n- '4','5','6','7'：0 个子节点 → 不计\n总共 1 个节点有恰好 2 个子节点。"
+    },
+    {
+      "chapter": 2,
+      "topic": "Récursion et base de récurrence",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "树递归函数的终止条件通常是什么？",
+      "choices": [
+        "节点没有子节点（len(N) == 1）",
+        "树的高度为 0",
+        "访问过所有节点",
+        "递归深度达到 1000"
+      ],
+      "answer": "A",
+      "explanation_md": "对于表示为 `[étiquette, enfant1, ...]` 的树，当一个节点没有子节点时，len(N) == 1，这是递归的自然终止条件。所有节点最终都会到达这个叶子情况。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Parcours BFS avec file",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "实现 `etiquettes_bfs(N)` 返回树按 BFS（广度优先搜索）顺序的节点标签列表。使用一个 `file`（列表），支持 `append`（加队尾）和 `pop(0)`（取队首）。\n\n```python\ndef etiquettes_bfs(N):\n    pass\n```\n\nExemple : `etiquettes_bfs(['root', ['a', ['x']], ['b']])` → `['root', 'a', 'b', 'x']`",
+      "answer": "初始化队列含根，循环取队首加标签，后续子节点入队",
+      "explanation_md": "```python\ndef etiquettes_bfs(N):\n    result = []\n    F = [N]  # 初始队列仅含根\n    while F:\n        node = F.pop(0)  # 取队首\n        result.append(node[0])  # 加标签\n        for enfant in node[1:]:\n            F.append(enfant)  # 子节点入队\n    return result\n```\n\n复杂度：O(n)。BFS 的时间复杂度与 DFS 相同，但空间可能更大（依赖树宽度）。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Chemin dans un arbre",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "实现 `chemin_vers(N, target)` 返回从根到标签为 `target` 的节点的路径（节点标签列表），如果不存在返回 `None`。\n\n```python\ndef chemin_vers(N, target):\n    pass\n```\n\nExemple : `chemin_vers(['a', ['b', ['c']], ['d']], 'c')` → `['a', 'b', 'c']`",
+      "answer": "递归搜索，找到目标则回溯并重建路径，不存在返回 None",
+      "explanation_md": "```python\ndef chemin_vers(N, target):\n    if N[0] == target:\n        return [N[0]]\n    for enfant in N[1:]:\n        path = chemin_vers(enfant, target)\n        if path is not None:\n            return [N[0]] + path\n    return None\n```\n\n复杂度：最坏 O(n)（需搜索全树）。该实现首先递归搜索子树，找到路径后在上层重建。"
+    },
+    {
+      "chapter": 2,
+      "topic": "Calcul itératif vs récursif",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "对于树的大小计算，与斐波那契序列相比，为什么树上的递归通常**不会**遇到指数级复杂度问题？",
+      "answer": "每个节点只访问一次，没有重复计算",
+      "explanation_md": "树的递归函数（如 taille、hauteur）每个节点恰好访问一次，因为树是无环结构。相反，fib2(n) 会重复计算 fib2(k)（对许多相同的 k），导致指数级调用。树结构保证线性时间复杂度 O(n)。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Étiquettes répétées",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "实现函数 `compter_label(N, label)` 返回树中标签为 `label` 的节点个数。\n\n树：`['a', ['b', ['a']], ['a', ['c']]]`，求 `compter_label(N, 'a')`。",
+      "answer": "3",
+      "explanation_md": "树中含 3 个标签为 'a' 的节点：\n1. 根（位置 0）\n2. 第一个子树中的叶子\n3. 第二个子树的根\n\n实现：```python\ndef compter_label(N, label):\n    count = 1 if N[0] == label else 0\n    for enfant in N[1:]:\n        count += compter_label(enfant, label)\n    return count\n```"
+    },
+    {
+      "chapter": 1,
+      "topic": "Conversion base et représentation",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "在二进制表示中，`0b101010` 对应的十进制数是？",
+      "choices": [
+        "42",
+        "32",
+        "52",
+        "64"
+      ],
+      "answer": "A",
+      "explanation_md": "0b101010 = 1×2^5 + 0×2^4 + 1×2^3 + 0×2^2 + 1×2^1 + 0×2^0 = 32 + 8 + 2 = 42。这是 Python 中进制转换的基础。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Propriétés structurelles",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "实现 `arbre_equilibre(N)` 判断树是否「平衡」：所有叶子的深度相同。\n\n```python\ndef arbre_equilibre(N):\n    pass\n```\n\nExemple :\n- `['a', ['b'], ['c']]` → `True`（都在深度 1）\n- `['a', ['b', ['c']], ['d']]` → `False`（c 在深度 2，d 在深度 1）",
+      "answer": "递归求所有叶子的深度集合，检验是否唯一",
+      "explanation_md": "```python\ndef profondeurs_feuilles(N, prof=0):\n    if len(N) == 1:  # 叶子\n        return {prof}\n    else:\n        result = set()\n        for enfant in N[1:]:\n            result.update(profondeurs_feuilles(enfant, prof + 1))\n        return result\n\ndef arbre_equilibre(N):\n    return len(profondeurs_feuilles(N)) == 1\n```\n\n复杂度：O(n)。辅助函数收集所有叶子深度，若集合大小为 1 则平衡。"
+    },
+    {
+      "chapter": 4,
+      "topic": "Classe pour ADT",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "定义一个简单的 `Arbre` 类，包含：\n- 构造函数 `__init__(self, etiquette, enfants=None)`\n- 方法 `est_feuille(self)` 返回布尔值\n\n```python\nclass Arbre:\n    pass\n```\n\nExemple : `a = Arbre('root'); a.est_feuille()` → `True`",
+      "answer": "etiquette 属性，enfants 初始化为空列表，est_feuille 检查 len==0",
+      "explanation_md": "```python\nclass Arbre:\n    def __init__(self, etiquette, enfants=None):\n        self.etiquette = etiquette\n        self.enfants = enfants if enfants is not None else []\n    \n    def est_feuille(self):\n        return len(self.enfants) == 0\n```\n\n⚠️ 默认参数陷阱：必须用 `enfants=None` 然后内部初始化，而不是 `enfants=[]`，否则所有实例共享同一列表。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Degrés des nœuds",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "在树中，nœud 的「度数」定义为其子节点个数。树 `['1', ['2', ['5'], ['6'], ['7']], ['3'], ['4', ['8']]]` 中，最大度数是多少？",
+      "answer": "3",
+      "explanation_md": "检查每个节点的度数（子节点个数）：\n- '1'：3 个子节点（度数 3）→ 最大\n- '2'：3 个子节点（度数 3）→ 最大\n- '3'：0 个子节点（度数 0）\n- '4'：1 个子节点（度数 1）\n- 叶子：度数 0\n最大度数 = 3。"
+    },
+    {
+      "chapter": 4,
+      "topic": "Méthodes spéciales dunder",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "为 `Arbre` 类添加 `__repr__` 方法，返回形如 \"Arbre(etiquette, n enfants)\" 的字符串表示。\n\n```python\nclass Arbre:\n    def __init__(self, etiquette, enfants=None):\n        self.etiquette = etiquette\n        self.enfants = enfants if enfants is not None else []\n    \n    def __repr__(self):\n        pass\n```\n\nExemple : `repr(Arbre('a', [Arbre('b')]))` → `\"Arbre(a, 1 enfants)\"`",
+      "answer": "返回格式化字符串，包含 etiquette 和 len(enfants)",
+      "explanation_md": "```python\ndef __repr__(self):\n    n = len(self.enfants)\n    plural = \"enfant\" if n <= 1 else \"enfants\"\n    return f\"Arbre({self.etiquette}, {n} {plural})\"\n```\n\n或更简洁：```python\ndef __repr__(self):\n    return f\"Arbre({self.etiquette}, {len(self.enfants)} enfants)\"\n```\n\n该方法在交互式环境或 print() 调用时自动使用。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Feuilles fonction principale",
+      "difficulty": 4,
+      "type": "code",
+      "statement_md": "实现 `feuilles(N)` 返回树 N 中所有叶子节点的标签，**按从左到右的顺序**（对应树的遍历顺序）。\n\n```python\ndef feuilles(N):\n    # N = [étiquette, enfant1, enfant2, ...]\n    # 返回叶子标签的列表（左到右）\n    pass\n```\n\nExemple :\n- `feuilles(['a', ['b'], ['c', ['d']]])` → `['b', 'd']`\n- `feuilles(['x', ['y', ['p'], ['q']], ['z']])` → `['p', 'q', 'z']`\n\n**签名** : `feuilles : arbre → liste`\n**复杂度** : O(n)，其中 n 为树的节点总数。",
+      "answer": "DFS 递归遍历，仅在叶子时收集标签，否则递推子树结果",
+      "explanation_md": "```python\ndef feuilles(N):\n    if len(N) == 1:  # N = [étiquette]\n        return [N[0]]  # 这是一个叶子\n    else:  # N = [étiquette, enfant1, enfant2, ...]\n        result = []\n        for enfant in N[1:]:\n            result.extend(feuilles(enfant))\n        return result\n```\n\n**工作原理**：\n- 若节点是叶子（无子节点），直接返回其标签。\n- 否则，递归收集所有子树的叶子标签并拼接。\n- 由于子树按左到右遍历，输出自然保持顺序。\n\n**复杂度**：O(n)。每个节点恰好被访问一次。"
+    },
+    {
+      "chapter": 3,
+      "topic": "Prédicat arité",
+      "difficulty": 4,
+      "type": "code",
+      "statement_md": "实现谓词 `arbre_k_aire(N, k)` 检验树 N 是否为「k-进制树」，即**每个节点最多有 k 个子节点**。\n\n```python\ndef arbre_k_aire(N, k):\n    # 返回 True 当且仅当 N 中每个节点的子节点数 ≤ k\n    pass\n```\n\nExemple :\n- `arbre_k_aire(['a', ['b'], ['c']], 2)` → `True`（都 ≤ 2 个子节点）\n- `arbre_k_aire(['a', ['b', ['x'], ['y']], ['c'], ['d']], 2)` → `False`（根有 3 个子节点）\n- `arbre_k_aire(['a', ['b', ['p'], ['q'], ['r']]], 3)` → `True`\n\n**签名** : `arbre_k_aire : arbre × entier → booléen`\n**复杂度** : O(n)，n = 树的节点数。\n**递归策略** : 检查当前节点子节点数，然后检查所有子树。",
+      "answer": "检查当前节点的度数，递归验证所有子树均满足条件",
+      "explanation_md": "```python\ndef arbre_k_aire(N, k):\n    # 检查当前节点是否满足条件\n    nb_enfants = len(N) - 1\n    if nb_enfants > k:\n        return False\n    # 递归检查所有子树\n    for enfant in N[1:]:\n        if not arbre_k_aire(enfant, k):\n            return False\n    return True\n```\n\n或更简洁版本：\n```python\ndef arbre_k_aire(N, k):\n    if len(N) - 1 > k:  # 子节点数 > k\n        return False\n    return all(arbre_k_aire(enfant, k) for enfant in N[1:])\n```\n\n**工作原理**：\n1. 计算当前节点子节点数 = len(N) - 1（第 0 位是标签）。\n2. 若超过 k，返回 False。\n3. 对所有子树递归检验，全部通过则返回 True。\n\n**复杂度**：O(n)。树的每个节点恰好检查一次。"
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "id": 10,
+  "title": "第 10 套 — Classes & objets (synthèse partiel)",
+  "focus": "Démarche de conception orientée objet, dunder methods, encapsulation, ADT avec classes. Synthèse type partiel de l'examen mi-semestre.",
+  "questions": [
+    {
+      "chapter": 4,
+      "topic": "__init__ et instanciation",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "Soit la classe :\n```python\nclass Compte:\n    def __init__(self, solde):\n        self.solde = solde\n```\nQue se passe-t-il lors de l'exécution de `c = Compte(100)` ?\n> 提示：__init__是什么时候被调用的？",
+      "choices": [
+        "Une variable c reçoit le résultat de `self.solde = 100`",
+        "Une instance de Compte est créée, puis __init__ est automatiquement appelé avec self=instance et solde=100",
+        "Un attribut de classe Compte est défini avec la valeur 100",
+        "Une variable globale solde est créée avec la valeur 100"
+      ],
+      "answer": "B",
+      "explanation_md": "创建实例时,Python 自动调用 `__init__`，并传递 `self`(新创建的实例)及其他参数。这里 `self.solde = 100` 给实例 `c` 添加属性 solde。选项A错误因为 `__init__` 不能返回值；C错误因为 solde 是实例属性而不是类属性；D错误因为 solde 是局部作用域。"
+    },
+    {
+      "chapter": 4,
+      "topic": "__repr__ vs __str__",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "Quelle est la différence entre `__repr__` et `__str__` en Python ? Laquelle est appelée par `print()` ?\n> 提示：一个是给开发者看，一个是给用户看。",
+      "answer": "__repr__ 给开发者看(应能完整复现对象),__str__ 给用户看，print() 优先调用 __str__，若无定义则 fallback 到 __repr__",
+      "explanation_md": "`__repr__` 应返回一个能用来重新构造对象的字符串(如 `\"Compte(100)\"`);`__str__` 返回友好的用户界面字符串。`print(obj)` 按优先级：`__str__` → `__repr__`；`repr(obj)` 或交互式显示直接用 `__repr__`。"
+    },
+    {
+      "chapter": 1,
+      "topic": "default mutable argument (陷阱)",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Soit la classe :\n```python\nclass Pile:\n    def __init__(self, items=[]):\n        self.items = items\n\np1 = Pile()\np1.items.append(1)\np2 = Pile()\nprint(p2.items)\n```\nQuel est le résultat ? Expliquez le problème et proposez la correction.\n> 提示：默认参数在函数定义时创建一次，所有调用共享同一个对象。",
+      "answer": "p2.items = [1]（所有Pile()共享同一个list）。正确做法：`def __init__(self, items=None): self.items = items if items is not None else []`",
+      "explanation_md": "问题：`items=[]` 作为默认值，在类定义时创建一次。所有未传参的Pile实例共享这个list。p1.items.append(1)修改了这个共享list，所以p2.items也是[1]。\n\n正确做法：\n```python\ndef __init__(self, items=None):\n    self.items = items if items is not None else []\n```\n这样每次调用都会创建新的list。这是Python最常见的陷阱之一！"
+    },
+    {
+      "chapter": 4,
+      "topic": "encapsulation et attributs privés",
+      "difficulty": 1,
+      "type": "mcq",
+      "statement_md": "Quelle est l'utilité du double tiret bas `__` au début d'un nom d'attribut (ex: `self.__data`) ?\n> 提示：在Python中有没有真正的\"私有\"属性？",
+      "choices": [
+        "Rendre l'attribut complètement invisible (vraie sécurité)",
+        "Appliquer un name mangling pour décourager l'accès direct (convention Python)",
+        "Créer une variable globale",
+        "Marquer l'attribut comme en lecture seule"
+      ],
+      "answer": "B",
+      "explanation_md": "双下划线 `__attr` 触发 name mangling（名字改写），转换为 `_ClassName__attr`。这不是真正的私有（可以通过 `obj._ClassName__attr` 访问），而是**约定和保护**，让外部代码不太可能意外修改。单下划线 `_attr` 仅是注释级别的约定。"
+    },
+    {
+      "chapter": 4,
+      "topic": "appel de méthode vs fonction",
+      "difficulty": 1,
+      "type": "short",
+      "statement_md": "Soit une classe avec la méthode `def norm(self)`. Pourquoi écrit-on `u.norm()` et non `norm(u)` ?\n> 提示：方法是附在实例上的函数；self 如何自动传入的？",
+      "answer": "u.norm() 自动传递 u 作为 self 参数。norm(u) 会抛 TypeError 因为 self 缺失。",
+      "explanation_md": "当调用 `u.norm()` 时，Python 自动找到 `u` 所属类的 `norm` 方法，并将 `u` 作为第一个参数 `self` 传入。这称为 \"bound method\"。而 `norm(u)` 试图调用一个不存在的函数 norm()，会抛 `NameError` 或 `TypeError`。"
+    },
+    {
+      "chapter": 4,
+      "topic": "__add__ 与运算符重载",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Implémentez la méthode `__add__` pour la classe `Vecteur2d` afin que `u + v` retourne un nouveau vecteur dont les coordonnées sont la somme des coordonnées.\n```python\nclass Vecteur2d:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    # À compléter\n\nu = Vecteur2d(1, 2); v = Vecteur2d(3, 4)\nprint(u + v)  # doit afficher quelque chose comme (4,6)\n```\n> 提示：__add__ 接收 self 和 other 两个参数。",
+      "answer": "def __add__(self, other): return Vecteur2d(self.x + other.x, self.y + other.y)",
+      "explanation_md": "```python\ndef __add__(self, other):\n    return Vecteur2d(self.x + other.x, self.y + other.y)\n```\n`__add__(self, other)` 定义了 `self + other` 的行为。注意要返回一个新的Vecteur2d实例，而不是修改原对象（immutable 风格）。还要实现 `__repr__` 才能漂亮地打印结果。"
+    },
+    {
+      "chapter": 4,
+      "topic": "__eq__ 和__hash__",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Pourquoi est-il dangereux de définir uniquement `__eq__` dans une classe sans définir `__hash__` ?\n> 提示：如果两个对象相等(==)，它们应该有相同的哈希值。",
+      "answer": "如果只定义 __eq__，实例变成不可哈希（unhashable），不能作为 set 元素或 dict 键。应同时定义 __hash__ 保证相等对象有相同哈希值。",
+      "explanation_md": "Python 的规则：如果定义了 `__eq__`，默认 `__hash__` 被设为 None。这让对象 unhashable，无法加入 set 或作为 dict 键。正确做法是同时定义两者，保证 `a == b` ⟹ `hash(a) == hash(b)`。例：\n```python\nclass Entier:\n    def __init__(self, val):\n        self.val = val\n    def __eq__(self, other):\n        return self.val == other.val\n    def __hash__(self):\n        return hash(self.val)\n```"
+    },
+    {
+      "chapter": 4,
+      "topic": "__len__ et _contains_",
+      "difficulty": 1,
+      "type": "code",
+      "statement_md": "Implémentez `__len__` pour une classe `Pile` qui encapsule une liste interne `self._items`.\n```python\nclass Pile:\n    def __init__(self):\n        self._items = []\n    def push(self, x):\n        self._items.append(x)\n    # À compléter\n\np = Pile()\np.push(1); p.push(2); p.push(3)\nprint(len(p))  # doit afficher 3\n```\n> 提示：len(obj) 调用 __len__ 方法。",
+      "answer": "def __len__(self): return len(self._items)",
+      "explanation_md": "```python\ndef __len__(self):\n    return len(self._items)\n```\n定义 `__len__` 后，`len(p)` 调用此方法。这样可以隐藏内部实现细节（_items）。`__len__` 必须返回非负整数。"
+    },
+    {
+      "chapter": 2,
+      "topic": "récursion et classe",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Écrivez une classe `Arbre` avec une méthode récursive `taille(self)` qui retourne le nombre total de nœuds.\n```python\nclass Arbre:\n    def __init__(self, etiquette, enfants=None):\n        self.etiquette = etiquette\n        self.enfants = enfants if enfants is not None else []\n    # À compléter: méthode taille\n\nA1 = Arbre(\"a\"); A2 = Arbre(\"b\")\nA = Arbre(\"c\", [A1, A2])\nprint(A.taille())  # doit afficher 3\n```\n> 提示：taille(A) = 1 + Σ taille(enfant)。",
+      "answer": "def taille(self): return 1 + sum(e.taille() for e in self.enfants)",
+      "explanation_md": "```python\ndef taille(self):\n    return 1 + sum(e.taille() for e in self.enfants)\n```\n递归：每个节点贡献1，加上所有子树的 taille。对于叶节点，enfants为空，sum返回0，所以返回1。实际写法可以用循环：`total = 1; for e in self.enfants: total += e.taille(); return total`。"
+    },
+    {
+      "chapter": 1,
+      "topic": "liste et alias",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Soit :\n```python\nclass Conteneur:\n    def __init__(self, data):\n        self.data = data\n\nL = [1, 2, 3]\nc = Conteneur(L)\nL[0] = 99\nprint(c.data[0])\n```\nQue s'affiche-t-il et pourquoi ? Comment éviter ce problème ?\n> 提示：self.data = data 是别名还是复制？",
+      "answer": "99。原因：self.data = data 建立别名，c.data 和 L 指向同一个 list。避免：使用 self.data = data[:] 或 self.data = data.copy() 或 self.data = list(data)。",
+      "explanation_md": "`self.data = data` 不复制，而是建立别名。修改 `L` 会影响 `c.data`。\n\n三种修复方案（浅拷贝）：\n- `self.data = data[:]`\n- `self.data = data.copy()`\n- `self.data = list(data)`\n\n如果 `data` 含嵌套列表（二维），需深拷贝：\n```python\nimport copy\nself.data = copy.deepcopy(data)\n```"
+    },
+    {
+      "chapter": 3,
+      "topic": "file et ADT",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Implémentez une classe `File` (queue FIFO) avec les méthodes `ajouter_element`, `extraire_element`, et `est_vide`.\n```python\nclass File:\n    def __init__(self):\n        self._items = []\n    # À compléter\n\nf = File()\nf.ajouter_element(1)\nf.ajouter_element(2)\nprint(f.extraire_element())  # 1\nprint(f.extraire_element())  # 2\n```\n> 提示：FIFO = 先进先出。append 到末尾，pop(0) 从头取。",
+      "answer": "def ajouter_element(self, x): self._items.append(x)\\ndef extraire_element(self): return self._items.pop(0)\\ndef est_vide(self): return len(self._items) == 0",
+      "explanation_md": "```python\ndef ajouter_element(self, x):\n    self._items.append(x)  # 加到队尾，O(1)\n\ndef extraire_element(self):\n    return self._items.pop(0)  # 取队首，O(n)\n\ndef est_vide(self):\n    return len(self._items) == 0\n```\n\n警告：`pop(0)` 是 O(n)（整个列表左移）。生产代码用 `collections.deque`。但课程简化用 list。"
+    },
+    {
+      "chapter": 4,
+      "topic": "__iter__ et itérateur",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Implémentez `__iter__` pour la classe `Pile` afin de pouvoir itérer sur ses éléments du haut vers le bas (en dépilant).\n```python\nclass Pile:\n    def __init__(self):\n        self._items = []\n    def push(self, x):\n        self._items.append(x)\n    # À compléter: __iter__\n\np = Pile()\np.push(1); p.push(2); p.push(3)\nfor val in p:  # Should print 3, 2, 1\n    print(val)\n```\n> 提示：__iter__ 返回一个迭代器；可以复制内部列表再反转。",
+      "answer": "def __iter__(self): return iter(reversed(self._items))",
+      "explanation_md": "```python\ndef __iter__(self):\n    return iter(reversed(self._items))\n```\n`__iter__` 必须返回一个迭代器。`reversed(self._items)` 返回一个逆序迭代器；`iter()` 确保返回迭代器对象。这样 `for val in p` 会从栈顶（最后push的）开始遍历。\n\n另一种方法（深拷贝，保护内部状态）：\n```python\ndef __iter__(self):\n    items_copy = self._items[::-1]\n    return iter(items_copy)\n```"
+    },
+    {
+      "chapter": 3,
+      "topic": "parcours et graphe",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Implémentez la fonction `nb_sommets_degre_impair(G)` pour un graphe dict-of-sets qui retourne le nombre de sommets ayant un degré impair.\n```python\n# G = {\"A\": {\"B\", \"C\"}, \"B\": {\"A\"}, \"C\": {\"A\", \"D\"}, \"D\": {\"C\"}}\nG = {\"A\": {\"B\", \"C\"}, \"B\": {\"A\"}, \"C\": {\"A\", \"D\"}, \"D\": {\"C\"}}\n# A: degré 2, B: degré 1, C: degré 2, D: degré 1\n# Résultat attendu: 2\n```\n> 提示：度数 = 邻接集合的大小。",
+      "answer": "def nb_sommets_degre_impair(G): return sum(1 for s in G if len(G[s]) % 2 == 1)",
+      "explanation_md": "```python\ndef nb_sommets_degre_impair(G):\n    return sum(1 for s in G if len(G[s]) % 2 == 1)\n```\n度数 = `len(G[s])`（邻接集合大小）。用生成器表达式和 sum 统计奇度顶点数。这是欧拉定理的关键检查：存在欧拉路径 ⟺ 奇度顶点数 ∈ {0, 2}。"
+    },
+    {
+      "chapter": 4,
+      "topic": "classe et trace",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Tracez l'exécution et donnez les valeurs affichées :\n```python\nclass Compteur:\n    def __init__(self, n):\n        self.n = n\n    def incrementer(self):\n        self.n += 1\n    def __repr__(self):\n        return f\"Compteur({self.n})\"\n\nc = Compteur(5)\nc.incrementer()\nprint(c)\nc.incrementer()\nprint(c.n)\n```\n> 提示：每次 incrementer 都修改实例属性。",
+      "answer": "Compteur(6)\\n7",
+      "explanation_md": "执行过程：\n1. `c = Compteur(5)` → `c.n = 5`\n2. `c.incrementer()` → `c.n = 6`\n3. `print(c)` → 调 `__repr__` → 输出 `Compteur(6)`\n4. `c.incrementer()` → `c.n = 7`\n5. `print(c.n)` → 输出 `7`"
+    },
+    {
+      "chapter": 2,
+      "topic": "générateur et classe",
+      "difficulty": 3,
+      "type": "code",
+      "statement_md": "Écrivez une classe `Sequenceur` avec une méthode `__iter__` qui retourne un générateur produisant les carrés des entiers de 1 à n.\n```python\nclass Sequenceur:\n    def __init__(self, n):\n        self.n = n\n    # À compléter\n\ns = Sequenceur(4)\nprint(list(s))  # [1, 4, 9, 16]\n```\n> 提示：__iter__ 可以返回一个生成器函数。yield 一个一个产生值。",
+      "answer": "def __iter__(self):\\n    for i in range(1, self.n + 1):\\n        yield i * i",
+      "explanation_md": "```python\ndef __iter__(self):\n    for i in range(1, self.n + 1):\n        yield i * i\n```\n`__iter__` 是生成器函数（含 `yield`），所以调用时返回生成器对象。`list(s)` 消耗生成器，逐项产生平方。\n\n另一种（返回显式生成器对象）：\n```python\ndef __iter__(self):\n    return (i * i for i in range(1, self.n + 1))\n```"
+    },
+    {
+      "chapter": 1,
+      "topic": "set et hashabilité",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Pourquoi le code suivant est-il invalide et comment le corriger ?\n```python\nA = {[1,2], [3,4]}  # TypeError: unhashable type: 'list'\n```\n> 提示：set 元素必须可哈希。用什么代替 list？",
+      "answer": "list 不可哈希。用 tuple：A = {(1,2), (3,4)} 或 frozenset({1,2}) 代替。",
+      "explanation_md": "`set` 内部用哈希表，所以元素必须可哈希（immutable）。`list` 是可变的，无法哈希。\n\n三种修复方案：\n- 用 tuple：`{(1,2), (3,4)}`\n- 用 frozenset：`{frozenset({1,2}), frozenset({3,4})}`\n- 或把 set 的元素改成字符串、整数等可哈希类型\n\n类似地，dict 的键也必须可哈希。"
+    },
+    {
+      "chapter": 3,
+      "topic": "arbre et hauteur",
+      "difficulty": 2,
+      "type": "code",
+      "statement_md": "Complétez la méthode `hauteur()` pour une classe `Arbre` qui retourne la hauteur (profondeur maximale + 1).\n```python\nclass Arbre:\n    def __init__(self, etiquette, enfants=None):\n        self.etiquette = etiquette\n        self.enfants = enfants if enfants is not None else []\n    def hauteur(self):\n        # À compléter\n\nA1 = Arbre(\"a\")\nA2 = Arbre(\"b\")\nA = Arbre(\"c\", [A1, A2])\nprint(A.hauteur())  # 2 (racine c at level 0, enfants at level 1)\n```\n> 提示：feuille 的高度是 1；内部节点的高度是 1 + max(enfants 的高度)。",
+      "answer": "def hauteur(self):\\n    if not self.enfants:\\n        return 1\\n    return 1 + max(e.hauteur() for e in self.enfants)",
+      "explanation_md": "```python\ndef hauteur(self):\n    if not self.enfants:\n        return 1  # 叶节点\n    return 1 + max(e.hauteur() for e in self.enfants)\n```\n\n递归定义：\n- 叶节点高度 = 1\n- 内部节点高度 = 1 + 所有子树高度的最大值\n\n约定：这里高度从1开始计数。若题目约定叶 = 0，改为 `if not self.enfants: return 0`。"
+    },
+    {
+      "chapter": 4,
+      "topic": "compréhension et classe",
+      "difficulty": 2,
+      "type": "short",
+      "statement_md": "Créez une liste de 5 instances de `Compte` avec soldes [100, 200, 300, 400, 500] en une seule ligne de code (list comprehension). La classe est :\n```python\nclass Compte:\n    def __init__(self, solde):\n        self.solde = solde\n```\n> 提示：列表推导式可以在 for 循环中调用函数。",
+      "answer": "[Compte(s) for s in [100, 200, 300, 400, 500]]",
+      "explanation_md": "列表推导式：\n```python\ncomptes = [Compte(s) for s in [100, 200, 300, 400, 500]]\n```\n或用 `range` 生成值：\n```python\ncomptes = [Compte(100 * (i + 1)) for i in range(5)]\n```\n或更通用的：\n```python\ncomptes = [Compte(solde) for solde in range(100, 600, 100)]\n```"
+    },
+    {
+      "chapter": 4,
+      "topic": "Polynome (long code)",
+      "difficulty": 4,
+      "type": "code",
+      "statement_md": "Implémentez la classe `Polynome` représentant un polynôme par la liste de ses coefficients `[a0, a1, a2, ...]` où le terme général est `a_k * x^k`.\n\nMéthodes requises :\n- `__init__(self, coeffs)` : initialise le polynôme avec la liste des coefficients.\n- `__repr__(self)` : affiche le polynôme en notation mathématique (ex: `3 + 2*x + x^2`).\n- `__add__(self, other)` : retourne le polynôme somme.\n- `__mul__(self, other)` : retourne le polynôme produit.\n- `derive(self)` : retourne le polynôme dérivé.\n- `evaluer(self, x)` : retourne la valeur du polynôme en x.\n\nExemples :\n```python\nP = Polynome([3, 2, 1])      # 3 + 2x + x^2\nQ = Polynome([1, 1])         # 1 + x\nprint(P)                      # Affiche environ: 3 + 2*x + x^2\nprint(P + Q)                  # Affiche: 4 + 3*x + x^2\nprint(P.evaluer(2))          # 3 + 2*2 + 2^2 = 11\nprint(P.derive())            # Affiche: 2 + 2*x (dérivée)\n```\n> 提示：加法逐项相加（补足缺失项为0）；乘法用卷积；导数移位系数；求值用 Horner 或直接求和。",
+      "answer": "class Polynome:\\n    def __init__(self, coeffs):\\n        self.coeffs = coeffs[:]\\n    def __repr__(self):\\n        terms = []\\n        for k, c in enumerate(self.coeffs):\\n            if c == 0: continue\\n            if k == 0: terms.append(str(c))\\n            elif k == 1: terms.append(f\\\"{c}*x\\\")\\n            else: terms.append(f\\\"{c}*x^{k}\\\")\\n        return \\\" + \\\".join(terms) if terms else \\\"0\\\"\\n    def __add__(self, other):\\n        n = max(len(self.coeffs), len(other.coeffs))\\n        result = [0] * n\\n        for i in range(len(self.coeffs)): result[i] += self.coeffs[i]\\n        for i in range(len(other.coeffs)): result[i] += other.coeffs[i]\\n        return Polynome(result)\\n    def __mul__(self, other):\\n        if not self.coeffs or not other.coeffs: return Polynome([0])\\n        result = [0] * (len(self.coeffs) + len(other.coeffs) - 1)\\n        for i, c1 in enumerate(self.coeffs):\\n            for j, c2 in enumerate(other.coeffs):\\n                result[i + j] += c1 * c2\\n        return Polynome(result)\\n    def derive(self):\\n        if len(self.coeffs) <= 1: return Polynome([0])\\n        return Polynome([self.coeffs[k] * k for k in range(1, len(self.coeffs))])\\n    def evaluer(self, x):\\n        result = 0\\n        for k, c in enumerate(self.coeffs): result += c * (x ** k)\\n        return result",
+      "explanation_md": "完整实现和解释：\n\n```python\nclass Polynome:\n    def __init__(self, coeffs):\n        self.coeffs = coeffs[:]  # 浅拷贝，避免外部修改\n    \n    def __repr__(self):\n        terms = []\n        for k, c in enumerate(self.coeffs):\n            if c == 0: continue\n            if k == 0: terms.append(str(c))\n            elif k == 1: terms.append(f\"{c}*x\")\n            else: terms.append(f\"{c}*x^{k}\")\n        return \" + \".join(terms) if terms else \"0\"\n    \n    def __add__(self, other):\n        n = max(len(self.coeffs), len(other.coeffs))\n        result = [0] * n\n        for i in range(len(self.coeffs)): result[i] += self.coeffs[i]\n        for i in range(len(other.coeffs)): result[i] += other.coeffs[i]\n        return Polynome(result)\n    \n    def __mul__(self, other):\n        if not self.coeffs or not other.coeffs: return Polynome([0])\n        result = [0] * (len(self.coeffs) + len(other.coeffs) - 1)\n        for i, c1 in enumerate(self.coeffs):\n            for j, c2 in enumerate(other.coeffs):\n                result[i + j] += c1 * c2  # 卷积\n        return Polynome(result)\n    \n    def derive(self):\n        # 导数：系数 [a0, a1, a2, ...] → [a1, 2*a2, 3*a3, ...]\n        if len(self.coeffs) <= 1: return Polynome([0])\n        return Polynome([self.coeffs[k] * k for k in range(1, len(self.coeffs))])\n    \n    def evaluer(self, x):\n        result = 0\n        for k, c in enumerate(self.coeffs):\n            result += c * (x ** k)  # 直接求和法\n        return result\n```\n\n关键点：\n- `__add__`：填充到相同长度，逐项相加\n- `__mul__`：卷积（convolution），O(n*m)\n- `derive`：移位系数，乘以新的幂次\n- `evaluer`：求和法或 Horner 法（后者更快）\n- `__repr__`：跳过系数为0的项，格式化输出"
+    },
+    {
+      "chapter": 3,
+      "topic": "FileChainee (long code)",
+      "difficulty": 5,
+      "type": "code",
+      "statement_md": "Implémentez une classe `FileChainee` (queue FIFO via maillon chaîné) avec une classe interne `Maillon`.\n\nMéthodes requises pour `FileChainee` :\n- `__init__(self)` : initialise une file vide.\n- `est_vide(self)` : retourne True si la file est vide.\n- `ajouter_element(self, valeur)` : ajoute un élément à la fin de la file.\n- `extraire_element(self)` : retire et retourne le premier élément ; lève AssertionError si vide.\n- `__len__(self)` : retourne le nombre d'éléments.\n- `__repr__(self)` : affiche les éléments de la file du début à la fin.\n\nClasse interne `Maillon` :\n- `__init__(self, valeur, suivant=None)` : crée un maillon avec une valeur et un lien au suivant.\n\nExemples :\n```python\nf = FileChainee()\nassert f.est_vide()\nf.ajouter_element(1)\nf.ajouter_element(2)\nf.ajouter_element(3)\nprint(len(f))           # 3\nprint(f)                # Affiche: 1 -> 2 -> 3\nprint(f.extraire_element())  # 1\nprint(len(f))           # 2\nprint(f)                # Affiche: 2 -> 3\n```\n> 提示：维护 tête（队首）和 queue（队尾）指针；ajouter_element O(1) 在队尾，extraire_element O(1) 在队首。",
+      "answer": "class Maillon:\\n    def __init__(self, valeur, suivant=None):\\n        self.valeur = valeur\\n        self.suivant = suivant\\n\\nclass FileChainee:\\n    def __init__(self):\\n        self.tete = None\\n        self.queue = None\\n    def est_vide(self):\\n        return self.tete is None\\n    def ajouter_element(self, valeur):\\n        maillon = Maillon(valeur)\\n        if self.est_vide():\\n            self.tete = self.queue = maillon\\n        else:\\n            self.queue.suivant = maillon\\n            self.queue = maillon\\n    def extraire_element(self):\\n        assert not self.est_vide(), \\\"File vide\\\"\\n        valeur = self.tete.valeur\\n        self.tete = self.tete.suivant\\n        if self.tete is None: self.queue = None\\n        return valeur\\n    def __len__(self):\\n        count = 0\\n        courant = self.tete\\n        while courant:\\n            count += 1\\n            courant = courant.suivant\\n        return count\\n    def __repr__(self):\\n        elements = []\\n        courant = self.tete\\n        while courant:\\n            elements.append(str(courant.valeur))\\n            courant = courant.suivant\\n        return \\\" -> \\\".join(elements) if elements else \\\"(vide)\\\"",
+      "explanation_md": "完整实现：\n\n```python\nclass Maillon:\n    def __init__(self, valeur, suivant=None):\n        self.valeur = valeur\n        self.suivant = suivant\n\nclass FileChainee:\n    def __init__(self):\n        self.tete = None  # 队首\n        self.queue = None  # 队尾\n    \n    def est_vide(self):\n        return self.tete is None\n    \n    def ajouter_element(self, valeur):\n        maillon = Maillon(valeur)\n        if self.est_vide():\n            self.tete = self.queue = maillon\n        else:\n            self.queue.suivant = maillon\n            self.queue = maillon\n    \n    def extraire_element(self):\n        assert not self.est_vide(), \"File vide\"\n        valeur = self.tete.valeur\n        self.tete = self.tete.suivant\n        if self.tete is None: self.queue = None  # 队列变空\n        return valeur\n    \n    def __len__(self):\n        count = 0\n        courant = self.tete\n        while courant:\n            count += 1\n            courant = courant.suivant\n        return count\n    \n    def __repr__(self):\n        elements = []\n        courant = self.tete\n        while courant:\n            elements.append(str(courant.valeur))\n            courant = courant.suivant\n        return \" -> \".join(elements) if elements else \"(vide)\"\n```\n\n关键设计点：\n- **Maillon**：每个节点含值和指向下一个节点的引用\n- **tete 和 queue**：两个指针维护队首和队尾，使 ajouter O(1)、extraire O(1)\n- **ajouter_element**：在队尾插入；注意空队列初始化和非空情况\n- **extraire_element**：取队首值，更新 tete；队列变空时 queue 也设为 None\n- **__len__**：遍历链表计数\n- **__repr__**：递进显示，用 \" -> \" 连接\n\n时间复杂度：ajouter O(1)，extraire O(1)，__len__ O(n)"
+    }
+  ]
+}

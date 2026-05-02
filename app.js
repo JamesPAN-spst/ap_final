@@ -10,7 +10,7 @@ const state = {
   submitted: false,
 };
 
-const DATA_VERSION = '2026-05-02-unique-exams';
+const DATA_VERSION = '2026-05-02-handwritten-v1';
 
 // ----------------- Util -----------------
 const $  = (sel, root = document) => root.querySelector(sel);
